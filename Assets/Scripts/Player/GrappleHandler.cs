@@ -12,12 +12,12 @@ public class GrappleHandler : MonoBehaviour
 
     public GameObject grappleCursor;
     public GameObject grappleSelectIndicator;
+    public Transform shootPoint;
 
     private Vector2 aimDirection;
-    private Ring selectedRing;
+    private GameObject selectedRing;
     private bool isAiming;
     private bool isAttached;
-    private GameObject closestRing;
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
 
@@ -25,7 +25,7 @@ public class GrappleHandler : MonoBehaviour
     {
         aimAssistFirstAngle = -aimAssistAngle / 2;
         aimAssistSubAngle = aimAssistAngle / (aimAssistRaycastNumber - 1);
-        closestRing = null;
+        selectedRing = null;
      }
 
     void Update()
@@ -54,35 +54,41 @@ public class GrappleHandler : MonoBehaviour
 
             RaycastHit2D hit;
             float minAngleFound = aimAssistAngle;
-            closestRing = null;
+            selectedRing = null;
             for (int i = 0; i < aimAssistRaycastNumber; i++)
             {
                 float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
-                float angledDirection = (Mathf.Atan2(aimDirection.y, aimDirection.x) * 180 / Mathf.PI - 90) + relativeAngle;
-                Vector2 direction = new Vector2(Mathf.Cos((angledDirection + 90) * Mathf.PI / 180), Mathf.Sin((angledDirection + 90) * Mathf.PI / 180));
-                hit = Physics2D.Raycast(transform.position, direction, maxGrappleRange, ringMask);
-                if (hit && closestRing != hit.collider.gameObject && Vector2.Angle(direction, aimDirection) < minAngleFound)
+                float angledDirection = (Mathf.Atan2(aimDirection.x, -aimDirection.y) * 180 / Mathf.PI - 90) + relativeAngle;
+                Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
+                Vector2 raycastOrigin = shootPoint.position;
+                hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
+                if (hit && hit.collider.CompareTag("Ring") && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
                 {
-                    closestRing = hit.collider.gameObject;
-                    minAngleFound = Vector2.Angle(direction, aimDirection);
+                    selectedRing = hit.collider.gameObject;
+                    minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, -aimDirection.y));
                 }
+                Debug.DrawRay(raycastOrigin, direction * maxGrappleRange, Color.cyan);
             }
         }
         else
         {
-            closestRing = null;
+            selectedRing = null;
             grappleCursor.SetActive(false);
         }
 
 
-        if(closestRing != null)
+        if(selectedRing != null)
         {
             grappleSelectIndicator.SetActive(true);
-            grappleSelectIndicator.transform.position = closestRing.transform.position;
+            grappleSelectIndicator.transform.position = selectedRing.transform.position;
             if(Input.GetAxisRaw("RightTrigger") == 1)
             {
                 Attach();
             }
+        }
+        else
+        {
+            grappleSelectIndicator.SetActive(false);
         }
     }
 
