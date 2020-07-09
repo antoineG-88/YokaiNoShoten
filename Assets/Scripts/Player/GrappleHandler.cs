@@ -4,98 +4,277 @@ using UnityEngine;
 
 public class GrappleHandler : MonoBehaviour
 {
+    [Header("Grapple settings")]
     public float maxGrappleRange;
+    public float grappleAttachLengthDifference;
+    public float shootCooldown;
+    public float releasingHookDist;
+    public float minAttachDistance;
+    public bool keepAim;
+    [Space]
+    [Header("Momentum settings")]
+    public float tractionForce;
+    public float maxTractionSpeed;
+    [Range(1, 3)] public float momentumAmplification;//----------------------
+    public float startTractionPropulsion;
+    [Space]
+    [Range(0, 100)] public float velocityKeptReleasingHook;
+    [Space]
+    [Header("AutoAim settings")]
     public float aimAssistAngle;
-    public int aimAssistRaycastNumber;
-
-    public LayerMask ringMask;
-
-    public GameObject grappleCursor;
-    public GameObject grappleSelectIndicator;
+    public float aimAssistRaycastNumber;
+    [Space]
+    [Header("References")]
+    public GameObject armShoulderO;
     public Transform shootPoint;
+    public GameObject ringHighLighterO;
+    public GameObject grapplingStartPointO;
+    public MovementHandler movementHandler;
+    [Header("Debug settings")]
+    public bool displayAutoAimRaycast;
 
-    private Vector2 aimDirection;
+    private Rigidbody2D rb;
+    [HideInInspector] public Vector2 aimDirection;
+    private LineRenderer ropeRenderer;
+    [HideInInspector] public bool isAiming;
+    private Rigidbody2D ringRb;
+    [HideInInspector] public float timeBeforeNextShoot;
     private GameObject selectedRing;
-    private bool isAiming;
-    private bool isAttached;
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
+    private Vector2 shootDirection;
+    [HideInInspector] public bool isHooked;
+    [HideInInspector] public GameObject attachedObject;
+    [HideInInspector] public Vector2 tractionDirection;
+    [HideInInspector] public bool isTracting;
+    [HideInInspector] public bool canUseTraction;
+    [HideInInspector] public bool canShoot;
 
     void Start()
     {
-        aimAssistFirstAngle = -aimAssistAngle / 2;
+        rb = GetComponent<Rigidbody2D>();
+        ropeRenderer = GetComponent<LineRenderer>();
+        ringHighLighterO.SetActive(false);
+        isAiming = false;
+        isHooked = false;
+        isTracting = false;
+        canUseTraction = true;
+        canShoot = true;
+        armShoulderO.SetActive(false);
+        timeBeforeNextShoot = 0;
         aimAssistSubAngle = aimAssistAngle / (aimAssistRaycastNumber - 1);
-        selectedRing = null;
-     }
-
-    void Update()
-    {
-        SelectHook();
+        aimAssistFirstAngle = -aimAssistAngle / 2;
     }
 
-    private void SelectHook()
+    private void Update()
     {
-        aimDirection = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
-        if(!isAiming && aimDirection.magnitude > 0.1f)
+        AimManager();
+    }
+
+    private void FixedUpdate()
+    {
+        TractionManager();
+
+        HookManager();
+    }
+
+    void AimManager()
+    {
+        if (timeBeforeNextShoot > 0)
         {
-            isAiming = true;
+            timeBeforeNextShoot -= Time.deltaTime;
         }
-        else if (isAiming && aimDirection.magnitude <= 0.1f)
+
+        if (canShoot)
         {
-            isAiming = false;
-        }
-
-        if(isAiming)
-        {
-            grappleCursor.SetActive(true);
-            aimDirection.Normalize();
-            grappleCursor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, aimDirection)));
-
-
-            RaycastHit2D hit;
-            float minAngleFound = aimAssistAngle;
-            selectedRing = null;
-            for (int i = 0; i < aimAssistRaycastNumber; i++)
+            aimDirection = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+            if (!isAiming && aimDirection.magnitude > 0.1f)
             {
-                float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
-                float angledDirection = (Mathf.Atan2(aimDirection.x, -aimDirection.y) * 180 / Mathf.PI - 90) + relativeAngle;
-                Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
-                Vector2 raycastOrigin = shootPoint.position;
-                hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
-                if (hit && hit.collider.CompareTag("Ring") && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                isAiming = true;
+                armShoulderO.SetActive(true);
+            }
+            else if (isAiming && aimDirection.magnitude <= 0.1f)
+            {
+                isAiming = false;
+                if (!keepAim)
                 {
-                    selectedRing = hit.collider.gameObject;
-                    minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, -aimDirection.y));
+                    armShoulderO.SetActive(false);
                 }
-                Debug.DrawRay(raycastOrigin, direction * maxGrappleRange, Color.cyan);
             }
-        }
-        else
-        {
-            selectedRing = null;
-            grappleCursor.SetActive(false);
-        }
 
-
-        if(selectedRing != null)
-        {
-            grappleSelectIndicator.SetActive(true);
-            grappleSelectIndicator.transform.position = selectedRing.transform.position;
-            if(Input.GetAxisRaw("RightTrigger") == 1)
+            if (isAiming || keepAim)
             {
-                Attach();
+                if (isAiming)
+                {
+                    aimDirection.Normalize();
+                    armShoulderO.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
+                }
+
+
+                selectedRing = null;
+
+                RaycastHit2D hit;
+                float minAngleFound = aimAssistAngle;
+                for (int i = 0; i < aimAssistRaycastNumber; i++)
+                {
+                    float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
+                    float angledDirection = (Vector2.SignedAngle(Vector2.right, aimDirection)) + relativeAngle;
+                    Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
+                    Vector2 raycastOrigin = shootPoint.position;
+
+                    raycastOrigin = (Vector2)transform.position + direction * minAttachDistance;
+
+                    if (displayAutoAimRaycast)
+                    {
+                        Debug.DrawRay(raycastOrigin, direction * maxGrappleRange, Color.cyan);
+                    }
+
+                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
+                    if (hit && hit.collider.CompareTag("Ring") && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    {
+                        selectedRing = hit.collider.gameObject;
+                        minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, -aimDirection.y));
+                    }
+                }
+
+                if (selectedRing != null)
+                {
+                    ringHighLighterO.SetActive(true);
+                    ringHighLighterO.transform.position = selectedRing.transform.position;
+                    shootDirection = new Vector2(selectedRing.transform.position.x - shootPoint.position.x, selectedRing.transform.position.y - shootPoint.position.y).normalized;
+                }
+                else
+                {
+                    shootDirection = aimDirection;
+                    shootDirection.y *= -1;
+                    ringHighLighterO.SetActive(false);
+                }
+
+                if (Input.GetAxisRaw("RightTrigger") == 1 && timeBeforeNextShoot <= 0 && !isHooked) //Input changed
+                {
+                    timeBeforeNextShoot = shootCooldown;
+                    ReleaseHook();
+
+                    if (selectedRing != null)
+                    {
+                        AttachHook(selectedRing);
+                    }
+                }
             }
-        }
-        else
-        {
-            grappleSelectIndicator.SetActive(false);
+            else
+            {
+                ringHighLighterO.SetActive(false);
+            }
         }
     }
 
-
-    private void Attach()
+    void TractionManager()
     {
-        isAttached = true;
+        if (isHooked)
+        {
+            canShoot = false;
+            ringHighLighterO.SetActive(false);
+            attachedObject.GetComponent<Collider2D>().isTrigger = true;
 
+            ropeRenderer.enabled = true;
+            Vector3[] ropePoints = new Vector3[2];
+            ropePoints[0] = transform.position;
+            ropePoints[1] = attachedObject.transform.position;
+            ropeRenderer.SetPositions(ropePoints);
+
+            tractionDirection = (attachedObject.transform.position - transform.position);
+            tractionDirection.Normalize();
+
+            if (canUseTraction && Input.GetAxisRaw("RightTrigger") == 1/* && !GameData.playerMovement.isDashing*/)
+            {
+                rb.gravityScale = 0;
+                movementHandler.inControl = false;
+
+                if (!isTracting)
+                {
+                    float startTractionVelocity = movementHandler.isGrounded ? 0 : rb.velocity.magnitude;
+                    if (startTractionVelocity < 0)
+                    {
+                        startTractionVelocity = 0;
+                    }
+
+                    startTractionVelocity += startTractionPropulsion;
+                    rb.velocity = startTractionVelocity * tractionDirection;
+                }
+
+                float tractionDirectionAngle = Mathf.Atan(tractionDirection.y / tractionDirection.x);
+                if (tractionDirection.x < 0)
+                {
+                    tractionDirectionAngle += Mathf.PI;
+                }
+                else if (tractionDirection.y < 0 && tractionDirection.x > 0)
+                {
+                    tractionDirectionAngle += 2 * Mathf.PI;
+                }
+                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));
+
+                rb.velocity += tractionDirection * tractionForce * Time.fixedDeltaTime;
+
+                if (rb.velocity.magnitude > maxTractionSpeed)
+                {
+                    rb.velocity = tractionDirection * maxTractionSpeed;
+                }
+                else if (rb.velocity.magnitude < startTractionPropulsion)
+                {
+                    rb.velocity = tractionDirection * startTractionPropulsion;
+                }
+
+                isTracting = true;
+            }
+
+            float distance = 10;
+            if (isTracting && (Input.GetAxisRaw("RightTrigger") == 0 || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
+            {
+                rb.velocity *= velocityKeptReleasingHook / 100;
+                isTracting = false;
+
+                //Reset DashAttack cooldown
+
+                ReleaseHook();
+            }
+        }
+        else
+        {
+            canShoot = true;
+            ropeRenderer.enabled = false;
+        }
+    }
+
+    private void HookManager()
+    {
+        if (isHooked)
+        {
+            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
+            if (ringHit && !ringHit.collider.CompareTag("Ring"))
+            {
+                BreakRope();
+            }
+        }
+    }
+
+    public void AttachHook(GameObject objectToAttach)
+    {
+        isHooked = true;
+        attachedObject = objectToAttach;
+    }
+
+    public void ReleaseHook()
+    {
+        isHooked = false;
+        isTracting = false;
+        ropeRenderer.enabled = false;
+        movementHandler.inControl = true;
+        attachedObject = null;
+        rb.gravityScale = 3; // a changer
+    }
+
+    public void BreakRope()
+    {
+        ReleaseHook();
     }
 }

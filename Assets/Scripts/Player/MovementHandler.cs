@@ -16,7 +16,8 @@ public class MovementHandler : MonoBehaviour
     private float horizontalTargetSpeed;
     private float horizontalCurrentSpeed;
     private float currentAcceleration;
-    [HideInInspector] bool isGrounded;
+    [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool inControl;
 
     private Rigidbody2D rb;
     private ContactFilter2D groundFilter;
@@ -27,6 +28,7 @@ public class MovementHandler : MonoBehaviour
         isGrounded = false;
         groundFilter.SetLayerMask(LayerMask.GetMask("Wall"));
         groundFilter.useTriggers = true;
+        inControl = true;
     }
 
     void Update()
@@ -40,13 +42,17 @@ public class MovementHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if(inControl)
+        {
+            Move();
+        }
         isGrounded = IsOnGround();
     }
 
     private void UpdateMovementSpeed()
     {
         currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
+        horizontalCurrentSpeed = rb.velocity.x;
 
         if (Mathf.Abs(Input.GetAxis("LeftStickH") * walkingMaxSpeed) > walkingMinSpeed)
         {
