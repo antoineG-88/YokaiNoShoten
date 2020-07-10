@@ -8,76 +8,89 @@ public class MovementHandler : MonoBehaviour
     public float walkingMinSpeed;
     public float walkingAcceleration;
     public float airAcceleration;
-    public float jumpForce;
+    public float groundSlowing;
+    public float airSlowing;
+    public float gravityForce;
     [Space]
     [Header("References")]
     public Collider2D feetCollider;
 
-    private float horizontalTargetSpeed;
-    private float horizontalCurrentSpeed;
+    [HideInInspector] public float horizontalTargetSpeed;
     private float currentAcceleration;
+    private float currentSlowing;
+    private float horizontalForce;
+    private float forceSign;
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public bool inControl;
+    [HideInInspector] public bool isAffectedbyGravity;
 
-    private Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     private ContactFilter2D groundFilter;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        horizontalCurrentSpeed = 0;
         isGrounded = false;
         groundFilter.SetLayerMask(LayerMask.GetMask("Wall"));
         groundFilter.useTriggers = true;
         inControl = true;
+        isAffectedbyGravity = true;
     }
 
     void Update()
     {
-        UpdateMovementSpeed();
-        if(Input.GetButton("AButton") && isGrounded)
-        {
-            Jump();
-        }
+        GetInputs();
     }
 
     private void FixedUpdate()
     {
+        isGrounded = IsOnGround();
+        UpdateMovement();
+    }
+
+    private void GetInputs()
+    {
+        horizontalTargetSpeed = Input.GetAxis("LeftStickH") * walkingMaxSpeed;
+        if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
+        {
+            horizontalTargetSpeed = 0;
+        }
+    }
+
+    private void UpdateMovement()
+    {
         if(inControl)
         {
-            Move();
-        }
-        isGrounded = IsOnGround();
-    }
-
-    private void UpdateMovementSpeed()
-    {
-        currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
-        horizontalCurrentSpeed = rb.velocity.x;
-
-        if (Mathf.Abs(Input.GetAxis("LeftStickH") * walkingMaxSpeed) > walkingMinSpeed)
-        {
-            horizontalTargetSpeed = Input.GetAxis("LeftStickH") * walkingMaxSpeed;
-
-            horizontalCurrentSpeed += Mathf.Sign(horizontalTargetSpeed - horizontalCurrentSpeed) * currentAcceleration * Time.deltaTime;
-
-            Mathf.Clamp(horizontalCurrentSpeed, -horizontalTargetSpeed, horizontalTargetSpeed);
-        }
-        else
-        {
-            if(Mathf.Abs(horizontalCurrentSpeed) > currentAcceleration * Time.deltaTime)
+            if(horizontalTargetSpeed != rb.velocity.x)
             {
-                horizontalCurrentSpeed -= Mathf.Sign(horizontalCurrentSpeed) * currentAcceleration * Time.deltaTime;
-            }
-            else
-            {
-                horizontalCurrentSpeed = 0;
+                currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
+                currentSlowing = isGrounded ? groundSlowing : airSlowing;
+
+                forceSign = Mathf.Sign(horizontalTargetSpeed - rb.velocity.x);
+                if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed)
+                {
+                    horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
+                }
+
+
+                if (horizontalTargetSpeed > rb.velocity.x && horizontalTargetSpeed < rb.velocity.x + horizontalForce || horizontalTargetSpeed < rb.velocity.x && horizontalTargetSpeed > rb.velocity.x + horizontalForce)
+                {
+                    rb.velocity = new Vector2(horizontalTargetSpeed, rb.velocity.y);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
+                }
             }
         }
-    }
 
-    private void Move()
-    {
-        rb.velocity = new Vector2(horizontalCurrentSpeed, rb.velocity.y);
+        if (isAffectedbyGravity)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
+        }
     }
 
     private bool IsOnGround()
@@ -89,10 +102,5 @@ public class MovementHandler : MonoBehaviour
             return true;
         }
         return false;
-    }
-
-    private void Jump()
-    {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 }
