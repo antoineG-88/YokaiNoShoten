@@ -233,12 +233,12 @@ public class GrappleHandler : MonoBehaviour
             }
 
             float distance = 10;
-            if (isTracting && (Input.GetAxisRaw("RightTrigger") == 0 || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
+            if (isTracting && (!rightTriggerPressed || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
             {
                 rb.velocity *= velocityKeptReleasingHook / 100;
                 isTracting = false;
 
-                //Reset DashAttack cooldown
+                GameData.dashHandler.canDash = true;
 
                 ReleaseHook();
             }
