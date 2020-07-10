@@ -134,8 +134,8 @@ public class GrappleHandler : MonoBehaviour
                         Debug.DrawRay(raycastOrigin, direction * maxGrappleRange, Color.cyan);
                     }
 
-                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
-                    if (hit && hit.collider.CompareTag("Ring") && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy"));
+                    if (hit && (hit.collider.CompareTag("Ring") || hit.collider.CompareTag("Enemy")) && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
                     {
                         selectedRing = hit.collider.gameObject;
                         minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
@@ -190,7 +190,7 @@ public class GrappleHandler : MonoBehaviour
             tractionDirection = (attachedObject.transform.position - transform.position);
             tractionDirection.Normalize();
 
-            if (canUseTraction && Input.GetAxisRaw("RightTrigger") == 1/* && !GameData.playerMovement.isDashing*/)
+            if (canUseTraction && Input.GetAxisRaw("RightTrigger") == 1 && !GameData.dashHandler.isDashing)
             {
                 GameData.movementHandler.isAffectedbyGravity = false;
                 GameData.movementHandler.inControl = false;

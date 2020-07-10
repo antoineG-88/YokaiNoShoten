@@ -58,32 +58,32 @@ public class MovementHandler : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if(inControl)
+        if (horizontalTargetSpeed != rb.velocity.x)
         {
-            if(horizontalTargetSpeed != rb.velocity.x)
-            {
-                currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
-                currentSlowing = isGrounded ? groundSlowing : airSlowing;
+            currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
+            currentSlowing = isGrounded ? groundSlowing : airSlowing;
 
-                forceSign = Mathf.Sign(horizontalTargetSpeed - rb.velocity.x);
-                if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed)
+            forceSign = Mathf.Sign(horizontalTargetSpeed - rb.velocity.x);
+            if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed)
+            {
+                if (inControl)
                 {
                     horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
                 }
-                else
-                {
-                    horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
-                }
+            }
+            else
+            {
+                horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
+            }
 
 
-                if (horizontalTargetSpeed > rb.velocity.x && horizontalTargetSpeed < rb.velocity.x + horizontalForce || horizontalTargetSpeed < rb.velocity.x && horizontalTargetSpeed > rb.velocity.x + horizontalForce)
-                {
-                    rb.velocity = new Vector2(horizontalTargetSpeed, rb.velocity.y);
-                }
-                else
-                {
-                    rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
-                }
+            if (horizontalTargetSpeed > rb.velocity.x && horizontalTargetSpeed < rb.velocity.x + horizontalForce || horizontalTargetSpeed < rb.velocity.x && horizontalTargetSpeed > rb.velocity.x + horizontalForce)
+            {
+                rb.velocity = new Vector2(horizontalTargetSpeed, rb.velocity.y);
+            }
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
             }
         }
 

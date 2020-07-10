@@ -10,21 +10,28 @@ public class DashHandler : MonoBehaviour
     public AnimationCurve dashCurve;
     public float dashEndVelocityForceAdded;
     public bool useVelocity;
+    public GameObject shadowFx;
     [Header("Attack settings")]
     public Vector2 attackRange;
+    public int attackDamage;
+    public float attackKnockbackForce;
+    public GameObject attackFx;
 
     [HideInInspector] public bool canDash;
-    private bool isDashing;
+    [HideInInspector] public bool isDashing;
     private Vector2 dashDirection;
     private bool leftTriggerPressed;
     private bool leftTriggerDown;
     private Rigidbody2D rb;
+    private ContactFilter2D enemyFilter;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         leftTriggerPressed = false;
         leftTriggerDown = false;
+        enemyFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
+        enemyFilter.useTriggers = true;
     }
 
     void Update()
@@ -34,7 +41,7 @@ public class DashHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(GameData.movementHandler.isGrounded)
+        if(GameData.movementHandler.isGrounded && !isDashing)
         {
             canDash = true;
         }
@@ -65,16 +72,17 @@ public class DashHandler : MonoBehaviour
         Vector2 dashPos = transform.position;
         Vector2 previousDashPos = transform.position;
         float currentDashSpeed;
+        GameData.grappleHandler.ReleaseHook();
+        Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
         while(dashTimeElapsed < dashTime)
         {
             dashTimeElapsed += Time.fixedDeltaTime;
-
-            dashPos = Vector2.Lerp(dashStartPos, dashEndPos, dashCurve.Evaluate(dashTimeElapsed / dashTime));
+            Instantiate(shadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(startDashDirection.x > 0 ? 1 : -1, 1, 1);
+            dashPos = Vector2.LerpUnclamped(dashStartPos, dashEndPos, dashCurve.Evaluate(dashTimeElapsed / dashTime));
             currentDashSpeed = (dashPos - previousDashPos).magnitude;
             previousDashPos = dashPos;
-
             if(useVelocity)
             {
                 rb.velocity = startDashDirection * currentDashSpeed * (1 / Time.fixedDeltaTime);
@@ -86,13 +94,30 @@ public class DashHandler : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
-        //transform.position = dashEndPos;
+        //transform.position = dashEndPos;  Test de raycast à faire si utilisé
 
-        //rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
+        rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
 
         GameData.movementHandler.inControl = true;
         GameData.movementHandler.isAffectedbyGravity = true;
         isDashing = false;
+    }
+
+    private void Attack(Vector2 attackDirection)
+    {
+        Instantiate(attackFx, (Vector2)transform.position + attackDirection * attackRange.x * 0.5f, Quaternion.Euler(new Vector3(0, 0, Vector2.SignedAngle(Vector2.right, attackDirection))));
+
+        List<Collider2D> colliders = new List<Collider2D>();
+        Physics2D.OverlapBox((Vector2)transform.position + attackDirection * attackRange.x * 0.5f, attackRange, Vector2.SignedAngle(Vector2.right, attackDirection), enemyFilter ,colliders);
+        if(colliders.Count > 0)
+        {
+            foreach(Collider2D collider in colliders)
+            {
+                Enemy enemy = collider.GetComponent<Enemy>();
+                enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce);
+            }
+            canDash = true;
+        }
     }
 
     private void LeftTriggerUpdate()
