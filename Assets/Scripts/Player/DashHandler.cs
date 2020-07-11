@@ -15,10 +15,12 @@ public class DashHandler : MonoBehaviour
     public Vector2 attackRange;
     public int attackDamage;
     public float attackKnockbackForce;
+    public float maxSlowMoTime;
     public GameObject attackFx;
 
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
+    [HideInInspector] public bool isReaiming;
     private Vector2 dashDirection;
     private bool leftTriggerPressed;
     private bool leftTriggerDown;
@@ -64,7 +66,9 @@ public class DashHandler : MonoBehaviour
         GameData.movementHandler.inControl = false;
         isDashing = true;
         canDash = false;
+        isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
+        bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;
         Vector2 startDashDirection = dashDirection;
@@ -73,7 +77,7 @@ public class DashHandler : MonoBehaviour
         Vector2 previousDashPos = transform.position;
         float currentDashSpeed;
         GameData.grappleHandler.ReleaseHook();
-        Attack(startDashDirection);
+        hitAnEnemy = Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
         while(dashTimeElapsed < dashTime)
@@ -101,10 +105,15 @@ public class DashHandler : MonoBehaviour
         GameData.movementHandler.inControl = true;
         GameData.movementHandler.isAffectedbyGravity = true;
         isDashing = false;
+        if(hitAnEnemy)
+        {
+            StartCoroutine(SlowMoDash());
+        }
     }
 
-    private void Attack(Vector2 attackDirection)
+    private bool Attack(Vector2 attackDirection)
     {
+        bool hasHit = false;
         Instantiate(attackFx, (Vector2)transform.position + attackDirection * attackRange.x * 0.5f, Quaternion.Euler(new Vector3(0, 0, Vector2.SignedAngle(Vector2.right, attackDirection))));
 
         List<Collider2D> colliders = new List<Collider2D>();
@@ -117,7 +126,24 @@ public class DashHandler : MonoBehaviour
                 enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce);
             }
             canDash = true;
+            hasHit = true;
         }
+        return hasHit;
+    }
+
+    private IEnumerator SlowMoDash()
+    {
+        GameData.slowMoManager.StartSlowMo(1);
+        isReaiming = true;
+
+        float timeRemaining = Time.realtimeSinceStartup + maxSlowMoTime;
+
+        while (isReaiming && timeRemaining > Time.realtimeSinceStartup)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        isReaiming = false;
+        GameData.slowMoManager.StopSlowMo();
     }
 
     private void LeftTriggerUpdate()

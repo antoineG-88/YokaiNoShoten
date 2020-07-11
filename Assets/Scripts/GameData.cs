@@ -7,10 +7,12 @@ public class GameData : MonoBehaviour
     public MovementHandler movementHandlerRef;
     public GrappleHandler grappleHandlerRef;
     public DashHandler dashHandlerRef;
+    public SlowMoManager slowMoManageRef;
 
     public static MovementHandler movementHandler;
     public static GrappleHandler grappleHandler;
     public static DashHandler dashHandler;
+    public static SlowMoManager slowMoManager;
     public static GameObject player;
 
     private void Awake()
@@ -18,6 +20,7 @@ public class GameData : MonoBehaviour
         movementHandler = movementHandlerRef;
         grappleHandler = grappleHandlerRef;
         dashHandler = dashHandlerRef;
+        slowMoManager = slowMoManageRef;
         player = movementHandler.gameObject;
     }
 }

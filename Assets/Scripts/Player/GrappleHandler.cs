@@ -265,6 +265,7 @@ public class GrappleHandler : MonoBehaviour
     public void AttachHook(GameObject objectToAttach)
     {
         isHooked = true;
+        GameData.dashHandler.isReaiming = false;
         attachedObject = objectToAttach;
     }
 
