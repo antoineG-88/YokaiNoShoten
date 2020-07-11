@@ -16,6 +16,7 @@ public class DashHandler : MonoBehaviour
     public int attackDamage;
     public float attackKnockbackForce;
     public float maxSlowMoTime;
+    public bool hitResetDash;
     public GameObject attackFx;
 
     [HideInInspector] public bool canDash;
@@ -125,7 +126,7 @@ public class DashHandler : MonoBehaviour
                 Enemy enemy = collider.GetComponent<Enemy>();
                 enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce);
             }
-            canDash = true;
+            canDash = hitResetDash ? true : canDash;
             hasHit = true;
         }
         return hasHit;
