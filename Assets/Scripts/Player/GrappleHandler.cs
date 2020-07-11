@@ -275,6 +275,13 @@ public class GrappleHandler : MonoBehaviour
         isTracting = false;
         ropeRenderer.enabled = false;
         GameData.movementHandler.inControl = true;
+        if (attachedObject != null)
+        {
+            if(attachedObject.tag == "Enemy")
+            {
+                attachedObject.GetComponent<Collider2D>().isTrigger = false;
+            }
+        }
         attachedObject = null;
         GameData.movementHandler.isAffectedbyGravity = true;
     }
