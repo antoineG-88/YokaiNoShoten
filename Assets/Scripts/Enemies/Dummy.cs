@@ -19,7 +19,6 @@ public class Dummy : Enemy
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        UpdateMovement();
     }
 
     public override void UpdateMovement()

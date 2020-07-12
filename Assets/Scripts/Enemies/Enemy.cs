@@ -32,6 +32,7 @@ public abstract class Enemy : MonoBehaviour
     protected float timeBeforeNextPathUpdate;
 
     protected bool provoked;
+    [HideInInspector] public bool inControl;
 
     protected Animator animator;
 
@@ -44,15 +45,26 @@ public abstract class Enemy : MonoBehaviour
         pathEndReached = false;
         provoked = false;
         targetPathfindingPosition = transform.position;
+        inControl = true;
     }
     protected void Update()
     {
-        UpdatePath();
+        if (timeBeforeNextPathUpdate <= 0)
+        {
+            timeBeforeNextPathUpdate = pathUpdatingFrequency;
+            UpdatePath();
+        }
+
+        if (timeBeforeNextPathUpdate > 0)
+        {
+            timeBeforeNextPathUpdate -= Time.deltaTime;
+        }
     }
 
     protected void FixedUpdate()
     {
         AvoidOtherEnemies();
+        UpdateMovement();
     }
 
     public void CalculatePath()
@@ -68,37 +80,27 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void UpdatePath()
+    protected void UpdatePath()
     {
-        if (timeBeforeNextPathUpdate <= 0)
+        CalculatePath();
+
+        if (path != null)
         {
-            timeBeforeNextPathUpdate = pathUpdatingFrequency;
-
-            CalculatePath();
-
-            if (path != null)
+            if (currentWaypoint >= path.vectorPath.Count)
             {
-                if (currentWaypoint >= path.vectorPath.Count)
-                {
-                    pathEndReached = true;
-                }
-                else
-                {
-                    pathEndReached = false;
-
-                    while (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) < nextWaypointDistance && path.vectorPath.Count - waypointAhead > currentWaypoint + 1)
-                    {
-                        currentWaypoint++;
-                    }
-
-                    pathDirection = (path.vectorPath[currentWaypoint + waypointAhead] - transform.position).normalized;
-                }
+                pathEndReached = true;
             }
-        }
+            else
+            {
+                pathEndReached = false;
 
-        if (timeBeforeNextPathUpdate > 0)
-        {
-            timeBeforeNextPathUpdate -= Time.deltaTime;
+                while (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) < nextWaypointDistance && path.vectorPath.Count - waypointAhead > currentWaypoint + 1)
+                {
+                    currentWaypoint++;
+                }
+
+                pathDirection = (path.vectorPath[currentWaypoint + waypointAhead] - transform.position).normalized;
+            }
         }
     }
 
@@ -136,11 +138,12 @@ public abstract class Enemy : MonoBehaviour
     }
     public abstract void UpdateMovement();
 
-    public void TakeDamage(int damage, Vector2 directedForce)
+    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
     {
         currentHealthPoint -= damage;
         Propel(directedForce);
         animator.SetTrigger("Hurt");
+        StartCoroutine(NoControl(noControlTime));
         if(currentHealthPoint <= 0)
         {
             Die();
@@ -155,5 +158,12 @@ public abstract class Enemy : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject, 0.5f);
+    }
+
+    public IEnumerator NoControl(float time)
+    {
+        inControl = false;
+        yield return new WaitForSeconds(time);
+        inControl = true;
     }
 }

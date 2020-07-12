@@ -124,7 +124,7 @@ public class DashHandler : MonoBehaviour
             foreach(Collider2D collider in colliders)
             {
                 Enemy enemy = collider.GetComponent<Enemy>();
-                enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce);
+                enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f);
             }
             canDash = hitResetDash ? true : canDash;
             hasHit = true;

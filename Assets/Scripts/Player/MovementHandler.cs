@@ -103,4 +103,16 @@ public class MovementHandler : MonoBehaviour
         }
         return false;
     }
+
+    public void Propel(Vector2 directedForce, bool resetMomentum)
+    {
+        if(resetMomentum)
+        {
+            rb.velocity = directedForce;
+        }
+        else
+        {
+            rb.velocity += directedForce;
+        }
+    }
 }
