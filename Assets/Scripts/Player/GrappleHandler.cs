@@ -134,8 +134,8 @@ public class GrappleHandler : MonoBehaviour
                         Debug.DrawRay(raycastOrigin, direction * maxGrappleRange, Color.cyan);
                     }
 
-                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy"));
-                    if (hit && (hit.collider.CompareTag("Ring") || hit.collider.CompareTag("Enemy")) && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "SpiritPart"));
+                    if (hit && (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
                     {
                         selectedRing = hit.collider.gameObject;
                         minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));

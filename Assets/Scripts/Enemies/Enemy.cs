@@ -116,10 +116,16 @@ public abstract class Enemy : MonoBehaviour
             {
                 if (closeEnemy.gameObject != gameObject)
                 {
-                    Vector2 directedForce = ((closeEnemy.transform.position - transform.position).normalized * avoidForce);
+                    Vector2 directedForce = closeEnemy.transform.position - transform.position;
+                    if(directedForce == Vector2.zero)
+                    {
+                        directedForce = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                    }
+
+                    directedForce = directedForce.normalized * avoidForce;
                     if (avoidDistanceInfluence != 0)
                     {
-                        directedForce /= avoidDistanceInfluence * Vector2.Distance(transform.position, closeEnemy.transform.position);
+                        directedForce /= avoidDistanceInfluence * Mathf.Clamp(Vector2.Distance(transform.position, closeEnemy.transform.position), 0.01f, 100);
                     }
 
                     if (directedForce.magnitude < minimalAvoidForce)
@@ -152,12 +158,15 @@ public abstract class Enemy : MonoBehaviour
 
     public void Propel(Vector2 directedForce)
     {
-        rb.velocity += directedForce;
+        if(!float.IsNaN(directedForce.magnitude))
+        {
+            rb.velocity += directedForce;
+        }
     }
 
     private void Die()
     {
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 0.1f);
     }
 
     public IEnumerator NoControl(float time)

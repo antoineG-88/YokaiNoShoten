@@ -18,6 +18,7 @@ public class Wasp : Enemy
     public float rushTime;
     public float rushRadius;
     public float rushStunTime;
+    public float rushKnockbackForce;
     public AnimationCurve rushCurve;
 
 
@@ -82,7 +83,7 @@ public class Wasp : Enemy
     {
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
         pathNeedUpdate = false;
-        if (provoked)
+        if (provoked && inControl)
         {
             fleeing = distToPlayer < safeDistanceToPlayer && rushCoolDownRemaining > 0;
 
@@ -171,7 +172,7 @@ public class Wasp : Enemy
                 hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
                 if (hasHit)
                 {
-                    GameData.playerManager.TakeDamage(1, rushDirection);
+                    GameData.playerManager.LoseSpiritParts(1, rushDirection * rushKnockbackForce);
                 }
             }
 
