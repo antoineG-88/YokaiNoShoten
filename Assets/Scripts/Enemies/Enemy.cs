@@ -7,6 +7,7 @@ public abstract class Enemy : MonoBehaviour
 {
     [Header("General settings")]
     public int maxHealthPoint;
+    public bool useShield;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
     public int waypointAhead;
@@ -35,11 +36,20 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public bool inControl;
 
     protected Animator animator;
+    protected ProtectionHandler protectionHandler;
 
     protected void Start()
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        if(useShield)
+        {
+
+        }
+        else
+        {
+            protectionHandler = GetComponent<ProtectionHandler>();
+        }
         seeker = GetComponent<Seeker>();
         currentHealthPoint = maxHealthPoint;
         pathEndReached = false;
@@ -146,13 +156,25 @@ public abstract class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
     {
-        currentHealthPoint -= damage;
-        Propel(directedForce);
-        animator.SetTrigger("Hurt");
-        StartCoroutine(NoControl(noControlTime));
-        if(currentHealthPoint <= 0)
+        bool isProtected = false;
+        if (!useShield)
         {
-            Die();
+            if(protectionHandler.TestProtection(directedForce.normalized))
+            {
+                isProtected = true;
+            }
+        }
+
+        if(!isProtected)
+        {
+            currentHealthPoint -= damage;
+            Propel(directedForce);
+            animator.SetTrigger("Hurt");
+            StartCoroutine(NoControl(noControlTime));
+            if (currentHealthPoint <= 0)
+            {
+                Die();
+            }
         }
     }
 

@@ -10,18 +10,23 @@ public class PlayerManager : MonoBehaviour
     public Text healthText;
     public GameObject spiritPartPrefab;
     public Vector2 spiritLossVelocityRange;
+    public float stunTime;
 
     private int currentSpiritPoint;
     private List<SpiritPart> spiritParts = new List<SpiritPart>();
 
+    [HideInInspector] public bool inControl;
+
     void Start()
     {
         currentSpiritPoint = maxSpiritPoint;
+        inControl = true;
     }
 
     void Update()
     {
         healthText.text = currentSpiritPoint.ToString() + " / " + maxSpiritPoint.ToString();
+        healthText.text = GameData.movementHandler.canMove.ToString();
     }
 
     public void LoseSpiritParts(int damage, Vector2 knockBackDirectedForce)
@@ -39,7 +44,7 @@ public class PlayerManager : MonoBehaviour
         }
         GameData.playerVisuals.isHurt = 5;
         GameData.movementHandler.Propel(knockBackDirectedForce, false);
-        StartCoroutine(NoControl(0.5f));
+        StartCoroutine(NoControl(stunTime));
     }
 
     public void PickSpiritPart(SpiritPart part)
@@ -51,8 +56,8 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator NoControl(float time)
     {
-        GameData.movementHandler.inControl = false;
+        inControl = false;
         yield return new WaitForSeconds(time);
-        GameData.movementHandler.inControl = true;
+        inControl = true;
     }
 }

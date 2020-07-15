@@ -64,7 +64,6 @@ public class DashHandler : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        GameData.movementHandler.inControl = false;
         isDashing = true;
         canDash = false;
         isReaiming = false;
@@ -78,10 +77,11 @@ public class DashHandler : MonoBehaviour
         Vector2 previousDashPos = transform.position;
         float currentDashSpeed;
         GameData.grappleHandler.ReleaseHook();
+        GameData.movementHandler.canMove = false;
         hitAnEnemy = Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
-        while(dashTimeElapsed < dashTime)
+        while(dashTimeElapsed < dashTime && GameData.playerManager.inControl)
         {
             dashTimeElapsed += Time.fixedDeltaTime;
             Instantiate(shadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(startDashDirection.x > 0 ? 1 : -1, 1, 1);
@@ -103,10 +103,10 @@ public class DashHandler : MonoBehaviour
 
         rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
 
-        GameData.movementHandler.inControl = true;
+        GameData.movementHandler.canMove = true;
         GameData.movementHandler.isAffectedbyGravity = true;
         isDashing = false;
-        if(hitAnEnemy)
+        if(hitAnEnemy && GameData.playerManager.inControl)
         {
             StartCoroutine(SlowMoDash());
         }

@@ -21,7 +21,7 @@ public class MovementHandler : MonoBehaviour
     private float horizontalForce;
     private float forceSign;
     [HideInInspector] public bool isGrounded;
-    [HideInInspector] public bool inControl;
+    [HideInInspector] public bool canMove;
     [HideInInspector] public bool isAffectedbyGravity;
 
     [HideInInspector] public Rigidbody2D rb;
@@ -32,7 +32,7 @@ public class MovementHandler : MonoBehaviour
         isGrounded = false;
         groundFilter.SetLayerMask(LayerMask.GetMask("Wall"));
         groundFilter.useTriggers = true;
-        inControl = true;
+        canMove = true;
         isAffectedbyGravity = true;
     }
 
@@ -49,7 +49,7 @@ public class MovementHandler : MonoBehaviour
 
     private void GetInputs()
     {
-        horizontalTargetSpeed = Input.GetAxis("LeftStickH") * walkingMaxSpeed;
+        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? Input.GetAxis("LeftStickH") * walkingMaxSpeed : 0;
         if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
         {
             horizontalTargetSpeed = 0;
@@ -64,12 +64,9 @@ public class MovementHandler : MonoBehaviour
             currentSlowing = isGrounded ? groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - rb.velocity.x);
-            if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed)
+            if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
             {
-                if (inControl)
-                {
-                    horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
-                }
+                horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
             }
             else
             {

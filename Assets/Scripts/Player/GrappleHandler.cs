@@ -89,7 +89,7 @@ public class GrappleHandler : MonoBehaviour
             timeBeforeNextShoot -= Time.deltaTime;
         }
 
-        if (canShoot)
+        if (canShoot && GameData.playerManager.inControl)
         {
             Vector2 aimStickMag = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
             if (!isAiming && aimStickMag.magnitude > 0.1f)
@@ -193,7 +193,7 @@ public class GrappleHandler : MonoBehaviour
             if (canUseTraction && Input.GetAxisRaw("RightTrigger") == 1 && !GameData.dashHandler.isDashing)
             {
                 GameData.movementHandler.isAffectedbyGravity = false;
-                GameData.movementHandler.inControl = false;
+                GameData.movementHandler.canMove = false;
 
                 if (!isTracting)
                 {
@@ -274,7 +274,7 @@ public class GrappleHandler : MonoBehaviour
         isHooked = false;
         isTracting = false;
         ropeRenderer.enabled = false;
-        GameData.movementHandler.inControl = true;
+        GameData.movementHandler.canMove = true;
         if (attachedObject != null)
         {
             if(attachedObject.tag == "Enemy")

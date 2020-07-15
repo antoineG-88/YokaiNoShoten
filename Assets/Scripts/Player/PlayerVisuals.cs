@@ -66,13 +66,9 @@ public class PlayerVisuals : MonoBehaviour
             isHurt--;
         }
 
-        /*animator.SetBool("IsKicking", isKicking > 0 ? true : false);
-        if (isKicking > 0)
-        {
-            isKicking--;
-        }
+        animator.SetBool("IsKicking", GameData.dashHandler.isDashing);
 
-        animator.SetBool("IsCastingPower", isCastingPower > 0 ? true : false);
+        /*animator.SetBool("IsCastingPower", isCastingPower > 0 ? true : false);
         if (isCastingPower > 0)
         {
             isCastingPower--;
