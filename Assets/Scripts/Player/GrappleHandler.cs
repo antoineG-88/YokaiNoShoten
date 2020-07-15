@@ -175,7 +175,7 @@ public class GrappleHandler : MonoBehaviour
 
     void TractionManager()
     {
-        if (isHooked)
+        if (isHooked && attachedObject != null)
         {
             canShoot = false;
             ringHighLighterO.SetActive(false);
@@ -247,6 +247,10 @@ public class GrappleHandler : MonoBehaviour
         {
             canShoot = true;
             ropeRenderer.enabled = false;
+            if(attachedObject == null)
+            {
+                ReleaseHook();
+            }
         }
     }
 
