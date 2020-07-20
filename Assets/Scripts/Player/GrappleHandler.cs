@@ -18,6 +18,8 @@ public class GrappleHandler : MonoBehaviour
     public float startTractionPropulsion;
     [Space]
     [Range(0, 100)] public float velocityKeptReleasingHook;
+    public float ropeBreakParticleByUnit;
+    public GameObject breakRopeParticle;
     [Space]
     [Header("AutoAim settings")]
     public float aimAssistAngle;
@@ -258,10 +260,10 @@ public class GrappleHandler : MonoBehaviour
     {
         if (isHooked)
         {
-            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
-            if (ringHit && !ringHit.collider.CompareTag("Ring"))
+            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall"));
+            if (ringHit && LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall")
             {
-                BreakRope();
+                BreakRope("RopeBreaked with obstacle");
             }
         }
     }
@@ -290,8 +292,15 @@ public class GrappleHandler : MonoBehaviour
         GameData.movementHandler.isAffectedbyGravity = true;
     }
 
-    public void BreakRope()
+    public void BreakRope(string message)
     {
+        int ropeBreakParticleNumber = Mathf.CeilToInt(Vector2.Distance(transform.position, attachedObject.transform.position) * ropeBreakParticleByUnit);
+        float lerpUnit = 1 / (float)ropeBreakParticleNumber;
+        for (int i = 0; i < ropeBreakParticleNumber; i++)
+        {
+            Instantiate(breakRopeParticle, Vector2.Lerp(transform.position, attachedObject.transform.position, lerpUnit * i), Quaternion.identity);
+        }
+        Debug.Log(message);
         ReleaseHook();
     }
 

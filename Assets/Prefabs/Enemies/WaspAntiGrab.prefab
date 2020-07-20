@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 763350508382447395}
   - component: {fileID: 763350508382447393}
   - component: {fileID: 763350508382447392}
-  - component: {fileID: 162598494}
+  - component: {fileID: -3916721444334964836}
   m_Layer: 11
-  m_Name: Wasp
+  m_Name: WaspAntiGrab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,24 +177,21 @@ PolygonCollider2D:
       - {x: 0.000000059604645, y: -0.5}
       - {x: 0.43301272, y: -0.24999994}
       - {x: 0.43301272, y: 0.24999994}
---- !u!114 &162598494
+--- !u!114 &-3916721444334964836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 763350508382447391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protections:
-  - angle: -135
-    width: 90
-    type: 1
-  counterAttackDamage: 1
-  counterAttackknockbackForce: 10
+  shields:
+  - angle: 0
+    width: 180
 --- !u!1 &763350509277404791
 GameObject:
   m_ObjectHideFlags: 0
