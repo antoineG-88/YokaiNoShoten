@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Ring : MonoBehaviour
 {
+    [HideInInspector]
+    public bool attachable;
+
     void Start()
     {
-        
+        attachable = true;
     }
 
-    void Update()
-    {
-        
-    }
 }

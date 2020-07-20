@@ -39,7 +39,8 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool isAiming;
     private Rigidbody2D ringRb;
     [HideInInspector] public float timeBeforeNextShoot;
-    private GameObject selectedRing;
+    private GameObject selectedObject;
+    private Ring selectedRing;
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
     private Vector2 shootDirection;
@@ -118,7 +119,7 @@ public class GrappleHandler : MonoBehaviour
                 }
 
 
-                selectedRing = null;
+                selectedObject = null;
 
                 RaycastHit2D hit;
                 float minAngleFound = aimAssistAngle;
@@ -137,18 +138,18 @@ public class GrappleHandler : MonoBehaviour
                     }
 
                     hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "SpiritPart"));
-                    if (hit && (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedRing != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    if (hit && (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
                     {
-                        selectedRing = hit.collider.gameObject;
+                        selectedObject = hit.collider.gameObject;
                         minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
                     }
                 }
 
-                if (selectedRing != null)
+                if (selectedObject != null)
                 {
                     ringHighLighterO.SetActive(true);
-                    ringHighLighterO.transform.position = selectedRing.transform.position;
-                    shootDirection = new Vector2(selectedRing.transform.position.x - shootPoint.position.x, selectedRing.transform.position.y - shootPoint.position.y).normalized;
+                    ringHighLighterO.transform.position = selectedObject.transform.position;
+                    shootDirection = new Vector2(selectedObject.transform.position.x - shootPoint.position.x, selectedObject.transform.position.y - shootPoint.position.y).normalized;
                 }
                 else
                 {
@@ -162,9 +163,21 @@ public class GrappleHandler : MonoBehaviour
                     timeBeforeNextShoot = shootCooldown;
                     ReleaseHook();
 
-                    if (selectedRing != null)
+                    if (selectedObject != null)
                     {
-                        AttachHook(selectedRing);
+                        selectedRing = selectedObject.GetComponent<Ring>();
+                        if(selectedRing != null)
+                        {
+                            if(selectedRing.attachable == true)
+                            {
+                                AttachHook(selectedObject);
+                            }
+                        }
+                        else
+                        {
+                            AttachHook(selectedObject);
+                        }
+                        
                     }
                 }
             }
@@ -260,8 +273,12 @@ public class GrappleHandler : MonoBehaviour
     {
         if (isHooked)
         {
-            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall"));
-            if (ringHit && LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall")
+            if(selectedRing!= null && selectedRing.attachable == false)
+            {
+                BreakRope();
+            }
+            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall"));
+            if (ringHit && !ringHit.collider.CompareTag("Ring"))
             {
                 BreakRope("RopeBreaked with obstacle");
             }
