@@ -20,6 +20,8 @@ public class Wasp : Enemy
     public float rushStunTime;
     public float rushKnockbackForce;
     public AnimationCurve rushCurve;
+    [Header("Visuals")]
+    public SpriteRenderer sprite;
 
 
     private bool fleeing;
@@ -31,6 +33,9 @@ public class Wasp : Enemy
     private float rushCoolDownRemaining;
     private float rushTriggerTimeElapsed;
     private Vector2 playerDirection;
+    private bool isFacingRight;
+
+    private AntiGrabShieldHandler antiGrabShieldHandler;
 
     new void Start()
     {
@@ -40,23 +45,27 @@ public class Wasp : Enemy
         destinationReached = false;
         isRushing = false;
         rushCoolDownRemaining = 0;
+        antiGrabShieldHandler = GetComponent<AntiGrabShieldHandler>();
     }
 
     new void Update()
     {
         base.Update();
         UpdateBehavior();
+        UpdateVisuals();
     }
 
     new void FixedUpdate()
     {
         base.FixedUpdate();
+        UpdateShield();
     }
 
     public override void UpdateMovement()
     {
         if(!isRushing)
         {
+            isFacingRight = pathDirection.x > 0;
             if (path != null && !pathEndReached && !destinationReached && inControl)
             {
                 Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
@@ -181,5 +190,29 @@ public class Wasp : Enemy
         isRushing = false;
         yield return new WaitForSeconds(rushStunTime);
         inControl = true;
+    }
+
+    private void UpdateShield()
+    {
+        if(isFacingRight)
+        {
+            antiGrabShieldHandler.ChangeShieldAngle(antiGrabShieldHandler.shields[0], 0);
+        }
+        else
+        {
+            antiGrabShieldHandler.ChangeShieldAngle(antiGrabShieldHandler.shields[0], 180);
+        }
+    }
+
+    private void UpdateVisuals()
+    {
+        if(isFacingRight && !sprite.flipX)
+        {
+            sprite.flipX = true;
+        }
+        if (!isFacingRight && sprite.flipX)
+        {
+            sprite.flipX = false;
+        }
     }
 }

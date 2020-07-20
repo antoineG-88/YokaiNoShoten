@@ -18,30 +18,34 @@ public class AntiGrabShieldHandler : MonoBehaviour
         CheckGrappleRope();
     }
 
-    private bool CheckGrappleRope()
+    public void CheckGrappleRope()
     {
-        bool antigrabTriggered = false;
-        Debug.DrawRay(transform.position, -GameData.grappleHandler.tractionDirection, Color.red);
         if (GameData.grappleHandler.isHooked && GameData.grappleHandler.attachedObject == gameObject)
         {
-            float tractionAngle = Vector2.SignedAngle(Vector2.right, -GameData.grappleHandler.tractionDirection);
-            foreach (AntigrabShield shield in shields)
+            if (!CanBeGrappledFrom(GameData.grappleHandler.tractionDirection))
             {
-                float minAngle = shield.angle - shield.width / 2;
-                float maxAngle = shield.angle + shield.width / 2;
-                if (IsAngleBetween(tractionAngle, minAngle, maxAngle))
-                {
-                    antigrabTriggered = true;
-                }
+                GameData.grappleHandler.BreakRope();
             }
+        }
+    }
 
-            if (antigrabTriggered)
+    public bool CanBeGrappledFrom(Vector2 grappleDirection)
+    {
+        bool antigrabTriggered = false;
+        Debug.DrawRay(transform.position, -grappleDirection, Color.red);
+
+        float tractionAngle = Vector2.SignedAngle(Vector2.right, -grappleDirection);
+        foreach (AntigrabShield shield in shields)
+        {
+            float minAngle = shield.angle - shield.width / 2;
+            float maxAngle = shield.angle + shield.width / 2;
+            if (IsAngleBetween(tractionAngle, minAngle, maxAngle))
             {
-                GameData.grappleHandler.BreakRope("Shield used at : " + tractionAngle);
+                antigrabTriggered = true;
             }
         }
 
-        return antigrabTriggered;
+        return !antigrabTriggered;
     }
 
     private bool IsAngleBetween(float angle, float minAngle, float maxAngle)
@@ -65,10 +69,17 @@ public class AntiGrabShieldHandler : MonoBehaviour
         return isBetween;
     }
 
+    public void ChangeShieldAngle(AntigrabShield shield, float newAngle)
+    {
+        shield.angle = newAngle;
+        shield.displayO.transform.rotation = Quaternion.Euler(0, 0, newAngle);
+    }
+
     [System.Serializable]
     public class AntigrabShield
     {
         public float angle;
         public float width;
+        public GameObject displayO;
     }
 }
