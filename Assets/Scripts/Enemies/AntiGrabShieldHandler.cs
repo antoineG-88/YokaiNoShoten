@@ -24,7 +24,7 @@ public class AntiGrabShieldHandler : MonoBehaviour
         {
             if (!CanBeGrappledFrom(GameData.grappleHandler.tractionDirection))
             {
-                GameData.grappleHandler.BreakRope();
+                GameData.grappleHandler.BreakRope("shield moved");
             }
         }
     }
@@ -32,7 +32,6 @@ public class AntiGrabShieldHandler : MonoBehaviour
     public bool CanBeGrappledFrom(Vector2 grappleDirection)
     {
         bool antigrabTriggered = false;
-        Debug.DrawRay(transform.position, -grappleDirection, Color.red);
 
         float tractionAngle = Vector2.SignedAngle(Vector2.right, -grappleDirection);
         foreach (AntigrabShield shield in shields)

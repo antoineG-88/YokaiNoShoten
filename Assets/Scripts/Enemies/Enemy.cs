@@ -169,6 +169,19 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    protected bool IsPlayerInSightFrom(Vector2 startPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(startPos, (Vector2)GameData.player.transform.position - startPos, 100, LayerMask.GetMask("Player", "Wall"));
+        if(hit && hit.collider.CompareTag("Player"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void Die()
     {
         Destroy(gameObject, 0.1f);

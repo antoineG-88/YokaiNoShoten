@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class GameData : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameData : MonoBehaviour
     public static GameObject player;
     public static PlayerVisuals playerVisuals;
     public static PlayerManager playerManager;
+    public static GridGraph gridGraph;
 
     private void Awake()
     {
@@ -24,5 +26,6 @@ public class GameData : MonoBehaviour
         playerManager = player.GetComponent<PlayerManager>();
         slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
+        gridGraph = (GridGraph)AstarData.active.graphs[0];
     }
 }

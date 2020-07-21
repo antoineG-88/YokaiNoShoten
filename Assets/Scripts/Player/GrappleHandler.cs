@@ -179,15 +179,13 @@ public class GrappleHandler : MonoBehaviour
                         {
                             if(selectedObject.CompareTag("Enemy"))
                             {
+                                AttachHook(selectedObject);
+
                                 AntiGrabShieldHandler attachedEnemyShield = selectedObject.GetComponent<AntiGrabShieldHandler>();
-                                if(!attachedEnemyShield.CanBeGrappledFrom(-selectedObjectDirection))
+
+                                if (!attachedEnemyShield.CanBeGrappledFrom(selectedObjectDirection))
                                 {
-                                    AttachHook(selectedObject);
-                                }
-                                else
-                                {
-                                    AttachHook(selectedObject);
-                                    BreakRope();
+                                    BreakRope("cannot attach from this side");
                                 }
                             }
                             else
@@ -290,14 +288,14 @@ public class GrappleHandler : MonoBehaviour
         {
             if(selectedRing!= null && selectedRing.attachable == false)
             {
-                BreakRope();
+                BreakRope("Not attachable");
                 rb.velocity *= velocityKeptReleasingHook / 100;
             }
 
             RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall"));
             if (ringHit && LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall")
             {
-                BreakRope();
+                BreakRope("hit a wall");
                 rb.velocity *= velocityKeptReleasingHook / 100;
             }
         }
@@ -322,7 +320,7 @@ public class GrappleHandler : MonoBehaviour
         GameData.movementHandler.isAffectedbyGravity = true;
     }
 
-    public void BreakRope()
+    public void BreakRope(string message)
     {
         int ropeBreakParticleNumber = Mathf.CeilToInt(Vector2.Distance(transform.position, attachedObject.transform.position) * ropeBreakParticleByUnit);
         float lerpUnit = 1 / (float)ropeBreakParticleNumber;
@@ -330,6 +328,7 @@ public class GrappleHandler : MonoBehaviour
         {
             Instantiate(breakRopeParticle, Vector2.Lerp(transform.position, attachedObject.transform.position, lerpUnit * i), Quaternion.identity);
         }
+        //Debug.Log(message);
         ReleaseHook();
     }
 
