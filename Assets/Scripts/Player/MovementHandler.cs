@@ -25,7 +25,10 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public bool isAffectedbyGravity;
 
     [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D groundRb;
     private ContactFilter2D groundFilter;
+    private Vector2 relativeVelocity;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -58,13 +61,22 @@ public class MovementHandler : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if (horizontalTargetSpeed != rb.velocity.x)
+        if(groundRb != null)
+        {
+            relativeVelocity = rb.velocity - groundRb.velocity;
+        }
+        else
+        {
+            relativeVelocity = rb.velocity;
+        }
+
+        if (horizontalTargetSpeed != relativeVelocity.x)
         {
             currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
             currentSlowing = isGrounded ? groundSlowing : airSlowing;
 
-            forceSign = Mathf.Sign(horizontalTargetSpeed - rb.velocity.x);
-            if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
+            forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
+            if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
             {
                 horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
             }
@@ -74,14 +86,18 @@ public class MovementHandler : MonoBehaviour
             }
 
 
-            if (horizontalTargetSpeed > rb.velocity.x && horizontalTargetSpeed < rb.velocity.x + horizontalForce || horizontalTargetSpeed < rb.velocity.x && horizontalTargetSpeed > rb.velocity.x + horizontalForce)
+            if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
             {
-                rb.velocity = new Vector2(horizontalTargetSpeed, rb.velocity.y);
+                rb.velocity = new Vector2(groundRb != null ? groundRb.velocity.x : 0 + horizontalTargetSpeed, rb.velocity.y);
             }
             else
             {
                 rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
             }
+        }
+        else if(groundRb != null)
+        {
+            rb.velocity = new Vector2(groundRb.velocity.x, groundRb.velocity.y);
         }
 
         if (isAffectedbyGravity)
