@@ -30,6 +30,7 @@ public abstract class Enemy : MonoBehaviour
     protected Vector2 pathDirection;
     protected Vector2 targetPathfindingPosition;
     protected float timeBeforeNextPathUpdate;
+    protected float distToPlayer;
 
     protected bool provoked;
     [HideInInspector] public bool inControl;
@@ -59,6 +60,8 @@ public abstract class Enemy : MonoBehaviour
         {
             timeBeforeNextPathUpdate -= Time.deltaTime;
         }
+
+        UpdateBehavior();
     }
 
     protected void FixedUpdate()
@@ -143,6 +146,10 @@ public abstract class Enemy : MonoBehaviour
         }
     }
     public abstract void UpdateMovement();
+    protected virtual void UpdateBehavior()
+    {
+        distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
+    }
 
     public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
     {

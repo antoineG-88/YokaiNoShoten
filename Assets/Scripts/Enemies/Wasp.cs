@@ -27,7 +27,6 @@ public class Wasp : Enemy
     private bool fleeing;
     private bool destinationReached;
     private bool isApproaching;
-    private float distToPlayer;
     private bool pathNeedUpdate;
     private bool isRushing;
     private float rushCoolDownRemaining;
@@ -51,7 +50,6 @@ public class Wasp : Enemy
     new void Update()
     {
         base.Update();
-        UpdateBehavior();
         UpdateVisuals();
     }
 
@@ -88,8 +86,9 @@ public class Wasp : Enemy
         }
     }
 
-    private void UpdateBehavior()
+    protected override void UpdateBehavior()
     {
+        base.UpdateBehavior();
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
         pathNeedUpdate = false;
         if (provoked && inControl)
@@ -149,7 +148,7 @@ public class Wasp : Enemy
         }
         else
         {
-            provoked = Vector2.Distance(transform.position, GameData.player.transform.position) < provocationRange;
+            provoked = distToPlayer < provocationRange;
         }
     }
 

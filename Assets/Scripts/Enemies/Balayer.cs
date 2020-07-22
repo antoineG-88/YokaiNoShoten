@@ -38,7 +38,6 @@ public class Balayer : Enemy
     private bool destinationReached;
     private bool canBeInSight;
     private Vector2 potentialTargetPos;
-    private float distToPlayer;
     private float elapsedAimTime;
     private float beamCoolDownElapsed;
     private Vector2 playerDirection;
@@ -59,7 +58,6 @@ public class Balayer : Enemy
     new void Update()
     {
         base.Update();
-        UpdateBehavior();
     }
 
     new void FixedUpdate()
@@ -93,10 +91,10 @@ public class Balayer : Enemy
         }
     }
 
-    private void UpdateBehavior()
+    protected override void UpdateBehavior()
     {
+        base.UpdateBehavior();
         playerInSight = IsPlayerInSightFrom(transform.position);
-        distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
         destinationReached = distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth && playerInSight;
@@ -142,7 +140,7 @@ public class Balayer : Enemy
         }
         else
         {
-            provoked = Vector2.Distance(transform.position, GameData.player.transform.position) < provocationRange;
+            provoked = distToPlayer < provocationRange;
         }
 
 
