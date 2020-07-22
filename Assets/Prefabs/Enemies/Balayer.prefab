@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae2cf94ee176ac4183916a25739bbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoint: 10
+  maxHealthPoint: 2
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -60,19 +60,22 @@ MonoBehaviour:
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
   inControl: 0
-  maxSpeed: 10
-  accelerationForce: 100
+  maxSpeed: 4
+  accelerationForce: 15
   safeDistance: 8
-  safeDistanceWidth: 2
+  safeDistanceWidth: 3
   provocationRange: 30
+  beamDamage: 2
+  beamKnockback: 5
   aimTime: 0.2
   chargeTime: 0.1
-  beamTime: 3
+  beamTime: 2
   beamMaxRotationSpeed: 1
-  beamRotationAcceleration: 0.5
+  beamRotationAcceleration: 2
   beamCoolDown: 3
   beamStartAngleOffset: 20
-  beamNoMovementTime: 0.8
+  beamNoMovementTime: 0.5
+  beamEndSlowingTime: 0.5
   beamStartPrefab: {fileID: 7180278200209216271, guid: 37beed37ab056174aa79b5118b1bad13,
     type: 3}
   beamPartPrefab: {fileID: 5405229728292324887, guid: a44648d72a31e42438e25e1cc33194cc,
@@ -83,7 +86,7 @@ MonoBehaviour:
   beamWarningLine: {fileID: 1572515410}
   spaceBetweenBeamFx: 1
   beamStartOffset: 1
-  beamParent: {fileID: 0}
+  beamParent: {fileID: 8102267296796794378}
 --- !u!60 &1133783526514271760
 PolygonCollider2D:
   m_ObjectHideFlags: 0

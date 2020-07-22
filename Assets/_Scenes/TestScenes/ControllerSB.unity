@@ -605,8 +605,10 @@ MonoBehaviour:
   spiritPartPrefab: {fileID: 6346672961636667937, guid: d5f3efd6aa173ad4295df2663a64e093,
     type: 3}
   spiritLossVelocityRange: {x: 8, y: 10}
-  stunTime: 0
+  stunTime: 0.5
+  damageInvulnerableTime: 0.5
   inControl: 0
+  invulnerable: 0
 --- !u!1 &137240985
 GameObject:
   m_ObjectHideFlags: 0
@@ -4502,6 +4504,26 @@ PrefabInstance:
         type: 3}
       propertyPath: accelerationForce
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133783526514271775, guid: 818fe825f5c695549ab4f1fd7b038272,
+        type: 3}
+      propertyPath: beamDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133783526514271775, guid: 818fe825f5c695549ab4f1fd7b038272,
+        type: 3}
+      propertyPath: beamKnockback
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133783526514271775, guid: 818fe825f5c695549ab4f1fd7b038272,
+        type: 3}
+      propertyPath: maxHealthPoint
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133783526514271775, guid: 818fe825f5c695549ab4f1fd7b038272,
+        type: 3}
+      propertyPath: safeDistanceWidth
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 818fe825f5c695549ab4f1fd7b038272, type: 3}

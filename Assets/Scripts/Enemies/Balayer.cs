@@ -11,6 +11,8 @@ public class Balayer : Enemy
     public float safeDistanceWidth;
     [Header("Beam settings")]
     public float provocationRange;
+    public int beamDamage;
+    public float beamKnockback;
     public float aimTime;
     public float chargeTime;
     public float beamTime;
@@ -211,7 +213,6 @@ public class Balayer : Enemy
         yield return new WaitForSeconds(chargeTime);
         bool rotPositive = Vector2.SignedAngle(Vector2.right, playerDirection) - shootAngle > 0;
 
-
         List<GameObject> beamFxs = new List<GameObject>();
         GameObject beamEnd = null;
         float beamLength;
@@ -242,7 +243,13 @@ public class Balayer : Enemy
             shootAngle += currentRotSpeed;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), 100.0f, LayerMask.GetMask("Wall"));
-            Debug.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * 100, Color.red);
+            //Debug.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * 100, Color.red);
+
+            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), 100.0f, LayerMask.GetMask("Player","Wall"));
+            if(playerHit && playerHit.collider.CompareTag("Player"))
+            {
+                GameData.playerManager.LoseSpiritParts(beamDamage, DirectionFromAngle(shootAngle) * beamKnockback);
+            }
 
             beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : 30;
             beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);

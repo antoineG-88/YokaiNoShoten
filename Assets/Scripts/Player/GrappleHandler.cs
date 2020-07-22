@@ -322,11 +322,14 @@ public class GrappleHandler : MonoBehaviour
 
     public void BreakRope(string message)
     {
-        int ropeBreakParticleNumber = Mathf.CeilToInt(Vector2.Distance(transform.position, attachedObject.transform.position) * ropeBreakParticleByUnit);
-        float lerpUnit = 1 / (float)ropeBreakParticleNumber;
-        for (int i = 0; i < ropeBreakParticleNumber; i++)
+        if(attachedObject != null)
         {
-            Instantiate(breakRopeParticle, Vector2.Lerp(transform.position, attachedObject.transform.position, lerpUnit * i), Quaternion.identity);
+            int ropeBreakParticleNumber = Mathf.CeilToInt(Vector2.Distance(transform.position, attachedObject.transform.position) * ropeBreakParticleByUnit);
+            float lerpUnit = 1 / (float)ropeBreakParticleNumber;
+            for (int i = 0; i < ropeBreakParticleNumber; i++)
+            {
+                Instantiate(breakRopeParticle, Vector2.Lerp(transform.position, attachedObject.transform.position, lerpUnit * i), Quaternion.identity);
+            }
         }
         //Debug.Log(message);
         ReleaseHook();
