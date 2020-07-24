@@ -28,6 +28,7 @@ public abstract class Enemy : MonoBehaviour
     protected int currentWaypoint;
     protected bool pathEndReached;
     protected Vector2 pathDirection;
+    protected List<Vector3> pathPositions;
     protected Vector2 targetPathfindingPosition;
     protected float timeBeforeNextPathUpdate;
     protected float distToPlayer;
@@ -47,6 +48,7 @@ public abstract class Enemy : MonoBehaviour
         provoked = false;
         targetPathfindingPosition = transform.position;
         inControl = true;
+        pathPositions = new List<Vector3>();
     }
     protected void Update()
     {
@@ -103,6 +105,8 @@ public abstract class Enemy : MonoBehaviour
                 }
 
                 pathDirection = (path.vectorPath[currentWaypoint + waypointAhead] - transform.position).normalized;
+                pathPositions.Clear();
+                pathPositions.AddRange(path.vectorPath);
             }
         }
     }
@@ -120,7 +124,7 @@ public abstract class Enemy : MonoBehaviour
                 if (closeEnemy.gameObject != gameObject)
                 {
                     Vector2 directedForce = closeEnemy.transform.position - transform.position;
-                    if(directedForce == Vector2.zero)
+                    if (directedForce == Vector2.zero)
                     {
                         directedForce = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
                     }
@@ -155,7 +159,7 @@ public abstract class Enemy : MonoBehaviour
     {
         bool isProtected = false;
 
-        if(!isProtected)
+        if (!isProtected)
         {
             currentHealthPoint -= damage;
             Propel(directedForce);
@@ -170,7 +174,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void Propel(Vector2 directedForce)
     {
-        if(!float.IsNaN(directedForce.magnitude))
+        if (!float.IsNaN(directedForce.magnitude))
         {
             rb.velocity += directedForce;
         }
@@ -179,13 +183,91 @@ public abstract class Enemy : MonoBehaviour
     protected bool IsPlayerInSightFrom(Vector2 startPos)
     {
         RaycastHit2D hit = Physics2D.Raycast(startPos, (Vector2)GameData.player.transform.position - startPos, 100, LayerMask.GetMask("Player", "Wall"));
-        if(hit && hit.collider.CompareTag("Player"))
+        if (hit && hit.collider.CompareTag("Player"))
         {
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    protected Vector2 FindNearestSightSpot(float angleInterval, float distance, bool addShorterSpot)
+    {
+        Vector2 spot = transform.position;
+        bool validSpotFound = false;
+        float nearestAngle = Vector2.SignedAngle(Vector2.right, transform.position - GameData.player.transform.position);
+        nearestAngle /= angleInterval;
+        nearestAngle = Mathf.Round(nearestAngle) * angleInterval;
+        float angleSeekOffset = 0;
+        int iteration = 0;
+        bool seekPositive = true;
+        float seekAngle = 0;
+        Vector2 seekDirection;
+        while (angleSeekOffset < 181 && !validSpotFound && angleInterval != 0)
+        {
+            angleSeekOffset = angleInterval * iteration;
+            if (seekPositive)
+            {
+                seekAngle = nearestAngle + angleSeekOffset;
+            }
+            else
+            {
+                seekAngle = nearestAngle - angleSeekOffset;
+                iteration++;
+            }
+            seekPositive = !seekPositive;
+
+            seekDirection = DirectionFromAngle(seekAngle);
+            spot = (Vector2)GameData.player.transform.position + seekDirection * distance;
+            if(addShorterSpot)
+            {
+                validSpotFound = true;
+                RaycastHit2D hit = Physics2D.Raycast(GameData.player.transform.position, spot - (Vector2)GameData.player.transform.position, distance, LayerMask.GetMask("Wall"));
+                if (hit)
+                {
+                    spot = hit.point;
+                }
+            }
+            else
+            {
+                if (IsPlayerInSightFrom(spot))
+                {
+                    validSpotFound = true;
+                }
+            }
+            Debug.DrawRay(spot, Vector2.up * 0.1f, validSpotFound ? Color.green : Color.white, 0.02f);
+        }
+
+        return validSpotFound ? spot : (Vector2)transform.position;
+    }
+
+    protected Vector2 DirectionFromAngle(float angle)
+    {
+        Vector2 direction;
+        direction.x = Mathf.Cos(angle * Mathf.Deg2Rad);
+        direction.y = Mathf.Sin(angle * Mathf.Deg2Rad);
+        direction.Normalize();
+        return direction;
+    }
+
+    protected Vector2 GetPathNextPosition(int positionAhead)
+    {
+        if(pathPositions.Count > 0)
+        {
+            if (pathPositions.Count > currentWaypoint + waypointAhead + positionAhead)
+            {
+                return pathPositions[currentWaypoint + waypointAhead + positionAhead];
+            }
+            else
+            {
+                return pathPositions[currentWaypoint + waypointAhead];
+            }
+        }
+        else
+        {
+            return Vector2.zero;
         }
     }
 

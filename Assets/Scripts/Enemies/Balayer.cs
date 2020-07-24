@@ -104,7 +104,7 @@ public class Balayer : Enemy
             {
                 isAiming = false;
                 elapsedAimTime = 0;
-                potentialTargetPos = FindNearestBeamSpot();
+                potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
                 if(potentialTargetPos != (Vector2)transform.position)
                 {
                     targetPathfindingPosition = potentialTargetPos;
@@ -150,52 +150,6 @@ public class Balayer : Enemy
         }
     }
 
-    private Vector2 FindNearestBeamSpot()
-    {
-        Vector2 spot = transform.position;
-        bool validSpotFound = false;
-        float nearestAngle = Vector2.SignedAngle(Vector2.right, transform.position - GameData.player.transform.position);
-        nearestAngle /= seekingBeamSpotAngleInterval;
-        nearestAngle = Mathf.Round(nearestAngle) * seekingBeamSpotAngleInterval;
-        float angleSeekOffset = 0;
-        int iteration = 0;
-        bool seekPositive = true;
-        float seekAngle = 0;
-        Vector2 seekDirection;
-        while(angleSeekOffset < 181 && !validSpotFound && seekingBeamSpotAngleInterval != 0)
-        {
-            angleSeekOffset = seekingBeamSpotAngleInterval * iteration;
-            if (seekPositive)
-            {
-                seekAngle = nearestAngle + angleSeekOffset;
-            }
-            else
-            {
-                seekAngle = nearestAngle - angleSeekOffset;
-                iteration++;
-            }
-            seekPositive = !seekPositive;
-
-            seekDirection = DirectionFromAngle(seekAngle);
-            spot = (Vector2)GameData.player.transform.position + seekDirection * safeDistance;
-            if(IsPlayerInSightFrom(spot))
-            {
-                validSpotFound = true;
-            }
-            Debug.DrawRay(spot, Vector2.up * 0.1f, validSpotFound ? Color.green : Color.white, 0.02f);
-        }
-
-        return validSpotFound ? spot : (Vector2)transform.position;
-    }
-
-    private Vector2 DirectionFromAngle(float angle)
-    {
-        Vector2 direction;
-        direction.x = Mathf.Cos(angle * Mathf.Deg2Rad);
-        direction.y = Mathf.Sin(angle * Mathf.Deg2Rad);
-        direction.Normalize();
-        return direction;
-    }
 
     private IEnumerator ShootBeam()
     {
