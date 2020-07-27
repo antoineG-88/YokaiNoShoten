@@ -6,13 +6,6 @@ public class AntiGrabShieldHandler : MonoBehaviour
 {
     public AntigrabShield[] shields;
 
-    private Enemy enemy;
-
-    void Start()
-    {
-        enemy = GetComponent<Enemy>();
-    }
-
     private void FixedUpdate()
     {
         CheckGrappleRope();

@@ -65,7 +65,7 @@ public class DashHandler : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
-        canDash = false;
+        //canDash = false;
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
         bool hitAnEnemy = false;
@@ -81,7 +81,7 @@ public class DashHandler : MonoBehaviour
         hitAnEnemy = Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
-        while(dashTimeElapsed < dashTime && GameData.playerManager.inControl)
+        while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
         {
             dashTimeElapsed += Time.fixedDeltaTime;
             Instantiate(shadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(startDashDirection.x > 0 ? 1 : -1, 1, 1);
@@ -124,7 +124,22 @@ public class DashHandler : MonoBehaviour
             foreach(Collider2D collider in colliders)
             {
                 Enemy enemy = collider.GetComponent<Enemy>();
-                enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f);
+                if(enemy != null)
+                {
+                    enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f, false);
+                }
+                else
+                {
+                    BodyPart bodyPart = collider.GetComponent<BodyPart>();
+                    if(bodyPart != null)
+                    {
+                        bodyPart.ReceiveDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f);
+                    }
+                    else
+                    {
+                        Debug.LogWarning(gameObject + " named : " + gameObject.name + " is on the enemy layer but do not have any enemy script attached");
+                    }
+                }
             }
             canDash = hitResetDash ? true : canDash;
             hasHit = true;

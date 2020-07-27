@@ -8,7 +8,7 @@ public class Serpent : Enemy
     public float speedToReachPlayer;
     public float speedPatrolingPlayer;
     public float accelerationForce;
-    public float slowingWallDistance;
+    public float wallDetectionDistance;
     public float slowSpeed;
     public float provocationRange;
     public float rangeGoalToPlayer;
@@ -28,13 +28,14 @@ public class Serpent : Enemy
     private float currentAngle;
     private float targetSpeed;
     private float angleDifferenceToTarget;
+    private bool wallAhead;
 
     private new void Start()
     {
         base.Start();
         provoked = false;
         timeBeforeNextBombDrop = timeBetweenBombDrop;
-        currentDirection = Vector2.left;
+        currentDirection = Vector2.up;
     }
 
     private new void Update()
@@ -59,17 +60,15 @@ public class Serpent : Enemy
         }
         if (provoked)
         {
-            targetSpeed = Physics2D.Raycast(transform.position, currentDirection, slowingWallDistance, LayerMask.GetMask("Wall")) ? slowSpeed : isTooFarFromPlayer ? speedToReachPlayer : speedPatrolingPlayer;
+            wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
+            targetSpeed = wallAhead ? slowSpeed : isTooFarFromPlayer ? speedToReachPlayer : speedPatrolingPlayer;
 
-            currentSpeed = rb.velocity.magnitude;
-            if (rb.velocity.magnitude != 0)
+            if(!inControl)
             {
+                currentSpeed = rb.velocity.magnitude;
                 currentDirection = rb.velocity.normalized;
             }
-            else
-            {
-                currentDirection = DirectionFromAngle(transform.rotation.eulerAngles.z);
-            }
+
 
             if (Mathf.Abs(currentSpeed - targetSpeed) <= 0.01f)
             {
@@ -84,15 +83,23 @@ public class Serpent : Enemy
                 currentSpeed -= accelerationForce * Time.fixedDeltaTime;
             }
 
-            if(targetPathfindingPosition != (Vector2)transform.position)
+            currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
+            if (targetPathfindingPosition != (Vector2)transform.position)
             {
                 angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, GetPathNextPosition(2) - (Vector2)transform.position);
                 if(Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
                 {
-                    currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
                     currentAngle += Mathf.Sign(angleDifferenceToTarget) * steeringRatio * currentSpeed * Time.fixedDeltaTime;
                     currentDirection = DirectionFromAngle(currentAngle);
                 }
+            }
+            else if(wallAhead)
+            {
+                RaycastHit2D leftHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle + 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
+                RaycastHit2D rightHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle - 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
+                float addedSteerAngle = steeringRatio * 7 * Time.fixedDeltaTime;
+                currentAngle += leftHit ? rightHit ? leftHit.distance > rightHit.distance ? addedSteerAngle : -addedSteerAngle : -addedSteerAngle : rightHit ? addedSteerAngle : -addedSteerAngle;
+                currentDirection = DirectionFromAngle(currentAngle);
             }
 
             rb.velocity = currentDirection * currentSpeed;
@@ -122,5 +129,10 @@ public class Serpent : Enemy
     private void DropBomb()
     {
         Instantiate(bombPrefab, bombDropPos.position, Quaternion.identity);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(gameObject.transform.parent.gameObject);
     }
 }

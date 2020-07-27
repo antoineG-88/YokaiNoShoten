@@ -7,6 +7,7 @@ public abstract class Enemy : MonoBehaviour
 {
     [Header("General settings")]
     public int maxHealthPoint;
+    public List<BodyPart> damagableBodyParts;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
     public int waypointAhead;
@@ -19,6 +20,7 @@ public abstract class Enemy : MonoBehaviour
     public float maximalAvoidForce;
     public float avoidDistanceInfluence;
 
+    [HideInInspector] public bool recentlyHit;
     private int currentHealthPoint;
 
     protected Rigidbody2D rb;
@@ -37,6 +39,7 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public bool inControl;
 
     protected Animator animator;
+    protected ProtectionHandler protectionHandler;
 
     protected void Start()
     {
@@ -49,6 +52,8 @@ public abstract class Enemy : MonoBehaviour
         targetPathfindingPosition = transform.position;
         inControl = true;
         pathPositions = new List<Vector3>();
+        protectionHandler = GetComponent<ProtectionHandler>();
+        ConnectBodyParts();
     }
     protected void Update()
     {
@@ -68,6 +73,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void FixedUpdate()
     {
+        recentlyHit = false;
         AvoidOtherEnemies();
         UpdateMovement();
     }
@@ -155,20 +161,29 @@ public abstract class Enemy : MonoBehaviour
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
     }
 
-    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
+    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime, bool isOtherBodyPart)
     {
-        bool isProtected = false;
-
-        if (!isProtected)
+        if(!recentlyHit)
         {
-            currentHealthPoint -= damage;
-            Propel(directedForce);
-            animator.SetTrigger("Hurt");
-            StartCoroutine(NoControl(noControlTime));
-            if (currentHealthPoint <= 0)
+            bool isProtected = false;
+            if (!isOtherBodyPart && protectionHandler != null)
             {
-                Die();
+                isProtected = protectionHandler.IsProtected(directedForce);
             }
+
+            if (!isProtected)
+            {
+                currentHealthPoint -= damage;
+                Propel(directedForce);
+                animator.SetTrigger("Hurt");
+                StartCoroutine(NoControl(noControlTime));
+                if (currentHealthPoint <= 0)
+                {
+                    Die();
+                }
+            }
+
+            recentlyHit = true;
         }
     }
 
@@ -281,5 +296,13 @@ public abstract class Enemy : MonoBehaviour
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    public void ConnectBodyParts()
+    {
+        foreach(BodyPart bodyPart in damagableBodyParts)
+        {
+            bodyPart.owner = this;
+        }
     }
 }
