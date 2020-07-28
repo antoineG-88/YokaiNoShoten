@@ -15,7 +15,8 @@ public class Serpent : Enemy
     public float steeringRatio;
     public float minAngleDiffToTurn;
     [Header("Bomb settings")]
-    public float timeBetweenBombDrop;
+    public Vector2 dashDetectionZone;
+    public float dashDropCooldown;
     public Transform bombDropPos;
     public GameObject bombPrefab;
     [Header("Technical settings")]
@@ -30,11 +31,13 @@ public class Serpent : Enemy
     private float angleDifferenceToTarget;
     private bool wallAhead;
 
+    private Vector2 detectionZoneCenterOffset;
+
     private new void Start()
     {
         base.Start();
         provoked = false;
-        timeBeforeNextBombDrop = timeBetweenBombDrop;
+        timeBeforeNextBombDrop = dashDropCooldown;
         currentDirection = Vector2.up;
     }
 
@@ -46,6 +49,7 @@ public class Serpent : Enemy
     private new void FixedUpdate()
     {
         base.FixedUpdate();
+        IsPlayerApproaching();
     }
 
     public override void UpdateMovement()
@@ -121,8 +125,20 @@ public class Serpent : Enemy
         }
         else
         {
-            timeBeforeNextBombDrop = timeBetweenBombDrop;
-            DropBomb();
+            timeBeforeNextBombDrop = dashDropCooldown;
+            //DropBomb();
+        }
+    }
+
+    private void IsPlayerApproaching()
+    {
+        bool playerIsLeft = Vector2.SignedAngle(currentDirection, GameData.player.transform.position - transform.position) > 0;
+        detectionZoneCenterOffset.x = Mathf.Cos(currentAngle + 90 * (playerIsLeft ? 1 : -1));
+        detectionZoneCenterOffset.y = Mathf.Sin(currentAngle + 90 * (playerIsLeft ? 1 : -1));
+        detectionZoneCenterOffset *= dashDetectionZone.y / 2;
+        if (Physics2D.OverlapBox((Vector2)transform.position + detectionZoneCenterOffset, dashDetectionZone, currentAngle))
+        {
+
         }
     }
 
@@ -134,5 +150,20 @@ public class Serpent : Enemy
     private void OnDestroy()
     {
         Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if(Application.isEditor)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - dashDetectionZone.y / 2), dashDetectionZone);
+        }
+        else if(Application.isPlaying)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.matrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, currentAngle));
+            Gizmos.DrawWireCube((Vector2)transform.position + detectionZoneCenterOffset, dashDetectionZone);
+        }
     }
 }

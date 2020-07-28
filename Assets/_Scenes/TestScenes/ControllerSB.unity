@@ -6834,7 +6834,7 @@ PrefabInstance:
     - target: {fileID: 1133783526514271764, guid: 818fe825f5c695549ab4f1fd7b038272,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 818fe825f5c695549ab4f1fd7b038272, type: 3}
@@ -6886,6 +6886,16 @@ PrefabInstance:
       propertyPath: damagableBodyParts.Array.data[4]
       value: 
       objectReference: {fileID: 1623701802}
+    - target: {fileID: 5202223809458673487, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
+        type: 3}
+      propertyPath: dashDetectionZone.x
+      value: 5.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202223809458673487, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
+        type: 3}
+      propertyPath: dashDetectionZone.y
+      value: 2.21
+      objectReference: {fileID: 0}
     - target: {fileID: 6473909163359906720, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6963,7 +6973,7 @@ PrefabInstance:
     - target: {fileID: 763350508382447391, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 763350508382447396, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}
