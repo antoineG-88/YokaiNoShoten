@@ -27,6 +27,7 @@ public class DashHandler : MonoBehaviour
     private bool leftTriggerDown;
     private Rigidbody2D rb;
     private ContactFilter2D enemyFilter;
+    private ContactFilter2D attackReactionFilter;
 
     void Start()
     {
@@ -34,6 +35,8 @@ public class DashHandler : MonoBehaviour
         leftTriggerPressed = false;
         leftTriggerDown = false;
         enemyFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
+        attackReactionFilter.SetLayerMask(LayerMask.GetMask("DashInteraction"));
+        attackReactionFilter.useTriggers = true;
         enemyFilter.useTriggers = true;
     }
 
@@ -128,6 +131,15 @@ public class DashHandler : MonoBehaviour
             }
             canDash = hitResetDash ? true : canDash;
             hasHit = true;
+        }
+        Physics2D.OverlapBox((Vector2)transform.position + attackDirection * attackRange.x * 0.5f, attackRange, Vector2.SignedAngle(Vector2.right, attackDirection), attackReactionFilter, colliders);
+        if (colliders.Count > 0)
+        {
+            foreach (Collider2D collider in colliders)
+            {
+                DashInteraction element = collider.GetComponent<DashInteraction>();
+                element.DashReaction();
+            }
         }
         return hasHit;
     }
