@@ -11,18 +11,19 @@ public class MovingPlatform : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerfilter.SetLayerMask(LayerMask.GetMask("player"));
+        playerfilter.SetLayerMask(LayerMask.GetMask("Player"));
+        playerfilter.useTriggers = true;
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         Physics2D.OverlapCollider(groundChangeCollider, playerfilter, playerCollider);
         if (playerCollider.Count > 0)
         {
             GameData.movementHandler.groundRb = rb;
         }
-        else if(GameData.movementHandler.groundRb = rb )
+        else if(GameData.movementHandler.groundRb == rb)
         {
             GameData.movementHandler.groundRb = null;
         }

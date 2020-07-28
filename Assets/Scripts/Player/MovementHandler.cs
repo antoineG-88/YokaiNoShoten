@@ -88,7 +88,7 @@ public class MovementHandler : MonoBehaviour
 
             if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
             {
-                rb.velocity = new Vector2(groundRb != null ? groundRb.velocity.x : 0 + horizontalTargetSpeed, rb.velocity.y);
+                rb.velocity = new Vector2((groundRb != null ? groundRb.velocity.x : 0) + horizontalTargetSpeed, rb.velocity.y);
             }
             else
             {
@@ -97,7 +97,7 @@ public class MovementHandler : MonoBehaviour
         }
         else if(groundRb != null)
         {
-            rb.velocity = new Vector2(groundRb.velocity.x, groundRb.velocity.y);
+            rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
         }
 
         if (isAffectedbyGravity)
