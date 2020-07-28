@@ -152,6 +152,8 @@ GameObject:
   - component: {fileID: 5202223808009607647}
   - component: {fileID: 8339700414697760770}
   - component: {fileID: 201829419272046182}
+  - component: {fileID: 836696558}
+  - component: {fileID: 836696559}
   m_Layer: 11
   m_Name: SerpentPart (2)
   m_TagString: Untagged
@@ -307,6 +309,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+--- !u!114 &836696558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808009607456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &836696559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808009607456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223808204664181
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +354,8 @@ GameObject:
   - component: {fileID: 5202223808204664180}
   - component: {fileID: 8961531821024938565}
   - component: {fileID: 4490329689827520382}
+  - component: {fileID: 223952418}
+  - component: {fileID: 223952419}
   m_Layer: 11
   m_Name: SerpentPart (3)
   m_TagString: Untagged
@@ -476,6 +511,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+--- !u!114 &223952418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808204664181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &223952419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808204664181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223808570074869
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +556,8 @@ GameObject:
   - component: {fileID: 5202223808570074868}
   - component: {fileID: 2596042084023788419}
   - component: {fileID: 2657210793306725599}
+  - component: {fileID: 1504705926}
+  - component: {fileID: 1504705927}
   m_Layer: 11
   m_Name: SerpentPart (1)
   m_TagString: Untagged
@@ -645,6 +713,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+--- !u!114 &1504705926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808570074869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &1504705927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808570074869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223809162792924
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +757,8 @@ GameObject:
   - component: {fileID: 5202223809162792923}
   - component: {fileID: 1489588986947605285}
   - component: {fileID: 900414417676669435}
+  - component: {fileID: 1623701803}
+  - component: {fileID: 1623701804}
   m_Layer: 11
   m_Name: SerpentPart (4)
   m_TagString: Untagged
@@ -794,6 +895,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+--- !u!114 &1623701803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &1623701804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223809268101721
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +1021,8 @@ GameObject:
   - component: {fileID: 5202223809410743026}
   - component: {fileID: 6632081174666064729}
   - component: {fileID: 4237191242650920002}
+  - component: {fileID: 418121040}
+  - component: {fileID: 418121041}
   m_Layer: 11
   m_Name: SerpentPart
   m_TagString: Untagged
@@ -1044,6 +1178,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+--- !u!114 &418121040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809410743028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &418121041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809410743028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223809458673488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1258,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
-  damagableBodyParts: []
+  damagableBodyParts:
+  - {fileID: 4237191242650920002}
+  - {fileID: 2657210793306725599}
+  - {fileID: 201829419272046182}
+  - {fileID: 4490329689827520382}
+  - {fileID: 900414417676669435}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -1103,6 +1273,7 @@ MonoBehaviour:
   minimalAvoidForce: 0
   maximalAvoidForce: 0
   avoidDistanceInfluence: 0
+  recentlyHit: 0
   inControl: 0
   speedToReachPlayer: 7
   speedPatrolingPlayer: 7
@@ -1113,11 +1284,14 @@ MonoBehaviour:
   rangeGoalToPlayer: 6
   steeringRatio: 15
   minAngleDiffToTurn: 5
-  timeBetweenBombDrop: 0.5
+  dashDetectionZone: {x: 6.11, y: 6.44}
+  dashDropCooldown: 3
+  dashDistance: 15
+  dashTime: 0.7
+  dashDroppedBombNumber: 10
   bombDropPos: {fileID: 5202223809162792921}
   bombPrefab: {fileID: 4750336209674375880, guid: b7856d1ac1cdff7448c261bfc5f6350a,
     type: 3}
-  bodyParts: []
 --- !u!50 &5202223809458673484
 Rigidbody2D:
   serializedVersion: 4

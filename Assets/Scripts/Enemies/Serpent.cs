@@ -17,10 +17,12 @@ public class Serpent : Enemy
     [Header("Bomb settings")]
     public Vector2 dashDetectionZone;
     public float dashDropCooldown;
+    public float dashDistance;
+    public float dashTime;
+    public float dashDroppedBombNumber;
     public Transform bombDropPos;
     public GameObject bombPrefab;
-    [Header("Technical settings")]
-    public List<GameObject> bodyParts;
+    //[Header("Technical settings")]
 
     private float timeBeforeNextBombDrop;
     private bool isTooFarFromPlayer;
@@ -30,6 +32,8 @@ public class Serpent : Enemy
     private float targetSpeed;
     private float angleDifferenceToTarget;
     private bool wallAhead;
+    private bool isDashing;
+    private float dashCooldownRemaining;
 
     private Vector2 detectionZoneCenterOffset;
 
@@ -56,13 +60,13 @@ public class Serpent : Enemy
     {
         if (isTooFarFromPlayer)
         {
-            targetPathfindingPosition = GameData.player.transform.position;
+            targetPathfindingPosition = FindNearestSightSpot(5, rangeGoalToPlayer, false);
         }
         else
         {
             targetPathfindingPosition = transform.position;
         }
-        if (provoked)
+        if (provoked && !isDashing)
         {
             wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
             targetSpeed = wallAhead ? slowSpeed : isTooFarFromPlayer ? speedToReachPlayer : speedPatrolingPlayer;
@@ -113,6 +117,11 @@ public class Serpent : Enemy
         {
             provoked = distToPlayer < provocationRange;
         }
+
+        if(dashCooldownRemaining > 0)
+        {
+            dashCooldownRemaining -= Time.fixedDeltaTime;
+        }
     }
 
     protected override void UpdateBehavior()
@@ -126,25 +135,43 @@ public class Serpent : Enemy
         else
         {
             timeBeforeNextBombDrop = dashDropCooldown;
-            //DropBomb();
         }
     }
 
     private void IsPlayerApproaching()
     {
         bool playerIsLeft = Vector2.SignedAngle(currentDirection, GameData.player.transform.position - transform.position) > 0;
-        detectionZoneCenterOffset.x = Mathf.Cos(currentAngle + 90 * (playerIsLeft ? 1 : -1));
-        detectionZoneCenterOffset.y = Mathf.Sin(currentAngle + 90 * (playerIsLeft ? 1 : -1));
+        detectionZoneCenterOffset.x = Mathf.Cos(Mathf.Deg2Rad * (currentAngle + 90 * (playerIsLeft ? 1 : -1)));
+        detectionZoneCenterOffset.y = Mathf.Sin(Mathf.Deg2Rad * (currentAngle + 90 * (playerIsLeft ? 1 : -1)));
         detectionZoneCenterOffset *= dashDetectionZone.y / 2;
-        if (Physics2D.OverlapBox((Vector2)transform.position + detectionZoneCenterOffset, dashDetectionZone, currentAngle))
+        if (!isDashing && dashCooldownRemaining <= 0 && Physics2D.OverlapBox((Vector2)transform.position + detectionZoneCenterOffset, dashDetectionZone, currentAngle, LayerMask.GetMask("Player")))
         {
-
+            dashCooldownRemaining = dashDropCooldown;
+            StartCoroutine(DashDrop());
         }
     }
 
-    private void DropBomb()
+    private IEnumerator DashDrop()
     {
-        Instantiate(bombPrefab, bombDropPos.position, Quaternion.identity);
+        isDashing = true;
+        Vector2 direction = currentDirection;
+        float timer = 0;
+        float timeBewteenBombDrop = dashTime / dashDroppedBombNumber;
+        float timeSinceLastDrop = 0;
+        float speed = dashDistance / dashTime;
+        while(timer < dashTime && inControl)
+        {
+            rb.velocity = direction * speed;
+            if(timeSinceLastDrop > timeBewteenBombDrop)
+            {
+                Instantiate(bombPrefab, bombDropPos.position, Quaternion.identity);
+                timeSinceLastDrop = 0;
+            }
+            yield return new WaitForFixedUpdate();
+            timer += Time.fixedDeltaTime;
+            timeSinceLastDrop += Time.fixedDeltaTime;
+        }
+        isDashing = false;
     }
 
     private void OnDestroy()
@@ -154,16 +181,16 @@ public class Serpent : Enemy
 
     private void OnDrawGizmosSelected()
     {
-        if(Application.isEditor)
+        if(!Application.isPlaying)
         {
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - dashDetectionZone.y / 2), dashDetectionZone);
         }
-        else if(Application.isPlaying)
+        else
         {
             Gizmos.color = Color.magenta;
-            Gizmos.matrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, currentAngle));
-            Gizmos.DrawWireCube((Vector2)transform.position + detectionZoneCenterOffset, dashDetectionZone);
+            Gizmos.matrix = Matrix4x4.TRS((Vector2)transform.position + detectionZoneCenterOffset, Quaternion.Euler(0, 0, currentAngle), Vector3.one);
+            Gizmos.DrawWireCube(Vector3.zero, dashDetectionZone);
         }
     }
 }
