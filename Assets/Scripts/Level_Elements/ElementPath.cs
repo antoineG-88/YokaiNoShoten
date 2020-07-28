@@ -14,8 +14,11 @@ public class ElementPath : MonoBehaviour
     private bool isReturning;
 
     private Vector2 currentDirection;
+    Rigidbody2D rb;
+
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         currentTargetPositon = 1;
         transform.position = pathPositions[0].position;
         currentDirection = pathPositions[1].position - pathPositions[0].position;
@@ -26,12 +29,8 @@ public class ElementPath : MonoBehaviour
     void FixedUpdate()
     {
         UpdateDirection();
-        Move();
     }
-    private void Move()
-    {
-        transform.position += (Vector3)(currentDirection * speed * Time.fixedDeltaTime);
-    }
+
 
     private void UpdateDirection()
     {
@@ -72,9 +71,9 @@ public class ElementPath : MonoBehaviour
 
             currentDirection = pathPositions[currentTargetPositon].position - pathPositions[previousTargetPosition].position;
             currentDirection.Normalize();
-            
+
+
         }
-
-
+        rb.velocity = currentDirection * speed;
     }
 }
