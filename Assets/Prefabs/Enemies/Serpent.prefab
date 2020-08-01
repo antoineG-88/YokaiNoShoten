@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3222167889513680256}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.7535028, y: 6.0261784, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -150,7 +150,11 @@ GameObject:
   - component: {fileID: 5202223808009607645}
   - component: {fileID: 5202223808009607646}
   - component: {fileID: 5202223808009607647}
-  m_Layer: 0
+  - component: {fileID: 8339700414697760770}
+  - component: {fileID: 201829419272046182}
+  - component: {fileID: 836696558}
+  - component: {fileID: 836696559}
+  m_Layer: 11
   m_Name: SerpentPart (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,6 +265,81 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.75
   m_MaxDistanceOnly: 1
+--- !u!60 &8339700414697760770
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808009607456}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.43301272, y: 0.25}
+      - {x: -0.4330127, y: -0.25000003}
+      - {x: 0.000000059604645, y: -0.5}
+      - {x: 0.43301272, y: -0.24999994}
+      - {x: 0.43301272, y: 0.24999994}
+--- !u!114 &201829419272046182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808009607456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adaae50b36da1aa4ba62ec209e39c87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+--- !u!114 &836696558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808009607456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &836696559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808009607456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223808204664181
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +352,11 @@ GameObject:
   - component: {fileID: 5202223808204664178}
   - component: {fileID: 5202223808204664179}
   - component: {fileID: 5202223808204664180}
-  m_Layer: 0
+  - component: {fileID: 8961531821024938565}
+  - component: {fileID: 4490329689827520382}
+  - component: {fileID: 223952418}
+  - component: {fileID: 223952419}
+  m_Layer: 11
   m_Name: SerpentPart (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,6 +467,81 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.75
   m_MaxDistanceOnly: 1
+--- !u!60 &8961531821024938565
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808204664181}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.43301272, y: 0.25}
+      - {x: -0.4330127, y: -0.25000003}
+      - {x: 0.000000059604645, y: -0.5}
+      - {x: 0.43301272, y: -0.24999994}
+      - {x: 0.43301272, y: 0.24999994}
+--- !u!114 &4490329689827520382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808204664181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adaae50b36da1aa4ba62ec209e39c87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+--- !u!114 &223952418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808204664181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &223952419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808204664181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223808570074869
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +554,11 @@ GameObject:
   - component: {fileID: 5202223808570074866}
   - component: {fileID: 5202223808570074867}
   - component: {fileID: 5202223808570074868}
-  m_Layer: 0
+  - component: {fileID: 2596042084023788419}
+  - component: {fileID: 2657210793306725599}
+  - component: {fileID: 1504705926}
+  - component: {fileID: 1504705927}
+  m_Layer: 11
   m_Name: SerpentPart (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,6 +669,81 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.75
   m_MaxDistanceOnly: 1
+--- !u!60 &2596042084023788419
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808570074869}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.43301272, y: 0.25}
+      - {x: -0.4330127, y: -0.25000003}
+      - {x: 0.000000059604645, y: -0.5}
+      - {x: 0.43301272, y: -0.24999994}
+      - {x: 0.43301272, y: 0.24999994}
+--- !u!114 &2657210793306725599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808570074869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adaae50b36da1aa4ba62ec209e39c87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+--- !u!114 &1504705926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808570074869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &1504705927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223808570074869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223809162792924
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +755,11 @@ GameObject:
   - component: {fileID: 5202223809162792921}
   - component: {fileID: 5202223809162792922}
   - component: {fileID: 5202223809162792923}
-  m_Layer: 0
+  - component: {fileID: 1489588986947605285}
+  - component: {fileID: 900414417676669435}
+  - component: {fileID: 1623701803}
+  - component: {fileID: 1623701804}
+  m_Layer: 11
   m_Name: SerpentPart (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,6 +851,81 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!60 &1489588986947605285
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.43301272, y: 0.25}
+      - {x: -0.4330127, y: -0.25000003}
+      - {x: 0.000000059604645, y: -0.5}
+      - {x: 0.43301272, y: -0.24999994}
+      - {x: 0.43301272, y: 0.24999994}
+--- !u!114 &900414417676669435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adaae50b36da1aa4ba62ec209e39c87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+--- !u!114 &1623701803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &1623701804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223809268101721
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +1019,11 @@ GameObject:
   - component: {fileID: 5202223809410743025}
   - component: {fileID: 5202223809410743027}
   - component: {fileID: 5202223809410743026}
-  m_Layer: 0
+  - component: {fileID: 6632081174666064729}
+  - component: {fileID: 4237191242650920002}
+  - component: {fileID: 418121040}
+  - component: {fileID: 418121041}
+  m_Layer: 11
   m_Name: SerpentPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,6 +1134,81 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 1
   m_Distance: 0.75
   m_MaxDistanceOnly: 1
+--- !u!60 &6632081174666064729
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809410743028}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.43301272, y: 0.25}
+      - {x: -0.4330127, y: -0.25000003}
+      - {x: 0.000000059604645, y: -0.5}
+      - {x: 0.43301272, y: -0.24999994}
+      - {x: 0.43301272, y: 0.24999994}
+--- !u!114 &4237191242650920002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809410743028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adaae50b36da1aa4ba62ec209e39c87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+--- !u!114 &418121040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809410743028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
+--- !u!114 &418121041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809410743028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d746a0a2e5bf4cbf68a39d9c92d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  protections:
+  - angle: -90
+    width: 180
+    type: 1
+  counterAttackDamage: 1
+  counterAttackknockbackForce: 2
 --- !u!1 &5202223809458673488
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +1257,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b0471b4ae5b354786e7523b3d581b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoint: 10
+  maxHealthPoint: 1
+  damagableBodyParts:
+  - {fileID: 4237191242650920002}
+  - {fileID: 2657210793306725599}
+  - {fileID: 201829419272046182}
+  - {fileID: 4490329689827520382}
+  - {fileID: 900414417676669435}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -872,20 +1273,25 @@ MonoBehaviour:
   minimalAvoidForce: 0
   maximalAvoidForce: 0
   avoidDistanceInfluence: 0
+  recentlyHit: 0
   inControl: 0
-  speedToReachPlayer: 10
-  speedPatrolingPlayer: 10
+  speedToReachPlayer: 7
+  speedPatrolingPlayer: 7
   accelerationForce: 50
-  slowingWallDistance: 2
-  slowSpeed: 10
+  wallDetectionDistance: 3
+  slowSpeed: 6
   provocationRange: 30
-  rangeGoalToPlayer: 4
+  rangeGoalToPlayer: 6
   steeringRatio: 15
   minAngleDiffToTurn: 5
-  timeBetweenBombDrop: 0.5
+  dashDetectionZone: {x: 6.11, y: 6.44}
+  dashDropCooldown: 3
+  dashDistance: 15
+  dashTime: 0.7
+  dashDroppedBombNumber: 10
+  bombDropPos: {fileID: 5202223809162792921}
   bombPrefab: {fileID: 4750336209674375880, guid: b7856d1ac1cdff7448c261bfc5f6350a,
     type: 3}
-  bodyParts: []
 --- !u!50 &5202223809458673484
 Rigidbody2D:
   serializedVersion: 4

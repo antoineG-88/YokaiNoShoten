@@ -15,7 +15,7 @@ public class MovingPlatform : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         Physics2D.OverlapCollider(groundChangeCollider, playerfilter, playerCollider);
         if (playerCollider.Count > 0)

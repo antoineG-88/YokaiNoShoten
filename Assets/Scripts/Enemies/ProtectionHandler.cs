@@ -8,7 +8,7 @@ public class ProtectionHandler : MonoBehaviour
     public int counterAttackDamage;
     public float counterAttackknockbackForce;
 
-    public enum ProtectionType {Repulse, Counter, Antigrab};
+    public enum ProtectionType { Repulse, Counter }
 
     private ContactFilter2D playerFilter = new ContactFilter2D();
 
@@ -18,7 +18,7 @@ public class ProtectionHandler : MonoBehaviour
         playerFilter.useTriggers = true;
     }
 
-    public bool TestProtection(Vector2 attackDirection)
+    public bool IsProtected(Vector2 attackDirection)
     {
         float attackAngle = Vector2.SignedAngle(Vector2.right, attackDirection);
         Protection protectionTouched = null;
@@ -45,9 +45,6 @@ public class ProtectionHandler : MonoBehaviour
                     GameData.movementHandler.Propel(-attackDirection * counterAttackknockbackForce, true);
                     StartCoroutine(GameData.playerManager.NoControl(0.5f));
                     break;
-
-                case ProtectionType.Antigrab:
-                    break;
             }
         }
 
@@ -56,6 +53,7 @@ public class ProtectionHandler : MonoBehaviour
 
     private void CounterAttack(Vector2 attackDirection)
     {
+        GameData.dashHandler.isDashing = false;
         GameData.playerManager.LoseSpiritParts(counterAttackDamage, attackDirection * counterAttackknockbackForce);
         StartCoroutine(GameData.playerManager.NoControl(0.5f));
     }
