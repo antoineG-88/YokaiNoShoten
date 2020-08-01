@@ -192,6 +192,7 @@ public class GrappleHandler : MonoBehaviour
                         selectedRing = selectedObject.GetComponent<Ring>();
                         if(selectedRing != null)
                         {
+                            selectedRing.AttachReaction();
                             if(selectedRing.attachable == true)
                             {
                                 AttachHook(selectedObject);
@@ -228,6 +229,10 @@ public class GrappleHandler : MonoBehaviour
             {
                 ringHighLighterO.SetActive(false);
             }
+        }
+        else
+        {
+            ringHighLighterO.SetActive(false);
         }
     }
 

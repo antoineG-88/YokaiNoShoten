@@ -89,7 +89,7 @@ public class Wasp : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
+        provoked = distToPlayer < provocationRange;
         pathNeedUpdate = false;
         if (provoked && inControl)
         {
@@ -148,7 +148,8 @@ public class Wasp : Enemy
         }
         else
         {
-            provoked = distToPlayer < provocationRange;
+            targetPathfindingPosition = initialPos;
+            destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
         }
     }
 

@@ -47,4 +47,8 @@ public class TemporaryRing : Ring
         
     }
 
+    public override void AttachReaction()
+    {
+
+    }
 }

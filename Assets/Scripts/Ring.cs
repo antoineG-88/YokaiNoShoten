@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ring : MonoBehaviour
+public abstract class Ring : MonoBehaviour
 {
     [HideInInspector]
     public bool attachable;
@@ -12,4 +12,5 @@ public class Ring : MonoBehaviour
         attachable = true;
     }
 
+    public abstract void AttachReaction();
 }

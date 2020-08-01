@@ -7,6 +7,8 @@ public class ElementPath : MonoBehaviour
     public Transform[] pathPositions;
     public float speed;
     public bool isBackAndForth;
+    public bool endLoopByTp;
+    [Range(0.0f, 100.0f)] public float startProgression;
     public float pauseTime;
 
     private int currentTargetPositon;
@@ -14,15 +16,72 @@ public class ElementPath : MonoBehaviour
     private bool isReturning;
 
     private Vector2 currentDirection;
+    private Vector2[] pathVectors;
+    private float pathLength;
     Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentTargetPositon = 1;
-        transform.position = pathPositions[0].position;
-        currentDirection = pathPositions[1].position - pathPositions[0].position;
-        currentDirection.Normalize();
+        pathVectors = new Vector2[pathPositions.Length];
+        pathLength = 0;
+        for (int i = 0; i < pathVectors.Length; i++)
+        {
+            if(i < pathVectors.Length - 1)
+            {
+                pathVectors[i] = pathPositions[i+1].position - pathPositions[i].position;
+
+                if (isBackAndForth || endLoopByTp)
+                {
+                    pathLength += pathVectors[i].magnitude;
+                }
+            }
+            else
+            {
+                pathVectors[i] = pathPositions[0].position - pathPositions[i].position;
+            }
+
+            if(!isBackAndForth && !endLoopByTp)
+            {
+                pathLength += pathVectors[i].magnitude;
+            }
+            else if(isBackAndForth)
+            {
+                pathLength *= 2;
+            }
+        }
+
+        if(startProgression != 0 && startProgression != 100 && !isBackAndForth)
+        {
+            float startDistance = startProgression / 100 * pathLength;
+            float distance = 0;
+            if (!isBackAndForth)
+            {
+                int i = 0;
+                while (distance != startDistance && i < pathPositions.Length)
+                {
+                    if (distance + pathVectors[i].magnitude < startDistance)
+                    {
+                        distance += pathVectors[i].magnitude;
+                    }
+                    else
+                    {
+                        transform.position = Vector2.Lerp(pathPositions[i].position, pathPositions[i + 1 < pathPositions.Length ? i + 1 : 0].position, (startDistance - distance) / pathVectors[i].magnitude);
+                        currentDirection = pathVectors[i].normalized;
+                        currentTargetPositon = i + 1 < pathPositions.Length ? i + 1 : 0;
+                        distance = startDistance;
+                    }
+                    i++;
+                }
+            }
+        }
+        else
+        {
+            currentTargetPositon = 1;
+            transform.position = pathPositions[0].position;
+            currentDirection = pathPositions[1].position - pathPositions[0].position;
+            currentDirection.Normalize();
+        }
     }
 
 
@@ -53,7 +112,16 @@ public class ElementPath : MonoBehaviour
             {
                 if(isBackAndForth == false)
                 {
-                    currentTargetPositon = 0;
+                    if(endLoopByTp)
+                    {
+                        currentTargetPositon = 1;
+                        previousTargetPosition = 0;
+                        transform.position = pathPositions[0].position;
+                    }
+                    else
+                    {
+                        currentTargetPositon = 0;
+                    }
                 }
                 else
                 {

@@ -36,6 +36,7 @@ public abstract class Enemy : MonoBehaviour
     protected float distToPlayer;
 
     protected bool provoked;
+    protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
 
     protected Animator animator;
@@ -49,6 +50,7 @@ public abstract class Enemy : MonoBehaviour
         currentHealthPoint = maxHealthPoint;
         pathEndReached = false;
         provoked = false;
+        initialPos = transform.position;
         targetPathfindingPosition = transform.position;
         inControl = true;
         pathPositions = new List<Vector3>();

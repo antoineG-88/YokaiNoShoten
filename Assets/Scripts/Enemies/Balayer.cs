@@ -67,26 +67,23 @@ public class Balayer : Enemy
 
     public override void UpdateMovement()
     {
-        if(provoked)
+        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
         {
-            if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
+            Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
+
+            rb.velocity += force * Time.fixedDeltaTime;
+
+            if (rb.velocity.magnitude > maxSpeed)
             {
-                Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
-
-                rb.velocity += force * Time.fixedDeltaTime;
-
-                if (rb.velocity.magnitude > maxSpeed)
-                {
-                    rb.velocity = rb.velocity.normalized * maxSpeed;
-                }
+                rb.velocity = rb.velocity.normalized * maxSpeed;
             }
-            else if (destinationReached)
+        }
+        else if (destinationReached)
+        {
+            rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
+            if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
             {
-                rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
-                if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
-                {
-                    rb.velocity = Vector2.zero;
-                }
+                rb.velocity = Vector2.zero;
             }
         }
     }
@@ -98,6 +95,7 @@ public class Balayer : Enemy
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
         destinationReached = distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth && playerInSight;
+        provoked = distToPlayer < provocationRange;
         if (provoked)
         {
             if (!destinationReached && !isShooting)
@@ -140,7 +138,8 @@ public class Balayer : Enemy
         }
         else
         {
-            provoked = distToPlayer < provocationRange;
+            targetPathfindingPosition = initialPos;
+            destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
         }
 
 

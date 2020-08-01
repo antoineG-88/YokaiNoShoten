@@ -53,25 +53,16 @@ public class Serpent : Enemy
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        IsPlayerApproaching();
     }
 
     public override void UpdateMovement()
     {
-        if (isTooFarFromPlayer)
-        {
-            targetPathfindingPosition = FindNearestSightSpot(5, rangeGoalToPlayer, false);
-        }
-        else
-        {
-            targetPathfindingPosition = transform.position;
-        }
-        if (provoked && !isDashing)
+        if (!isDashing)
         {
             wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
             targetSpeed = wallAhead ? slowSpeed : isTooFarFromPlayer ? speedToReachPlayer : speedPatrolingPlayer;
 
-            if(!inControl)
+            if (!inControl)
             {
                 currentSpeed = rb.velocity.magnitude;
                 currentDirection = rb.velocity.normalized;
@@ -82,7 +73,7 @@ public class Serpent : Enemy
             {
                 currentSpeed = targetSpeed;
             }
-            else if(currentSpeed < targetSpeed)
+            else if (currentSpeed < targetSpeed)
             {
                 currentSpeed += accelerationForce * Time.fixedDeltaTime;
             }
@@ -95,13 +86,13 @@ public class Serpent : Enemy
             if (targetPathfindingPosition != (Vector2)transform.position)
             {
                 angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, GetPathNextPosition(2) - (Vector2)transform.position);
-                if(Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
+                if (Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
                 {
                     currentAngle += Mathf.Sign(angleDifferenceToTarget) * steeringRatio * currentSpeed * Time.fixedDeltaTime;
                     currentDirection = DirectionFromAngle(currentAngle);
                 }
             }
-            else if(wallAhead)
+            else if (wallAhead)
             {
                 RaycastHit2D leftHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle + 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
                 RaycastHit2D rightHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle - 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
@@ -113,22 +104,38 @@ public class Serpent : Enemy
             rb.velocity = currentDirection * currentSpeed;
             transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
         }
-        else
-        {
-            provoked = distToPlayer < provocationRange;
-        }
 
-        if(dashCooldownRemaining > 0)
-        {
-            dashCooldownRemaining -= Time.fixedDeltaTime;
-        }
     }
 
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
+        IsPlayerApproaching();
         isTooFarFromPlayer = distToPlayer > rangeGoalToPlayer;
-        if(timeBeforeNextBombDrop > 0)
+        provoked = distToPlayer < provocationRange;
+
+        if (provoked)
+        {
+            if (isTooFarFromPlayer)
+            {
+                targetPathfindingPosition = FindNearestSightSpot(5, rangeGoalToPlayer, false);
+            }
+            else
+            {
+                targetPathfindingPosition = transform.position;
+            }
+        }
+        else
+        {
+            targetPathfindingPosition = initialPos;
+        }
+
+        if (dashCooldownRemaining > 0)
+        {
+            dashCooldownRemaining -= Time.fixedDeltaTime;
+        }
+
+        if (timeBeforeNextBombDrop > 0)
         {
             timeBeforeNextBombDrop -= Time.deltaTime;
         }
