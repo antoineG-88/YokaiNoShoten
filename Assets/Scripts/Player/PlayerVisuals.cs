@@ -60,25 +60,21 @@ public class PlayerVisuals : MonoBehaviour
 
         animator.SetBool("IsFacingRight", facingRight);
 
-        /*animator.SetBool("IsKicking", isKicking > 0 ? true : false);
-        if (isKicking > 0)
+        animator.SetBool("IsHurt", isHurt > 0 ? true : false);
+        if (isHurt > 0)
         {
-            isKicking--;
+            isHurt--;
         }
 
-        animator.SetBool("IsCastingPower", isCastingPower > 0 ? true : false);
+        animator.SetBool("IsKicking", GameData.dashHandler.isDashing);
+
+        /*animator.SetBool("IsCastingPower", isCastingPower > 0 ? true : false);
         if (isCastingPower > 0)
         {
             isCastingPower--;
         }
 
         animator.SetBool("IsSlaming", isSlaming);
-
-        animator.SetBool("IsHurt", isHurt > 0 ? true : false);
-        if (isHurt > 0)
-        {
-            isHurt--;
-        }
 
         animator.SetBool("IsDying", GameData.playerManager.isDead);*/
     }

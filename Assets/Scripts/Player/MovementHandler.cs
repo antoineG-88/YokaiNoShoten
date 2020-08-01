@@ -21,18 +21,21 @@ public class MovementHandler : MonoBehaviour
     private float horizontalForce;
     private float forceSign;
     [HideInInspector] public bool isGrounded;
-    [HideInInspector] public bool inControl;
+    [HideInInspector] public bool canMove;
     [HideInInspector] public bool isAffectedbyGravity;
 
     [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D groundRb;
     private ContactFilter2D groundFilter;
+    private Vector2 relativeVelocity;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
         groundFilter.SetLayerMask(LayerMask.GetMask("Wall"));
         groundFilter.useTriggers = true;
-        inControl = true;
+        canMove = true;
         isAffectedbyGravity = true;
     }
 
@@ -49,7 +52,7 @@ public class MovementHandler : MonoBehaviour
 
     private void GetInputs()
     {
-        horizontalTargetSpeed = Input.GetAxis("LeftStickH") * walkingMaxSpeed;
+        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? Input.GetAxis("LeftStickH") * walkingMaxSpeed : 0;
         if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
         {
             horizontalTargetSpeed = 0;
@@ -58,18 +61,24 @@ public class MovementHandler : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if (horizontalTargetSpeed != rb.velocity.x)
+        if(groundRb != null)
+        {
+            relativeVelocity = rb.velocity - groundRb.velocity;
+        }
+        else
+        {
+            relativeVelocity = rb.velocity;
+        }
+
+        if (horizontalTargetSpeed != relativeVelocity.x)
         {
             currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
             currentSlowing = isGrounded ? groundSlowing : airSlowing;
 
-            forceSign = Mathf.Sign(horizontalTargetSpeed - rb.velocity.x);
-            if (horizontalTargetSpeed > 0 && rb.velocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && rb.velocity.x > horizontalTargetSpeed)
+            forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
+            if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
             {
-                if (inControl)
-                {
-                    horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
-                }
+                horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
             }
             else
             {
@@ -77,14 +86,18 @@ public class MovementHandler : MonoBehaviour
             }
 
 
-            if (horizontalTargetSpeed > rb.velocity.x && horizontalTargetSpeed < rb.velocity.x + horizontalForce || horizontalTargetSpeed < rb.velocity.x && horizontalTargetSpeed > rb.velocity.x + horizontalForce)
+            if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
             {
-                rb.velocity = new Vector2(horizontalTargetSpeed, rb.velocity.y);
+                rb.velocity = new Vector2((groundRb != null ? groundRb.velocity.x : 0) + horizontalTargetSpeed, rb.velocity.y);
             }
             else
             {
                 rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
             }
+        }
+        else if(groundRb != null)
+        {
+            rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
         }
 
         if (isAffectedbyGravity)
@@ -102,5 +115,17 @@ public class MovementHandler : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void Propel(Vector2 directedForce, bool resetMomentum)
+    {
+        if(resetMomentum)
+        {
+            rb.velocity = directedForce;
+        }
+        else
+        {
+            rb.velocity += directedForce;
+        }
     }
 }

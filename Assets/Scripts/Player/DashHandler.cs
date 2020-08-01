@@ -64,9 +64,8 @@ public class DashHandler : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        GameData.movementHandler.inControl = false;
         isDashing = true;
-        canDash = false;
+        //canDash = false;
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
         bool hitAnEnemy = false;
@@ -78,10 +77,11 @@ public class DashHandler : MonoBehaviour
         Vector2 previousDashPos = transform.position;
         float currentDashSpeed;
         GameData.grappleHandler.ReleaseHook();
+        GameData.movementHandler.canMove = false;
         hitAnEnemy = Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
-        while(dashTimeElapsed < dashTime)
+        while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
         {
             dashTimeElapsed += Time.fixedDeltaTime;
             Instantiate(shadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(startDashDirection.x > 0 ? 1 : -1, 1, 1);
@@ -103,10 +103,10 @@ public class DashHandler : MonoBehaviour
 
         rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
 
-        GameData.movementHandler.inControl = true;
+        GameData.movementHandler.canMove = true;
         GameData.movementHandler.isAffectedbyGravity = true;
         isDashing = false;
-        if(hitAnEnemy)
+        if(hitAnEnemy && GameData.playerManager.inControl)
         {
             StartCoroutine(SlowMoDash());
         }
@@ -124,7 +124,22 @@ public class DashHandler : MonoBehaviour
             foreach(Collider2D collider in colliders)
             {
                 Enemy enemy = collider.GetComponent<Enemy>();
-                enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce);
+                if(enemy != null)
+                {
+                    enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f, false);
+                }
+                else
+                {
+                    BodyPart bodyPart = collider.GetComponent<BodyPart>();
+                    if(bodyPart != null)
+                    {
+                        bodyPart.ReceiveDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f);
+                    }
+                    else
+                    {
+                        Debug.LogWarning(gameObject + " named : " + gameObject.name + " is on the enemy layer but do not have any enemy script attached");
+                    }
+                }
             }
             canDash = hitResetDash ? true : canDash;
             hasHit = true;
