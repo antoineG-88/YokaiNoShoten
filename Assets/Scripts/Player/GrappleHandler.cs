@@ -325,8 +325,8 @@ public class GrappleHandler : MonoBehaviour
                 rb.velocity *= velocityKeptReleasingHook / 100;
             }
 
-            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall"));
-            if (ringHit && LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall")
+            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall", "AntiGrabWall"));
+            if (ringHit && (LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall" || LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "AntiGrabWal"))
             {
                 BreakRope("hit a wall");
                 rb.velocity *= velocityKeptReleasingHook / 100;

@@ -144,4 +144,13 @@ public class ElementPath : MonoBehaviour
         }
         rb.velocity = currentDirection * speed;
     }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = 0; i < pathPositions.Length; i++)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(pathPositions[i].position, pathPositions[i < pathPositions.Length - 1 ? i + 1 : 0].position);
+        }
+    }
 }
