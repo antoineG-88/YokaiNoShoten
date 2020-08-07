@@ -56,7 +56,7 @@ public class Wasp : Enemy
     new void FixedUpdate()
     {
         base.FixedUpdate();
-        UpdateShield();
+        //UpdateShield();
     }
 
     public override void UpdateMovement()

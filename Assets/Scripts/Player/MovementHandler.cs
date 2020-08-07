@@ -105,7 +105,7 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
         }
 
-        if (isGrounded && isOnSlope && rb.velocity.magnitude > maxSlidingSpeed)
+        if (isGrounded && isOnSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
         }

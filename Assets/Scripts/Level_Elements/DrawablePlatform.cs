@@ -32,23 +32,29 @@ public class DrawablePlatform : MonoBehaviour
             rb.velocity = Vector2.zero;
             
         }
+
         if (Vector2.Distance(transform.position, leftPosition.position) < 0.1f * speed && leftRing.moveLeft == true)
         {
             transform.position = leftPosition.position;
             leftRing.moveLeft = false;
             rb.velocity = Vector2.zero;
         }
+
         if (rightRing.moveRight == true)
         {
             currentDirection = rightPosition.position - leftPosition.position;
             currentDirection.Normalize();
             rb.velocity = currentDirection * speed;
         }
-        if (leftRing.moveLeft == true)
+        else if (leftRing.moveLeft == true)
         {
             currentDirection = leftPosition.position - rightPosition.position;
             currentDirection.Normalize();
             rb.velocity = currentDirection * speed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
         }
 
     }
