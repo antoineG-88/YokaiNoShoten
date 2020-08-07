@@ -11,12 +11,13 @@ public class Sqwasher : MonoBehaviour
     public float timerUp;
     public float timerWait;
     private float timer;
+    ContactFilter2D wallFilter;
     void Start()
     {
         timer = 0;
+        wallFilter.SetLayerMask(LayerMask.GetMask("wall"));
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
@@ -27,7 +28,7 @@ public class Sqwasher : MonoBehaviour
         }
         else if (timer < timerDown + timerWait)
         {
-
+            timer = 0;
         }
         else
         {
@@ -38,8 +39,6 @@ public class Sqwasher : MonoBehaviour
         {
             timer = 0;
         }
-
-
     }
     private void MoveUp()
     {
@@ -49,5 +48,9 @@ public class Sqwasher : MonoBehaviour
     private void MoveDown()
     {
         transform.position -= (Vector3)(direction * downSpeed * Time.fixedDeltaTime);
+    }
+    private void TouchGround()
+    {
+      
     }
 }
