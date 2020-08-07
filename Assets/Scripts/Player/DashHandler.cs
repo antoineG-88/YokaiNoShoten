@@ -68,7 +68,7 @@ public class DashHandler : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
-        //canDash = false;
+        canDash = false;
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
         bool hitAnEnemy = false;
