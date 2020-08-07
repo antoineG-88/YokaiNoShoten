@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
+  damagableBodyParts: []
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -140,10 +141,11 @@ MonoBehaviour:
   minimalAvoidForce: 5
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
+  recentlyHit: 0
   inControl: 0
   maxSpeed: 6
   accelerationForce: 25
-  provocationRange: 20
+  provocationRange: 10
   safeDistanceToPlayer: 5
   safeDistanceWidth: 0.3
   rushCooldown: 3
@@ -274,7 +276,7 @@ MonoBehaviour:
   shields:
   - angle: 0
     width: 180
-    displayO: {fileID: 0}
+    displayO: {fileID: 2140851512}
 --- !u!1 &763350509277404791
 GameObject:
   m_ObjectHideFlags: 0

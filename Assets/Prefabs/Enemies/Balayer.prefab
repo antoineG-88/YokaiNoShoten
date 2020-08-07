@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae2cf94ee176ac4183916a25739bbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoint: 2
+  maxHealthPoint: 1
+  damagableBodyParts: []
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -59,12 +60,13 @@ MonoBehaviour:
   minimalAvoidForce: 5
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
+  recentlyHit: 0
   inControl: 0
   maxSpeed: 8
   accelerationForce: 25
   safeDistance: 8
   safeDistanceWidth: 3
-  provocationRange: 30
+  provocationRange: 13
   beamDamage: 2
   beamKnockback: 5
   aimTime: 0
