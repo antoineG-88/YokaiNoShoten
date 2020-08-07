@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Ventilator2000 : MonoBehaviour
 {
-    [SerializeField] float overlapRange;
+    public float overlapRange;
     ContactFilter2D playerFilter;
     List<Collider2D> playerCollider = new List<Collider2D>();
-    [SerializeField] float aspirationForce;
+    public float aspirationForce;
     private Vector2 playerDirection;
-    [SerializeField] float dragForce;
-    [SerializeField] float dragPower;
+    public float dragForce;
+    public float dragPower;
     void Start()
     {
         playerFilter.SetLayerMask(LayerMask.GetMask ("Player"));

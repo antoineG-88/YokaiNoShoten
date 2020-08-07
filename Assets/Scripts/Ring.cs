@@ -7,7 +7,7 @@ public abstract class Ring : MonoBehaviour
     [HideInInspector]
     public bool attachable;
 
-    void Start()
+    public void Start()
     {
         attachable = true;
     }
