@@ -8,9 +8,12 @@ public class MovementHandler : MonoBehaviour
     public float walkingMinSpeed;
     public float walkingAcceleration;
     public float airAcceleration;
+    public float slideAcceleration;
     public float groundSlowing;
     public float airSlowing;
+    public float slideSlowing;
     public float gravityForce;
+    public float maxSlidingSpeed;
     [Space]
     [Header("References")]
     public Collider2D feetCollider;
@@ -21,6 +24,7 @@ public class MovementHandler : MonoBehaviour
     private float horizontalForce;
     private float forceSign;
     [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool isOnSlope;
     [HideInInspector] public bool canMove;
     [HideInInspector] public bool isAffectedbyGravity;
 
@@ -47,6 +51,7 @@ public class MovementHandler : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = IsOnGround();
+        isOnSlope = IsOnSlope();
         UpdateMovement();
     }
 
@@ -72,8 +77,8 @@ public class MovementHandler : MonoBehaviour
 
         if (horizontalTargetSpeed != relativeVelocity.x)
         {
-            currentAcceleration = isGrounded ? walkingAcceleration : airAcceleration;
-            currentSlowing = isGrounded ? groundSlowing : airSlowing;
+            currentAcceleration = isGrounded ? isOnSlope ? slideAcceleration : walkingAcceleration : airAcceleration;
+            currentSlowing = isGrounded ? isOnSlope ? slideSlowing : groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
             if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
@@ -100,6 +105,11 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
         }
 
+        if (isGrounded && isOnSlope && rb.velocity.magnitude > maxSlidingSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
+        }
+
         if (isAffectedbyGravity)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
@@ -111,6 +121,16 @@ public class MovementHandler : MonoBehaviour
         List<Collider2D> colliders = new List<Collider2D>();
         Physics2D.OverlapCollider(feetCollider, groundFilter, colliders);
         if(colliders.Count > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsOnSlope()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(feetCollider.transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Wall"));
+        if(hit && Vector2.Angle(Vector2.up,hit.normal) > 30)
         {
             return true;
         }
