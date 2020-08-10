@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerVisuals : MonoBehaviour
 {
     [HideInInspector] public bool facingRight;
-    [HideInInspector] public int isHurt;
 
     [HideInInspector] public Animator animator;
     private bool transformFacingRight;
@@ -52,30 +51,19 @@ public class PlayerVisuals : MonoBehaviour
 
         animator.SetFloat("VerticalSpeed", GameData.movementHandler.rb.velocity.y);
 
-        animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
+        animator.SetFloat("HorizontalSpeed", GameData.movementHandler.rb.velocity.x);
 
-        //animator.SetBool("IsDashing", GameData.playerMovement.isDashing);
+        animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
 
         animator.SetBool("IsInTheAir", !GameData.movementHandler.isGrounded);
 
         animator.SetBool("IsFacingRight", facingRight);
 
-        animator.SetBool("IsHurt", isHurt > 0 ? true : false);
-        if (isHurt > 0)
-        {
-            isHurt--;
-        }
-
         animator.SetBool("IsKicking", GameData.dashHandler.isDashing);
+    }
 
-        /*animator.SetBool("IsCastingPower", isCastingPower > 0 ? true : false);
-        if (isCastingPower > 0)
-        {
-            isCastingPower--;
-        }
-
-        animator.SetBool("IsSlaming", isSlaming);
-
-        animator.SetBool("IsDying", GameData.playerManager.isDead);*/
+    public void TriggerHurt()
+    {
+        animator.SetTrigger("Hurt");
     }
 }

@@ -26,6 +26,10 @@ public class GameData : MonoBehaviour
         playerManager = player.GetComponent<PlayerManager>();
         slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
+    }
+
+    private void Start()
+    {
         gridGraph = (GridGraph)AstarData.active.graphs[0];
     }
 }

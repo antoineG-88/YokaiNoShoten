@@ -61,7 +61,7 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log("You died");
             }
             GameData.grappleHandler.BreakRope("Took Damage");
-            GameData.playerVisuals.isHurt = 5;
+            GameData.playerVisuals.TriggerHurt(); // Animation dégat lancé
             GameData.movementHandler.Propel(knockBackDirectedForce, false);
             StartCoroutine(NoControl(stunTime));
         }
