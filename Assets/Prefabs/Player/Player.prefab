@@ -226,12 +226,16 @@ MonoBehaviour:
   walkingMinSpeed: 1
   walkingAcceleration: 70
   airAcceleration: 25
+  slideAcceleration: 5
   groundSlowing: 50
   airSlowing: 0
+  slideSlowing: 0
   gravityForce: 20
+  maxSlidingSpeed: 10
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
+  isOnSlope: 0
   canMove: 0
   isAffectedbyGravity: 0
   rb: {fileID: 0}
