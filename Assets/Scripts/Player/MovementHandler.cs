@@ -51,7 +51,14 @@ public class MovementHandler : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = IsOnGround();
-        isOnSlope = IsOnSlope();
+        if(isGrounded)
+        {
+            isOnSlope = IsOnSlope();
+        }
+        else
+        {
+            isOnSlope = false;
+        }
         UpdateMovement();
     }
 
@@ -130,7 +137,7 @@ public class MovementHandler : MonoBehaviour
     private bool IsOnSlope()
     {
         RaycastHit2D hit = Physics2D.Raycast(feetCollider.transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Wall"));
-        if(hit && Vector2.Angle(Vector2.up,hit.normal) > 30)
+        if (hit && Vector2.Angle(Vector2.up, hit.normal) > 30)
         {
             return true;
         }

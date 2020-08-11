@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class PlayerManager : MonoBehaviour
     {
         healthText.text = currentSpiritPoint.ToString() + " / " + maxSpiritPoint.ToString();
 
-        if(invulnerableTimeRemaining > 0)
+        if (invulnerableTimeRemaining > 0)
         {
             invulnerableTimeRemaining -= Time.deltaTime;
             invulnerable = true;
@@ -44,9 +45,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (IsPlayerInWall())
+        {
+            Die();
+        }
+    }
+
     public void LoseSpiritParts(int damage, Vector2 knockBackDirectedForce)
     {
-        if(!invulnerable && !GameData.dashHandler.isDashing)
+        if (!invulnerable && !GameData.dashHandler.isDashing)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentSpiritPoint -= damage;
@@ -58,7 +67,7 @@ public class PlayerManager : MonoBehaviour
             spiritParts.Add(newSpiritPart);
             if (currentSpiritPoint <= 0)
             {
-                Debug.Log("You died");
+                Die();
             }
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.TriggerHurt(); // Animation dégat lancé
@@ -74,10 +83,30 @@ public class PlayerManager : MonoBehaviour
         Destroy(part.gameObject);
     }
 
+    public void Die()
+    {
+        Debug.Log("You died");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public IEnumerator NoControl(float time)
     {
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    private bool IsPlayerInWall()
+    {
+        Collider2D collider = Physics2D.OverlapBox(transform.position, Vector2.one * 0.02f, 0, LayerMask.GetMask("Wall"));
+        if (collider != null)
+        {
+            PlatformEffector2D platform = collider.GetComponent<PlatformEffector2D>();
+            if(platform == null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
