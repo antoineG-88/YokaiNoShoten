@@ -95,12 +95,10 @@ public class Balayer : Enemy
         playerInSight = IsPlayerInSightFrom(transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
-        destinationReached = (distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius && Vector2.Distance(targetPathfindingPosition, initialPos) > movementZoneRadius) && playerInSight;
+        destinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius && Vector2.Distance(targetPathfindingPosition, initialPos) > movementZoneRadius)) && playerInSight;
         provoked = distToPlayer < provocationRange;
         if (provoked)
         {
-            isAiming = false;
-            elapsedAimTime = 0;
             potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
             if (potentialTargetPos != (Vector2)transform.position)
             {
@@ -112,7 +110,12 @@ public class Balayer : Enemy
                 canBeInSight = false;
             }
 
-            if (destinationReached)
+            if(!destinationReached)
+            {
+                isAiming = false;
+                elapsedAimTime = 0;
+            }
+            else
             {
                 if(!isShooting && beamCoolDownElapsed > beamCoolDown)
                 {
