@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
   damagableBodyParts: []
+  movementZoneRadius: 3
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -75,6 +76,7 @@ MonoBehaviour:
   beamMaxRotationSpeed: 1
   beamRotationAcceleration: 2
   beamCoolDown: 3
+  maxBeamRange: 20
   beamStartAngleOffset: 20
   beamNoMovementTime: 0.5
   beamEndSlowingTime: 0.5

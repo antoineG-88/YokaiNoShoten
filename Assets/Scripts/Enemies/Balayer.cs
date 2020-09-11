@@ -19,6 +19,7 @@ public class Balayer : Enemy
     public float beamMaxRotationSpeed;
     public float beamRotationAcceleration;
     public float beamCoolDown;
+    public float maxBeamRange;
     public float beamStartAngleOffset;
     public float beamNoMovementTime;
     public float beamEndSlowingTime;
@@ -67,7 +68,7 @@ public class Balayer : Enemy
 
     public override void UpdateMovement()
     {
-        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming && Vector2.Distance(GetPathNextPosition(0),initialPos) <= movementZoneRadius)
+        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming && Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -78,7 +79,7 @@ public class Balayer : Enemy
                 rb.velocity = rb.velocity.normalized * maxSpeed;
             }
         }
-        else if (destinationReached || Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius)
+        else
         {
             rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
             if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
@@ -193,16 +194,16 @@ public class Balayer : Enemy
             }
             shootAngle += currentRotSpeed;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), 100.0f, LayerMask.GetMask("Wall"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
             //Debug.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * 100, Color.red);
 
-            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), 100.0f, LayerMask.GetMask("Player","Wall"));
+            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall"));
             if(playerHit && playerHit.collider.CompareTag("Player"))
             {
                 GameData.playerManager.LoseSpiritParts(beamDamage, DirectionFromAngle(shootAngle) * beamKnockback);
             }
 
-            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : 30;
+            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxBeamRange;
             beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
 
             beamParent.rotation = Quaternion.identity;

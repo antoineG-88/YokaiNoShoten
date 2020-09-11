@@ -312,6 +312,6 @@ public abstract class Enemy : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(initialPos, movementZoneRadius * 2);
+        Gizmos.DrawWireSphere(initialPos, movementZoneRadius);
     }
 }

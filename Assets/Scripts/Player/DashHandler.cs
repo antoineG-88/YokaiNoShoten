@@ -59,10 +59,12 @@ public class DashHandler : MonoBehaviour
         dashDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
         dashDirection.Normalize();
 
-        if (leftTriggerDown && !isDashing && canDash && dashDirection.magnitude != 0)
+        if (leftTriggerDown && !isDashing && canDash)
         {
             StartCoroutine(Dash());
         }
+
+        Debug.DrawRay(transform.position, GameData.grappleHandler.aimDirection * 3);
     }
 
     private IEnumerator Dash()
@@ -74,7 +76,20 @@ public class DashHandler : MonoBehaviour
         bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;
-        Vector2 startDashDirection = dashDirection;
+        Vector2 startDashDirection;
+        if (dashDirection.magnitude != 0)
+        {
+            startDashDirection = dashDirection;
+        }
+        else if(!GameData.grappleHandler.isTracting)
+        {
+            startDashDirection = GameData.grappleHandler.aimDirection;
+        }
+        else
+        {
+            startDashDirection = GameData.grappleHandler.tractionDirection;
+        }
+
         Vector2 dashEndPos = (Vector2)transform.position + startDashDirection * dashDistance;
         Vector2 dashPos = transform.position;
         Vector2 previousDashPos = transform.position;
