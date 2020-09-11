@@ -68,7 +68,7 @@ public class Balayer : Enemy
 
     public override void UpdateMovement()
     {
-        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming && Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)
+        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -95,26 +95,24 @@ public class Balayer : Enemy
         playerInSight = IsPlayerInSightFrom(transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
-        destinationReached = distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth && playerInSight;
+        destinationReached = (distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius && Vector2.Distance(targetPathfindingPosition, initialPos) > movementZoneRadius) && playerInSight;
         provoked = distToPlayer < provocationRange;
         if (provoked)
         {
-            if (!destinationReached && !isShooting)
+            isAiming = false;
+            elapsedAimTime = 0;
+            potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
+            if (potentialTargetPos != (Vector2)transform.position)
             {
-                isAiming = false;
-                elapsedAimTime = 0;
-                potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
-                if(potentialTargetPos != (Vector2)transform.position)
-                {
-                    targetPathfindingPosition = potentialTargetPos;
-                    canBeInSight = true;
-                }
-                else
-                {
-                    canBeInSight = false;
-                }
+                targetPathfindingPosition = potentialTargetPos;
+                canBeInSight = true;
             }
             else
+            {
+                canBeInSight = false;
+            }
+
+            if (destinationReached)
             {
                 if(!isShooting && beamCoolDownElapsed > beamCoolDown)
                 {
