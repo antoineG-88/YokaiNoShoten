@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("General settings")]
     public int maxHealthPoint;
     public List<BodyPart> damagableBodyParts;
+    public float movementZoneRadius;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
     public int waypointAhead;
@@ -306,5 +307,11 @@ public abstract class Enemy : MonoBehaviour
         {
             bodyPart.owner = this;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(initialPos, movementZoneRadius * 2);
     }
 }

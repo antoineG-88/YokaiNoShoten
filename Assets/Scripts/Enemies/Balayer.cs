@@ -67,7 +67,7 @@ public class Balayer : Enemy
 
     public override void UpdateMovement()
     {
-        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
+        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming && Vector2.Distance(GetPathNextPosition(0),initialPos) <= movementZoneRadius)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -78,7 +78,7 @@ public class Balayer : Enemy
                 rb.velocity = rb.velocity.normalized * maxSpeed;
             }
         }
-        else if (destinationReached)
+        else if (destinationReached || Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius)
         {
             rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
             if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
