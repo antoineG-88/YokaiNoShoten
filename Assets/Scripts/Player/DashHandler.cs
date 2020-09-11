@@ -73,6 +73,7 @@ public class DashHandler : MonoBehaviour
         canDash = false;
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
+        GameData.playerVisuals.animator.SetTrigger("DashAttack");
         bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;

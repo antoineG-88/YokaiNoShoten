@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour
                 Die();
             }
             GameData.grappleHandler.BreakRope("Took Damage");
-            GameData.playerVisuals.TriggerHurt(); // Animation dégat lancé
+            GameData.playerVisuals.animator.SetTrigger("Hurt");
             GameData.movementHandler.Propel(knockBackDirectedForce, false);
             StartCoroutine(NoControl(stunTime));
         }

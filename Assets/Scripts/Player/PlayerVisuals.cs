@@ -47,23 +47,9 @@ public class PlayerVisuals : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        animator.SetBool("IsRunning", Mathf.Abs(GameData.movementHandler.horizontalTargetSpeed) != 0 ? true : false);
-
-        animator.SetFloat("VerticalSpeed", GameData.movementHandler.rb.velocity.y);
-
-        animator.SetFloat("HorizontalSpeed", GameData.movementHandler.rb.velocity.x);
-
+        animator.SetFloat("TargetSpeed", GameData.movementHandler.horizontalTargetSpeed);
+        animator.SetFloat("VerticalSpeed", GameData.grappleHandler.rb.velocity.y);
+        animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
-
-        animator.SetBool("IsInTheAir", !GameData.movementHandler.isGrounded);
-
-        animator.SetBool("IsFacingRight", facingRight);
-
-        animator.SetBool("IsKicking", GameData.dashHandler.isDashing);
-    }
-
-    public void TriggerHurt()
-    {
-        animator.SetTrigger("Hurt");
     }
 }
