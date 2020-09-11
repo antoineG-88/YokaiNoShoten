@@ -33,7 +33,7 @@ public class GrappleHandler : MonoBehaviour
     [Header("Debug settings")]
     public bool displayAutoAimRaycast;
 
-    private Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
     private LineRenderer ropeRenderer;
     [HideInInspector] public bool isAiming;

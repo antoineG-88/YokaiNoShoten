@@ -28,6 +28,7 @@ public class DashHandler : MonoBehaviour
     private Rigidbody2D rb;
     private ContactFilter2D enemyFilter;
     private ContactFilter2D attackReactionFilter;
+    private Vector2 defaultDashDirection;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class DashHandler : MonoBehaviour
         attackReactionFilter.SetLayerMask(LayerMask.GetMask("DashInteraction"));
         attackReactionFilter.useTriggers = true;
         enemyFilter.useTriggers = true;
+        defaultDashDirection = Vector2.up;
     }
 
     void Update()
@@ -56,39 +58,42 @@ public class DashHandler : MonoBehaviour
     private void UpdateInputs()
     {
         LeftTriggerUpdate();
+
+        if (GameData.grappleHandler.isTracting)
+        {
+            defaultDashDirection = GameData.grappleHandler.tractionDirection;
+        }
+        else
+        {
+            defaultDashDirection = GameData.grappleHandler.aimDirection;
+        }
+
         dashDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+
+        if (dashDirection.magnitude <= 0.1f)
+        {
+            dashDirection = defaultDashDirection;
+        }
+
         dashDirection.Normalize();
 
         if (leftTriggerDown && !isDashing && canDash)
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Dash(dashDirection));
         }
 
-        Debug.DrawRay(transform.position, GameData.grappleHandler.aimDirection * 3);
     }
 
-    private IEnumerator Dash()
+    private IEnumerator Dash(Vector2 startDashDirection)
     {
         isDashing = true;
         canDash = false;
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
+        GameData.playerVisuals.animator.SetTrigger("DashAttack");
         bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;
-        Vector2 startDashDirection;
-        if (dashDirection.magnitude != 0)
-        {
-            startDashDirection = dashDirection;
-        }
-        else if(!GameData.grappleHandler.isTracting)
-        {
-            startDashDirection = GameData.grappleHandler.aimDirection;
-        }
-        else
-        {
-            startDashDirection = GameData.grappleHandler.tractionDirection;
-        }
 
         Vector2 dashEndPos = (Vector2)transform.position + startDashDirection * dashDistance;
         Vector2 dashPos = transform.position;
