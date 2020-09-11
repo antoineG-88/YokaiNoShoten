@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3535808163316460659}
   - component: {fileID: 3535808163316460656}
   - component: {fileID: 3535808163316460657}
-  m_Layer: 9
+  - component: {fileID: 8880520984597796221}
+  m_Layer: 16
   m_Name: PlateformeTraversable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,3 +129,16 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &8880520984597796221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3535808163316460662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdc3095d0ae24c3498be87433437a523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reactivationDelay: 0.2
