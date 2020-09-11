@@ -37,7 +37,7 @@ public class MovementHandler : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
-        groundFilter.SetLayerMask(LayerMask.GetMask("Wall"));
+        groundFilter.SetLayerMask(LayerMask.GetMask("Wall","DashWall"));
         groundFilter.useTriggers = true;
         canMove = true;
         isAffectedbyGravity = true;
@@ -136,7 +136,7 @@ public class MovementHandler : MonoBehaviour
 
     private bool IsOnSlope()
     {
-        RaycastHit2D hit = Physics2D.Raycast(feetCollider.transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Wall"));
+        RaycastHit2D hit = Physics2D.Raycast(feetCollider.transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Wall", "DashWall"));
         if (hit && Vector2.Angle(Vector2.up, hit.normal) > 30)
         {
             return true;
