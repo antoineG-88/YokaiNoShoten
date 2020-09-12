@@ -132,6 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
   damagableBodyParts: []
+  movementZoneRadius: 0
+  deathAnimClip: {fileID: 7400000, guid: 06b5e03fceb0e9543820e7352039762e, type: 2}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1

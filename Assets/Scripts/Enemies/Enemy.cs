@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     public int maxHealthPoint;
     public List<BodyPart> damagableBodyParts;
     public float movementZoneRadius;
+    public AnimationClip deathAnimClip;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
     public int waypointAhead;
@@ -182,7 +183,7 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine(NoControl(noControlTime));
                 if (currentHealthPoint <= 0)
                 {
-                    Die();
+                    StartCoroutine(Die());
                 }
             }
 
@@ -289,9 +290,11 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void Die()
+    private IEnumerator Die()
     {
-        Destroy(gameObject, 0.1f);
+        animator.SetTrigger("Dead");
+        yield return new WaitForSeconds(deathAnimClip.length);
+        Destroy(gameObject);
     }
 
     public IEnumerator NoControl(float time)
