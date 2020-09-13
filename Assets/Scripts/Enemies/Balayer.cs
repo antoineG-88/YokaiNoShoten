@@ -42,6 +42,8 @@ public class Balayer : Enemy
     private float elapsedAimTime;
     private float beamCoolDownElapsed;
     private Vector2 playerDirection;
+    private bool isFacingRight;
+    private SpriteRenderer sprite;
 
     new void Start()
     {
@@ -54,11 +56,13 @@ public class Balayer : Enemy
         elapsedAimTime = 0;
         beamCoolDownElapsed = 0;
         beamWarningLine.enabled = false;
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     new void Update()
     {
         base.Update();
+        UpdateVisuals();
     }
 
     new void FixedUpdate()
@@ -68,7 +72,11 @@ public class Balayer : Enemy
 
     public override void UpdateMovement()
     {
-        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming && Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)
+        if(!isShooting)
+        {
+            isFacingRight = pathDirection.x > 0;
+        }
+        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -95,24 +103,25 @@ public class Balayer : Enemy
         playerInSight = IsPlayerInSightFrom(transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
-        destinationReached = distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth && playerInSight;
+        destinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius && Vector2.Distance(targetPathfindingPosition, initialPos) > movementZoneRadius)) && playerInSight;
         provoked = distToPlayer < provocationRange;
         if (provoked)
         {
-            if (!destinationReached && !isShooting)
+            potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
+            if (potentialTargetPos != (Vector2)transform.position)
+            {
+                targetPathfindingPosition = potentialTargetPos;
+                canBeInSight = true;
+            }
+            else
+            {
+                canBeInSight = false;
+            }
+
+            if(!destinationReached)
             {
                 isAiming = false;
                 elapsedAimTime = 0;
-                potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
-                if(potentialTargetPos != (Vector2)transform.position)
-                {
-                    targetPathfindingPosition = potentialTargetPos;
-                    canBeInSight = true;
-                }
-                else
-                {
-                    canBeInSight = false;
-                }
             }
             else
             {
@@ -127,11 +136,16 @@ public class Balayer : Enemy
                     else
                     {
                         isAiming = true;
+                        animator.SetInteger("BeamStep", 1);
                         elapsedAimTime += Time.deltaTime;
                     }
                 }
                 else
                 {
+                    if(!isShooting)
+                    {
+                        animator.SetInteger("BeamStep", 0);
+                    }
                     isAiming = false;
                     elapsedAimTime = 0;
                 }
@@ -153,6 +167,7 @@ public class Balayer : Enemy
 
     private IEnumerator ShootBeam()
     {
+        animator.SetInteger("BeamStep", 1);
         elapsedAimTime = 0;
         isShooting = true;
         beamCoolDownElapsed = 0;
@@ -162,6 +177,8 @@ public class Balayer : Enemy
         float shootAngle = Vector2.SignedAngle(Vector2.right, startDirection);
         shootAngle += Random.Range(0, 2) == 0 ? beamStartAngleOffset : -beamStartAngleOffset;
         float currentRotSpeed = 0;
+
+        isFacingRight = startDirection.x > 0;
         yield return new WaitForSeconds(chargeTime);
         bool rotPositive = Vector2.SignedAngle(Vector2.right, playerDirection) - shootAngle > 0;
 
@@ -172,7 +189,8 @@ public class Balayer : Enemy
 
         while (elapsedBeamTime < beamTime)
         {
-            if(elapsedBeamTime > beamTime - beamEndSlowingTime)
+            animator.SetInteger("BeamStep", 2);
+            if (elapsedBeamTime > beamTime - beamEndSlowingTime)
             {
                 if(Mathf.Abs(currentRotSpeed) > 0.01f)
                 {
@@ -193,6 +211,8 @@ public class Balayer : Enemy
                 currentRotSpeed = 0;
             }
             shootAngle += currentRotSpeed;
+
+            transform.rotation = Quaternion.Euler(0, 0, DirectionFromAngle(shootAngle).x < 0 ? Vector2.SignedAngle(new Vector2(-1, 0), DirectionFromAngle(shootAngle)) : Vector2.SignedAngle(new Vector2(1, 0), DirectionFromAngle(shootAngle)));
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
             //Debug.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * 100, Color.red);
@@ -236,6 +256,8 @@ public class Balayer : Enemy
             elapsedBeamTime += Time.fixedDeltaTime;
         }
         isShooting = false;
+        animator.SetInteger("BeamStep", 0);
+        transform.rotation = Quaternion.identity;
 
         for (int i = beamFxs.Count - 1; i >= 0; i--)
         {
@@ -243,5 +265,18 @@ public class Balayer : Enemy
             beamFxs.RemoveAt(i);
         }
         Destroy(beamEnd);
+    }
+
+
+    private void UpdateVisuals()
+    {
+        if (isFacingRight && !sprite.flipX)
+        {
+            sprite.flipX = true;
+        }
+        if (!isFacingRight && sprite.flipX)
+        {
+            sprite.flipX = false;
+        }
     }
 }
