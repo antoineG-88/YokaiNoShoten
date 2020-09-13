@@ -167,7 +167,7 @@ public class Wasp : Enemy
         Vector2 previousRushPos = transform.position;
         float currentRushSpeed;
         bool hasHit = false;
-        transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) + (90 - Vector2.SignedAngle(new Vector2(-1, -1), rushDirection)) * 2);
+        transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
 
         float dashTimeElapsed = 0;
         while (dashTimeElapsed < rushTime)

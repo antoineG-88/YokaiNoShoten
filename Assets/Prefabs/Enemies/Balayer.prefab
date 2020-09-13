@@ -52,6 +52,7 @@ MonoBehaviour:
   maxHealthPoint: 1
   damagableBodyParts: []
   movementZoneRadius: 6
+  deathAnimClip: {fileID: 7400000, guid: 6a458a1d1551e464583f4d1817f7652f, type: 2}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -71,7 +72,7 @@ MonoBehaviour:
   beamDamage: 2
   beamKnockback: 5
   aimTime: 0
-  chargeTime: 0
+  chargeTime: 1
   beamTime: 3
   beamMaxRotationSpeed: 0.5
   beamRotationAcceleration: 2
@@ -259,8 +260,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7d2f865333d29354190456cac7ad98d0, type: 3}
-  m_Color: {r: 0.50980395, g: 0.2688679, b: 1, a: 1}
+  m_Sprite: {fileID: -7793894156786082221, guid: 7463bcb3f263e154aa75666659c0f1fb,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
