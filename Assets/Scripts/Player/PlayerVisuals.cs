@@ -47,7 +47,7 @@ public class PlayerVisuals : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        animator.SetFloat("TargetSpeed", GameData.movementHandler.horizontalTargetSpeed);
+        animator.SetFloat("TargetSpeed", Mathf.Abs(GameData.movementHandler.horizontalTargetSpeed));
         animator.SetFloat("VerticalSpeed", GameData.grappleHandler.rb.velocity.y);
         animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
