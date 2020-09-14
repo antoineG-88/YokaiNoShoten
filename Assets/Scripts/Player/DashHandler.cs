@@ -22,7 +22,7 @@ public class DashHandler : MonoBehaviour
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
     [HideInInspector] public bool isReaiming;
-    private Vector2 dashDirection;
+    [HideInInspector] public Vector2 dashDirection;
     private bool leftTriggerPressed;
     private bool leftTriggerDown;
     private Rigidbody2D rb;
@@ -91,6 +91,7 @@ public class DashHandler : MonoBehaviour
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
+        StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
         bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;

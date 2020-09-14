@@ -76,6 +76,7 @@ public class Balayer : Enemy
         {
             isFacingRight = pathDirection.x > 0;
         }
+
         if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
@@ -212,6 +213,7 @@ public class Balayer : Enemy
             }
             shootAngle += currentRotSpeed;
 
+            isFacingRight = DirectionFromAngle(shootAngle).x > 0;
             transform.rotation = Quaternion.Euler(0, 0, DirectionFromAngle(shootAngle).x < 0 ? Vector2.SignedAngle(new Vector2(-1, 0), DirectionFromAngle(shootAngle)) : Vector2.SignedAngle(new Vector2(1, 0), DirectionFromAngle(shootAngle)));
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));

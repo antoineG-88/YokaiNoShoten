@@ -44,7 +44,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0.045809887, y: -0.464503}
+  m_Offset: {x: 0.06566486, y: -0.39801458}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -55,7 +55,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.40376252, y: 0.057169914}
+  m_Size: {x: 0.31640053, y: 0.053199053}
   m_EdgeRadius: 0
 --- !u!1 &3737249135026604181
 GameObject:
@@ -343,6 +343,7 @@ MonoBehaviour:
   canDash: 0
   isDashing: 0
   isReaiming: 0
+  dashDirection: {x: 0, y: 0}
 --- !u!114 &3737249135459656030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +378,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04629934, y: -0.08822125}
+  m_Offset: {x: 0.06813982, y: 0.042821586}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -388,7 +389,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.41662955, y: 0.7715347}
+  m_Size: {x: 0.3332386, y: 0.89860654}
   m_EdgeRadius: 0
 --- !u!50 &3737249135459656039
 Rigidbody2D:
@@ -601,7 +602,7 @@ Animator:
   m_GameObject: {fileID: 3737249136632389048}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dd5acdaad0b34644399e0cb4877f9f55, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8cba7eac98593d94d84206fe08704c6c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -622,6 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed3a48589072ce4995a7f16e7d06776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashAttackClip: {fileID: 7400000, guid: eedf34cffce06d847b3887a8b17b97e7, type: 2}
   facingRight: 0
   animator: {fileID: 0}
 --- !u!1 &3737249136681705722
