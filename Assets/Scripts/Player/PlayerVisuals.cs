@@ -35,7 +35,6 @@ public class PlayerVisuals : MonoBehaviour
         }
 
         useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated;
-        Debug.Log(isDashRotated);
         if (useCustomRotation)
         {
             if (GameData.grappleHandler.isTracting)
