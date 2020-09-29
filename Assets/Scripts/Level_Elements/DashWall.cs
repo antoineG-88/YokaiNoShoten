@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DashWall : MonoBehaviour
 {
-    [SerializeField] private float disableTime;
+    [SerializeField] private float disableTime = 0;
 
     float playerDistance;
     Collider2D wallCollider;

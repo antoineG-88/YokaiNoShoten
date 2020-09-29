@@ -13,11 +13,6 @@ public class BalancerRing : Ring
         attachable = true;
     }
 
-    void Update()
-    {
-
-    }
-
     public override void AttachReaction()
     {
         balancer.StopBalancing();

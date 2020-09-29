@@ -5,16 +5,16 @@ using UnityEngine;
 public class Balancer : MonoBehaviour
 {
     [Header("Balancer settings")]
-    [SerializeField] private float balanceMaxAngle;
-    [SerializeField] private float balanceTime;
-    [SerializeField] private AnimationCurve balanceMovementCurve;
+    [SerializeField] private float balanceMaxAngle = 0;
+    [SerializeField] private float balanceTime = 0;
+    [SerializeField] private AnimationCurve balanceMovementCurve = null;
     [Header("Swing settings")]
-    [SerializeField] private float catchDistance;
-    [SerializeField] private AnimationCurve swingMovementCurve;
-    [SerializeField] private float swingTime;
-    [SerializeField] private float swingLaunchVelocityKept;
-    [SerializeField] private float swingMaxLaunchAngle;
-    [SerializeField] private float swingMinLaunchAngle;
+    [SerializeField] private float catchDistance = 0;
+    [SerializeField] private AnimationCurve swingMovementCurve = null;
+    [SerializeField] private float swingTime = 0;
+    [SerializeField] private float swingLaunchVelocityKept = 0;
+    [SerializeField] private float swingMaxLaunchAngle = 0;
+    [SerializeField] private float swingMinLaunchAngle = 0;
 
     private float currentBalanceAngle;
     private float balanceTimeElapsed;
@@ -58,7 +58,7 @@ public class Balancer : MonoBehaviour
         }
         else
         {
-            if (!GameData.grappleHandler.isTracting)
+            if (!GameData.grappleHandler.isHooked)
             {
                 isAttached = false;
             }
@@ -99,7 +99,7 @@ public class Balancer : MonoBehaviour
             }
 
             swingLaunchVelocity = ((Vector2)ring.transform.position - lastRingPos) * 1 / Time.fixedDeltaTime;
-            Debug.DrawRay((Vector2)ring.transform.position, swingLaunchVelocity, Color.white, 0.2f);
+            //Debug.DrawRay((Vector2)ring.transform.position, swingLaunchVelocity, Color.white, 0.2f);
             if (((swingRight ? currentSwingAngle > swingMaxLaunchAngle : currentSwingAngle < -swingMaxLaunchAngle) || ((swingRight ? currentSwingAngle > swingMinLaunchAngle : currentSwingAngle < -swingMinLaunchAngle) && !holdingTractionButton)) && isHoldingPlayer)
             {
                 GameData.movementHandler.Propel(swingLaunchVelocity * swingLaunchVelocityKept / 100, true);

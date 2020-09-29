@@ -5,8 +5,8 @@ using UnityEngine;
 public class ZoneRevealer : MonoBehaviour
 {
     SpriteRenderer sprite;
-    [SerializeField] private Color hidenColor;
-    [SerializeField] private float revealTime;
+    [SerializeField] private Color hidenColor = Color.white;
+    [SerializeField] private float revealTime = 0;
     private bool revealing;
     private bool hiding;
     void Start()

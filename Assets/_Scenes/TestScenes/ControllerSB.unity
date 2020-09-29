@@ -416,7 +416,6 @@ Transform:
   - {fileID: 1227815982}
   - {fileID: 1577205822}
   - {fileID: 275694676}
-  - {fileID: 2082414025}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7103,12 +7102,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &2082414025 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7632363736991086253, guid: e2cf61a77521a1f489ed07890a41c777,
-    type: 3}
-  m_PrefabInstance: {fileID: 7632363735045253988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2087499622
 GameObject:
   m_ObjectHideFlags: 0
@@ -8683,7 +8676,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 59715757}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7632363736991086242, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
@@ -8693,17 +8686,17 @@ PrefabInstance:
     - target: {fileID: 7632363736991086242, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7632363736991086253, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.6
+      value: -20.7
       objectReference: {fileID: 0}
     - target: {fileID: 7632363736991086253, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.94
+      value: 10.25
       objectReference: {fileID: 0}
     - target: {fileID: 7632363736991086253, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
@@ -8733,7 +8726,7 @@ PrefabInstance:
     - target: {fileID: 7632363736991086253, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
       propertyPath: m_RootOrder
-      value: 47
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7632363736991086253, guid: e2cf61a77521a1f489ed07890a41c777,
         type: 3}
