@@ -26,7 +26,8 @@ public class PlayerVisuals : MonoBehaviour
     private void UpdateVisuals()
     {
         facingRight = GameData.grappleHandler.isTracting ? (GameData.grappleHandler.tractionDirection.x > 0 ? true : false) :
-                (GameData.movementHandler.horizontalTargetSpeed != 0 ? (GameData.movementHandler.horizontalTargetSpeed > 0 ? true : false) : facingRight);
+                (GameData.movementHandler.isOnSlope ? (GameData.movementHandler.rb.velocity.x > 0 ? true : false) : 
+                (GameData.movementHandler.horizontalTargetSpeed != 0 ? (GameData.movementHandler.horizontalTargetSpeed > 0 ? true : false) : facingRight));
 
         if (facingRight != transformFacingRight)
         {
@@ -68,6 +69,7 @@ public class PlayerVisuals : MonoBehaviour
         animator.SetFloat("VerticalSpeed", GameData.grappleHandler.rb.velocity.y);
         animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
+        animator.SetBool("IsSliding", GameData.movementHandler.isOnSlope);
     }
 
     public IEnumerator SetDashRotation(Vector2 dashDirection)
