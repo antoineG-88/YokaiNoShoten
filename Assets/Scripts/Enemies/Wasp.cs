@@ -17,9 +17,11 @@ public class Wasp : Enemy
     public float rushLength;
     public float rushTime;
     public float rushRadius;
+    public float rushWallRadius;
     public float rushStunTime;
     public float rushKnockbackForce;
     public AnimationCurve rushCurve;
+    private bool walled = false;
     [Header("Visuals")]
     public SpriteRenderer sprite;
 
@@ -62,7 +64,7 @@ public class Wasp : Enemy
 
     public override void UpdateMovement()
     {
-        if(!isRushing)
+        if (!isRushing)
         {
             isFacingRight = pathDirection.x > 0;
             if (path != null && !pathEndReached && !destinationReached && inControl)
@@ -131,7 +133,7 @@ public class Wasp : Enemy
 
 
 
-            if(!fleeing)
+            if (!fleeing)
             {
                 targetPathfindingPosition = GameData.player.transform.position;
             }
@@ -142,7 +144,7 @@ public class Wasp : Enemy
                 targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
             }
 
-            if(pathNeedUpdate)
+            if (pathNeedUpdate)
             {
                 UpdatePath();
             }
@@ -167,6 +169,7 @@ public class Wasp : Enemy
         Vector2 previousRushPos = transform.position;
         float currentRushSpeed;
         bool hasHit = false;
+        bool hitWall = false;
         transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
 
         float dashTimeElapsed = 0;
@@ -179,12 +182,22 @@ public class Wasp : Enemy
             previousRushPos = rushPos;
             rb.velocity = rushDirection * currentRushSpeed * (1 / Time.fixedDeltaTime);
 
-            if(!hasHit)
+            if (!hasHit)
             {
                 hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
+                hitWall = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Wall"));
                 if (hasHit)
                 {
                     GameData.playerManager.LoseSpiritParts(1, rushDirection * rushKnockbackForce);
+                    Debug.Log("hitplayer");
+                }
+
+                else if (hitWall)
+                {
+                    walled = true;
+                    Debug.Log("stuck");
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                    //play stuck anim
                 }
             }
 
@@ -193,13 +206,26 @@ public class Wasp : Enemy
         isRushing = false;
         animator.SetInteger("RushStep", 0);
         transform.rotation = Quaternion.identity;
-        yield return new WaitForSeconds(rushStunTime);
-        inControl = true;
+        if (walled != true)
+        {
+            Debug.Log("free");
+            yield return new WaitForSeconds(rushStunTime);
+            inControl = true;
+        }
+        else
+        {
+            Debug.Log("walled");
+            yield return new WaitForSeconds(5f);
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            inControl = true;
+            walled = false;
+        }
     }
 
     private void UpdateShield()
     {
-        if(isFacingRight)
+        if (isFacingRight)
         {
             antiGrabShieldHandler.ChangeShieldAngle(antiGrabShieldHandler.shields[0], 0);
         }
@@ -211,7 +237,7 @@ public class Wasp : Enemy
 
     private void UpdateVisuals()
     {
-        if(isFacingRight && !sprite.flipX)
+        if (isFacingRight && !sprite.flipX)
         {
             sprite.flipX = true;
         }
