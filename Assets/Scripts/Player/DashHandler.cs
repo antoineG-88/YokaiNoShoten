@@ -88,7 +88,8 @@ public class DashHandler : MonoBehaviour
     {
         isDashing = true;
         canDash = false;
-        isReaiming = false;
+        //isReaiming = false;
+        GameData.pierceHandler.StopPhasingTime();
         GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
@@ -102,7 +103,7 @@ public class DashHandler : MonoBehaviour
         float currentDashSpeed;
         GameData.grappleHandler.ReleaseHook();
         GameData.movementHandler.canMove = false;
-        hitAnEnemy = Attack(startDashDirection);
+        //hitAnEnemy = Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
         while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
@@ -129,11 +130,11 @@ public class DashHandler : MonoBehaviour
 
         GameData.movementHandler.canMove = true;
         GameData.movementHandler.isAffectedbyGravity = true;
-        isDashing = false;
+        isDashing = false;/*
         if(hitAnEnemy && GameData.playerManager.inControl)
         {
             StartCoroutine(SlowMoDash());
-        }
+        }*/
     }
 
     private bool Attack(Vector2 attackDirection)

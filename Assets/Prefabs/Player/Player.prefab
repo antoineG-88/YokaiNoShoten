@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 3737249135459656034}
   - component: {fileID: 3737249135459656033}
   - component: {fileID: 3737249135459656029}
+  - component: {fileID: 6159655295043557527}
   - component: {fileID: 3737249135459656035}
   - component: {fileID: 3737249135459656030}
   - component: {fileID: 3737249135459656032}
@@ -282,6 +283,60 @@ MonoBehaviour:
   isTracting: 0
   canUseTraction: 0
   canShoot: 0
+--- !u!114 &6159655295043557527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3737249135459656038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c15d8ce2294604791555a1b1d27bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pierceTriggerRange: 2
+  pierceMoveTime: 0.2
+  positionDistanceBehindEnemy: 2
+  pierceMovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pierceAttackKnockbackForce: 3
+  maxPhasingTime: 3
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  pierceShadowFx: {fileID: 7624000263744496207, guid: 34f5eee68060f95419fc1f4c5f0f6025,
+    type: 3}
+  pierceMarkFx: {fileID: 4198612265735637209, guid: f49989a3204a8df44b3d498b244ab018,
+    type: 3}
+  timeBeforeFirstPierce: 0
+  useSingleAttack: 1
+  damageDelay: 0
+  slowMoDelay: 0.1
+  isPiercing: 0
+  isPhasing: 0
 --- !u!114 &3737249135459656035
 MonoBehaviour:
   m_ObjectHideFlags: 0

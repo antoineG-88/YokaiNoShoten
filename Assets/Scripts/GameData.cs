@@ -8,6 +8,7 @@ public class GameData : MonoBehaviour
     public GameObject playerO;
     public SlowMoManager slowMoManageRef;
 
+    public static PierceHandler pierceHandler;
     public static MovementHandler movementHandler;
     public static GrappleHandler grappleHandler;
     public static DashHandler dashHandler;
@@ -28,7 +29,7 @@ public class GameData : MonoBehaviour
         slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
         playerCollider = player.GetComponent<Collider2D>();
-
+        pierceHandler = player.GetComponent<PierceHandler>();
     }
 
     private void Start()

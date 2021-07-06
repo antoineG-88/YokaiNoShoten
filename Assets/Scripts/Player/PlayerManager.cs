@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
 
     public void LoseSpiritParts(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentSpiritPoint -= damage;

@@ -299,8 +299,6 @@ public class GrappleHandler : MonoBehaviour
                 rb.velocity *= velocityKeptReleasingHook / 100;
                 isTracting = false;
 
-                GameData.dashHandler.canDash = true;
-
                 ReleaseHook();
             }
         }
@@ -310,7 +308,7 @@ public class GrappleHandler : MonoBehaviour
             ropeRenderer.enabled = false;
             if(attachedObject == null)
             {
-                ReleaseHook();
+                //ReleaseHook();
             }
         }
     }
@@ -337,10 +335,13 @@ public class GrappleHandler : MonoBehaviour
     public void AttachHook(GameObject objectToAttach)
     {
         isHooked = true;
-        GameData.dashHandler.isReaiming = false;
+        //GameData.dashHandler.isReaiming = false;
+        GameData.pierceHandler.StopPhasingTime();
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
+        GameData.dashHandler.canDash = true;
+        GameData.pierceHandler.canPierce = true;
     }
 
     public void ReleaseHook()

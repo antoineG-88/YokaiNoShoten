@@ -41,6 +41,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
+    [HideInInspector] public bool isDying;
 
     protected Animator animator;
     protected ProtectionHandler protectionHandler;
@@ -294,7 +295,8 @@ public abstract class Enemy : MonoBehaviour
     private IEnumerator Die()
     {
         animator.SetBool("Dead",true);
-        yield return new WaitForSeconds(deathAnimClip.length + hurtAnimClip.length);
+        isDying = true;
+        yield return new WaitForSeconds(deathAnimClip.length);
         Destroy(gameObject);
     }
 

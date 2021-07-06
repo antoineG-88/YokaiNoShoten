@@ -31,12 +31,12 @@ public class NoGravityZone : MonoBehaviour
         
         if (isInZone == true)
         {
-            GameData.movementHandler.isAffectedbyGravity = false;
+            //GameData.movementHandler.isAffectedbyGravity = false;
             
         }
         else
         {
-            GameData.movementHandler.isAffectedbyGravity = true;
+            //GameData.movementHandler.isAffectedbyGravity = true;
         }
     }
 }
