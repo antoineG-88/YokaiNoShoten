@@ -439,7 +439,22 @@ PrefabInstance:
     - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}
       propertyPath: rushWallRadius
-      value: 0.5
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+        type: 3}
+      propertyPath: rushTime
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+        type: 3}
+      propertyPath: rushCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+        type: 3}
+      propertyPath: wallStunTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 763350508382447391, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}

@@ -20,8 +20,9 @@ public class Wasp : Enemy
     public float rushWallRadius;
     public float rushStunTime;
     public float rushKnockbackForce;
+    public float wallStunTime;
     public AnimationCurve rushCurve;
-    private bool walled = false;
+    private bool isStuckInWall = false;
     [Header("Visuals")]
     public SpriteRenderer sprite;
 
@@ -185,17 +186,15 @@ public class Wasp : Enemy
             if (!hasHit)
             {
                 hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
-                hitWall = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Wall"));
+                hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall"));
                 if (hasHit)
                 {
                     GameData.playerManager.LoseSpiritParts(1, rushDirection * rushKnockbackForce);
-                    Debug.Log("hitplayer");
                 }
 
                 else if (hitWall)
                 {
-                    walled = true;
-                    Debug.Log("stuck");
+                    isStuckInWall = true;
                     rb.constraints = RigidbodyConstraints2D.FreezeAll;
                     //play stuck anim
                 }
@@ -206,20 +205,18 @@ public class Wasp : Enemy
         isRushing = false;
         animator.SetInteger("RushStep", 0);
         transform.rotation = Quaternion.identity;
-        if (walled != true)
+        if (isStuckInWall != true)
         {
-            Debug.Log("free");
             yield return new WaitForSeconds(rushStunTime);
             inControl = true;
         }
         else
         {
-            Debug.Log("walled");
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(wallStunTime);
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             inControl = true;
-            walled = false;
+            isStuckInWall = false;
         }
     }
 
