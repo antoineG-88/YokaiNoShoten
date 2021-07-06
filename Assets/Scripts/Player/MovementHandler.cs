@@ -37,7 +37,7 @@ public class MovementHandler : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
-        groundFilter.SetLayerMask(LayerMask.GetMask("Wall"));
+        groundFilter.SetLayerMask(LayerMask.GetMask("Wall","DashWall","Platform"));
         groundFilter.useTriggers = true;
         canMove = true;
         isAffectedbyGravity = true;
@@ -51,7 +51,14 @@ public class MovementHandler : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = IsOnGround();
-        isOnSlope = IsOnSlope();
+        if(isGrounded)
+        {
+            isOnSlope = IsOnSlope();
+        }
+        else
+        {
+            isOnSlope = false;
+        }
         UpdateMovement();
     }
 
@@ -105,7 +112,7 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
         }
 
-        if (isGrounded && isOnSlope && rb.velocity.magnitude > maxSlidingSpeed)
+        if (isGrounded && isOnSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
         }
@@ -129,8 +136,8 @@ public class MovementHandler : MonoBehaviour
 
     private bool IsOnSlope()
     {
-        RaycastHit2D hit = Physics2D.Raycast(feetCollider.transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Wall"));
-        if(hit && Vector2.Angle(Vector2.up,hit.normal) > 30)
+        RaycastHit2D hit = Physics2D.Raycast(feetCollider.transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Wall", "DashWall", "Platform"));
+        if (hit && Vector2.Angle(Vector2.up, hit.normal) > 30)
         {
             return true;
         }

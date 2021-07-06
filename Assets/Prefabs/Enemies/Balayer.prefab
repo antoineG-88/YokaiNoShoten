@@ -49,7 +49,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae2cf94ee176ac4183916a25739bbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoint: 2
+  maxHealthPoint: 1
+  damagableBodyParts: []
+  movementZoneRadius: 6
+  hurtAnimClip: {fileID: 7400000, guid: 2b46b9f3d4c37b24f934735f70e42788, type: 2}
+  deathAnimClip: {fileID: 7400000, guid: 6a458a1d1551e464583f4d1817f7652f, type: 2}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -59,20 +63,22 @@ MonoBehaviour:
   minimalAvoidForce: 5
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
+  recentlyHit: 0
   inControl: 0
   maxSpeed: 8
   accelerationForce: 25
   safeDistance: 8
   safeDistanceWidth: 3
-  provocationRange: 30
+  provocationRange: 20
   beamDamage: 2
   beamKnockback: 5
   aimTime: 0
-  chargeTime: 0
-  beamTime: 2
-  beamMaxRotationSpeed: 1
+  chargeTime: 1
+  beamTime: 3
+  beamMaxRotationSpeed: 0.5
   beamRotationAcceleration: 2
-  beamCoolDown: 3
+  beamCoolDown: 5
+  maxBeamRange: 20
   beamStartAngleOffset: 20
   beamNoMovementTime: 0.5
   beamEndSlowingTime: 0.5
@@ -255,8 +261,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7d2f865333d29354190456cac7ad98d0, type: 3}
-  m_Color: {r: 0.50980395, g: 0.2688679, b: 1, a: 1}
+  m_Sprite: {fileID: -7793894156786082221, guid: 7463bcb3f263e154aa75666659c0f1fb,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

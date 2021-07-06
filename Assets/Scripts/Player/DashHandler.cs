@@ -22,11 +22,13 @@ public class DashHandler : MonoBehaviour
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
     [HideInInspector] public bool isReaiming;
-    private Vector2 dashDirection;
+    [HideInInspector] public Vector2 dashDirection;
     private bool leftTriggerPressed;
     private bool leftTriggerDown;
     private Rigidbody2D rb;
     private ContactFilter2D enemyFilter;
+    private ContactFilter2D attackReactionFilter;
+    private Vector2 defaultDashDirection;
 
     void Start()
     {
@@ -34,7 +36,10 @@ public class DashHandler : MonoBehaviour
         leftTriggerPressed = false;
         leftTriggerDown = false;
         enemyFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
+        attackReactionFilter.SetLayerMask(LayerMask.GetMask("DashInteraction"));
+        attackReactionFilter.useTriggers = true;
         enemyFilter.useTriggers = true;
+        defaultDashDirection = Vector2.up;
     }
 
     void Update()
@@ -44,7 +49,7 @@ public class DashHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(GameData.movementHandler.isGrounded && !isDashing)
+        if(GameData.movementHandler.isGrounded && !isDashing && !GameData.movementHandler.isOnSlope)
         {
             canDash = true;
         }
@@ -53,25 +58,44 @@ public class DashHandler : MonoBehaviour
     private void UpdateInputs()
     {
         LeftTriggerUpdate();
+
+        if (GameData.grappleHandler.isTracting)
+        {
+            defaultDashDirection = GameData.grappleHandler.tractionDirection;
+        }
+        else
+        {
+            defaultDashDirection = GameData.grappleHandler.aimDirection;
+        }
+
         dashDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+
+        if (dashDirection.magnitude <= 0.1f)
+        {
+            dashDirection = defaultDashDirection;
+        }
+
         dashDirection.Normalize();
 
-        if (leftTriggerDown && !isDashing && canDash && dashDirection.magnitude != 0)
+        if (leftTriggerDown && !isDashing && canDash)
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Dash(dashDirection));
         }
+
     }
 
-    private IEnumerator Dash()
+    private IEnumerator Dash(Vector2 startDashDirection)
     {
         isDashing = true;
-        //canDash = false;
+        canDash = false;
         isReaiming = false;
         GameData.movementHandler.isAffectedbyGravity = false;
+        GameData.playerVisuals.animator.SetTrigger("DashAttack");
+        StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
         bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;
-        Vector2 startDashDirection = dashDirection;
+
         Vector2 dashEndPos = (Vector2)transform.position + startDashDirection * dashDistance;
         Vector2 dashPos = transform.position;
         Vector2 previousDashPos = transform.position;
@@ -143,6 +167,15 @@ public class DashHandler : MonoBehaviour
             }
             canDash = hitResetDash ? true : canDash;
             hasHit = true;
+        }
+        Physics2D.OverlapBox((Vector2)transform.position + attackDirection * attackRange.x * 0.5f, attackRange, Vector2.SignedAngle(Vector2.right, attackDirection), attackReactionFilter, colliders);
+        if (colliders.Count > 0)
+        {
+            foreach (Collider2D collider in colliders)
+            {
+                DashInteraction element = collider.GetComponent<DashInteraction>();
+                element.DashReaction();
+            }
         }
         return hasHit;
     }

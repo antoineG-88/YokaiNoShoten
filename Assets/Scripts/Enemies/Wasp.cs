@@ -45,6 +45,7 @@ public class Wasp : Enemy
         isRushing = false;
         rushCoolDownRemaining = 0;
         antiGrabShieldHandler = GetComponent<AntiGrabShieldHandler>();
+        animator.SetInteger("RushStep", 0);
     }
 
     new void Update()
@@ -56,7 +57,7 @@ public class Wasp : Enemy
     new void FixedUpdate()
     {
         base.FixedUpdate();
-        UpdateShield();
+        //UpdateShield();
     }
 
     public override void UpdateMovement()
@@ -89,7 +90,7 @@ public class Wasp : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
+        provoked = distToPlayer < provocationRange;
         pathNeedUpdate = false;
         if (provoked && inControl)
         {
@@ -101,9 +102,8 @@ public class Wasp : Enemy
 
                 if (distToPlayer < rushTriggerDistance)
                 {
-                    animator.SetTrigger("Hurt");
                     rushTriggerTimeElapsed += Time.deltaTime;
-
+                    animator.SetInteger("RushStep", 1);
                     if (rushTriggerTimeElapsed > rushTriggerTime)
                     {
                         playerDirection = GameData.player.transform.position - transform.position;
@@ -114,6 +114,7 @@ public class Wasp : Enemy
                 else
                 {
                     rushTriggerTimeElapsed = 0;
+                    animator.SetInteger("RushStep", 0);
                 }
             }
             else
@@ -148,7 +149,8 @@ public class Wasp : Enemy
         }
         else
         {
-            provoked = distToPlayer < provocationRange;
+            targetPathfindingPosition = initialPos;
+            destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
         }
     }
 
@@ -165,10 +167,12 @@ public class Wasp : Enemy
         Vector2 previousRushPos = transform.position;
         float currentRushSpeed;
         bool hasHit = false;
+        transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
 
         float dashTimeElapsed = 0;
         while (dashTimeElapsed < rushTime)
         {
+            animator.SetInteger("RushStep", 2);
             dashTimeElapsed += Time.fixedDeltaTime;
             rushPos = Vector2.LerpUnclamped(rushStartPos, dashEndPos, rushCurve.Evaluate(dashTimeElapsed / rushTime));
             currentRushSpeed = (rushPos - previousRushPos).magnitude;
@@ -187,6 +191,8 @@ public class Wasp : Enemy
             yield return new WaitForFixedUpdate();
         }
         isRushing = false;
+        animator.SetInteger("RushStep", 0);
+        transform.rotation = Quaternion.identity;
         yield return new WaitForSeconds(rushStunTime);
         inControl = true;
     }
@@ -213,5 +219,7 @@ public class Wasp : Enemy
         {
             sprite.flipX = false;
         }
+
+        animator.SetBool("IsFleeing", rushCoolDownRemaining > 0);
     }
 }

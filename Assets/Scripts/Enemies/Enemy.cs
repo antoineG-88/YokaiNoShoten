@@ -8,6 +8,9 @@ public abstract class Enemy : MonoBehaviour
     [Header("General settings")]
     public int maxHealthPoint;
     public List<BodyPart> damagableBodyParts;
+    public float movementZoneRadius;
+    public AnimationClip hurtAnimClip;
+    public AnimationClip deathAnimClip;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
     public int waypointAhead;
@@ -36,6 +39,7 @@ public abstract class Enemy : MonoBehaviour
     protected float distToPlayer;
 
     protected bool provoked;
+    protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
 
     protected Animator animator;
@@ -49,6 +53,7 @@ public abstract class Enemy : MonoBehaviour
         currentHealthPoint = maxHealthPoint;
         pathEndReached = false;
         provoked = false;
+        initialPos = transform.position;
         targetPathfindingPosition = transform.position;
         inControl = true;
         pathPositions = new List<Vector3>();
@@ -179,7 +184,7 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine(NoControl(noControlTime));
                 if (currentHealthPoint <= 0)
                 {
-                    Die();
+                    StartCoroutine(Die());
                 }
             }
 
@@ -286,9 +291,11 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void Die()
+    private IEnumerator Die()
     {
-        Destroy(gameObject, 0.1f);
+        animator.SetBool("Dead",true);
+        yield return new WaitForSeconds(deathAnimClip.length + hurtAnimClip.length);
+        Destroy(gameObject);
     }
 
     public IEnumerator NoControl(float time)
@@ -304,5 +311,11 @@ public abstract class Enemy : MonoBehaviour
         {
             bodyPart.owner = this;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(initialPos, movementZoneRadius);
     }
 }

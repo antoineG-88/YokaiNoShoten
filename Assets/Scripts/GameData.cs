@@ -15,6 +15,7 @@ public class GameData : MonoBehaviour
     public static GameObject player;
     public static PlayerVisuals playerVisuals;
     public static PlayerManager playerManager;
+    public static Collider2D playerCollider;
     public static GridGraph gridGraph;
 
     private void Awake()
@@ -26,6 +27,12 @@ public class GameData : MonoBehaviour
         playerManager = player.GetComponent<PlayerManager>();
         slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
+        playerCollider = player.GetComponent<Collider2D>();
+
+    }
+
+    private void Start()
+    {
         gridGraph = (GridGraph)AstarData.active.graphs[0];
     }
 }

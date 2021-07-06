@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2140851513
 Transform:
   m_ObjectHideFlags: 0
@@ -131,6 +131,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
+  damagableBodyParts: []
+  movementZoneRadius: 0
+  hurtAnimClip: {fileID: 7400000, guid: 89f7a2aab51e4794abd476333acd3974, type: 2}
+  deathAnimClip: {fileID: 7400000, guid: 06b5e03fceb0e9543820e7352039762e, type: 2}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -140,10 +144,11 @@ MonoBehaviour:
   minimalAvoidForce: 5
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
+  recentlyHit: 0
   inControl: 0
   maxSpeed: 6
   accelerationForce: 25
-  provocationRange: 20
+  provocationRange: 10
   safeDistanceToPlayer: 5
   safeDistanceWidth: 0.3
   rushCooldown: 3
@@ -271,10 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shields:
-  - angle: 0
-    width: 180
-    displayO: {fileID: 0}
+  shields: []
 --- !u!1 &763350509277404791
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ public class GrappleHandler : MonoBehaviour
     [Header("Debug settings")]
     public bool displayAutoAimRaycast;
 
-    private Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
     private LineRenderer ropeRenderer;
     [HideInInspector] public bool isAiming;
@@ -138,12 +138,34 @@ public class GrappleHandler : MonoBehaviour
                     }
 
                     hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "SpiritPart"));
-                    if (hit && (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    if (hit)
                     {
-                        selectedObject = hit.collider.gameObject;
-                        minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                        {
+                            selectedObject = hit.collider.gameObject;
+                            minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                        }
                     }
                 }
+
+
+                Vector3[] ropePoints = new Vector3[2];
+
+                RaycastHit2D ropeHit = Physics2D.Raycast(transform.position, aimDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "SpiritPart"));
+                ropePoints[0] = transform.position;
+                if (ropeHit)
+                {
+                    ropePoints[1] = ropeHit.point;
+                    ringHighLighterO.SetActive(false);
+                    ringHighLighterO.transform.position = ropeHit.point;
+                }
+                else
+                {
+                    ropePoints[1] = (Vector2)transform.position + aimDirection * maxGrappleRange;
+                }
+
+                ropeRenderer.enabled = false;
+                ropeRenderer.SetPositions(ropePoints);
 
                 if (selectedObject != null)
                 {
@@ -170,6 +192,7 @@ public class GrappleHandler : MonoBehaviour
                         selectedRing = selectedObject.GetComponent<Ring>();
                         if(selectedRing != null)
                         {
+                            selectedRing.AttachReaction();
                             if(selectedRing.attachable == true)
                             {
                                 AttachHook(selectedObject);
@@ -193,6 +216,12 @@ public class GrappleHandler : MonoBehaviour
                                 AttachHook(selectedObject);
                             }
                         }
+
+                        RaycastHit2D antiGrabWallHit = Physics2D.Raycast(transform.position, selectedObjectDirection, Vector2.Distance(selectedObject.transform.position, transform.position), LayerMask.GetMask("AntiGrabWall"));
+                        if(antiGrabWallHit)
+                        {
+                            BreakRope("AntigrabWall traversed");
+                        }
                     }
                 }
             }
@@ -200,6 +229,10 @@ public class GrappleHandler : MonoBehaviour
             {
                 ringHighLighterO.SetActive(false);
             }
+        }
+        else
+        {
+            ringHighLighterO.SetActive(false);
         }
     }
 
@@ -292,8 +325,8 @@ public class GrappleHandler : MonoBehaviour
                 rb.velocity *= velocityKeptReleasingHook / 100;
             }
 
-            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall"));
-            if (ringHit && LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall")
+            RaycastHit2D ringHit = Physics2D.Raycast(transform.position, tractionDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Enemy", "Wall", "AntiGrabWall"));
+            if (ringHit && (LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "Wall" || LayerMask.LayerToName(ringHit.collider.gameObject.layer) == "AntiGrabWal"))
             {
                 BreakRope("hit a wall");
                 rb.velocity *= velocityKeptReleasingHook / 100;

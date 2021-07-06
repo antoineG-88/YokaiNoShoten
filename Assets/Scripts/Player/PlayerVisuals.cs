@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PlayerVisuals : MonoBehaviour
 {
+    public AnimationClip dashAttackClip;
+
     [HideInInspector] public bool facingRight;
-    [HideInInspector] public int isHurt;
 
     [HideInInspector] public Animator animator;
     private bool transformFacingRight;
+    private bool useCustomRotation;
+    private bool isDashRotated;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -23,12 +26,26 @@ public class PlayerVisuals : MonoBehaviour
     private void UpdateVisuals()
     {
         facingRight = GameData.grappleHandler.isTracting ? (GameData.grappleHandler.tractionDirection.x > 0 ? true : false) :
-                (GameData.movementHandler.horizontalTargetSpeed != 0 ? (GameData.movementHandler.horizontalTargetSpeed > 0 ? true : false) : facingRight);
+                (GameData.movementHandler.isOnSlope ? (GameData.movementHandler.rb.velocity.x > 0 ? true : false) : 
+                (GameData.movementHandler.horizontalTargetSpeed != 0 ? (GameData.movementHandler.horizontalTargetSpeed > 0 ? true : false) : facingRight));
 
         if (facingRight != transformFacingRight)
         {
             transformFacingRight = facingRight;
             FlipTransform(facingRight);
+        }
+
+        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated;
+        if (useCustomRotation)
+        {
+            if (GameData.grappleHandler.isTracting)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, GameData.grappleHandler.tractionDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.grappleHandler.tractionDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.grappleHandler.tractionDirection));
+            }
+        }
+        else
+        {
+            transform.localRotation = Quaternion.identity;
         }
 
         UpdateAnimator();
@@ -48,34 +65,18 @@ public class PlayerVisuals : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        animator.SetBool("IsRunning", Mathf.Abs(GameData.movementHandler.horizontalTargetSpeed) != 0 ? true : false);
-
-        animator.SetFloat("VerticalSpeed", GameData.movementHandler.rb.velocity.y);
-
+        animator.SetFloat("TargetSpeed", Mathf.Abs(GameData.movementHandler.horizontalTargetSpeed));
+        animator.SetFloat("VerticalSpeed", GameData.grappleHandler.rb.velocity.y);
+        animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
+        animator.SetBool("IsSliding", GameData.movementHandler.isOnSlope);
+    }
 
-        //animator.SetBool("IsDashing", GameData.playerMovement.isDashing);
-
-        animator.SetBool("IsInTheAir", !GameData.movementHandler.isGrounded);
-
-        animator.SetBool("IsFacingRight", facingRight);
-
-        animator.SetBool("IsHurt", isHurt > 0 ? true : false);
-        if (isHurt > 0)
-        {
-            isHurt--;
-        }
-
-        animator.SetBool("IsKicking", GameData.dashHandler.isDashing);
-
-        /*animator.SetBool("IsCastingPower", isCastingPower > 0 ? true : false);
-        if (isCastingPower > 0)
-        {
-            isCastingPower--;
-        }
-
-        animator.SetBool("IsSlaming", isSlaming);
-
-        animator.SetBool("IsDying", GameData.playerManager.isDead);*/
+    public IEnumerator SetDashRotation(Vector2 dashDirection)
+    {
+        isDashRotated = true;
+        transform.localRotation = Quaternion.Euler(0, 0, dashDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 0), dashDirection) : Vector2.SignedAngle(new Vector2(1, 0), dashDirection));
+        yield return new WaitForSeconds(dashAttackClip.length);
+        isDashRotated = false;
     }
 }

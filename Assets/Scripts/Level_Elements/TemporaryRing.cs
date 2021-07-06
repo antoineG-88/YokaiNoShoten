@@ -9,8 +9,9 @@ public class TemporaryRing : Ring
     private float timer;
     SpriteRenderer sprite;
     private bool isActive;
-    void Start()
+    new void Start()
     {
+        base.Start();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         timer = 0;
     }
@@ -47,4 +48,8 @@ public class TemporaryRing : Ring
         
     }
 
+    public override void AttachReaction()
+    {
+
+    }
 }
