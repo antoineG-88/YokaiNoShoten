@@ -99,7 +99,7 @@ public class PierceHandler : MonoBehaviour
             nearestObject = null;
         }
 
-        if (Input.GetButtonDown("AButton") && canPierce)
+        if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton")) && canPierce)
         {
             canPierce = false;
             StopPhasingTime();

@@ -266,7 +266,7 @@ public class Balayer : Enemy
             Destroy(beamFxs[i]);
             beamFxs.RemoveAt(i);
         }
-        Destroy(beamEnd);
+        DestroyImmediate(beamEnd);
     }
 
 
