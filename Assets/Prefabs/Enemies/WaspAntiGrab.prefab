@@ -151,14 +151,18 @@ MonoBehaviour:
   provocationRange: 10
   safeDistanceToPlayer: 5
   safeDistanceWidth: 0.3
-  rushCooldown: 3
-  rushTriggerDistance: 2
-  rushTriggerTime: 0.4
-  rushLength: 4
-  rushTime: 0.5
+  rangeFromInitialPos: 0
+  maxRangeFromInitialPos: 20
+  rushCooldown: 2
+  rushTriggerDistance: 10
+  rushTriggerTime: 1
+  rushLength: 10
+  rushTime: 0.8
   rushRadius: 0.3
+  rushWallRadius: 0.45
   rushStunTime: 1
   rushKnockbackForce: 5
+  wallStunTime: 3
   rushCurve:
     serializedVersion: 2
     m_Curve:
