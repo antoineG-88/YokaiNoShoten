@@ -17,6 +17,8 @@ public class PierceHandler : MonoBehaviour
     public bool useSingleAttack;
     public float damageDelay;
     public float slowMoDelay;
+    public Transform pierceArrowPreview;
+    public Transform pierceEndPosPreview;
 
     private ContactFilter2D enemyFilter;
     private Vector2 enemyDirection;
@@ -31,6 +33,9 @@ public class PierceHandler : MonoBehaviour
         enemyFilter.SetLayerMask(enemyMask);
         enemyFilter.useTriggers = true;
         rb = GetComponent<Rigidbody2D>();
+        markedObjects = new List<GameObject>();
+        nearestObject = null;
+        colliders = new List<Collider2D>();
     }
 
     private void Update()
@@ -44,20 +49,65 @@ public class PierceHandler : MonoBehaviour
         }
     }
 
-    private void MarkPierce() //Marque les ennemis ou objets touché par le déclenchement de l'attaque et la lance s'il y en a eu
+    private List<GameObject> markedObjects;
+    private GameObject nearestObject;
+    List<Collider2D> colliders;
+    private void MarkPierce() //Affiche la preview du pierce et Marque les ennemis ou objets touché par le déclenchement de l'attaque et la lance s'il y en a eu
     {
+        colliders.Clear();
+        Physics2D.OverlapCircle(transform.position, pierceTriggerRange, enemyFilter, colliders);
+        if (colliders.Count > 0)
+        {
+            markedObjects.Clear();
+            nearestObject = null;
+            float minDist = 500;
+            for (int i = 0; i < colliders.Count; i++)
+            {
+                if (nearestObject == null || Vector2.Distance(colliders[i].transform.position, transform.position) < minDist)
+                {
+                    nearestObject = colliders[i].gameObject;
+                    minDist = Vector2.Distance(colliders[i].transform.position, transform.position);
+                }
+            }
+
+            Enemy potentialNearestEnemy = nearestObject.GetComponent<Enemy>();
+            if ((potentialNearestEnemy != null && !potentialNearestEnemy.isDying) || potentialNearestEnemy == null)
+            {
+                markedObjects.Add(nearestObject);
+                pierceArrowPreview.gameObject.SetActive(true);
+                pierceArrowPreview.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, nearestObject.transform.position - transform.position));
+
+                Vector2 objectDirection = nearestObject.transform.position - transform.position;
+                objectDirection.Normalize();
+                pierceEndPosPreview.gameObject.SetActive(true);
+                pierceEndPosPreview.position = (Vector2)nearestObject.transform.position + objectDirection * positionDistanceBehindEnemy;
+            }
+            else
+            {
+                markedObjects.Clear();
+                nearestObject = null;
+                pierceArrowPreview.gameObject.SetActive(false);
+                pierceEndPosPreview.gameObject.SetActive(false);
+            }
+
+        }
+        else
+        {
+            pierceArrowPreview.gameObject.SetActive(false);
+            pierceEndPosPreview.gameObject.SetActive(false);
+            nearestObject = null;
+        }
+
         if (Input.GetButtonDown("AButton") && canPierce)
         {
             canPierce = false;
-            Instantiate(pierceMarkFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(2,2,2);
+            Instantiate(pierceMarkFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(2, 2, 2);
             StopPhasingTime();
 
             List<Collider2D> colliders = new List<Collider2D>();
             Physics2D.OverlapCircle(transform.position, pierceTriggerRange, enemyFilter, colliders);
             if (colliders.Count > 0)
             {
-                List<GameObject> markedObjects = new List<GameObject>();
-                GameObject nearestObject = null;
                 float minDist = 500;
                 for (int i = 0; i < colliders.Count; i++)
                 {
@@ -67,10 +117,10 @@ public class PierceHandler : MonoBehaviour
                         minDist = Vector2.Distance(colliders[i].transform.position, transform.position);
                     }
                 }
-                if((nearestObject.GetComponent<Enemy>() != null && !nearestObject.GetComponent<Enemy>().isDying) || nearestObject.GetComponent<Enemy>() == null)
+                if ((nearestObject.GetComponent<Enemy>() != null && !nearestObject.GetComponent<Enemy>().isDying) || nearestObject.GetComponent<Enemy>() == null)
                     markedObjects.Add(nearestObject);
 
-                if(!useSingleAttack)
+                if (!useSingleAttack)
                 {
                     for (int i = 0; i < colliders.Count; i++)
                     {

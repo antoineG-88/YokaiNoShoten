@@ -258,7 +258,8 @@ public class GrappleHandler : MonoBehaviour
 
                 if (!isTracting)
                 {
-                    float startTractionVelocity = GameData.movementHandler.isGrounded ? 0 : rb.velocity.magnitude;
+                    float startTractionVelocity = Mathf.Cos(Vector2.SignedAngle(rb.velocity, tractionDirection) * Mathf.Deg2Rad) * rb.velocity.magnitude;
+
                     if (startTractionVelocity < 0)
                     {
                         startTractionVelocity = 0;
