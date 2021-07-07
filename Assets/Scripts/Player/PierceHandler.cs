@@ -19,6 +19,7 @@ public class PierceHandler : MonoBehaviour
     public float slowMoDelay;
     public Transform pierceArrowPreview;
     public Transform pierceEndPosPreview;
+    public bool triggerSlowMo;
 
     private ContactFilter2D enemyFilter;
     private Vector2 enemyDirection;
@@ -101,7 +102,6 @@ public class PierceHandler : MonoBehaviour
         if (Input.GetButtonDown("AButton") && canPierce)
         {
             canPierce = false;
-            Instantiate(pierceMarkFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(2, 2, 2);
             StopPhasingTime();
 
             List<Collider2D> colliders = new List<Collider2D>();
@@ -151,7 +151,8 @@ public class PierceHandler : MonoBehaviour
         isPiercing = true;
         yield return new WaitForSeconds(timeBeforeFirstPierce);
 
-        StartPhasingTime();
+        if(triggerSlowMo)
+            StartPhasingTime();
 
         Vector2 enemyPosition;
         Vector2 startPiercePos;
@@ -177,6 +178,7 @@ public class PierceHandler : MonoBehaviour
                 if (enemy != null)
                 {
                     enemy.TakeDamage(1, -enemy.GetComponent<Rigidbody2D>().velocity, 0.5f, false);
+                    Instantiate(pierceMarkFx, enemy.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                 }
             }
             pierceTimeElapsed = 0;
@@ -188,6 +190,7 @@ public class PierceHandler : MonoBehaviour
                     if (enemy != null)
                     {
                         enemy.TakeDamage(1, -enemy.GetComponent<Rigidbody2D>().velocity, 0.5f, false);
+                        Instantiate(pierceMarkFx, enemy.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                     }
                 }
                 Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(enemyDirection.x > 0 ? 1 : -1, 1, 1);

@@ -265,7 +265,7 @@ MonoBehaviour:
   airSlowing: 0
   slideSlowing: 0
   gravityForce: 20
-  maxSlidingSpeed: 10
+  maxSlidingSpeed: 12
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
@@ -292,10 +292,10 @@ MonoBehaviour:
   releasingHookDist: 0.5
   minAttachDistance: 2
   keepAim: 1
-  tractionForce: 60
-  maxTractionSpeed: 15
-  startTractionPropulsion: 5
-  velocityKeptReleasingHook: 70
+  tractionForce: 80
+  maxTractionSpeed: 17
+  startTractionPropulsion: 4
+  velocityKeptReleasingHook: 55
   ropeBreakParticleByUnit: 2
   breakRopeParticle: {fileID: 671408987734076028, guid: c176b946c9ac64245b920f8b6419a1a0,
     type: 3}
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pierceTriggerRange: 2
-  pierceMoveTime: 0.3
+  pierceMoveTime: 0.18
   positionDistanceBehindEnemy: 1
   pierceMovementCurve:
     serializedVersion: 2
@@ -366,10 +366,11 @@ MonoBehaviour:
     type: 3}
   timeBeforeFirstPierce: 0
   useSingleAttack: 1
-  damageDelay: 0
-  slowMoDelay: 0.2
+  damageDelay: 0.02
+  slowMoDelay: 0.13
   pierceArrowPreview: {fileID: 1357107022636440115}
   pierceEndPosPreview: {fileID: 2732683146275122991}
+  triggerSlowMo: 1
   isPiercing: 0
   isPhasing: 0
   canPierce: 0
@@ -385,8 +386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75cad3c13aa4ff2429e4cec9d7373237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashDistance: 2
-  dashTime: 0.15
+  dashDistance: 2.5
+  dashTime: 0.12
   dashCurve:
     serializedVersion: 2
     m_Curve:
@@ -400,22 +401,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.060456853
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.4109349
-      outSlope: 0.4109349
+      time: 0.89138794
+      value: 1.0264893
+      inSlope: 0.5490612
+      outSlope: 0.5490612
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.118543565
-      outWeight: 0.9999907
+      outWeight: 0.19472298
     - serializedVersion: 3
       time: 1.4732425
       value: 1.1919763
-      inSlope: 0.38921446
-      outSlope: 0.38921446
+      inSlope: 0.06496781
+      outSlope: 0.06496781
       tangentMode: 0
       weightedMode: 0
-      inWeight: 1
+      inWeight: 0.29196674
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
