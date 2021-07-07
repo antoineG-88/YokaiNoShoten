@@ -142,7 +142,7 @@ public class Wasp : Enemy
             {
                 Vector2 playerOppositeDirection = transform.position - GameData.player.transform.position;
                 playerOppositeDirection.Normalize();
-                targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
+                //targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
             }
 
             if (pathNeedUpdate)
