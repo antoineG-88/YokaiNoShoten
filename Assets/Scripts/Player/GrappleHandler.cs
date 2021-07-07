@@ -14,8 +14,10 @@ public class GrappleHandler : MonoBehaviour
     [Space]
     [Header("Momentum settings")]
     public float tractionForce;
+    public float slowingForce;
     public float maxTractionSpeed;
     public float startTractionPropulsion;
+    public float minDistanceToAccelerate;
     [Space]
     [Range(0, 100)] public float velocityKeptReleasingHook;
     public float ropeBreakParticleByUnit;
@@ -268,7 +270,7 @@ public class GrappleHandler : MonoBehaviour
                     startTractionVelocity += startTractionPropulsion;
                     rb.velocity = startTractionVelocity * tractionDirection;
                 }
-
+                /*
                 float tractionDirectionAngle = Mathf.Atan(tractionDirection.y / tractionDirection.x);
                 if (tractionDirection.x < 0)
                 {
@@ -278,17 +280,30 @@ public class GrappleHandler : MonoBehaviour
                 {
                     tractionDirectionAngle += 2 * Mathf.PI;
                 }
-                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));
-
-                rb.velocity += tractionDirection * tractionForce * Time.fixedDeltaTime;
+                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));*/
+                rb.velocity = rb.velocity.magnitude * tractionDirection;
 
                 if (rb.velocity.magnitude > maxTractionSpeed)
                 {
-                    rb.velocity = tractionDirection * maxTractionSpeed;
+                    if(rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > maxTractionSpeed)
+                    {
+                        rb.velocity -= tractionDirection * slowingForce * Time.fixedDeltaTime;
+                    }
+                    else
+                    {
+                        rb.velocity = tractionDirection * maxTractionSpeed;
+                    }
                 }
-                else if (rb.velocity.magnitude < startTractionPropulsion)
+                else if (rb.velocity.magnitude < startTractionPropulsion && startTractionPropulsion < maxTractionSpeed)
                 {
                     rb.velocity = tractionDirection * startTractionPropulsion;
+                }
+                else
+                {
+                    if(Vector2.Distance(transform.position, attachedObject.transform.position) <= minDistanceToAccelerate)
+                    {
+                        rb.velocity += tractionDirection * tractionForce * Time.fixedDeltaTime;
+                    }
                 }
 
                 isTracting = true;

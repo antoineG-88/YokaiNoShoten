@@ -265,7 +265,7 @@ MonoBehaviour:
   airSlowing: 0
   slideSlowing: 0
   gravityForce: 20
-  maxSlidingSpeed: 12
+  maxSlidingSpeed: 15
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
@@ -291,11 +291,13 @@ MonoBehaviour:
   shootCooldown: 0.2
   releasingHookDist: 0.5
   minAttachDistance: 2
-  keepAim: 1
-  tractionForce: 80
-  maxTractionSpeed: 17
-  startTractionPropulsion: 4
-  velocityKeptReleasingHook: 55
+  keepAim: 0
+  tractionForce: 60
+  slowingForce: 50
+  maxTractionSpeed: 15
+  startTractionPropulsion: 5
+  minDistanceToAccelerate: 100
+  velocityKeptReleasingHook: 63
   ropeBreakParticleByUnit: 2
   breakRopeParticle: {fileID: 671408987734076028, guid: c176b946c9ac64245b920f8b6419a1a0,
     type: 3}
@@ -337,15 +339,24 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 2.114811
+      outSlope: 2.114811
       tangentMode: 0
-      weightedMode: 0
+      weightedMode: 3
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.31543446
     - serializedVersion: 3
       time: 1
       value: 1
+      inSlope: 0.16948493
+      outSlope: 0.16948493
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.25113547
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.3078918
+      value: 1.0690689
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -401,22 +412,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.060456853
     - serializedVersion: 3
-      time: 0.89138794
-      value: 1.0264893
-      inSlope: 0.5490612
-      outSlope: 0.5490612
+      time: 1
+      value: 1
+      inSlope: 0.21729268
+      outSlope: 0.21729268
       tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.118543565
-      outWeight: 0.19472298
+      weightedMode: 3
+      inWeight: 0.23001611
+      outWeight: 0.3139212
     - serializedVersion: 3
-      time: 1.4732425
-      value: 1.1919763
-      inSlope: 0.06496781
-      outSlope: 0.06496781
+      time: 1.4953983
+      value: 1.0526636
+      inSlope: -0.0139768515
+      outSlope: -0.0139768515
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.29196674
+      inWeight: 0.30304578
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
