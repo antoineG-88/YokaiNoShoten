@@ -10,6 +10,8 @@ public class Wasp : Enemy
     public float provocationRange;
     public float safeDistanceToPlayer;
     public float safeDistanceWidth;
+    public float rangeFromInitialPos;
+    public float maxRangeFromInitialPos;
     [Header("RushAttack settings")]
     public float rushCooldown;
     public float rushTriggerDistance;
@@ -36,6 +38,7 @@ public class Wasp : Enemy
     private float rushTriggerTimeElapsed;
     private Vector2 playerDirection;
     private bool isFacingRight;
+
 
     private AntiGrabShieldHandler antiGrabShieldHandler;
 
@@ -95,11 +98,20 @@ public class Wasp : Enemy
         base.UpdateBehavior();
         provoked = distToPlayer < provocationRange;
         pathNeedUpdate = false;
-        if (provoked && inControl)
+        rangeFromInitialPos = Vector2.Distance(transform.position, initialPos);
+        if (rangeFromInitialPos > maxRangeFromInitialPos && inControl)
+        {
+            rushTriggerTimeElapsed = 0;
+            animator.SetInteger("RushStep", 0);
+            StopCoroutine(Rush(playerDirection));
+            targetPathfindingPosition = initialPos;
+        }
+        else if (provoked && inControl)
         {
             fleeing = distToPlayer < safeDistanceToPlayer && rushCoolDownRemaining > 0;
 
-            if (rushCoolDownRemaining <= 0)
+
+            if (rushCoolDownRemaining <= 0 && rangeFromInitialPos < maxRangeFromInitialPos)
             {
                 destinationReached = distToPlayer < rushTriggerDistance;
 
@@ -244,5 +256,10 @@ public class Wasp : Enemy
         }
 
         animator.SetBool("IsFleeing", rushCoolDownRemaining > 0);
+    }
+
+    private void ReturnToOrigin()
+    {
+
     }
 }
