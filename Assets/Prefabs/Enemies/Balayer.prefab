@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
   damagableBodyParts: []
-  movementZoneRadius: 6
+  movementZoneRadius: 4
   hurtAnimClip: {fileID: 7400000, guid: 2b46b9f3d4c37b24f934735f70e42788, type: 2}
   deathAnimClip: {fileID: 7400000, guid: 6a458a1d1551e464583f4d1817f7652f, type: 2}
   nextWaypointDistance: 2
@@ -65,6 +65,7 @@ MonoBehaviour:
   avoidDistanceInfluence: 1
   recentlyHit: 0
   inControl: 0
+  isDying: 0
   maxSpeed: 8
   accelerationForce: 25
   safeDistance: 8

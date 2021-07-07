@@ -36,7 +36,7 @@ public class Balayer : Enemy
     private bool isShooting;
     private bool isAiming;
     private bool playerInSight;
-    private bool destinationReached;
+    private bool shootDestinationReached;
     private bool canBeInSight;
     private Vector2 potentialTargetPos;
     private float elapsedAimTime;
@@ -50,7 +50,7 @@ public class Balayer : Enemy
         base.Start();
         provoked = false;
         isShooting = false;
-        destinationReached = false;
+        shootDestinationReached = false;
         playerInSight = false;
         canBeInSight = true;
         elapsedAimTime = 0;
@@ -77,7 +77,7 @@ public class Balayer : Enemy
             isFacingRight = pathDirection.x > 0;
         }
 
-        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
+        if (path != null && !pathEndReached && !shootDestinationReached && inControl && canBeInSight && !isShooting && !isAiming)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -104,22 +104,22 @@ public class Balayer : Enemy
         playerInSight = IsPlayerInSightFrom(transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
-        destinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius && Vector2.Distance(targetPathfindingPosition, initialPos) > movementZoneRadius)) && playerInSight;
+        shootDestinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (/*Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius &&*/ Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)) && playerInSight;
         provoked = distToPlayer < provocationRange;
         if (provoked)
         {
             potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
-            if (potentialTargetPos != (Vector2)transform.position)
+            if (potentialTargetPos != (Vector2)transform.position && Vector2.Distance(potentialTargetPos, initialPos) <= movementZoneRadius) // check if the result of the sight spot is valid
             {
                 targetPathfindingPosition = potentialTargetPos;
                 canBeInSight = true;
             }
             else
             {
-                canBeInSight = false;
+                canBeInSight = true;
             }
 
-            if(!destinationReached)
+            if(!shootDestinationReached)
             {
                 isAiming = false;
                 elapsedAimTime = 0;
@@ -155,7 +155,7 @@ public class Balayer : Enemy
         else
         {
             targetPathfindingPosition = initialPos;
-            destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
+            shootDestinationReached = Vector2.Distance(transform.position, initialPos) < 1;
         }
 
 
