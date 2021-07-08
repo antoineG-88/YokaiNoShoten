@@ -69,7 +69,7 @@ public class PierceHandler : MonoBehaviour
     {
         colliders.Clear();
         Physics2D.OverlapCircle(transform.position, pierceTriggerRange, enemyFilter, colliders);
-        if (!isPhasing && colliders.Count > 0)
+        if (!isPhasing && colliders.Count > 0 && canPierce)
         {
             nearestObject = null;
             float minDist = 500;
@@ -169,6 +169,11 @@ public class PierceHandler : MonoBehaviour
         previousPiercePos = transform.position;
 
         Enemy enemy = markedEnemy.GetComponent<Enemy>();
+        if(enemy != null)
+        {
+            enemy.DisableColliderFor(2f);
+        }
+
         if (damageDelay <= 0)
         {
             if (enemy != null)
@@ -202,8 +207,8 @@ public class PierceHandler : MonoBehaviour
         isPiercing = false;
         GameData.movementHandler.canMove = true;
         GameData.movementHandler.isAffectedbyGravity = true;
-        canPierce = true;
-        //GameData.dashHandler.canDash = true;
+        //canPierce = true;
+        GameData.dashHandler.canDash = true;
     }
 
     private void UpdatePhasingTime()

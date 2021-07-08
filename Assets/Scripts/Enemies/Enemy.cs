@@ -45,9 +45,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator animator;
     protected ProtectionHandler protectionHandler;
-
+    protected Collider2D ownCollider;
+    protected float timeBeforeColliderActive;
     protected void Start()
     {
+        ownCollider = GetComponent<Collider2D>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
@@ -80,6 +82,14 @@ public abstract class Enemy : MonoBehaviour
     protected void FixedUpdate()
     {
         recentlyHit = false;
+        if(timeBeforeColliderActive > 0)
+        {
+            timeBeforeColliderActive -= Time.fixedDeltaTime * (1 / Time.timeScale);
+        }
+        else if(!ownCollider.enabled)
+        {
+            ownCollider.enabled = true;
+        }
         AvoidOtherEnemies();
         UpdateMovement();
     }
@@ -313,6 +323,12 @@ public abstract class Enemy : MonoBehaviour
         {
             bodyPart.owner = this;
         }
+    }
+
+    public void DisableColliderFor(float time)
+    {
+        timeBeforeColliderActive = time;
+        ownCollider.enabled = false;
     }
 
     private void OnDrawGizmosSelected()

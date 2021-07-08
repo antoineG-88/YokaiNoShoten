@@ -449,7 +449,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   pierceAttackKnockbackForce: 3
-  maxPhasingTime: 3
+  maxPhasingTime: 2
   enemyMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -463,12 +463,12 @@ MonoBehaviour:
   pierceArrowPreview: {fileID: 1357107022636440115}
   pierceEndPosPreview: {fileID: 2732683146275122991}
   triggerSlowMo: 1
-  comboPierceTime: 0
-  comboTimeTreshold: 0
-  comboPierceRange: 0
-  comboPierceAimAssistAngle: 0
-  comboPierceAimAssistRaycastNumber: 0
-  comboPierceTresholdOffset: 0
+  comboPierceTime: 0.7
+  comboTimeTreshold: 0.2
+  comboPierceRange: 5
+  comboPierceAimAssistAngle: 50
+  comboPierceAimAssistRaycastNumber: 50
+  comboPierceTresholdOffset: -0.2
   comboPierceTimingHelper: {fileID: 2413838916319084873}
   isPiercing: 0
   isPhasing: 0
