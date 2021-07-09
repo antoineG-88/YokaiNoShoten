@@ -14,6 +14,8 @@ public class MovementHandler : MonoBehaviour
     public float slideSlowing;
     public float gravityForce;
     public float maxSlidingSpeed;
+    [Tooltip("Cursed")]
+    public bool moveWithRightJoystick;
     [Space]
     [Header("References")]
     public Collider2D feetCollider;
@@ -64,7 +66,7 @@ public class MovementHandler : MonoBehaviour
 
     private void GetInputs()
     {
-        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? Input.GetAxis("LeftStickH") * walkingMaxSpeed : 0;
+        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? (moveWithRightJoystick ? Input.GetAxis("RightStickH") : Input.GetAxis("LeftStickH")) * walkingMaxSpeed : 0;
         if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
         {
             horizontalTargetSpeed = 0;

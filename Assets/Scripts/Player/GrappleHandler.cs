@@ -26,6 +26,9 @@ public class GrappleHandler : MonoBehaviour
     [Header("AutoAim settings")]
     public float aimAssistAngle;
     public float aimAssistRaycastNumber;
+    [Header("Key bindings settings")]
+    public bool aimWithLeftJoystick;
+    public bool tractWithLeftTrigger;
     [Space]
     [Header("References")]
     public GameObject armShoulderO;
@@ -53,8 +56,8 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool canUseTraction;
     [HideInInspector] public bool canShoot;
 
-    private bool rightTriggerDown;
-    private bool rightTriggerPressed;
+    private bool tractTriggerDown;
+    private bool tractTriggerPressed;
 
     void Start()
     {
@@ -70,13 +73,13 @@ public class GrappleHandler : MonoBehaviour
         timeBeforeNextShoot = 0;
         aimAssistSubAngle = aimAssistAngle / (aimAssistRaycastNumber - 1);
         aimAssistFirstAngle = -aimAssistAngle / 2;
-        rightTriggerDown = false;
-        rightTriggerPressed = false;
+        tractTriggerDown = false;
+        tractTriggerPressed = false;
     }
 
     private void Update()
     {
-        RightTriggerUpdate();
+        TractTriggerUpdate();
         AimManager();
     }
 
@@ -96,7 +99,7 @@ public class GrappleHandler : MonoBehaviour
 
         if (canShoot && GameData.playerManager.inControl)
         {
-            Vector2 aimStickMag = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+            Vector2 aimStickMag = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
             if (!isAiming && aimStickMag.magnitude > 0.1f)
             {
                 isAiming = true;
@@ -115,7 +118,7 @@ public class GrappleHandler : MonoBehaviour
             {
                 if (isAiming)
                 {
-                    aimDirection = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+                    aimDirection = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
                     aimDirection.Normalize();
                     armShoulderO.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
                 }
@@ -182,7 +185,7 @@ public class GrappleHandler : MonoBehaviour
                     ringHighLighterO.SetActive(false);
                 }
 
-                if (rightTriggerDown && timeBeforeNextShoot <= 0 && !isHooked)
+                if (tractTriggerDown && timeBeforeNextShoot <= 0 && !isHooked)
                 {
                     timeBeforeNextShoot = shootCooldown;
                     ReleaseHook();
@@ -253,7 +256,7 @@ public class GrappleHandler : MonoBehaviour
             ropePoints[1] = attachedObject.transform.position;
             ropeRenderer.SetPositions(ropePoints);
 
-            if (canUseTraction && Input.GetAxisRaw("RightTrigger") == 1 && !GameData.dashHandler.isDashing)
+            if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
                 GameData.movementHandler.isAffectedbyGravity = false;
                 GameData.movementHandler.canMove = false;
@@ -310,7 +313,7 @@ public class GrappleHandler : MonoBehaviour
             }
 
             float distance = 10;
-            if (isTracting && (!rightTriggerPressed || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
+            if (isTracting && (!tractTriggerPressed || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
             {
                 rb.velocity *= velocityKeptReleasingHook / 100;
                 isTracting = false;
@@ -385,25 +388,25 @@ public class GrappleHandler : MonoBehaviour
         ReleaseHook();
     }
 
-    private void RightTriggerUpdate()
+    private void TractTriggerUpdate()
     {
-        if(!rightTriggerPressed && Input.GetAxisRaw("RightTrigger") == 1)
+        if(!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
         {
-            rightTriggerDown = true;
+            tractTriggerDown = true;
         }
         else
         {
-            rightTriggerDown = false;
+            tractTriggerDown = false;
         }
 
-        if(Input.GetAxisRaw("RightTrigger") == 1)
+        if(tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1)
         {
-            rightTriggerPressed = true;
+            tractTriggerPressed = true;
         }
         else
         {
-            rightTriggerPressed = false;
-            rightTriggerDown = false;
+            tractTriggerPressed = false;
+            tractTriggerDown = false;
         }
     }
 }

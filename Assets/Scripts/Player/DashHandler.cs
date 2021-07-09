@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DashHandler : MonoBehaviour
@@ -11,20 +10,15 @@ public class DashHandler : MonoBehaviour
     public float dashEndVelocityForceAdded;
     public bool useVelocity;
     public GameObject shadowFx;
-    [Header("Attack settings")]
-    public Vector2 attackRange;
-    public int attackDamage;
-    public float attackKnockbackForce;
-    public float maxSlowMoTime;
-    public bool hitResetDash;
-    public GameObject attackFx;
+    public bool dashWithRightTrigger;
+    public bool aimWithRightJoystick;
 
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
     [HideInInspector] public bool isReaiming;
     [HideInInspector] public Vector2 dashDirection;
-    private bool leftTriggerPressed;
-    private bool leftTriggerDown;
+    private bool dashTriggerPressed;
+    private bool dashTriggerDown;
     private Rigidbody2D rb;
     private ContactFilter2D enemyFilter;
     private ContactFilter2D attackReactionFilter;
@@ -33,8 +27,8 @@ public class DashHandler : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        leftTriggerPressed = false;
-        leftTriggerDown = false;
+        dashTriggerPressed = false;
+        dashTriggerDown = false;
         enemyFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
         attackReactionFilter.SetLayerMask(LayerMask.GetMask("DashInteraction"));
         attackReactionFilter.useTriggers = true;
@@ -57,7 +51,7 @@ public class DashHandler : MonoBehaviour
 
     private void UpdateInputs()
     {
-        LeftTriggerUpdate();
+        DashTriggerUpdate();
 
         if (GameData.grappleHandler.isTracting)
         {
@@ -68,7 +62,7 @@ public class DashHandler : MonoBehaviour
             defaultDashDirection = GameData.grappleHandler.aimDirection;
         }
 
-        dashDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+        dashDirection = aimWithRightJoystick ? new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV")) : new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
 
         if (dashDirection.magnitude <= 0.1f)
         {
@@ -77,7 +71,7 @@ public class DashHandler : MonoBehaviour
 
         dashDirection.Normalize();
 
-        if (leftTriggerDown && !isDashing && canDash)
+        if (dashTriggerDown && !isDashing && canDash)
         {
             StartCoroutine(Dash(dashDirection));
         }
@@ -103,7 +97,6 @@ public class DashHandler : MonoBehaviour
         float currentDashSpeed;
         GameData.grappleHandler.ReleaseHook();
         GameData.movementHandler.canMove = false;
-        //hitAnEnemy = Attack(startDashDirection);
 
         float dashTimeElapsed = 0;
         while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
@@ -130,97 +123,28 @@ public class DashHandler : MonoBehaviour
 
         GameData.movementHandler.canMove = true;
         GameData.movementHandler.isAffectedbyGravity = true;
-        isDashing = false;/*
-        if(hitAnEnemy && GameData.playerManager.inControl)
-        {
-            StartCoroutine(SlowMoDash());
-        }*/
+        isDashing = false;
     }
 
-    private bool Attack(Vector2 attackDirection)
+    private void DashTriggerUpdate()
     {
-        bool hasHit = false;
-        Instantiate(attackFx, (Vector2)transform.position + attackDirection * attackRange.x * 0.5f, Quaternion.Euler(new Vector3(0, 0, Vector2.SignedAngle(Vector2.right, attackDirection))));
-
-        List<Collider2D> colliders = new List<Collider2D>();
-        Physics2D.OverlapBox((Vector2)transform.position + attackDirection * attackRange.x * 0.5f, attackRange, Vector2.SignedAngle(Vector2.right, attackDirection), enemyFilter ,colliders);
-        if(colliders.Count > 0)
+        if (!dashTriggerPressed && (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1))
         {
-            foreach(Collider2D collider in colliders)
-            {
-                Enemy enemy = collider.GetComponent<Enemy>();
-                if(enemy != null)
-                {
-                    enemy.TakeDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f, false);
-                }
-                else
-                {
-                    BodyPart bodyPart = collider.GetComponent<BodyPart>();
-                    if(bodyPart != null)
-                    {
-                        bodyPart.ReceiveDamage(attackDamage, attackDirection * attackKnockbackForce, 0.5f);
-                    }
-                    else
-                    {
-                        Debug.LogWarning(gameObject + " named : " + gameObject.name + " is on the enemy layer but do not have any enemy script attached");
-                    }
-                }
-            }
-            canDash = hitResetDash ? true : canDash;
-            hasHit = true;
-        }
-        Physics2D.OverlapBox((Vector2)transform.position + attackDirection * attackRange.x * 0.5f, attackRange, Vector2.SignedAngle(Vector2.right, attackDirection), attackReactionFilter, colliders);
-        if (colliders.Count > 0)
-        {
-            foreach (Collider2D collider in colliders)
-            {
-                DashInteraction element = collider.GetComponent<DashInteraction>();
-                element.DashReaction();
-            }
-        }
-        return hasHit;
-    }
-
-    private IEnumerator SlowMoDash()
-    {
-        GameData.slowMoManager.StartSlowMo(1);
-        isReaiming = true;
-
-        float timeRemaining = Time.realtimeSinceStartup + maxSlowMoTime;
-
-        while (isReaiming && timeRemaining > Time.realtimeSinceStartup)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        isReaiming = false;
-        GameData.slowMoManager.StopSlowMo();
-    }
-
-    private void LeftTriggerUpdate()
-    {
-        if (!leftTriggerPressed && Input.GetAxisRaw("LeftTrigger") == 1)
-        {
-            leftTriggerDown = true;
+            dashTriggerDown = true;
         }
         else
         {
-            leftTriggerDown = false;
+            dashTriggerDown = false;
         }
 
-        if (Input.GetAxisRaw("LeftTrigger") == 1)
+        if (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1)
         {
-            leftTriggerPressed = true;
+            dashTriggerPressed = true;
         }
         else
         {
-            leftTriggerPressed = false;
-            leftTriggerDown = false;
+            dashTriggerPressed = false;
+            dashTriggerDown = false;
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireCube(transform.position + (Vector3)(Vector2.right * (attackRange.x / 2)), attackRange);
     }
 }

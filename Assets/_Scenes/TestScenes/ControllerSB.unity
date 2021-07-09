@@ -7852,11 +7852,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3737249135459656029, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: aimWithLeftJoystick
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737249135459656029, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: tractWithLeftTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3737249135459656030, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1885940023}
+    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: moveWithRightJoystick
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3737249135459656034, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7912,10 +7927,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3737249135459656035, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: dashWithRightTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737249135459656035, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: aimWithRightJoystick
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3737249135459656038, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159655295043557527, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: comboPierceRange
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159655295043557527, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: comboPierceTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159655295043557527, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: pierceRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159655295043557527, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: pierceAimAssistAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159655295043557527, guid: 4877c5fc972613c44b2984a54b80d5cd,
+        type: 3}
+      propertyPath: pierceAimAssistRaycastNumber
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4877c5fc972613c44b2984a54b80d5cd, type: 3}

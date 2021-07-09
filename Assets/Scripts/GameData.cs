@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
@@ -35,5 +36,18 @@ public class GameData : MonoBehaviour
     private void Start()
     {
         gridGraph = (GridGraph)AstarData.active.graphs[0];
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }
