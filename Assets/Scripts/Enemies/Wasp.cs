@@ -103,7 +103,6 @@ public class Wasp : Enemy
         {
             rushTriggerTimeElapsed = 0;
             animator.SetInteger("RushStep", 0);
-            StopCoroutine(Rush(playerDirection));
             targetPathfindingPosition = initialPos;
         }
         else if (provoked && inControl)
@@ -111,7 +110,7 @@ public class Wasp : Enemy
             fleeing = distToPlayer < safeDistanceToPlayer && rushCoolDownRemaining > 0;
 
 
-            if (rushCoolDownRemaining <= 0 && rangeFromInitialPos < maxRangeFromInitialPos)
+            if (rushCoolDownRemaining <= 0 && IsPlayerInSightFrom(transform.position))
             {
                 destinationReached = distToPlayer < rushTriggerDistance;
 
@@ -135,6 +134,8 @@ public class Wasp : Enemy
             else
             {
                 rushCoolDownRemaining -= Time.deltaTime;
+                rushTriggerTimeElapsed = 0;
+                animator.SetInteger("RushStep", 0);
 
                 if (destinationReached != distToPlayer >= safeDistanceToPlayer && distToPlayer < safeDistanceToPlayer + safeDistanceWidth)
                 {
@@ -166,6 +167,8 @@ public class Wasp : Enemy
         {
             targetPathfindingPosition = initialPos;
             destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
+            animator.SetInteger("RushStep", 0);
+            rushTriggerTimeElapsed = 0;
         }
     }
 
@@ -256,10 +259,5 @@ public class Wasp : Enemy
         }
 
         animator.SetBool("IsFleeing", rushCoolDownRemaining > 0);
-    }
-
-    private void ReturnToOrigin()
-    {
-
     }
 }
