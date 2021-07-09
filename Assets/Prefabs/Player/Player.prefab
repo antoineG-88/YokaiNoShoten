@@ -348,6 +348,7 @@ MonoBehaviour:
   slideSlowing: 0
   gravityForce: 20
   maxSlidingSpeed: 15
+  moveWithRightJoystick: 0
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
@@ -385,6 +386,8 @@ MonoBehaviour:
     type: 3}
   aimAssistAngle: 30
   aimAssistRaycastNumber: 30
+  aimWithLeftJoystick: 0
+  tractWithLeftTrigger: 0
   armShoulderO: {fileID: 3737249135026604181}
   shootPoint: {fileID: 3737249135026604182}
   ringHighLighterO: {fileID: 3737249135314207288}
@@ -412,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c15d8ce2294604791555a1b1d27bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pierceTriggerRange: 2
+  pierceRange: 3
   pierceMoveTime: 0.18
   positionDistanceBehindEnemy: 1
   pierceMovementCurve:
@@ -463,9 +466,13 @@ MonoBehaviour:
   pierceArrowPreview: {fileID: 1357107022636440115}
   pierceEndPosPreview: {fileID: 2732683146275122991}
   triggerSlowMo: 1
-  comboPierceTime: 0.7
+  useAutoAim: 0
+  pierceAimAssistAngle: 45
+  pierceAimAssistRaycastNumber: 45
+  useCombo: 0
+  comboPierceTime: 1
   comboTimeTreshold: 0.2
-  comboPierceRange: 5
+  comboPierceRange: 8
   comboPierceAimAssistAngle: 50
   comboPierceAimAssistRaycastNumber: 50
   comboPierceTresholdOffset: -0.2
@@ -524,13 +531,8 @@ MonoBehaviour:
   useVelocity: 1
   shadowFx: {fileID: 7624000263744496207, guid: 34f5eee68060f95419fc1f4c5f0f6025,
     type: 3}
-  attackRange: {x: 1.6, y: 0.76}
-  attackDamage: 1
-  attackKnockbackForce: 6
-  maxSlowMoTime: 2
-  hitResetDash: 1
-  attackFx: {fileID: 4526775984003720379, guid: 70cfc83f6e22eb34baf5d0289e252dfc,
-    type: 3}
+  dashWithRightTrigger: 0
+  aimWithRightJoystick: 0
   canDash: 0
   isDashing: 0
   isReaiming: 0
