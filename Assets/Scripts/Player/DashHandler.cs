@@ -87,7 +87,6 @@ public class DashHandler : MonoBehaviour
         GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
-        bool hitAnEnemy = false;
 
         Vector2 dashStartPos = transform.position;
 

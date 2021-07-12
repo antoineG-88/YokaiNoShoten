@@ -49,7 +49,7 @@ public class PierceHandler : MonoBehaviour
     private float cpAimAssistFirstAngle;
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
-
+    private Coroutine currentPierce;
     private void Start()
     {
         enemyFilter.SetLayerMask(enemyMask);
@@ -77,7 +77,7 @@ public class PierceHandler : MonoBehaviour
         }
         UpdatePhasingTime();
 
-        if (GameData.movementHandler.isGrounded && !GameData.movementHandler.isOnSlope)
+        if (GameData.movementHandler.isGrounded && !GameData.movementHandler.isOnSlope && !isPiercing)
         {
             canPierce = true;
         }
@@ -224,14 +224,16 @@ public class PierceHandler : MonoBehaviour
             comboPierceTimingHelper.gameObject.SetActive(false);
         }
 
-        if (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton"))
+        if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton")) && canPierce)
         {
             if(selectedEnemy != null)
             {
                 StopPhasingTime();
-                StartCoroutine(Pierce(selectedEnemy));
+                if(currentPierce != null)
+                    StopCoroutine(currentPierce);
+                currentPierce = StartCoroutine(Pierce(selectedEnemy));
             }
-            canPierce = false;
+            //canPierce = false;
         }
     }
 
@@ -265,7 +267,7 @@ public class PierceHandler : MonoBehaviour
         Enemy enemy = markedEnemy.GetComponent<Enemy>();
         if(enemy != null)
         {
-            enemy.DisableColliderFor(2f);
+            enemy.DisableColliderFor(0.5f);
         }
 
         if (damageDelay <= 0)
@@ -304,6 +306,7 @@ public class PierceHandler : MonoBehaviour
         if(!useCombo)
             canPierce = true;
         GameData.dashHandler.canDash = true;
+        currentPierce = null;
     }
 
     private void UpdatePhasingTime()
@@ -429,15 +432,19 @@ public class PierceHandler : MonoBehaviour
     {
         startPhasingTime = Time.realtimeSinceStartup;
         if(!isPhasing)
-            StartCoroutine(GameData.slowMoManager.SmoothStartSlowMo(1, slowMoDelay));
+        {
+            GameData.slowMoManager.StartSmoothSlowMo(1, slowMoDelay);
+        }
         isPhasing = true;
     }
 
     public void StopPhasingTime()
     {
         if(isPhasing)
-            StartCoroutine(GameData.slowMoManager.SmoothStopSlowMo(0));
-        isPhasing = false;
+        {
+            GameData.slowMoManager.StopSmoothSlowMo(0);
+        }
         currentComboPierceStep = 0;
+        isPhasing = false;
     }
 }
