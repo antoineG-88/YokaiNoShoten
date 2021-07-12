@@ -84,7 +84,7 @@ public class DashHandler : MonoBehaviour
         canDash = false;
         //isReaiming = false;
         GameData.pierceHandler.StopPhasingTime();
-        GameData.movementHandler.isAffectedbyGravity = false;
+        //GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
 
@@ -121,7 +121,7 @@ public class DashHandler : MonoBehaviour
         rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
 
         GameData.movementHandler.canMove = true;
-        GameData.movementHandler.isAffectedbyGravity = true;
+        //GameData.movementHandler.isAffectedbyGravity = true;
         isDashing = false;
     }
 

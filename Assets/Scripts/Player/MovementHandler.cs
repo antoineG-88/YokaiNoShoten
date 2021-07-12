@@ -14,6 +14,9 @@ public class MovementHandler : MonoBehaviour
     public float slideSlowing;
     public float gravityForce;
     public float maxSlidingSpeed;
+    [Header("NoGravityZone settings")]
+    public float NGMomentumSlowingForce;
+    public float maxSpeedInNGZone;
     [Tooltip("Cursed")]
     public bool moveWithRightJoystick;
     [Space]
@@ -28,7 +31,8 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public bool isOnSlope;
     [HideInInspector] public bool canMove;
-    [HideInInspector] public bool isAffectedbyGravity;
+    [HideInInspector] private bool isAffectedbyGravity;
+    [HideInInspector] public bool isInNoGravityZone;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Rigidbody2D groundRb;
@@ -86,7 +90,7 @@ public class MovementHandler : MonoBehaviour
 
         if (horizontalTargetSpeed != relativeVelocity.x)
         {
-            currentAcceleration = isGrounded ? isOnSlope ? slideAcceleration : walkingAcceleration : airAcceleration;
+            currentAcceleration = isInNoGravityZone ? 0 : (isGrounded ? (isOnSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
             currentSlowing = isGrounded ? isOnSlope ? slideSlowing : groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
@@ -119,9 +123,31 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
         }
 
+        isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && !isInNoGravityZone;
+
         if (isAffectedbyGravity)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
+        }
+
+        if(isInNoGravityZone)
+        {
+            if(rb.velocity.magnitude > NGMomentumSlowingForce * Time.fixedDeltaTime)
+            {
+                rb.velocity -= rb.velocity * (NGMomentumSlowingForce * Time.fixedDeltaTime);
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
+
+            if(!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting)
+            {
+                if(rb.velocity.magnitude > maxSpeedInNGZone)
+                {
+                    rb.velocity = rb.velocity.normalized * maxSpeedInNGZone;
+                }
+            }
         }
     }
 
@@ -129,7 +155,7 @@ public class MovementHandler : MonoBehaviour
     {
         List<Collider2D> colliders = new List<Collider2D>();
         Physics2D.OverlapCollider(feetCollider, groundFilter, colliders);
-        if(colliders.Count > 0)
+        if(colliders.Count > 0 && !isInNoGravityZone)
         {
             return true;
         }

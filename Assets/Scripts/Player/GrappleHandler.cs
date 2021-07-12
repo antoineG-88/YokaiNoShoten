@@ -16,6 +16,7 @@ public class GrappleHandler : MonoBehaviour
     public float tractionForce;
     public float slowingForce;
     public float maxTractionSpeed;
+    public float noGravityMaxTractionSpeed;
     public float startTractionPropulsion;
     public float minDistanceToAccelerate;
     [Space]
@@ -258,7 +259,7 @@ public class GrappleHandler : MonoBehaviour
 
             if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
-                GameData.movementHandler.isAffectedbyGravity = false;
+                //GameData.movementHandler.isAffectedbyGravity = false;
                 GameData.movementHandler.canMove = false;
 
                 if (!isTracting)
@@ -286,18 +287,18 @@ public class GrappleHandler : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));*/
                 rb.velocity = rb.velocity.magnitude * tractionDirection;
 
-                if (rb.velocity.magnitude > maxTractionSpeed)
+                if (rb.velocity.magnitude > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
-                    if(rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > maxTractionSpeed)
+                    if(rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                     {
                         rb.velocity -= tractionDirection * slowingForce * Time.fixedDeltaTime;
                     }
                     else
                     {
-                        rb.velocity = tractionDirection * maxTractionSpeed;
+                        rb.velocity = tractionDirection * (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed);
                     }
                 }
-                else if (rb.velocity.magnitude < startTractionPropulsion && startTractionPropulsion < maxTractionSpeed)
+                else if (rb.velocity.magnitude < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
                     rb.velocity = tractionDirection * startTractionPropulsion;
                 }
@@ -370,7 +371,7 @@ public class GrappleHandler : MonoBehaviour
         ropeRenderer.enabled = false;
         GameData.movementHandler.canMove = true;
         attachedObject = null;
-        GameData.movementHandler.isAffectedbyGravity = true;
+        //GameData.movementHandler.isAffectedbyGravity = true;
     }
 
     public void BreakRope(string message)

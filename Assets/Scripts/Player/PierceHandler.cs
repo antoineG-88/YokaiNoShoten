@@ -243,7 +243,7 @@ public class PierceHandler : MonoBehaviour
         GameData.grappleHandler.ReleaseHook();
         rb.velocity = Vector2.zero;
         GameData.movementHandler.canMove = false;
-        GameData.movementHandler.isAffectedbyGravity = false;
+        //GameData.movementHandler.isAffectedbyGravity = false;
         isPiercing = true;
         yield return new WaitForSeconds(timeBeforeFirstPierce);
 
@@ -302,7 +302,7 @@ public class PierceHandler : MonoBehaviour
 
         isPiercing = false;
         GameData.movementHandler.canMove = true;
-        GameData.movementHandler.isAffectedbyGravity = true;
+        //GameData.movementHandler.isAffectedbyGravity = true;
         if(!useCombo)
             canPierce = true;
         GameData.dashHandler.canDash = true;
