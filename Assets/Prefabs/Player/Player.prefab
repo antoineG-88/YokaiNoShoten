@@ -344,17 +344,19 @@ MonoBehaviour:
   airAcceleration: 25
   slideAcceleration: 5
   groundSlowing: 50
-  airSlowing: 0
+  airSlowing: 0.1
   slideSlowing: 0
   gravityForce: 20
   maxSlidingSpeed: 15
+  NGMomentumSlowingForce: 1
+  maxSpeedInNGZone: 8
   moveWithRightJoystick: 0
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
   isOnSlope: 0
   canMove: 0
-  isAffectedbyGravity: 0
+  isInNoGravityZone: 0
   rb: {fileID: 0}
   groundRb: {fileID: 0}
 --- !u!114 &3737249135459656029
@@ -378,6 +380,7 @@ MonoBehaviour:
   tractionForce: 60
   slowingForce: 50
   maxTractionSpeed: 15
+  noGravityMaxTractionSpeed: 10
   startTractionPropulsion: 5
   minDistanceToAccelerate: 100
   velocityKeptReleasingHook: 63
@@ -415,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c15d8ce2294604791555a1b1d27bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pierceRange: 3
+  pierceRange: 2.3
   pierceMoveTime: 0.18
   positionDistanceBehindEnemy: 1
   pierceMovementCurve:
@@ -467,8 +470,8 @@ MonoBehaviour:
   pierceEndPosPreview: {fileID: 2732683146275122991}
   triggerSlowMo: 1
   useAutoAim: 0
-  pierceAimAssistAngle: 45
-  pierceAimAssistRaycastNumber: 45
+  pierceAimAssistAngle: 90
+  pierceAimAssistRaycastNumber: 20
   useCombo: 0
   comboPierceTime: 1
   comboTimeTreshold: 0.2
