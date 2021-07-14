@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Bumper : MonoBehaviour
 {
-    public MovementHandler movementHandler;
     Vector2 directedForce;
     public float verticalSurge;
 
@@ -17,7 +16,7 @@ public class Bumper : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
-            movementHandler.Propel(directedForce, true);
+            GameData.movementHandler.Propel(directedForce, true);
             //Play gameObject Animation & SFX
         }
     }
