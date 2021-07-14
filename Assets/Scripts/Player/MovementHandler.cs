@@ -177,6 +177,7 @@ public class MovementHandler : MonoBehaviour
         if(resetMomentum)
         {
             rb.velocity = directedForce;
+            Debug.Log("vector up");
         }
         else
         {
