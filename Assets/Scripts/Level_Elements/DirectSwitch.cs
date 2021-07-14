@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoGravityZone : MonoBehaviour
+public class DirectSwitch : Switch
 {
-    bool isInZone;
+    private bool isInRange;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            isInZone = true;
+            isInRange = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            isInZone = false;
+            isInRange = false;
         }
     }
-
     private void Update()
     {
-        GameData.movementHandler.isInNoGravityZone = isInZone;
+        if (isInRange && Input.GetButtonDown("YButton"))
+        {
+            SwitchOnOff();
+        }
     }
 }

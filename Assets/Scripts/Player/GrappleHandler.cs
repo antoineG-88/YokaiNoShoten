@@ -298,7 +298,7 @@ public class GrappleHandler : MonoBehaviour
                         rb.velocity = tractionDirection * (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed);
                     }
                 }
-                else if (rb.velocity.magnitude < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                else if ((rb.velocity.magnitude + 0.1f) < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
                     rb.velocity = tractionDirection * startTractionPropulsion;
                 }
@@ -313,8 +313,7 @@ public class GrappleHandler : MonoBehaviour
                 isTracting = true;
             }
 
-            float distance = 10;
-            if (isTracting && (!tractTriggerPressed || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
+            if (isTracting && (!tractTriggerPressed || Vector2.Distance(transform.position, attachedObject.transform.position) < releasingHookDist))
             {
                 rb.velocity *= velocityKeptReleasingHook / 100;
                 isTracting = false;

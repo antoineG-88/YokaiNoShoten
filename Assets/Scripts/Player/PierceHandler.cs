@@ -69,7 +69,7 @@ public class PierceHandler : MonoBehaviour
     {
         if(useAutoAim)
         {
-            CheckFirstPierce();
+            //CheckFirstPierce();
         }
         else
         {
@@ -178,62 +178,62 @@ public class PierceHandler : MonoBehaviour
         {
             pierceArrowPreview.gameObject.SetActive(true);
             pierceArrowPreview.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
+            GameObject selectedEnemy = null;
+
+            RaycastHit2D hit;
+            float minAngleFound = pierceAimAssistAngle;
+            for (int i = 0; i < pierceAimAssistRaycastNumber; i++)
+            {
+                float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
+                float angledDirection = (Vector2.SignedAngle(Vector2.right, aimDirection)) + relativeAngle;
+                Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
+                Vector2 raycastOrigin = transform.position;
+
+                Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
+
+                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy"));
+                if (hit)
+                {
+                    if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    {
+                        selectedEnemy = hit.collider.gameObject;
+                        minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                    }
+                }
+            }
+
+            if (selectedEnemy != null)
+            {
+                pierceEndPosPreview.gameObject.SetActive(true);
+                Vector2 selectedEnemyDirection = selectedEnemy.transform.position - transform.position;
+                selectedEnemyDirection.Normalize();
+
+                pierceEndPosPreview.position = (Vector2)selectedEnemy.transform.position + selectedEnemyDirection * positionDistanceBehindEnemy;
+
+
+            }
+            else
+            {
+                pierceEndPosPreview.gameObject.SetActive(false);
+                comboPierceTimingHelper.gameObject.SetActive(false);
+            }
+
+            if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton")) && canPierce)
+            {
+                if (selectedEnemy != null)
+                {
+                    StopPhasingTime();
+                    if (currentPierce != null)
+                        StopCoroutine(currentPierce);
+                    currentPierce = StartCoroutine(Pierce(selectedEnemy));
+                }
+                //canPierce = false;
+            }
         }
         else
         {
             pierceArrowPreview.gameObject.SetActive(false);
-        }
-
-        GameObject selectedEnemy = null;
-
-        RaycastHit2D hit;
-        float minAngleFound = pierceAimAssistAngle;
-        for (int i = 0; i < pierceAimAssistRaycastNumber; i++)
-        {
-            float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
-            float angledDirection = (Vector2.SignedAngle(Vector2.right, aimDirection)) + relativeAngle;
-            Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
-            Vector2 raycastOrigin = transform.position;
-
-            Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
-
-            hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy"));
-            if (hit)
-            {
-                if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
-                {
-                    selectedEnemy = hit.collider.gameObject;
-                    minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
-                }
-            }
-        }
-
-        if (selectedEnemy != null)
-        {
-            pierceEndPosPreview.gameObject.SetActive(true);
-            Vector2 selectedEnemyDirection = selectedEnemy.transform.position - transform.position;
-            selectedEnemyDirection.Normalize();
-
-            pierceEndPosPreview.position = (Vector2)selectedEnemy.transform.position + selectedEnemyDirection * positionDistanceBehindEnemy;
-
-
-        }
-        else
-        {
             pierceEndPosPreview.gameObject.SetActive(false);
-            comboPierceTimingHelper.gameObject.SetActive(false);
-        }
-
-        if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton")) && canPierce)
-        {
-            if(selectedEnemy != null)
-            {
-                StopPhasingTime();
-                if(currentPierce != null)
-                    StopCoroutine(currentPierce);
-                currentPierce = StartCoroutine(Pierce(selectedEnemy));
-            }
-            //canPierce = false;
         }
     }
 
