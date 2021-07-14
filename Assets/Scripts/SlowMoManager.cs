@@ -7,7 +7,8 @@ public class SlowMoManager : MonoBehaviour
     public float smoothTime;
 
     [HideInInspector] public bool inSlowMo;
-    private Coroutine currentCoroutine;
+    private Coroutine currentStopCoroutine;
+    private Coroutine currentStartCoroutine;
     void Start()
     {
         inSlowMo = false;
@@ -29,25 +30,23 @@ public class SlowMoManager : MonoBehaviour
 
     public void StartSmoothSlowMo(float ratioMultiplier, float startDelay)
     {
-        if(currentCoroutine != null)
-        {
-            //StopCoroutine(currentCoroutine);
-        }
-        currentCoroutine = StartCoroutine(CSmoothStartSlowMo(ratioMultiplier, startDelay));
+        currentStartCoroutine = StartCoroutine(CSmoothStartSlowMo(ratioMultiplier, startDelay));
     }
 
     public void StopSmoothSlowMo(float stopDelay)
     {
-        if (currentCoroutine != null)
-        {
-            //StopCoroutine(currentCoroutine);
-        }
-        currentCoroutine = StartCoroutine(CSmoothStopSlowMo(stopDelay));
+        currentStopCoroutine = StartCoroutine(CSmoothStopSlowMo(stopDelay));
     }
 
     private IEnumerator CSmoothStartSlowMo(float ratioMultiplier, float startDelay)
     {
         yield return new WaitForSecondsRealtime(startDelay);
+
+        if (currentStopCoroutine != null)
+        {
+            StopCoroutine(currentStopCoroutine);
+        }
+
         float timer = 0;
         while(timer < smoothTime)
         {
@@ -68,6 +67,11 @@ public class SlowMoManager : MonoBehaviour
     {
         if (stopDelay > 0)
             yield return new WaitForSecondsRealtime(stopDelay);
+
+        if (currentStartCoroutine != null)
+        {
+            StopCoroutine(currentStartCoroutine);
+        }
         float timer = 0;
         float startSlowMoRatio = Time.timeScale;
         while (timer < smoothTime)

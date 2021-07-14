@@ -14,6 +14,8 @@ public class MovementHandler : MonoBehaviour
     public float slideSlowing;
     public float gravityForce;
     public float maxSlidingSpeed;
+    public AnimationCurve knockAwayMovement;
+    public float knockAwayTime;
     [Header("NoGravityZone settings")]
     public float NGMomentumSlowingForce;
     public float maxSpeedInNGZone;
@@ -33,6 +35,7 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public bool canMove;
     [HideInInspector] private bool isAffectedbyGravity;
     [HideInInspector] public bool isInNoGravityZone;
+    [HideInInspector] public bool isKnockedAway;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Rigidbody2D groundRb;
@@ -141,7 +144,7 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = Vector2.zero;
             }
 
-            if(!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting)
+            if(!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
             {
                 if(rb.velocity.magnitude > maxSpeedInNGZone)
                 {
@@ -182,5 +185,34 @@ public class MovementHandler : MonoBehaviour
         {
             rb.velocity += directedForce;
         }
+    }
+
+    public IEnumerator KnockAway(Vector2 directedForce)
+    {
+        isKnockedAway = true;
+
+        Vector2 knockStartPos = transform.position;
+
+        Vector2 knockEndPos = (Vector2)transform.position + directedForce;
+        Vector2 currentKnockPos = transform.position;
+        Vector2 previousKnockPos = transform.position;
+        float currentKnockSpeed;
+        canMove = false;
+
+        float dashTimeElapsed = 0;
+        while (dashTimeElapsed < knockAwayTime && isKnockedAway && !GameData.grappleHandler.isTracting && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
+        {
+            dashTimeElapsed += Time.fixedDeltaTime;
+            currentKnockPos = Vector2.LerpUnclamped(knockStartPos, knockEndPos, knockAwayMovement.Evaluate(dashTimeElapsed / knockAwayTime));
+            currentKnockSpeed = (currentKnockPos - previousKnockPos).magnitude;
+            previousKnockPos = currentKnockPos;
+
+            rb.velocity = directedForce.normalized * currentKnockSpeed * (1 / Time.fixedDeltaTime);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        canMove = true;
+        isKnockedAway = false;
     }
 }

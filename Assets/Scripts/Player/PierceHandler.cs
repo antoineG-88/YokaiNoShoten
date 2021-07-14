@@ -11,6 +11,7 @@ public class PierceHandler : MonoBehaviour
     public AnimationCurve pierceMovementCurve;
     public float pierceAttackKnockbackForce;
     public float maxPhasingTime;
+    public float pierceKnockbackForce;
     public LayerMask enemyMask;
     public GameObject pierceShadowFx;
     public GameObject pierceMarkFx;
@@ -35,7 +36,7 @@ public class PierceHandler : MonoBehaviour
     public Transform comboPierceTimingHelper;
 
     private ContactFilter2D enemyFilter;
-    private Vector2 enemyDirection;
+    private Vector2 piercableDirection;
     [HideInInspector] public bool isPiercing;
     [HideInInspector] public bool isPhasing;
     private Rigidbody2D rb;
@@ -189,7 +190,7 @@ public class PierceHandler : MonoBehaviour
                 Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
                 Vector2 raycastOrigin = transform.position;
 
-                Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
+                //Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
 
                 hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy"));
                 if (hit)
@@ -237,7 +238,7 @@ public class PierceHandler : MonoBehaviour
         }
     }
 
-    private IEnumerator Pierce(GameObject markedEnemy)
+    private IEnumerator Pierce(GameObject markedPiercable)
     {
         currentComboPierceStep = 0;
         GameData.grappleHandler.ReleaseHook();
@@ -257,45 +258,52 @@ public class PierceHandler : MonoBehaviour
         float currentPierceSpeed;
         Vector2 pierceEndPos;
 
-        enemyDirection = markedEnemy.transform.position - transform.position;
-        enemyDirection.Normalize();
-        pierceEndPos = (Vector2)markedEnemy.transform.position + enemyDirection * positionDistanceBehindEnemy;
+        piercableDirection = markedPiercable.transform.position - transform.position;
+        piercableDirection.Normalize();
+        pierceEndPos = (Vector2)markedPiercable.transform.position + piercableDirection * positionDistanceBehindEnemy;
         startPiercePos = transform.position;
         currentPiercePos = transform.position;
         previousPiercePos = transform.position;
 
-        Enemy enemy = markedEnemy.GetComponent<Enemy>();
-        if(enemy != null)
+        bool hasPierced = false;
+
+        Piercable piercable = markedPiercable.GetComponent<Piercable>();
+        Enemy enemy = markedPiercable.GetComponent<Enemy>();
+        if (enemy != null)
         {
             enemy.DisableColliderFor(0.5f);
         }
 
+        bool isPierceCancelled = false;
+
         if (damageDelay <= 0)
         {
-            if (enemy != null)
+            if (piercable != null && !hasPierced)
             {
-                enemy.TakeDamage(1, -enemy.GetComponent<Rigidbody2D>().velocity, 0.5f, false);
-                Instantiate(pierceMarkFx, enemy.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+                isPierceCancelled = piercable.PierceEffect(1, -piercableDirection * pierceKnockbackForce);
+                Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+                hasPierced = true;
             }
         }
         pierceTimeElapsed = 0;
-        while (pierceTimeElapsed < pierceMoveTime && GameData.playerManager.inControl && isPiercing)
+        while (pierceTimeElapsed < pierceMoveTime && GameData.playerManager.inControl && isPiercing && !isPierceCancelled)
         {
             pierceTimeElapsed += Time.fixedDeltaTime;
-            if (pierceTimeElapsed > damageDelay && damageDelay > 0)
+            if (pierceTimeElapsed > damageDelay && damageDelay > 0 && !hasPierced)
             {
-                if (enemy != null)
+                if (piercable != null)
                 {
-                    enemy.TakeDamage(1, -enemy.GetComponent<Rigidbody2D>().velocity, 0.5f, false);
-                    Instantiate(pierceMarkFx, enemy.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+                    isPierceCancelled = piercable.PierceEffect(1, -piercableDirection * pierceKnockbackForce);
+                    Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+                    hasPierced = true;
                 }
             }
-            Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(enemyDirection.x > 0 ? 1 : -1, 1, 1);
+            Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
             currentPiercePos = Vector2.LerpUnclamped(startPiercePos, pierceEndPos, pierceMovementCurve.Evaluate(pierceTimeElapsed / pierceMoveTime));
             currentPierceSpeed = (currentPiercePos - previousPiercePos).magnitude;
             previousPiercePos = currentPiercePos;
 
-            rb.velocity = enemyDirection * currentPierceSpeed * (1 / Time.fixedDeltaTime);
+            rb.velocity = piercableDirection * currentPierceSpeed * (1 / Time.fixedDeltaTime);
 
             yield return new WaitForFixedUpdate();
         }
@@ -307,6 +315,12 @@ public class PierceHandler : MonoBehaviour
             canPierce = true;
         GameData.dashHandler.canDash = true;
         currentPierce = null;
+
+        if(isPierceCancelled)
+        {
+            StopPhasingTime();
+            GameData.movementHandler.Propel(-piercableDirection * 5, true);
+        }
     }
 
     private void UpdatePhasingTime()

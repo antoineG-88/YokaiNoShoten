@@ -23,7 +23,7 @@ public class Dummy : Enemy
 
     public override void UpdateMovement()
     {
-        if (Vector2.Distance(transform.position, GameData.player.transform.position) > stopDistance)
+        if (distToPlayer > stopDistance)
         {
             if (provoked)
             {
@@ -54,5 +54,10 @@ public class Dummy : Enemy
                 rb.velocity = Vector2.zero;
             }
         }
+    }
+
+    public override void DamageEffect()
+    {
+
     }
 }

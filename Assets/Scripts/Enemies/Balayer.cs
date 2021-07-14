@@ -41,7 +41,6 @@ public class Balayer : Enemy
     private Vector2 potentialTargetPos;
     private float elapsedAimTime;
     private float beamCoolDownElapsed;
-    private Vector2 playerDirection;
     private bool isFacingRight;
     private SpriteRenderer sprite;
 
@@ -75,6 +74,7 @@ public class Balayer : Enemy
         if(!isShooting)
         {
             isFacingRight = pathDirection.x > 0;
+            beamWarningLine.enabled = false;
         }
 
         if (path != null && !pathEndReached && !shootDestinationReached && inControl && canBeInSight && !isShooting && !isAiming)
@@ -102,8 +102,6 @@ public class Balayer : Enemy
     {
         base.UpdateBehavior();
         playerInSight = IsPlayerInSightFrom(transform.position);
-        playerDirection = GameData.player.transform.position - transform.position;
-        playerDirection.Normalize();
         shootDestinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (/*Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius &&*/ Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)) && playerInSight;
         provoked = distToPlayer < provocationRange;
         if (provoked)
@@ -173,14 +171,21 @@ public class Balayer : Enemy
         isShooting = true;
         beamCoolDownElapsed = 0;
         float elapsedBeamTime = 0;
-        Vector2 startDirection = GameData.player.transform.position - transform.position;
+        Vector2 startDirection = playerDirection;
         startDirection.Normalize();
         float shootAngle = Vector2.SignedAngle(Vector2.right, startDirection);
         shootAngle += Random.Range(0, 2) == 0 ? beamStartAngleOffset : -beamStartAngleOffset;
         float currentRotSpeed = 0;
 
         isFacingRight = startDirection.x > 0;
+        beamWarningLine.enabled = true;
+        Vector3[] linePos = new Vector3[2];
+        linePos[0] = transform.position;
+        RaycastHit2D previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
+        linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
+        beamWarningLine.SetPositions(linePos);
         yield return new WaitForSeconds(chargeTime);
+        beamWarningLine.enabled = false;
         bool rotPositive = Vector2.SignedAngle(Vector2.right, playerDirection) - shootAngle > 0;
 
         List<GameObject> beamFxs = new List<GameObject>();
@@ -280,5 +285,10 @@ public class Balayer : Enemy
         {
             sprite.flipX = false;
         }
+    }
+
+    public override void DamageEffect()
+    {
+
     }
 }

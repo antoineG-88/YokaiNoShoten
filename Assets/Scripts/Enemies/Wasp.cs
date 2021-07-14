@@ -36,7 +36,6 @@ public class Wasp : Enemy
     private bool isRushing;
     private float rushCoolDownRemaining;
     private float rushTriggerTimeElapsed;
-    private Vector2 playerDirection;
     private bool isFacingRight;
 
 
@@ -153,7 +152,7 @@ public class Wasp : Enemy
             }
             else
             {
-                Vector2 playerOppositeDirection = transform.position - GameData.player.transform.position;
+                Vector2 playerOppositeDirection = -playerDirection;
                 playerOppositeDirection.Normalize();
                 //targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
             }
@@ -259,5 +258,10 @@ public class Wasp : Enemy
         }
 
         animator.SetBool("IsFleeing", rushCoolDownRemaining > 0);
+    }
+
+    public override void DamageEffect()
+    {
+
     }
 }
