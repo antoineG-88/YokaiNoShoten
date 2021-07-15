@@ -165,7 +165,7 @@ public class Serpent : Enemy
             Physics2D.OverlapCollider(headSpikesCollider, playerFilter, colliders);
             if (colliders.Count > 0)
             {
-                GameData.playerManager.LoseSpiritParts(spikesDamage, playerDirection * spikesKnockbackForce);
+                GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
                 currentSpeed = 0;
             }
         }

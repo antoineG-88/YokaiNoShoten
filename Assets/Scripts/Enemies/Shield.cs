@@ -27,7 +27,7 @@ public class Shield : MonoBehaviour
 
                 if ( shield.type == ShieldTypes.Damage)
                 {
-                    GameData.playerManager.LoseSpiritParts(damageShieldDamage, repulseDirection*knockbackForce);
+                    GameData.playerManager.TakeDamage(damageShieldDamage, repulseDirection*knockbackForce);
                 }
                 if (shield.type == ShieldTypes.Repulse)
                 {

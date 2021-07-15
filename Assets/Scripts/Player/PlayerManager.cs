@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void LoseSpiritParts(int damage, Vector2 knockBackDirectedForce)
+    public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
         if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
         {

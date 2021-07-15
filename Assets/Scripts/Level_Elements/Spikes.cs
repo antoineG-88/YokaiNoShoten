@@ -12,7 +12,7 @@ public class Spikes : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         Vector2 direction = collider.transform.position - transform.position;
-        GameData.playerManager.LoseSpiritParts(damage, Vector2.zero);
+        GameData.playerManager.TakeDamage(damage, Vector2.zero);
         GameData.movementHandler.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback, true);
     }
 

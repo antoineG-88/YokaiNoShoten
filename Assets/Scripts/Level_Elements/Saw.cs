@@ -27,7 +27,7 @@ public class Saw : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Vector2 direction = (Vector2)(GameData.player.transform.position - gameObject.transform.position);
-            GameData.playerManager.LoseSpiritParts(1, direction.normalized * knockbackDirectedForce);
+            GameData.playerManager.TakeDamage(1, direction.normalized * knockbackDirectedForce);
         }
     }
 

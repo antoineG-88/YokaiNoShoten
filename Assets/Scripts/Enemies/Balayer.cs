@@ -227,7 +227,7 @@ public class Balayer : Enemy
             RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall"));
             if(playerHit && playerHit.collider.CompareTag("Player"))
             {
-                GameData.playerManager.LoseSpiritParts(beamDamage, DirectionFromAngle(shootAngle) * beamKnockback);
+                GameData.playerManager.TakeDamage(beamDamage, DirectionFromAngle(shootAngle) * beamKnockback);
             }
 
             beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxBeamRange;

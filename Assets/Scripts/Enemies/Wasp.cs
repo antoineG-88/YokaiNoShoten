@@ -203,7 +203,7 @@ public class Wasp : Enemy
                 hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall"));
                 if (hasHit)
                 {
-                    GameData.playerManager.LoseSpiritParts(1, rushDirection * rushKnockbackForce);
+                    GameData.playerManager.TakeDamage(1, rushDirection * rushKnockbackForce);
                 }
 
                 else if (hitWall)

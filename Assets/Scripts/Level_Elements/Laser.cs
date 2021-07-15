@@ -39,7 +39,7 @@ public class Laser : MonoBehaviour
                 GameData.movementHandler.Propel(laserRotation * playerKnockBackForce, true);
             }
 
-            GameData.playerManager.LoseSpiritParts(damages, Vector2.zero);
+            GameData.playerManager.TakeDamage(damages, Vector2.zero);
         }
     }
 

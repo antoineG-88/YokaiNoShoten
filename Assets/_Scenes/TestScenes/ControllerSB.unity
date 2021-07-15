@@ -7186,101 +7186,6 @@ PrefabInstance:
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1885940023}
-    - target: {fileID: 3737249135459656030, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: stunTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[0].inSlope
-      value: 3.7499998
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[0].outSlope
-      value: 3.7499998
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].time
-      value: 0.35340148
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].value
-      value: 0.74469763
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].inSlope
-      value: 0.9066409
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].outSlope
-      value: 0.9066409
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].inWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].outWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[2].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[2].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[1].weightedMode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[2].weightedMode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[2].inWeight
-      value: 0.34001148
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[2].inSlope
-      value: 0.14943515
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[2].outSlope
-      value: 0.14943515
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayMovement.m_Curve.Array.data[0].outWeight
-      value: 0.033333335
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: knockAwayTime
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 3737249135459656034, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7752,11 +7657,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1133783526514271775, guid: 818fe825f5c695549ab4f1fd7b038272,
-        type: 3}
-      propertyPath: beamCoolDown
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 818fe825f5c695549ab4f1fd7b038272, type: 3}

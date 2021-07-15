@@ -55,7 +55,7 @@ public class SerpentBomb : MonoBehaviour
         {
             Vector2 playerDirection = GameData.player.transform.position - transform.position;
             playerDirection.Normalize();
-            GameData.playerManager.LoseSpiritParts(damage, playerDirection * knockbackForce);
+            GameData.playerManager.TakeDamage(damage, playerDirection * knockbackForce);
         }
         Destroy(gameObject);
     }

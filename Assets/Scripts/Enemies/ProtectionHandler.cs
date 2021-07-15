@@ -54,7 +54,7 @@ public class ProtectionHandler : MonoBehaviour
     private void CounterAttack(Vector2 attackDirection)
     {
         GameData.dashHandler.isDashing = false;
-        GameData.playerManager.LoseSpiritParts(counterAttackDamage, attackDirection * counterAttackknockbackForce);
+        GameData.playerManager.TakeDamage(counterAttackDamage, attackDirection * counterAttackknockbackForce);
         StartCoroutine(GameData.playerManager.NoControl(0.5f));
     }
 

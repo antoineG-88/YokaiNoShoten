@@ -348,6 +348,40 @@ MonoBehaviour:
   slideSlowing: 0
   gravityForce: 20
   maxSlidingSpeed: 15
+  knockAwayMovement:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.7499998
+      outSlope: 3.7499998
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.033333335
+    - serializedVersion: 3
+      time: 0.35340148
+      value: 0.74469763
+      inSlope: 0.9066409
+      outSlope: 0.9066409
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.14943515
+      outSlope: 0.14943515
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.34001148
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  knockAwayTime: 0.4
   NGMomentumSlowingForce: 0.7
   maxSpeedInNGZone: 8
   moveWithRightJoystick: 0
@@ -357,6 +391,7 @@ MonoBehaviour:
   isOnSlope: 0
   canMove: 0
   isInNoGravityZone: 0
+  isKnockedAway: 0
   rb: {fileID: 0}
   groundRb: {fileID: 0}
 --- !u!114 &3737249135459656029
@@ -456,6 +491,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   pierceAttackKnockbackForce: 3
   maxPhasingTime: 2
+  pierceKnockbackForce: 0
   enemyMask:
     serializedVersion: 2
     m_Bits: 2048
