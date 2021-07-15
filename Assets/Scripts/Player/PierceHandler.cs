@@ -192,7 +192,7 @@ public class PierceHandler : MonoBehaviour
 
                 //Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
 
-                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy"));
+                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy", "Piercable"));
                 if (hit)
                 {
                     if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)

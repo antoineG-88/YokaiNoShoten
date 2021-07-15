@@ -23,6 +23,10 @@ public class Serpent : Enemy
     public float spikesReactivationTime;
     public Collider2D headSpikesCollider;
     public SerpentTail tail;
+    [Header("Display settings")]
+    public List<Rigidbody2D> bodiesRb;
+    public SpriteRenderer headSprite;
+    public float maxDistanceBetweenBodyParts;
 
     private bool isTooFarFromPlayer;
     private float currentSpeed;
@@ -31,12 +35,16 @@ public class Serpent : Enemy
     private float targetSpeed;
     private float angleDifferenceToTarget;
     private bool wallAhead;
+    private List<Vector2> movementTrailPos;
+    private List<int> currentBodyTrailPosIndex;
 
     private ContactFilter2D playerFilter;
     private bool isSpikesActive;
     private float inactiveSpikeTimeElapsed;
     private Vector2 detectionZoneCenterOffset;
     private bool headingToFirstPoint;
+    private bool isFacingLeft;
+    private List<SpriteRenderer> bodiesSprite;
 
     private new void Start()
     {
@@ -48,11 +56,21 @@ public class Serpent : Enemy
         tail.serpent = this;
         isSpikesActive = true;
         headingToFirstPoint = true;
+        bodiesSprite = new List<SpriteRenderer>();
+        currentBodyTrailPosIndex = new List<int>();
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            bodiesSprite.Add(bodiesRb[i].GetComponentInChildren<SpriteRenderer>());
+            currentBodyTrailPosIndex.Add(0);
+        }
+        movementTrailPos = new List<Vector2>();
+        movementTrailPos.Add(transform.position);
     }
 
     private new void Update()
     {
         base.Update();
+        UpdateVisuals();
     }
 
     private new void FixedUpdate()
@@ -107,7 +125,15 @@ public class Serpent : Enemy
         }
 
         rb.velocity = currentDirection * currentSpeed;
+        movementTrailPos.Add(transform.position);
+        for (int i = 0; i < currentBodyTrailPosIndex.Count; i++)
+        {
+            //currentBodyTrailPosIndex[i]++;
+        }
         transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
+        isFacingLeft = currentDirection.x < 0;
+
+        UpdateBodyPos();
     }
 
     protected override void UpdateBehavior()
@@ -152,7 +178,6 @@ public class Serpent : Enemy
                     headingToFirstPoint = true;
                 }
             }
-            //targetPathfindingPosition = initialPos;
         }
     }
 
@@ -188,6 +213,34 @@ public class Serpent : Enemy
         //ajouter anim et effet
     }
 
+    private void UpdateBodyPos()
+    {
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            while (Vector2.Distance(movementTrailPos[currentBodyTrailPosIndex[i]], i == 0 ? (Vector2)transform.position : movementTrailPos[currentBodyTrailPosIndex[i - 1]]) > maxDistanceBetweenBodyParts)
+            {
+                currentBodyTrailPosIndex[i]++;
+            }
+            bodiesRb[i].transform.position = movementTrailPos[currentBodyTrailPosIndex[i]];
+            Vector2 direction = movementTrailPos[currentBodyTrailPosIndex[i]] - bodiesRb[i].position;
+            bodiesRb[i].velocity = direction;
+
+            while(i == (bodiesRb.Count - 1) && currentBodyTrailPosIndex[i] > 0)
+            {
+                movementTrailPos.RemoveAt(0);
+                for (int y = 0; y < currentBodyTrailPosIndex.Count; y++)
+                {
+                    currentBodyTrailPosIndex[y]--;
+                }
+            }
+        }
+
+        for (int i = 0; i < movementTrailPos.Count; i++)
+        {
+            Debug.DrawRay(movementTrailPos[i], Vector3.up * 0.1f, Color.blue);
+        }
+    }
+
     public override void DamageEffect()
     {
         maxSpeed = 0;
@@ -196,5 +249,31 @@ public class Serpent : Enemy
     private void OnDestroy()
     {
         Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    private void UpdateVisuals()
+    {
+        if (isFacingLeft && !headSprite.flipY)
+        {
+            headSprite.flipY = true;
+        }
+        if (!isFacingLeft && headSprite.flipY)
+        {
+            headSprite.flipY = false;
+        }
+
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            bodiesRb[i].transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, bodiesRb[i].velocity));
+
+            if (bodiesRb[i].velocity.x < 0 && !bodiesSprite[i].flipY)
+            {
+                bodiesSprite[i].flipY = true;
+            }
+            if (bodiesRb[i].velocity.x > 0 && bodiesSprite[i].flipY)
+            {
+                bodiesSprite[i].flipY = false;
+            }
+        }
     }
 }

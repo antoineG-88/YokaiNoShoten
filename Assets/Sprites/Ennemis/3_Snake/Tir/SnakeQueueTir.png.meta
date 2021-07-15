@@ -1,28 +1,31 @@
 fileFormatVersion: 2
-guid: 29d81859ce19c164188ec988c0f962f7
+guid: 8b6c1ec3ab3b77a49b922b8da0f04c52
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6527728040324316025
-    second: CircleKickFxDeOuf_0
+      213: -1892927691064658632
+    second: SnakeQueueTir_0
   - first:
-      213: 8442049678260232825
-    second: CircleKickFxDeOuf_1
+      213: 3236835211161618842
+    second: SnakeQueueTir_1
   - first:
-      213: 6661223465643784462
-    second: CircleKickFxDeOuf_2
+      213: 6338401488210099374
+    second: SnakeQueueTir_2
   - first:
-      213: -213134493120399900
-    second: CircleKickFxDeOuf_3
+      213: -7978569691430739590
+    second: SnakeQueueTir_3
   - first:
-      213: 8063294229965312128
-    second: CircleKickFxDeOuf_4
+      213: 1246821861323198224
+    second: SnakeQueueTir_4
   - first:
-      213: 4922347884656908851
-    second: CircleKickFxDeOuf_5
+      213: 4007407916561828048
+    second: SnakeQueueTir_5
   - first:
-      213: 1248724721061317927
-    second: CircleKickFxDeOuf_6
+      213: -5315707709574946508
+    second: SnakeQueueTir_6
+  - first:
+      213: -4595688859131022243
+    second: SnakeQueueTir_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -78,11 +81,11 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -94,7 +97,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -108,13 +111,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_0
+      name: SnakeQueueTir_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 748007506310d5a4b95e3dc7144e48d6
-      internalID: 6527728040324316025
+      spriteID: 835379c4b48fab5e0800000000000000
+      internalID: -1892927691064658632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_1
+      name: SnakeQueueTir_1
       rect:
         serializedVersion: 2
-        x: 100
+        x: 45
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3fb8620ccae61742a54925fd6f2ed0c
-      internalID: 8442049678260232825
+      spriteID: a99c3cd997c8bec20800000000000000
+      internalID: 3236835211161618842
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_2
+      name: SnakeQueueTir_2
       rect:
         serializedVersion: 2
-        x: 200
+        x: 90
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,20 +167,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90cda977119574f41b1746678b52bcb7
-      internalID: 6661223465643784462
+      spriteID: eacf19c329686f750800000000000000
+      internalID: 6338401488210099374
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_3
+      name: SnakeQueueTir_3
       rect:
         serializedVersion: 2
-        x: 300
+        x: 135
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,20 +188,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4846b26fe62f184bbea1868f9501f9e
-      internalID: -213134493120399900
+      spriteID: a71a29e432d664190800000000000000
+      internalID: -7978569691430739590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_4
+      name: SnakeQueueTir_4
       rect:
         serializedVersion: 2
-        x: 400
+        x: 180
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,20 +209,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf9e0b6231c705341aed32fb6ac6601d
-      internalID: 8063294229965312128
+      spriteID: 01f4c5e70e99d4110800000000000000
+      internalID: 1246821861323198224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_5
+      name: SnakeQueueTir_5
       rect:
         serializedVersion: 2
-        x: 500
+        x: 225
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,20 +230,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 476c5009a56bf204e934873ca1d875b1
-      internalID: 4922347884656908851
+      spriteID: 0d881c8944c2d9730800000000000000
+      internalID: 4007407916561828048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CircleKickFxDeOuf_6
+      name: SnakeQueueTir_6
       rect:
         serializedVersion: 2
-        x: 600
+        x: 270
         y: 0
-        width: 100
-        height: 100
+        width: 45
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,8 +251,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2eb80115da5f66844821c605e265b117
-      internalID: 1248724721061317927
+      spriteID: 431eaf08000da36b0800000000000000
+      internalID: -5315707709574946508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SnakeQueueTir_7
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 0
+        width: 45
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d547645e455d830c0800000000000000
+      internalID: -4595688859131022243
       vertices: []
       indices: 
       edges: []
