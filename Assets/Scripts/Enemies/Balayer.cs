@@ -36,12 +36,11 @@ public class Balayer : Enemy
     private bool isShooting;
     private bool isAiming;
     private bool playerInSight;
-    private bool destinationReached;
+    private bool shootDestinationReached;
     private bool canBeInSight;
     private Vector2 potentialTargetPos;
     private float elapsedAimTime;
     private float beamCoolDownElapsed;
-    private Vector2 playerDirection;
     private bool isFacingRight;
     private SpriteRenderer sprite;
 
@@ -50,7 +49,7 @@ public class Balayer : Enemy
         base.Start();
         provoked = false;
         isShooting = false;
-        destinationReached = false;
+        shootDestinationReached = false;
         playerInSight = false;
         canBeInSight = true;
         elapsedAimTime = 0;
@@ -75,9 +74,10 @@ public class Balayer : Enemy
         if(!isShooting)
         {
             isFacingRight = pathDirection.x > 0;
+            beamWarningLine.enabled = false;
         }
 
-        if (path != null && !pathEndReached && !destinationReached && inControl && canBeInSight && !isShooting && !isAiming)
+        if (path != null && !pathEndReached && !shootDestinationReached && inControl && canBeInSight && !isShooting && !isAiming)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -102,24 +102,22 @@ public class Balayer : Enemy
     {
         base.UpdateBehavior();
         playerInSight = IsPlayerInSightFrom(transform.position);
-        playerDirection = GameData.player.transform.position - transform.position;
-        playerDirection.Normalize();
-        destinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius && Vector2.Distance(targetPathfindingPosition, initialPos) > movementZoneRadius)) && playerInSight;
+        shootDestinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (/*Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius &&*/ Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)) && playerInSight;
         provoked = distToPlayer < provocationRange;
         if (provoked)
         {
             potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
-            if (potentialTargetPos != (Vector2)transform.position)
+            if (potentialTargetPos != (Vector2)transform.position && Vector2.Distance(potentialTargetPos, initialPos) <= movementZoneRadius) // check if the result of the sight spot is valid
             {
                 targetPathfindingPosition = potentialTargetPos;
                 canBeInSight = true;
             }
             else
             {
-                canBeInSight = false;
+                canBeInSight = true;
             }
 
-            if(!destinationReached)
+            if(!shootDestinationReached)
             {
                 isAiming = false;
                 elapsedAimTime = 0;
@@ -155,7 +153,7 @@ public class Balayer : Enemy
         else
         {
             targetPathfindingPosition = initialPos;
-            destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
+            shootDestinationReached = Vector2.Distance(transform.position, initialPos) < 1;
         }
 
 
@@ -173,14 +171,21 @@ public class Balayer : Enemy
         isShooting = true;
         beamCoolDownElapsed = 0;
         float elapsedBeamTime = 0;
-        Vector2 startDirection = GameData.player.transform.position - transform.position;
+        Vector2 startDirection = playerDirection;
         startDirection.Normalize();
         float shootAngle = Vector2.SignedAngle(Vector2.right, startDirection);
         shootAngle += Random.Range(0, 2) == 0 ? beamStartAngleOffset : -beamStartAngleOffset;
         float currentRotSpeed = 0;
 
         isFacingRight = startDirection.x > 0;
+        beamWarningLine.enabled = true;
+        Vector3[] linePos = new Vector3[2];
+        linePos[0] = transform.position;
+        RaycastHit2D previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
+        linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
+        beamWarningLine.SetPositions(linePos);
         yield return new WaitForSeconds(chargeTime);
+        beamWarningLine.enabled = false;
         bool rotPositive = Vector2.SignedAngle(Vector2.right, playerDirection) - shootAngle > 0;
 
         List<GameObject> beamFxs = new List<GameObject>();
@@ -266,7 +271,7 @@ public class Balayer : Enemy
             Destroy(beamFxs[i]);
             beamFxs.RemoveAt(i);
         }
-        Destroy(beamEnd);
+        DestroyImmediate(beamEnd);
     }
 
 
@@ -280,5 +285,10 @@ public class Balayer : Enemy
         {
             sprite.flipX = false;
         }
+    }
+
+    public override void DamageEffect()
+    {
+
     }
 }

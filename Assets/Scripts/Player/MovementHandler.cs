@@ -14,6 +14,13 @@ public class MovementHandler : MonoBehaviour
     public float slideSlowing;
     public float gravityForce;
     public float maxSlidingSpeed;
+    public AnimationCurve knockAwayMovement;
+    public float knockAwayTime;
+    [Header("NoGravityZone settings")]
+    public float NGMomentumSlowingForce;
+    public float maxSpeedInNGZone;
+    [Tooltip("Cursed")]
+    public bool moveWithRightJoystick;
     [Space]
     [Header("References")]
     public Collider2D feetCollider;
@@ -26,7 +33,9 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public bool isOnSlope;
     [HideInInspector] public bool canMove;
-    [HideInInspector] public bool isAffectedbyGravity;
+    [HideInInspector] private bool isAffectedbyGravity;
+    [HideInInspector] public bool isInNoGravityZone;
+    [HideInInspector] public bool isKnockedAway;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Rigidbody2D groundRb;
@@ -64,7 +73,7 @@ public class MovementHandler : MonoBehaviour
 
     private void GetInputs()
     {
-        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? Input.GetAxis("LeftStickH") * walkingMaxSpeed : 0;
+        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? (moveWithRightJoystick ? Input.GetAxis("RightStickH") : Input.GetAxis("LeftStickH")) * walkingMaxSpeed : 0;
         if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
         {
             horizontalTargetSpeed = 0;
@@ -84,7 +93,7 @@ public class MovementHandler : MonoBehaviour
 
         if (horizontalTargetSpeed != relativeVelocity.x)
         {
-            currentAcceleration = isGrounded ? isOnSlope ? slideAcceleration : walkingAcceleration : airAcceleration;
+            currentAcceleration = isInNoGravityZone ? 0 : (isGrounded ? (isOnSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
             currentSlowing = isGrounded ? isOnSlope ? slideSlowing : groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
@@ -117,9 +126,31 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
         }
 
+        isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && !isInNoGravityZone;
+
         if (isAffectedbyGravity)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
+        }
+
+        if(isInNoGravityZone)
+        {
+            if(rb.velocity.magnitude > NGMomentumSlowingForce * Time.fixedDeltaTime)
+            {
+                rb.velocity -= rb.velocity * (NGMomentumSlowingForce * Time.fixedDeltaTime);
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
+
+            if(!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
+            {
+                if(rb.velocity.magnitude > maxSpeedInNGZone)
+                {
+                    rb.velocity = rb.velocity.normalized * maxSpeedInNGZone;
+                }
+            }
         }
     }
 
@@ -127,7 +158,7 @@ public class MovementHandler : MonoBehaviour
     {
         List<Collider2D> colliders = new List<Collider2D>();
         Physics2D.OverlapCollider(feetCollider, groundFilter, colliders);
-        if(colliders.Count > 0)
+        if(colliders.Count > 0 && !isInNoGravityZone)
         {
             return true;
         }
@@ -154,5 +185,34 @@ public class MovementHandler : MonoBehaviour
         {
             rb.velocity += directedForce;
         }
+    }
+
+    public IEnumerator KnockAway(Vector2 directedForce)
+    {
+        isKnockedAway = true;
+
+        Vector2 knockStartPos = transform.position;
+
+        Vector2 knockEndPos = (Vector2)transform.position + directedForce;
+        Vector2 currentKnockPos = transform.position;
+        Vector2 previousKnockPos = transform.position;
+        float currentKnockSpeed;
+        canMove = false;
+
+        float dashTimeElapsed = 0;
+        while (dashTimeElapsed < knockAwayTime && isKnockedAway && !GameData.grappleHandler.isTracting && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
+        {
+            dashTimeElapsed += Time.fixedDeltaTime;
+            currentKnockPos = Vector2.LerpUnclamped(knockStartPos, knockEndPos, knockAwayMovement.Evaluate(dashTimeElapsed / knockAwayTime));
+            currentKnockSpeed = (currentKnockPos - previousKnockPos).magnitude;
+            previousKnockPos = currentKnockPos;
+
+            rb.velocity = directedForce.normalized * currentKnockSpeed * (1 / Time.fixedDeltaTime);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        canMove = true;
+        isKnockedAway = false;
     }
 }

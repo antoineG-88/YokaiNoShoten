@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : Piercable
 {
     [Header("General settings")]
     public int maxHealthPoint;
-    public List<BodyPart> damagableBodyParts;
     public float movementZoneRadius;
     public AnimationClip hurtAnimClip;
     public AnimationClip deathAnimClip;
@@ -37,16 +36,20 @@ public abstract class Enemy : MonoBehaviour
     protected Vector2 targetPathfindingPosition;
     protected float timeBeforeNextPathUpdate;
     protected float distToPlayer;
+    protected Vector2 playerDirection;
+    protected bool isProtected;
 
     protected bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
+    [HideInInspector] public bool isDying;
 
     protected Animator animator;
-    protected ProtectionHandler protectionHandler;
-
+    protected Collider2D ownCollider;
+    protected float timeBeforeColliderActive;
     protected void Start()
     {
+        ownCollider = GetComponent<Collider2D>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
@@ -57,8 +60,7 @@ public abstract class Enemy : MonoBehaviour
         targetPathfindingPosition = transform.position;
         inControl = true;
         pathPositions = new List<Vector3>();
-        protectionHandler = GetComponent<ProtectionHandler>();
-        ConnectBodyParts();
+        isProtected = false;
     }
     protected void Update()
     {
@@ -79,6 +81,14 @@ public abstract class Enemy : MonoBehaviour
     protected void FixedUpdate()
     {
         recentlyHit = false;
+        if(timeBeforeColliderActive > 0)
+        {
+            timeBeforeColliderActive -= Time.fixedDeltaTime * (1 / Time.timeScale);
+        }
+        else if(!ownCollider.enabled)
+        {
+            ownCollider.enabled = true;
+        }
         AvoidOtherEnemies();
         UpdateMovement();
     }
@@ -155,7 +165,7 @@ public abstract class Enemy : MonoBehaviour
                         directedForce = directedForce.normalized * maximalAvoidForce;
                     }
 
-                    closeEnemy.GetComponent<Enemy>().Propel(directedForce * Time.fixedDeltaTime);
+                    //closeEnemy.GetComponent<Enemy>().Propel(directedForce * Time.fixedDeltaTime);
                 }
             }
         }
@@ -164,17 +174,15 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void UpdateBehavior()
     {
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
+        playerDirection = GameData.player.transform.position - transform.position;
+        playerDirection.Normalize();
     }
 
-    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime, bool isOtherBodyPart)
+    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
     {
         if(!recentlyHit)
         {
             bool isProtected = false;
-            if (!isOtherBodyPart && protectionHandler != null)
-            {
-                isProtected = protectionHandler.IsProtected(directedForce);
-            }
 
             if (!isProtected)
             {
@@ -186,11 +194,14 @@ public abstract class Enemy : MonoBehaviour
                 {
                     StartCoroutine(Die());
                 }
+                DamageEffect();
             }
 
             recentlyHit = true;
         }
     }
+
+    public abstract void DamageEffect();
 
     public void Propel(Vector2 directedForce)
     {
@@ -211,6 +222,11 @@ public abstract class Enemy : MonoBehaviour
         {
             return false;
         }
+    }
+
+    protected bool IsLineOfViewClearBetween(Vector2 startPos, Vector2 endPos)
+    {
+        return !Physics2D.Raycast(startPos, endPos - startPos, 100, LayerMask.GetMask("Wall"));
     }
 
     protected Vector2 FindNearestSightSpot(float angleInterval, float distance, bool addShorterSpot)
@@ -294,7 +310,8 @@ public abstract class Enemy : MonoBehaviour
     private IEnumerator Die()
     {
         animator.SetBool("Dead",true);
-        yield return new WaitForSeconds(deathAnimClip.length + hurtAnimClip.length);
+        isDying = true;
+        yield return new WaitForSeconds(deathAnimClip.length);
         Destroy(gameObject);
     }
 
@@ -305,17 +322,24 @@ public abstract class Enemy : MonoBehaviour
         inControl = true;
     }
 
-    public void ConnectBodyParts()
+    public void DisableColliderFor(float time)
     {
-        foreach(BodyPart bodyPart in damagableBodyParts)
-        {
-            bodyPart.owner = this;
-        }
+        timeBeforeColliderActive = time;
+        ownCollider.enabled = false;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(initialPos, movementZoneRadius);
+    }
+
+    public override bool PierceEffect(int damage, Vector2 directedForce)
+    {
+        if (!isProtected)
+        {
+            TakeDamage(damage, directedForce, 0.5f);
+        }
+        return isProtected;
     }
 }

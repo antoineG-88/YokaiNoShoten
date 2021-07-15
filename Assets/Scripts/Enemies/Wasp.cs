@@ -10,6 +10,8 @@ public class Wasp : Enemy
     public float provocationRange;
     public float safeDistanceToPlayer;
     public float safeDistanceWidth;
+    public float rangeFromInitialPos;
+    public float maxRangeFromInitialPos;
     [Header("RushAttack settings")]
     public float rushCooldown;
     public float rushTriggerDistance;
@@ -17,9 +19,12 @@ public class Wasp : Enemy
     public float rushLength;
     public float rushTime;
     public float rushRadius;
+    public float rushWallRadius;
     public float rushStunTime;
     public float rushKnockbackForce;
+    public float wallStunTime;
     public AnimationCurve rushCurve;
+    private bool isStuckInWall = false;
     [Header("Visuals")]
     public SpriteRenderer sprite;
 
@@ -31,8 +36,8 @@ public class Wasp : Enemy
     private bool isRushing;
     private float rushCoolDownRemaining;
     private float rushTriggerTimeElapsed;
-    private Vector2 playerDirection;
     private bool isFacingRight;
+
 
     private AntiGrabShieldHandler antiGrabShieldHandler;
 
@@ -62,7 +67,7 @@ public class Wasp : Enemy
 
     public override void UpdateMovement()
     {
-        if(!isRushing)
+        if (!isRushing)
         {
             isFacingRight = pathDirection.x > 0;
             if (path != null && !pathEndReached && !destinationReached && inControl)
@@ -92,11 +97,19 @@ public class Wasp : Enemy
         base.UpdateBehavior();
         provoked = distToPlayer < provocationRange;
         pathNeedUpdate = false;
-        if (provoked && inControl)
+        rangeFromInitialPos = Vector2.Distance(transform.position, initialPos);
+        if (rangeFromInitialPos > maxRangeFromInitialPos && inControl)
+        {
+            rushTriggerTimeElapsed = 0;
+            animator.SetInteger("RushStep", 0);
+            targetPathfindingPosition = initialPos;
+        }
+        else if (provoked && inControl)
         {
             fleeing = distToPlayer < safeDistanceToPlayer && rushCoolDownRemaining > 0;
 
-            if (rushCoolDownRemaining <= 0)
+
+            if (rushCoolDownRemaining <= 0 && IsPlayerInSightFrom(transform.position))
             {
                 destinationReached = distToPlayer < rushTriggerDistance;
 
@@ -120,6 +133,8 @@ public class Wasp : Enemy
             else
             {
                 rushCoolDownRemaining -= Time.deltaTime;
+                rushTriggerTimeElapsed = 0;
+                animator.SetInteger("RushStep", 0);
 
                 if (destinationReached != distToPlayer >= safeDistanceToPlayer && distToPlayer < safeDistanceToPlayer + safeDistanceWidth)
                 {
@@ -131,18 +146,18 @@ public class Wasp : Enemy
 
 
 
-            if(!fleeing)
+            if (!fleeing)
             {
                 targetPathfindingPosition = GameData.player.transform.position;
             }
             else
             {
-                Vector2 playerOppositeDirection = transform.position - GameData.player.transform.position;
+                Vector2 playerOppositeDirection = -playerDirection;
                 playerOppositeDirection.Normalize();
-                targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
+                //targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
             }
 
-            if(pathNeedUpdate)
+            if (pathNeedUpdate)
             {
                 UpdatePath();
             }
@@ -151,6 +166,8 @@ public class Wasp : Enemy
         {
             targetPathfindingPosition = initialPos;
             destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
+            animator.SetInteger("RushStep", 0);
+            rushTriggerTimeElapsed = 0;
         }
     }
 
@@ -167,6 +184,7 @@ public class Wasp : Enemy
         Vector2 previousRushPos = transform.position;
         float currentRushSpeed;
         bool hasHit = false;
+        bool hitWall = false;
         transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
 
         float dashTimeElapsed = 0;
@@ -179,12 +197,20 @@ public class Wasp : Enemy
             previousRushPos = rushPos;
             rb.velocity = rushDirection * currentRushSpeed * (1 / Time.fixedDeltaTime);
 
-            if(!hasHit)
+            if (!hasHit)
             {
                 hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
+                hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall"));
                 if (hasHit)
                 {
                     GameData.playerManager.LoseSpiritParts(1, rushDirection * rushKnockbackForce);
+                }
+
+                else if (hitWall)
+                {
+                    isStuckInWall = true;
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                    //play stuck anim
                 }
             }
 
@@ -193,13 +219,24 @@ public class Wasp : Enemy
         isRushing = false;
         animator.SetInteger("RushStep", 0);
         transform.rotation = Quaternion.identity;
-        yield return new WaitForSeconds(rushStunTime);
-        inControl = true;
+        if (isStuckInWall != true)
+        {
+            yield return new WaitForSeconds(rushStunTime);
+            inControl = true;
+        }
+        else
+        {
+            yield return new WaitForSeconds(wallStunTime);
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            inControl = true;
+            isStuckInWall = false;
+        }
     }
 
     private void UpdateShield()
     {
-        if(isFacingRight)
+        if (isFacingRight)
         {
             antiGrabShieldHandler.ChangeShieldAngle(antiGrabShieldHandler.shields[0], 0);
         }
@@ -211,7 +248,7 @@ public class Wasp : Enemy
 
     private void UpdateVisuals()
     {
-        if(isFacingRight && !sprite.flipX)
+        if (isFacingRight && !sprite.flipX)
         {
             sprite.flipX = true;
         }
@@ -221,5 +258,10 @@ public class Wasp : Enemy
         }
 
         animator.SetBool("IsFleeing", rushCoolDownRemaining > 0);
+    }
+
+    public override void DamageEffect()
+    {
+
     }
 }
