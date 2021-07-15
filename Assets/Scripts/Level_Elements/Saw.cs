@@ -20,7 +20,7 @@ public class Saw : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SawMovement();
+      //  SawMovement();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -31,7 +31,7 @@ public class Saw : MonoBehaviour
         }
     }
 
-    private void SawMovement()
+   /* private void SawMovement()
     {
         if (goesRight == true)
         {
@@ -52,5 +52,5 @@ public class Saw : MonoBehaviour
                 goesRight = true;
             }
         }
-    }
+    }*/
 }
