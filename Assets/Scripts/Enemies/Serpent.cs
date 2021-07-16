@@ -7,6 +7,7 @@ public class Serpent : Enemy
     [Header("Movement settings")]
     public float maxSpeed;
     public float fleeMaxSpeed;
+    public float noGravityZoneMaxSpeed;
     public float accelerationForce;
     public float wallDetectionDistance;
     public float slowSpeed;
@@ -45,6 +46,7 @@ public class Serpent : Enemy
     private bool headingToFirstPoint;
     private bool isFacingLeft;
     private List<SpriteRenderer> bodiesSprite;
+    [HideInInspector] public bool isInNoGravityZone;
 
     private new void Start()
     {
@@ -82,7 +84,7 @@ public class Serpent : Enemy
     public override void UpdateMovement()
     {
         wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
-        targetSpeed = wallAhead ? slowSpeed : isSpikesActive ? maxSpeed : fleeMaxSpeed;
+        targetSpeed = isInNoGravityZone ? noGravityZoneMaxSpeed : (wallAhead ? slowSpeed : (isSpikesActive ? maxSpeed : fleeMaxSpeed));
 
         if (!inControl)
         {
@@ -104,24 +106,27 @@ public class Serpent : Enemy
             currentSpeed -= accelerationForce * Time.fixedDeltaTime;
         }
 
-        currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
-        if (targetPathfindingPosition != (Vector2)transform.position)
+        if(!isInNoGravityZone)
         {
-            Vector2 targetDirection = targetPathfindingPosition - (Vector2)transform.position;
-            angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, IsLineOfViewClearBetween(transform.position, targetPathfindingPosition) ? targetDirection : (GetPathNextPosition(2) - (Vector2)transform.position));
-            if (Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
+            currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
+            if (targetPathfindingPosition != (Vector2)transform.position)
             {
-                currentAngle += Mathf.Sign(angleDifferenceToTarget) * steeringRatio * currentSpeed * Time.fixedDeltaTime;
+                Vector2 targetDirection = targetPathfindingPosition - (Vector2)transform.position;
+                angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, IsLineOfViewClearBetween(transform.position, targetPathfindingPosition) ? targetDirection : (GetPathNextPosition(2) - (Vector2)transform.position));
+                if (Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
+                {
+                    currentAngle += Mathf.Sign(angleDifferenceToTarget) * steeringRatio * currentSpeed * Time.fixedDeltaTime;
+                    currentDirection = DirectionFromAngle(currentAngle);
+                }
+            }
+            else if (wallAhead)
+            {
+                RaycastHit2D leftHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle + 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
+                RaycastHit2D rightHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle - 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
+                float addedSteerAngle = steeringRatio * 7 * Time.fixedDeltaTime;
+                currentAngle += leftHit ? rightHit ? leftHit.distance > rightHit.distance ? addedSteerAngle : -addedSteerAngle : -addedSteerAngle : rightHit ? addedSteerAngle : -addedSteerAngle;
                 currentDirection = DirectionFromAngle(currentAngle);
             }
-        }
-        else if (wallAhead)
-        {
-            RaycastHit2D leftHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle + 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
-            RaycastHit2D rightHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle - 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
-            float addedSteerAngle = steeringRatio * 7 * Time.fixedDeltaTime;
-            currentAngle += leftHit ? rightHit ? leftHit.distance > rightHit.distance ? addedSteerAngle : -addedSteerAngle : -addedSteerAngle : rightHit ? addedSteerAngle : -addedSteerAngle;
-            currentDirection = DirectionFromAngle(currentAngle);
         }
 
         rb.velocity = currentDirection * currentSpeed;
