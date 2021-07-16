@@ -1521,6 +1521,7 @@ MonoBehaviour:
   isDying: 0
   maxSpeed: 7
   fleeMaxSpeed: 3
+  noGravityZoneMaxSpeed: 5
   accelerationForce: 5
   wallDetectionDistance: 3
   slowSpeed: 4
@@ -1544,6 +1545,7 @@ MonoBehaviour:
   - {fileID: 5202223809162792923}
   headSprite: {fileID: 5202223807556047668}
   maxDistanceBetweenBodyParts: 0.75
+  isInNoGravityZone: 0
 --- !u!50 &5202223809458673484
 Rigidbody2D:
   serializedVersion: 4
