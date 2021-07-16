@@ -7,37 +7,50 @@ public class Laser : MonoBehaviour
     PlayerManager player;
     public int damages;
     public int playerKnockBackForce;
-    float playerDistance;
-    float laserAngle;
+    public Switch connectedSwitch;
+    public bool doesOnMeansActive;
+    public Collider2D laserCollider;
+    public SpriteRenderer spriteRenderer;
 
+    private float playerDistance;
+    private float laserAngle;
+    private bool isActive;
     private void Start()
     {
         laserAngle = transform.rotation.eulerAngles.z;
+        isActive = true;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         player = collision.GetComponent<PlayerManager>();
 
-        if(player != null)
+        if(player != null && isActive)
         {
-            if(GameData.dashHandler.isDashing == false)
+            GameData.dashHandler.isDashing = false;
+            Vector2 playerDirection = GameData.player.transform.position - transform.position;
+            Vector2 laserRotation = new Vector2(Mathf.Cos(Mathf.Deg2Rad * laserAngle), Mathf.Sin(Mathf.Deg2Rad * laserAngle));
+            laserRotation.Normalize();
+
+            if (Vector2.Angle(laserRotation, playerDirection) > 90)
             {
-                Vector2 playerDirection = GameData.player.transform.position - transform.position;
-                Vector2 laserRotation = new Vector2(Mathf.Cos(Mathf.Deg2Rad * laserAngle), Mathf.Sin(Mathf.Deg2Rad * laserAngle));
-                laserRotation.Normalize();
-
-                if(Vector2.Angle(laserRotation, playerDirection) > 90)
-                {
-                    GameData.movementHandler.Propel(-laserRotation * playerKnockBackForce, true);
-                }
-                else
-                {
-                    GameData.movementHandler.Propel(laserRotation * playerKnockBackForce, true);
-                }
-
-                GameData.playerManager.LoseSpiritParts(damages, Vector2.zero);
-                
+                GameData.playerManager.TakeDamage(damages, -laserRotation * playerKnockBackForce);
             }
+            else
+            {
+                GameData.playerManager.TakeDamage(damages, laserRotation * playerKnockBackForce);
+            }
+
+        }
+    }
+
+    private void Update()
+    {
+        if(connectedSwitch != null)
+        {
+            isActive = doesOnMeansActive ? connectedSwitch.isOn : !connectedSwitch.isOn;
+
+            laserCollider.enabled = isActive;
+            spriteRenderer.enabled = isActive;
         }
     }
 }

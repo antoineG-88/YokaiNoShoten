@@ -10,6 +10,7 @@ public class ElementPath : MonoBehaviour
     public bool endLoopByTp;
     [Range(0.0f, 100.0f)] public float startProgression;
     public float pauseTime;
+    public Switch connectedSwitch;
 
     private int currentTargetPositon;
     private int previousTargetPosition;
@@ -19,9 +20,11 @@ public class ElementPath : MonoBehaviour
     private Vector2[] pathVectors;
     private float pathLength;
     Rigidbody2D rb;
+    private bool isActive;
 
     void Start()
     {
+        isActive = true;
         rb = GetComponent<Rigidbody2D>();
         pathVectors = new Vector2[pathPositions.Length];
         pathLength = 0;
@@ -93,8 +96,7 @@ public class ElementPath : MonoBehaviour
 
     private void UpdateDirection()
     {
-
-        if (Vector2.Distance(transform.position, pathPositions[currentTargetPositon].position) < 0.01f * speed)
+        if (Vector2.Distance(transform.position, pathPositions[currentTargetPositon].position) < Time.fixedDeltaTime * speed *3)
         {
             previousTargetPosition = currentTargetPositon;
             transform.position = pathPositions[currentTargetPositon].position;
@@ -142,7 +144,20 @@ public class ElementPath : MonoBehaviour
 
 
         }
-        rb.velocity = currentDirection * speed;
+
+        if(connectedSwitch != null)
+        {
+            isActive = connectedSwitch.isOn;
+        }
+
+        if(isActive)
+        {
+            rb.velocity = currentDirection * speed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     private void OnDrawGizmos()

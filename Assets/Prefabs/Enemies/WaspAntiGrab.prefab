@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
-  damagableBodyParts: []
   movementZoneRadius: 0
   hurtAnimClip: {fileID: 7400000, guid: 89f7a2aab51e4794abd476333acd3974, type: 2}
   deathAnimClip: {fileID: 7400000, guid: 06b5e03fceb0e9543820e7352039762e, type: 2}
@@ -146,19 +145,24 @@ MonoBehaviour:
   avoidDistanceInfluence: 1
   recentlyHit: 0
   inControl: 0
+  isDying: 0
   maxSpeed: 6
   accelerationForce: 25
   provocationRange: 10
   safeDistanceToPlayer: 5
   safeDistanceWidth: 0.3
-  rushCooldown: 3
-  rushTriggerDistance: 2
-  rushTriggerTime: 0.4
-  rushLength: 4
-  rushTime: 0.5
+  rangeFromInitialPos: 0
+  maxRangeFromInitialPos: 20
+  rushCooldown: 2
+  rushTriggerDistance: 7.5
+  rushTriggerTime: 1.5
+  rushLength: 7.5
+  rushTime: 1
   rushRadius: 0.3
+  rushWallRadius: 0.45
   rushStunTime: 1
-  rushKnockbackForce: 5
+  rushKnockbackForce: 3
+  wallStunTime: 3
   rushCurve:
     serializedVersion: 2
     m_Curve:

@@ -5,8 +5,9 @@ using UnityEngine;
 public class Serpent : Enemy
 {
     [Header("Movement settings")]
-    public float speedToReachPlayer;
-    public float speedPatrolingPlayer;
+    public float maxSpeed;
+    public float fleeMaxSpeed;
+    public float noGravityZoneMaxSpeed;
     public float accelerationForce;
     public float wallDetectionDistance;
     public float slowSpeed;
@@ -14,17 +15,20 @@ public class Serpent : Enemy
     public float rangeGoalToPlayer;
     public float steeringRatio;
     public float minAngleDiffToTurn;
-    [Header("Bomb settings")]
-    public Vector2 dashDetectionZone;
-    public float dashDropCooldown;
-    public float dashDistance;
-    public float dashTime;
-    public float dashDroppedBombNumber;
-    public Transform bombDropPos;
-    public GameObject bombPrefab;
-    //[Header("Technical settings")]
+    public Transform patrolPos1;
+    public Transform patrolPos2;
+    [Header("Spikes settings")]
+    public GameObject spikeDisplay;
+    public int spikesDamage;
+    public float spikesKnockbackForce;
+    public float spikesReactivationTime;
+    public Collider2D headSpikesCollider;
+    public SerpentTail tail;
+    [Header("Display settings")]
+    public List<Rigidbody2D> bodiesRb;
+    public SpriteRenderer headSprite;
+    public float maxDistanceBetweenBodyParts;
 
-    private float timeBeforeNextBombDrop;
     private bool isTooFarFromPlayer;
     private float currentSpeed;
     private Vector2 currentDirection;
@@ -32,60 +36,83 @@ public class Serpent : Enemy
     private float targetSpeed;
     private float angleDifferenceToTarget;
     private bool wallAhead;
-    private bool isDashing;
-    private float dashCooldownRemaining;
+    private List<Vector2> movementTrailPos;
+    private List<int> currentBodyTrailPosIndex;
 
+    private ContactFilter2D playerFilter;
+    private bool isSpikesActive;
+    private float inactiveSpikeTimeElapsed;
     private Vector2 detectionZoneCenterOffset;
+    private bool headingToFirstPoint;
+    private bool isFacingLeft;
+    private List<SpriteRenderer> bodiesSprite;
+    [HideInInspector] public bool isInNoGravityZone;
 
     private new void Start()
     {
         base.Start();
         provoked = false;
-        timeBeforeNextBombDrop = dashDropCooldown;
         currentDirection = Vector2.up;
+        playerFilter.useTriggers = true;
+        playerFilter.SetLayerMask(LayerMask.GetMask("Player"));
+        tail.serpent = this;
+        isSpikesActive = true;
+        headingToFirstPoint = true;
+        bodiesSprite = new List<SpriteRenderer>();
+        currentBodyTrailPosIndex = new List<int>();
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            bodiesSprite.Add(bodiesRb[i].GetComponentInChildren<SpriteRenderer>());
+            currentBodyTrailPosIndex.Add(0);
+        }
+        movementTrailPos = new List<Vector2>();
+        movementTrailPos.Add(transform.position);
     }
 
     private new void Update()
     {
         base.Update();
+        UpdateVisuals();
     }
 
     private new void FixedUpdate()
     {
         base.FixedUpdate();
+        UpdateSpikes();
     }
 
     public override void UpdateMovement()
     {
-        if (!isDashing)
+        wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
+        targetSpeed = isInNoGravityZone ? noGravityZoneMaxSpeed : (wallAhead ? slowSpeed : (isSpikesActive ? maxSpeed : fleeMaxSpeed));
+
+        if (!inControl)
         {
-            wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
-            targetSpeed = wallAhead ? slowSpeed : isTooFarFromPlayer ? speedToReachPlayer : speedPatrolingPlayer;
-
-            if (!inControl)
-            {
-                currentSpeed = rb.velocity.magnitude;
-                currentDirection = rb.velocity.normalized;
-            }
+            currentSpeed = rb.velocity.magnitude;
+            currentDirection = rb.velocity.normalized;
+        }
 
 
-            if (Mathf.Abs(currentSpeed - targetSpeed) <= 0.01f)
-            {
-                currentSpeed = targetSpeed;
-            }
-            else if (currentSpeed < targetSpeed)
-            {
-                currentSpeed += accelerationForce * Time.fixedDeltaTime;
-            }
-            else
-            {
-                currentSpeed -= accelerationForce * Time.fixedDeltaTime;
-            }
+        if (Mathf.Abs(currentSpeed - targetSpeed) <= 0.01f)
+        {
+            currentSpeed = targetSpeed;
+        }
+        else if (currentSpeed < targetSpeed)
+        {
+            currentSpeed += accelerationForce * Time.fixedDeltaTime;
+        }
+        else
+        {
+            currentSpeed -= accelerationForce * Time.fixedDeltaTime;
+        }
 
+        if(!isInNoGravityZone)
+        {
             currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
             if (targetPathfindingPosition != (Vector2)transform.position)
             {
-                angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, GetPathNextPosition(2) - (Vector2)transform.position);
+                Vector2 targetDirection = targetPathfindingPosition - (Vector2)transform.position;
+                angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, IsLineOfViewClearBetween(transform.position, targetPathfindingPosition) ? targetDirection : (GetPathNextPosition(2) - (Vector2)transform.position));
                 if (Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
                 {
                     currentAngle += Mathf.Sign(angleDifferenceToTarget) * steeringRatio * currentSpeed * Time.fixedDeltaTime;
@@ -100,85 +127,128 @@ public class Serpent : Enemy
                 currentAngle += leftHit ? rightHit ? leftHit.distance > rightHit.distance ? addedSteerAngle : -addedSteerAngle : -addedSteerAngle : rightHit ? addedSteerAngle : -addedSteerAngle;
                 currentDirection = DirectionFromAngle(currentAngle);
             }
-
-            rb.velocity = currentDirection * currentSpeed;
-            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
         }
 
+        rb.velocity = currentDirection * currentSpeed;
+        movementTrailPos.Add(transform.position);
+        for (int i = 0; i < currentBodyTrailPosIndex.Count; i++)
+        {
+            //currentBodyTrailPosIndex[i]++;
+        }
+        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
+        isFacingLeft = currentDirection.x < 0;
+
+        UpdateBodyPos();
     }
 
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        IsPlayerApproaching();
         isTooFarFromPlayer = distToPlayer > rangeGoalToPlayer;
-        provoked = distToPlayer < provocationRange;
+        provoked = Vector2.Distance(initialPos, GameData.player.transform.position) < provocationRange;
 
         if (provoked)
         {
-            if (isTooFarFromPlayer)
+            if(isSpikesActive)
             {
-                targetPathfindingPosition = FindNearestSightSpot(5, rangeGoalToPlayer, false);
+                if (isTooFarFromPlayer)
+                {
+                    targetPathfindingPosition = FindNearestSightSpot(5, rangeGoalToPlayer, false);
+                }
+                else
+                {
+                    targetPathfindingPosition = transform.position;
+                }
             }
             else
             {
-                targetPathfindingPosition = transform.position;
+                targetPathfindingPosition = (Vector2)transform.position - playerDirection * 3;
             }
         }
         else
         {
-            targetPathfindingPosition = initialPos;
-        }
-
-        if (dashCooldownRemaining > 0)
-        {
-            dashCooldownRemaining -= Time.fixedDeltaTime;
-        }
-
-        if (timeBeforeNextBombDrop > 0)
-        {
-            timeBeforeNextBombDrop -= Time.deltaTime;
-        }
-        else
-        {
-            timeBeforeNextBombDrop = dashDropCooldown;
-        }
-    }
-
-    private void IsPlayerApproaching()
-    {
-        bool playerIsLeft = Vector2.SignedAngle(currentDirection, GameData.player.transform.position - transform.position) > 0;
-        detectionZoneCenterOffset.x = Mathf.Cos(Mathf.Deg2Rad * (currentAngle + 90 * (playerIsLeft ? 1 : -1)));
-        detectionZoneCenterOffset.y = Mathf.Sin(Mathf.Deg2Rad * (currentAngle + 90 * (playerIsLeft ? 1 : -1)));
-        detectionZoneCenterOffset *= dashDetectionZone.y / 2;
-        if (!isDashing && dashCooldownRemaining <= 0 && Physics2D.OverlapBox((Vector2)transform.position + detectionZoneCenterOffset, dashDetectionZone, currentAngle, LayerMask.GetMask("Player")))
-        {
-            dashCooldownRemaining = dashDropCooldown;
-            StartCoroutine(DashDrop());
-        }
-    }
-
-    private IEnumerator DashDrop()
-    {
-        isDashing = true;
-        Vector2 direction = currentDirection;
-        float timer = 0;
-        float timeBewteenBombDrop = dashTime / dashDroppedBombNumber;
-        float timeSinceLastDrop = 0;
-        float speed = dashDistance / dashTime;
-        while(timer < dashTime && inControl)
-        {
-            rb.velocity = direction * speed;
-            if(timeSinceLastDrop > timeBewteenBombDrop)
+            if(headingToFirstPoint)
             {
-                Instantiate(bombPrefab, bombDropPos.position, Quaternion.identity);
-                timeSinceLastDrop = 0;
+                targetPathfindingPosition = patrolPos1.position;
+                if(Vector2.Distance(transform.position, patrolPos1.position) < rangeGoalToPlayer)
+                {
+                    headingToFirstPoint = false;
+                }
             }
-            yield return new WaitForFixedUpdate();
-            timer += Time.fixedDeltaTime;
-            timeSinceLastDrop += Time.fixedDeltaTime;
+            else
+            {
+                targetPathfindingPosition = patrolPos2.position;
+                if (Vector2.Distance(transform.position, patrolPos2.position) < rangeGoalToPlayer)
+                {
+                    headingToFirstPoint = true;
+                }
+            }
         }
-        isDashing = false;
+    }
+
+    private void UpdateSpikes()
+    {
+        if(isSpikesActive)
+        {
+            spikeDisplay.SetActive(true);
+            List<Collider2D> colliders = new List<Collider2D>();
+            Physics2D.OverlapCollider(headSpikesCollider, playerFilter, colliders);
+            if (colliders.Count > 0)
+            {
+                GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
+                currentSpeed = 0;
+            }
+        }
+        else
+        {
+            if(inactiveSpikeTimeElapsed >= spikesReactivationTime)
+            {
+                isSpikesActive = true;
+            }
+            inactiveSpikeTimeElapsed += Time.fixedDeltaTime;
+            spikeDisplay.SetActive(false);
+        }
+        isProtected = isSpikesActive;
+    }
+
+    public void DisableSpikes()
+    {
+        isSpikesActive = false;
+        inactiveSpikeTimeElapsed = 0;
+        //ajouter anim et effet
+    }
+
+    private void UpdateBodyPos()
+    {
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            while (Vector2.Distance(movementTrailPos[currentBodyTrailPosIndex[i]], i == 0 ? (Vector2)transform.position : movementTrailPos[currentBodyTrailPosIndex[i - 1]]) > maxDistanceBetweenBodyParts)
+            {
+                currentBodyTrailPosIndex[i]++;
+            }
+            bodiesRb[i].transform.position = movementTrailPos[currentBodyTrailPosIndex[i]];
+            Vector2 direction = movementTrailPos[currentBodyTrailPosIndex[i]] - bodiesRb[i].position;
+            bodiesRb[i].velocity = direction;
+
+            while(i == (bodiesRb.Count - 1) && currentBodyTrailPosIndex[i] > 0)
+            {
+                movementTrailPos.RemoveAt(0);
+                for (int y = 0; y < currentBodyTrailPosIndex.Count; y++)
+                {
+                    currentBodyTrailPosIndex[y]--;
+                }
+            }
+        }
+
+        for (int i = 0; i < movementTrailPos.Count; i++)
+        {
+            Debug.DrawRay(movementTrailPos[i], Vector3.up * 0.1f, Color.blue);
+        }
+    }
+
+    public override void DamageEffect()
+    {
+        maxSpeed = 0;
     }
 
     private void OnDestroy()
@@ -186,18 +256,29 @@ public class Serpent : Enemy
         Destroy(gameObject.transform.parent.gameObject);
     }
 
-    private void OnDrawGizmosSelected()
+    private void UpdateVisuals()
     {
-        if(!Application.isPlaying)
+        if (isFacingLeft && !headSprite.flipY)
         {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - dashDetectionZone.y / 2), dashDetectionZone);
+            headSprite.flipY = true;
         }
-        else
+        if (!isFacingLeft && headSprite.flipY)
         {
-            Gizmos.color = Color.magenta;
-            Gizmos.matrix = Matrix4x4.TRS((Vector2)transform.position + detectionZoneCenterOffset, Quaternion.Euler(0, 0, currentAngle), Vector3.one);
-            Gizmos.DrawWireCube(Vector3.zero, dashDetectionZone);
+            headSprite.flipY = false;
+        }
+
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            bodiesRb[i].transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, bodiesRb[i].velocity));
+
+            if (bodiesRb[i].velocity.x < 0 && !bodiesSprite[i].flipY)
+            {
+                bodiesSprite[i].flipY = true;
+            }
+            if (bodiesRb[i].velocity.x > 0 && bodiesSprite[i].flipY)
+            {
+                bodiesSprite[i].flipY = false;
+            }
         }
     }
 }

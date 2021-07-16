@@ -4,39 +4,38 @@ using UnityEngine;
 
 public class NoGravityZone : MonoBehaviour
 {
-    PlayerManager player;
-    bool isInZone;
+    private bool isInZone;
+    private Serpent potentialSerpent;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        player = collision.GetComponent<PlayerManager>();
-        if(player != null)
+        if (collision.gameObject.tag == "Player")
         {
-            
             isInZone = true;
         }
-        
+
+        potentialSerpent = collision.gameObject.GetComponent<Serpent>();
+        if (potentialSerpent != null)
+        {
+            potentialSerpent.isInNoGravityZone = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        player = collision.GetComponent<PlayerManager>();
-        if(player != null)
+        if (collision.gameObject.tag == "Player")
         {
             isInZone = false;
         }
-        
+
+
+        potentialSerpent = collision.gameObject.GetComponent<Serpent>();
+        if (potentialSerpent != null)
+        {
+            potentialSerpent.isInNoGravityZone = false;
+        }
     }
 
     private void Update()
     {
-        
-        if (isInZone == true)
-        {
-            GameData.movementHandler.isAffectedbyGravity = false;
-            
-        }
-        else
-        {
-            GameData.movementHandler.isAffectedbyGravity = true;
-        }
+        GameData.movementHandler.isInNoGravityZone = isInZone;
     }
 }

@@ -53,9 +53,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void LoseSpiritParts(int damage, Vector2 knockBackDirectedForce)
+    public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentSpiritPoint -= damage;
@@ -71,7 +71,9 @@ public class PlayerManager : MonoBehaviour
             }
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.animator.SetTrigger("Hurt");
-            GameData.movementHandler.Propel(knockBackDirectedForce, false);
+            StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));
+
+            //GameData.movementHandler.Propel(knockBackDirectedForce, false);
             StartCoroutine(NoControl(stunTime));
         }
     }

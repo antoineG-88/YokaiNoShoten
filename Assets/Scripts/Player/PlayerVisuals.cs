@@ -70,6 +70,7 @@ public class PlayerVisuals : MonoBehaviour
         animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
         animator.SetBool("IsSliding", GameData.movementHandler.isOnSlope);
+        animator.SetBool("IsDrifting", GameData.movementHandler.isInNoGravityZone);
     }
 
     public IEnumerator SetDashRotation(Vector2 dashDirection)

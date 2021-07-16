@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9165888815623932256}
   - component: {fileID: 9165888815623932258}
   - component: {fileID: 9165888815623932259}
+  - component: {fileID: -987643293347058660}
   m_Layer: 11
   m_Name: EnemyDummy
   m_TagString: Enemy
@@ -27,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9165888815623932252}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.39, y: 1.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -47,7 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7811f3aa85b0b44e845d821ddb7057e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoint: 100
+  maxHealthPoint: 10000
+  damagableBodyParts: []
+  movementZoneRadius: 0
+  hurtAnimClip: {fileID: 0}
+  deathAnimClip: {fileID: 0}
   nextWaypointDistance: 2
   waypointAhead: 1
   pathUpdatingFrequency: 0.1
@@ -57,6 +62,9 @@ MonoBehaviour:
   minimalAvoidForce: 1
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
+  recentlyHit: 0
+  inControl: 0
+  isDying: 0
   acceleration: 15
   maxSpeed: 4
   slowingForce: 5
@@ -141,6 +149,19 @@ PolygonCollider2D:
       - {x: 0.000000059604645, y: -0.5}
       - {x: 0.43301272, y: -0.24999994}
       - {x: 0.43301272, y: 0.24999994}
+--- !u!114 &-987643293347058660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165888815623932252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d30c968342d9ef4a83099b4b45cf447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: []
 --- !u!1 &9165888816300798004
 GameObject:
   m_ObjectHideFlags: 0

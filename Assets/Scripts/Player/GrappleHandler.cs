@@ -14,8 +14,11 @@ public class GrappleHandler : MonoBehaviour
     [Space]
     [Header("Momentum settings")]
     public float tractionForce;
+    public float slowingForce;
     public float maxTractionSpeed;
+    public float noGravityMaxTractionSpeed;
     public float startTractionPropulsion;
+    public float minDistanceToAccelerate;
     [Space]
     [Range(0, 100)] public float velocityKeptReleasingHook;
     public float ropeBreakParticleByUnit;
@@ -24,6 +27,9 @@ public class GrappleHandler : MonoBehaviour
     [Header("AutoAim settings")]
     public float aimAssistAngle;
     public float aimAssistRaycastNumber;
+    [Header("Key bindings settings")]
+    public bool aimWithLeftJoystick;
+    public bool tractWithLeftTrigger;
     [Space]
     [Header("References")]
     public GameObject armShoulderO;
@@ -51,8 +57,8 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool canUseTraction;
     [HideInInspector] public bool canShoot;
 
-    private bool rightTriggerDown;
-    private bool rightTriggerPressed;
+    private bool tractTriggerDown;
+    private bool tractTriggerPressed;
 
     void Start()
     {
@@ -68,13 +74,13 @@ public class GrappleHandler : MonoBehaviour
         timeBeforeNextShoot = 0;
         aimAssistSubAngle = aimAssistAngle / (aimAssistRaycastNumber - 1);
         aimAssistFirstAngle = -aimAssistAngle / 2;
-        rightTriggerDown = false;
-        rightTriggerPressed = false;
+        tractTriggerDown = false;
+        tractTriggerPressed = false;
     }
 
     private void Update()
     {
-        RightTriggerUpdate();
+        TractTriggerUpdate();
         AimManager();
     }
 
@@ -94,7 +100,7 @@ public class GrappleHandler : MonoBehaviour
 
         if (canShoot && GameData.playerManager.inControl)
         {
-            Vector2 aimStickMag = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+            Vector2 aimStickMag = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
             if (!isAiming && aimStickMag.magnitude > 0.1f)
             {
                 isAiming = true;
@@ -113,7 +119,7 @@ public class GrappleHandler : MonoBehaviour
             {
                 if (isAiming)
                 {
-                    aimDirection = new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+                    aimDirection = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
                     aimDirection.Normalize();
                     armShoulderO.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
                 }
@@ -180,7 +186,7 @@ public class GrappleHandler : MonoBehaviour
                     ringHighLighterO.SetActive(false);
                 }
 
-                if (rightTriggerDown && timeBeforeNextShoot <= 0 && !isHooked)
+                if (tractTriggerDown && timeBeforeNextShoot <= 0 && !isHooked)
                 {
                     timeBeforeNextShoot = shootCooldown;
                     ReleaseHook();
@@ -251,14 +257,15 @@ public class GrappleHandler : MonoBehaviour
             ropePoints[1] = attachedObject.transform.position;
             ropeRenderer.SetPositions(ropePoints);
 
-            if (canUseTraction && Input.GetAxisRaw("RightTrigger") == 1 && !GameData.dashHandler.isDashing)
+            if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
-                GameData.movementHandler.isAffectedbyGravity = false;
+                //GameData.movementHandler.isAffectedbyGravity = false;
                 GameData.movementHandler.canMove = false;
 
                 if (!isTracting)
                 {
-                    float startTractionVelocity = GameData.movementHandler.isGrounded ? 0 : rb.velocity.magnitude;
+                    float startTractionVelocity = Mathf.Cos(Vector2.SignedAngle(rb.velocity, tractionDirection) * Mathf.Deg2Rad) * rb.velocity.magnitude;
+
                     if (startTractionVelocity < 0)
                     {
                         startTractionVelocity = 0;
@@ -267,7 +274,7 @@ public class GrappleHandler : MonoBehaviour
                     startTractionVelocity += startTractionPropulsion;
                     rb.velocity = startTractionVelocity * tractionDirection;
                 }
-
+                /*
                 float tractionDirectionAngle = Mathf.Atan(tractionDirection.y / tractionDirection.x);
                 if (tractionDirection.x < 0)
                 {
@@ -277,29 +284,39 @@ public class GrappleHandler : MonoBehaviour
                 {
                     tractionDirectionAngle += 2 * Mathf.PI;
                 }
-                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));
+                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));*/
+                rb.velocity = rb.velocity.magnitude * tractionDirection;
 
-                rb.velocity += tractionDirection * tractionForce * Time.fixedDeltaTime;
-
-                if (rb.velocity.magnitude > maxTractionSpeed)
+                if (rb.velocity.magnitude > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
-                    rb.velocity = tractionDirection * maxTractionSpeed;
+                    if(rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                    {
+                        rb.velocity -= tractionDirection * slowingForce * Time.fixedDeltaTime;
+                    }
+                    else
+                    {
+                        rb.velocity = tractionDirection * (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed);
+                    }
                 }
-                else if (rb.velocity.magnitude < startTractionPropulsion)
+                else if ((rb.velocity.magnitude + 0.1f) < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
                     rb.velocity = tractionDirection * startTractionPropulsion;
+                }
+                else
+                {
+                    if(Vector2.Distance(transform.position, attachedObject.transform.position) <= minDistanceToAccelerate)
+                    {
+                        rb.velocity += tractionDirection * tractionForce * Time.fixedDeltaTime;
+                    }
                 }
 
                 isTracting = true;
             }
 
-            float distance = 10;
-            if (isTracting && (!rightTriggerPressed || ((distance = Vector2.Distance(transform.position, attachedObject.transform.position)) < releasingHookDist)))
+            if (isTracting && (!tractTriggerPressed || Vector2.Distance(transform.position, attachedObject.transform.position) < releasingHookDist))
             {
                 rb.velocity *= velocityKeptReleasingHook / 100;
                 isTracting = false;
-
-                GameData.dashHandler.canDash = true;
 
                 ReleaseHook();
             }
@@ -310,7 +327,7 @@ public class GrappleHandler : MonoBehaviour
             ropeRenderer.enabled = false;
             if(attachedObject == null)
             {
-                ReleaseHook();
+                //ReleaseHook();
             }
         }
     }
@@ -337,10 +354,13 @@ public class GrappleHandler : MonoBehaviour
     public void AttachHook(GameObject objectToAttach)
     {
         isHooked = true;
-        GameData.dashHandler.isReaiming = false;
+        //GameData.dashHandler.isReaiming = false;
+        GameData.pierceHandler.StopPhasingTime();
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
+        GameData.dashHandler.canDash = true;
+        GameData.pierceHandler.canPierce = true;
     }
 
     public void ReleaseHook()
@@ -350,7 +370,7 @@ public class GrappleHandler : MonoBehaviour
         ropeRenderer.enabled = false;
         GameData.movementHandler.canMove = true;
         attachedObject = null;
-        GameData.movementHandler.isAffectedbyGravity = true;
+        //GameData.movementHandler.isAffectedbyGravity = true;
     }
 
     public void BreakRope(string message)
@@ -368,25 +388,25 @@ public class GrappleHandler : MonoBehaviour
         ReleaseHook();
     }
 
-    private void RightTriggerUpdate()
+    private void TractTriggerUpdate()
     {
-        if(!rightTriggerPressed && Input.GetAxisRaw("RightTrigger") == 1)
+        if(!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
         {
-            rightTriggerDown = true;
+            tractTriggerDown = true;
         }
         else
         {
-            rightTriggerDown = false;
+            tractTriggerDown = false;
         }
 
-        if(Input.GetAxisRaw("RightTrigger") == 1)
+        if(tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1)
         {
-            rightTriggerPressed = true;
+            tractTriggerPressed = true;
         }
         else
         {
-            rightTriggerPressed = false;
-            rightTriggerDown = false;
+            tractTriggerPressed = false;
+            tractTriggerDown = false;
         }
     }
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
     public GameObject playerO;
     public SlowMoManager slowMoManageRef;
 
+    public static PierceHandler pierceHandler;
     public static MovementHandler movementHandler;
     public static GrappleHandler grappleHandler;
     public static DashHandler dashHandler;
@@ -28,11 +30,24 @@ public class GameData : MonoBehaviour
         slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
         playerCollider = player.GetComponent<Collider2D>();
-
+        pierceHandler = player.GetComponent<PierceHandler>();
     }
 
     private void Start()
     {
         gridGraph = (GridGraph)AstarData.active.graphs[0];
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }
