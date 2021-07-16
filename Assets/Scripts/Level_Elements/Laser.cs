@@ -10,6 +10,7 @@ public class Laser : MonoBehaviour
     public Switch connectedSwitch;
     public bool doesOnMeansActive;
     public Collider2D laserCollider;
+    public SpriteRenderer spriteRenderer;
 
     private float playerDistance;
     private float laserAngle;
@@ -32,14 +33,13 @@ public class Laser : MonoBehaviour
 
             if (Vector2.Angle(laserRotation, playerDirection) > 90)
             {
-                GameData.movementHandler.Propel(-laserRotation * playerKnockBackForce, true);
+                GameData.playerManager.TakeDamage(damages, -laserRotation * playerKnockBackForce);
             }
             else
             {
-                GameData.movementHandler.Propel(laserRotation * playerKnockBackForce, true);
+                GameData.playerManager.TakeDamage(damages, laserRotation * playerKnockBackForce);
             }
 
-            GameData.playerManager.TakeDamage(damages, Vector2.zero);
         }
     }
 
@@ -50,6 +50,7 @@ public class Laser : MonoBehaviour
             isActive = doesOnMeansActive ? connectedSwitch.isOn : !connectedSwitch.isOn;
 
             laserCollider.enabled = isActive;
+            spriteRenderer.enabled = isActive;
         }
     }
 }

@@ -226,7 +226,15 @@ public abstract class Enemy : Piercable
 
     protected bool IsLineOfViewClearBetween(Vector2 startPos, Vector2 endPos)
     {
-        return !Physics2D.Raycast(startPos, endPos - startPos, 100, LayerMask.GetMask("Wall"));
+        RaycastHit2D hit = Physics2D.Raycast(startPos, endPos - startPos, Vector2.Distance(startPos, endPos), LayerMask.GetMask("Wall"));
+        if(hit)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     protected Vector2 FindNearestSightSpot(float angleInterval, float distance, bool addShorterSpot)

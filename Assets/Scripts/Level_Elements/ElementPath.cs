@@ -10,6 +10,7 @@ public class ElementPath : MonoBehaviour
     public bool endLoopByTp;
     [Range(0.0f, 100.0f)] public float startProgression;
     public float pauseTime;
+    public Switch connectedSwitch;
 
     private int currentTargetPositon;
     private int previousTargetPosition;
@@ -19,6 +20,7 @@ public class ElementPath : MonoBehaviour
     private Vector2[] pathVectors;
     private float pathLength;
     Rigidbody2D rb;
+    private bool isActive;
 
     void Start()
     {

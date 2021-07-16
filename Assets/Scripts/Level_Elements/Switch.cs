@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Switch : MonoBehaviour
+public abstract class Switch : Piercable
 {
     public bool startOnON;
     [HideInInspector] public bool isOn;
 
-    void Start()
+    public virtual void Start()
     {
         isOn = startOnON;
     }

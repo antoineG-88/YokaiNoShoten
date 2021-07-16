@@ -12,13 +12,13 @@ public class Spikes : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         Vector2 direction = collider.transform.position - transform.position;
-        GameData.playerManager.TakeDamage(damage, Vector2.zero);
-        GameData.movementHandler.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback, true);
+        GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? direction * knockback.magnitude : knockback);
+        //GameData.movementHandler.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback, true);
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, (Vector2)transform.position + knockback * 0.3f);
+        Gizmos.DrawLine(transform.position, (Vector2)transform.position + knockback);
     }
 }
