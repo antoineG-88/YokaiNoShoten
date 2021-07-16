@@ -96,7 +96,7 @@ public class ElementPath : MonoBehaviour
     private void UpdateDirection()
     {
 
-        if (Vector2.Distance(transform.position, pathPositions[currentTargetPositon].position) < 0.01f * speed)
+        if (Vector2.Distance(transform.position, pathPositions[currentTargetPositon].position) < Time.fixedDeltaTime * speed *3)
         {
             previousTargetPosition = currentTargetPositon;
             transform.position = pathPositions[currentTargetPositon].position;
