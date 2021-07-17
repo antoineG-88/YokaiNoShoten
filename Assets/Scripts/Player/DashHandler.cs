@@ -43,7 +43,7 @@ public class DashHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(GameData.movementHandler.isGrounded && !isDashing && !GameData.movementHandler.isOnSlope)
+        if(GameData.movementHandler.isGrounded && !isDashing && !GameData.movementHandler.isOnSlidingSlope)
         {
             canDash = true;
         }
