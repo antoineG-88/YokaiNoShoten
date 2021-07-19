@@ -16,6 +16,7 @@ public class MovementHandler : MonoBehaviour
     public float maxSlidingSpeed;
     public AnimationCurve knockAwayMovement;
     public float knockAwayTime;
+    public float slopeMaxSpeed;
     [Header("NoGravityZone settings")]
     public float NGMomentumSlowingForce;
     public float maxSpeedInNGZone;
@@ -31,11 +32,12 @@ public class MovementHandler : MonoBehaviour
     private float horizontalForce;
     private float forceSign;
     [HideInInspector] public bool isGrounded;
-    [HideInInspector] public bool isOnSlope;
+    [HideInInspector] public bool isOnSlidingSlope;
     [HideInInspector] public bool canMove;
     [HideInInspector] private bool isAffectedbyGravity;
     [HideInInspector] public bool isInNoGravityZone;
     [HideInInspector] public bool isKnockedAway;
+    [HideInInspector] public int isInSlidingZone;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Rigidbody2D groundRb;
@@ -62,18 +64,18 @@ public class MovementHandler : MonoBehaviour
         isGrounded = IsOnGround();
         if(isGrounded)
         {
-            isOnSlope = IsOnSlope();
+            isOnSlidingSlope = IsOnSlope() && isInSlidingZone > 0;
         }
         else
         {
-            isOnSlope = false;
+            isOnSlidingSlope = false;
         }
         UpdateMovement();
     }
 
     private void GetInputs()
     {
-        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? (moveWithRightJoystick ? Input.GetAxis("RightStickH") : Input.GetAxis("LeftStickH")) * walkingMaxSpeed : 0;
+        horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? (moveWithRightJoystick ? Input.GetAxis("RightStickH") : Input.GetAxis("LeftStickH")) * (IsOnSlope() ? slopeMaxSpeed : walkingMaxSpeed) : 0;
         if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
         {
             horizontalTargetSpeed = 0;
@@ -93,8 +95,8 @@ public class MovementHandler : MonoBehaviour
 
         if (horizontalTargetSpeed != relativeVelocity.x)
         {
-            currentAcceleration = isInNoGravityZone ? 0 : (isGrounded ? (isOnSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
-            currentSlowing = isGrounded ? isOnSlope ? slideSlowing : groundSlowing : airSlowing;
+            currentAcceleration = isInNoGravityZone ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
+            currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
             if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
@@ -121,7 +123,7 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
         }
 
-        if (isGrounded && isOnSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
+        if (isGrounded && isOnSlidingSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
         }

@@ -24,6 +24,7 @@ public class ElementPath : MonoBehaviour
 
     void Start()
     {
+        isActive = true;
         rb = GetComponent<Rigidbody2D>();
         pathVectors = new Vector2[pathPositions.Length];
         pathLength = 0;
@@ -95,7 +96,6 @@ public class ElementPath : MonoBehaviour
 
     private void UpdateDirection()
     {
-
         if (Vector2.Distance(transform.position, pathPositions[currentTargetPositon].position) < Time.fixedDeltaTime * speed *3)
         {
             previousTargetPosition = currentTargetPositon;
@@ -144,7 +144,20 @@ public class ElementPath : MonoBehaviour
 
 
         }
-        rb.velocity = currentDirection * speed;
+
+        if(connectedSwitch != null)
+        {
+            isActive = connectedSwitch.isOn;
+        }
+
+        if(isActive)
+        {
+            rb.velocity = currentDirection * speed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     private void OnDrawGizmos()

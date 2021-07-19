@@ -78,7 +78,7 @@ public class PierceHandler : MonoBehaviour
         }
         UpdatePhasingTime();
 
-        if (GameData.movementHandler.isGrounded && !GameData.movementHandler.isOnSlope && !isPiercing)
+        if (GameData.movementHandler.isGrounded && !GameData.movementHandler.isOnSlidingSlope && !isPiercing)
         {
             canPierce = true;
         }

@@ -10,6 +10,7 @@ public class ClueLight : Piercable
     public float maxTimeOff;
     [Header("Temporary")]
     public List<GameObject> objectToDisableOnHit;
+    public List<GameObject> objectToActivateOnHit;
 
     [HideInInspector] public bool isOff;
     private float offTimeElapsed;
@@ -37,7 +38,6 @@ public class ClueLight : Piercable
     public override bool PierceEffect(int damage, Vector2 directedForce)
     {
         StartCoroutine(SwitchOff());
-        Debug.Log("pierced");
         return false;
     }
 
@@ -55,7 +55,12 @@ public class ClueLight : Piercable
             gameObject.SetActive(false);
         }
 
-        if(hitFxPrefab != null)
+        foreach (GameObject gameObject in objectToActivateOnHit)
+        {
+            gameObject.SetActive(true);
+        }
+
+        if (hitFxPrefab != null)
             Instantiate(hitFxPrefab, transform.position, Quaternion.identity);
 
         yield return null;
@@ -72,6 +77,12 @@ public class ClueLight : Piercable
         foreach (GameObject gameObject in objectToDisableOnHit)
         {
             gameObject.SetActive(true);
+        }
+
+
+        foreach (GameObject gameObject in objectToActivateOnHit)
+        {
+            gameObject.SetActive(false);
         }
         yield return null;
     }
