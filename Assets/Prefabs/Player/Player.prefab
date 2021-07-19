@@ -382,16 +382,18 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   knockAwayTime: 0.4
+  slopeMaxSpeed: 5
   NGMomentumSlowingForce: 0.7
   maxSpeedInNGZone: 8
   moveWithRightJoystick: 0
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
-  isOnSlope: 0
+  isOnSlidingSlope: 0
   canMove: 0
   isInNoGravityZone: 0
   isKnockedAway: 0
+  isInSlidingZone: 0
   rb: {fileID: 0}
   groundRb: {fileID: 0}
 --- !u!114 &3737249135459656029

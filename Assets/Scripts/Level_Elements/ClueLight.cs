@@ -38,7 +38,6 @@ public class ClueLight : Piercable
     public override bool PierceEffect(int damage, Vector2 directedForce)
     {
         StartCoroutine(SwitchOff());
-        Debug.Log("pierced");
         return false;
     }
 
