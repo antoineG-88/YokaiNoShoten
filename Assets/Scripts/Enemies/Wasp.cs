@@ -10,7 +10,6 @@ public class Wasp : Enemy
     public float provocationRange;
     public float safeDistanceToPlayer;
     public float safeDistanceWidth;
-    public float rangeFromInitialPos;
     public float maxRangeFromInitialPos;
     [Header("RushAttack settings")]
     public float rushCooldown;
@@ -29,6 +28,7 @@ public class Wasp : Enemy
     public SpriteRenderer sprite;
 
 
+    private float rangeFromInitialPos;
     private bool fleeing;
     private bool destinationReached;
     private bool isApproaching;
@@ -38,9 +38,6 @@ public class Wasp : Enemy
     private float rushTriggerTimeElapsed;
     private bool isFacingRight;
 
-
-    private AntiGrabShieldHandler antiGrabShieldHandler;
-
     new void Start()
     {
         base.Start();
@@ -49,7 +46,6 @@ public class Wasp : Enemy
         destinationReached = false;
         isRushing = false;
         rushCoolDownRemaining = 0;
-        antiGrabShieldHandler = GetComponent<AntiGrabShieldHandler>();
         animator.SetInteger("RushStep", 0);
     }
 
@@ -62,7 +58,6 @@ public class Wasp : Enemy
     new void FixedUpdate()
     {
         base.FixedUpdate();
-        //UpdateShield();
     }
 
     public override void UpdateMovement()
@@ -231,18 +226,6 @@ public class Wasp : Enemy
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             inControl = true;
             isStuckInWall = false;
-        }
-    }
-
-    private void UpdateShield()
-    {
-        if (isFacingRight)
-        {
-            antiGrabShieldHandler.ChangeShieldAngle(antiGrabShieldHandler.shields[0], 0);
-        }
-        else
-        {
-            antiGrabShieldHandler.ChangeShieldAngle(antiGrabShieldHandler.shields[0], 180);
         }
     }
 

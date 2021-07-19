@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatformRing : Ring
+public class DrawablePlatformRing : Ring
 {
     public bool isRightRing;
     [HideInInspector] public bool moveRight;

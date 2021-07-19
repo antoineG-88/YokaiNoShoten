@@ -7,8 +7,8 @@ public class DrawablePlatform : MonoBehaviour
     public Transform rightPosition;
     public Transform leftPosition;
     public float speed;
-    public MovingPlatformRing rightRing;
-    public MovingPlatformRing leftRing;
+    public DrawablePlatformRing rightRing;
+    public DrawablePlatformRing leftRing;
     Rigidbody2D rb;
     Vector2 currentDirection;
 

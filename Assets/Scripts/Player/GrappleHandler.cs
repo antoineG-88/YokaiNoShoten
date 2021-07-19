@@ -206,21 +206,7 @@ public class GrappleHandler : MonoBehaviour
                         }
                         else
                         {
-                            if(selectedObject.CompareTag("Enemy"))
-                            {
-                                AttachHook(selectedObject);
-
-                                AntiGrabShieldHandler attachedEnemyShield = selectedObject.GetComponent<AntiGrabShieldHandler>();
-
-                                if (!attachedEnemyShield.CanBeGrappledFrom(selectedObjectDirection))
-                                {
-                                    BreakRope("cannot attach from this side");
-                                }
-                            }
-                            else
-                            {
-                                AttachHook(selectedObject);
-                            }
+                            AttachHook(selectedObject);
                         }
 
                         RaycastHit2D antiGrabWallHit = Physics2D.Raycast(transform.position, selectedObjectDirection, Vector2.Distance(selectedObject.transform.position, transform.position), LayerMask.GetMask("AntiGrabWall"));
