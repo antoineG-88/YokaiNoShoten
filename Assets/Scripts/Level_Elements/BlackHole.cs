@@ -59,7 +59,7 @@ public class BlackHole : Piercable
 
     void CheckPlayerDistance()
     {
-        if (Vector2.Distance(transform.position, GameData.player.transform.position) < suckingRadius)
+        if (Vector2.Distance(transform.position, GameData.player.transform.position) < suckingRadius && isDesactivated == false)
         {
             if (isInRange == false)
             {
