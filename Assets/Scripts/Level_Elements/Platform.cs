@@ -15,7 +15,7 @@ public class Platform : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(timeRemaining > 0)
+        if (timeRemaining > 0)
         {
             platformCollider.enabled = false;
             timeRemaining -= Time.fixedDeltaTime;
