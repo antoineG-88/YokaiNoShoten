@@ -6,10 +6,13 @@ public class Bumper : MonoBehaviour
 {
     Vector2 directedForce;
     public float verticalSurge;
+    public Transform bumperDirection;
 
     void Start()
     {
-        directedForce = new Vector2(0, verticalSurge);
+        directedForce = bumperDirection.position - transform.position;
+        directedForce.Normalize();
+        directedForce *= verticalSurge;
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -19,5 +22,10 @@ public class Bumper : MonoBehaviour
             GameData.movementHandler.Propel(directedForce, true);
             //Play gameObject Animation & SFX
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, (bumperDirection.position - transform.position).normalized*10f);
     }
 }
