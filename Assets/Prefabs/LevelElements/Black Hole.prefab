@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1010461731200234675}
   - component: {fileID: 1010461731200234678}
   - component: {fileID: 1010461731200234673}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Black Hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1010461731200234674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13.513, y: 4.693, z: 1}
-  m_LocalScale: {x: 1.736626, y: 1.736626, z: 1.736626}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,7 +99,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.5625
+  m_Radius: 0.3
 --- !u!114 &1010461731200234673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,8 +112,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855b88aa674786e4b9a95928e1b8bba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
+  disablingHoleTimer: 0
+  formerDisablingHoleTimer: 5
   distanceInfluence: 1
   basePower: 10
-  succionPower: 0
+  kbForce: 5
   minValueSuccionPower: 5
   maxValueSuccionPower: 20
+  startColor: {r: 0, g: 0, b: 0, a: 0}
+  suckingRadius: 3.2
