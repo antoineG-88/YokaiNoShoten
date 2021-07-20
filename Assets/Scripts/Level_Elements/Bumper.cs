@@ -19,6 +19,7 @@ public class Bumper : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
+            GameData.grappleHandler.BreakRope("nope");
             GameData.movementHandler.Propel(directedForce, true);
             //Play gameObject Animation & SFX
         }
