@@ -5,7 +5,12 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     public float maxLaserRange;
+    public float beamWidth;
+    public float beamWallWidth;
     public float knockbackDistance;
+    [Header("Index pair : Actif / Index impair : inactif")]
+    public List<float> activationsSequence;
+
     public Switch connectedSwitch;
     [Header("Technical settings")]
     public GameObject beamStartPrefab;
@@ -13,6 +18,7 @@ public class Laser : MonoBehaviour
     public GameObject beamImpactPrefab;
     public float spaceBetweenBeamFx;
     public float beamStartOffset;
+    public BoxCollider2D boxCollider;
     public Transform beamParent;
 
     private Vector2 currentDirection;
@@ -25,6 +31,8 @@ public class Laser : MonoBehaviour
 
     private bool isActive;
     private bool isBeamActive;
+    private float elapsedSequenceTime;
+    private int currentSequenceIndex;
 
     void Start()
     {
@@ -35,8 +43,15 @@ public class Laser : MonoBehaviour
     void Update()
     {
         currentDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z);
+        if(connectedSwitch != null)
+        {
+            isActive = connectedSwitch.IsON();
+        }
 
-        Debug.DrawRay(transform.position, currentDirection * 100);
+        if(activationsSequence.Count > 0)
+        {
+            UpdateSequence();
+        }
     }
 
     private void FixedUpdate()
@@ -50,14 +65,30 @@ public class Laser : MonoBehaviour
         {
             hit = Physics2D.Raycast(transform.position, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
 
-            playerHit = Physics2D.Raycast(transform.position, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
+            playerHit = Physics2D.CircleCast(transform.position, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
             if (playerHit && playerHit.collider.CompareTag("Player"))
             {
-                GameData.playerManager.TakeDamage(1, currentDirection * knockbackDistance);
+                Vector2 knockbackDirection;
+                if(Vector2.SignedAngle(currentDirection, GameData.player.transform.position - transform.position) > 0)
+                {
+                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90);
+                }
+                else
+                {
+                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z - 90);
+                }
+                GameData.dashHandler.isDashing = false;
+                GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
+
 
             beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxLaserRange;
             beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
+
+
+            boxCollider.enabled = true;
+            boxCollider.offset = new Vector2(beamStartOffset + (beamLength / 2), 0);
+            boxCollider.size = new Vector2(beamLength, beamWallWidth);
 
             beamParent.rotation = Quaternion.identity;
 
@@ -101,11 +132,45 @@ public class Laser : MonoBehaviour
                 Destroy(beamEnd);
                 beamEnd = null;
             }
+            boxCollider.enabled = false;
+        }
+    }
+
+    private void UpdateSequence()
+    {
+        if(isActive)
+        {
+            if(elapsedSequenceTime > activationsSequence[currentSequenceIndex])
+            {
+                elapsedSequenceTime = 0;
+                currentSequenceIndex++;
+                if(currentSequenceIndex >= activationsSequence.Count)
+                {
+                    currentSequenceIndex = 0;
+                }
+                if(currentSequenceIndex % 2 == 0)
+                {
+                    isBeamActive = true;
+                }
+                else
+                {
+                    isBeamActive = false;
+                }
+            }
+
+            elapsedSequenceTime += Time.deltaTime;
         }
     }
 
     private Vector2 GetDirectionFromAngle(float angle)
     {
         return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"));
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + GetDirectionFromAngle(transform.rotation.eulerAngles.z) * maxLaserRange);
     }
 }
