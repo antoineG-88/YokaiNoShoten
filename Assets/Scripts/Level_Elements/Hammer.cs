@@ -11,6 +11,8 @@ public class Hammer : MonoBehaviour
     public float kbForce;
     private Vector2 formerPosition;
     private bool hitFlag;
+    public LayerMask playerLayer;
+    private ContactFilter2D playerFilter;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,24 +29,30 @@ public class Hammer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && hitFlag == false)
         {
-            Slam();
+            Slam(collision);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             GameData.playerManager.TakeDamage(1, (collision.transform.position - transform.position) * kbForce);
         }
-    }
-    void Slam()
+    }*/
+    void Slam(Collider2D collider)
     {
-        hitFlag = true;
+        //hitFlag = true;
+        //StartCoroutine(ResetPosition(resetPositionTimer));
         rb.velocity = Vector2.down.normalized * downSurge;
-        StartCoroutine(ResetPosition(resetPositionTimer));
+        List<Collider2D> hitPlayer = new List<Collider2D>();
+        Physics2D.OverlapCollider(collider, playerFilter, hitPlayer);
+        {
+
+        }
     }
-    IEnumerator ResetPosition(float resetPosition)
+
+    /*IEnumerator ResetPosition(float resetPosition)
     {
         yield return new WaitForSeconds(resetPosition);
 
@@ -61,5 +69,5 @@ public class Hammer : MonoBehaviour
         hitFlag = false;
         yield return new WaitForSeconds(2f);
         Debug.Log(transform.position.y);
-    }
+    }*/
 }

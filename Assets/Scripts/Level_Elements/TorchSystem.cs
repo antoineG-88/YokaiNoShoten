@@ -38,7 +38,7 @@ public class TorchSystem : Switch
         isOn = true;
         for (int i = 0; i < allLights.Count; i++)
         {
-            if (!allLights[i].isOn)
+            if (!allLights[i].IsON())
             {
                 isOn = false;
             }
