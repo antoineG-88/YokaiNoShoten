@@ -21,7 +21,6 @@ public class ElementRotator : MonoBehaviour
     private float actualSpeed;
     private float angleRange;
     [HideInInspector] public bool isActive;
-    private float previousAngle;
     private bool isGoingBack;
     void Start()
     {
@@ -38,7 +37,7 @@ public class ElementRotator : MonoBehaviour
         loopTime = useSpeed ? angleRange / speed : timeToComplete;
         progressionSpeed = actualSpeed / angleRange;
 
-        transform.rotation = Quaternion.Euler(0, 0, startAngle);
+        transform.localRotation = Quaternion.Euler(0, 0, startAngle);
     }
 
     void Update()
@@ -81,7 +80,6 @@ public class ElementRotator : MonoBehaviour
             }
 
             float rotation = 0;
-            previousAngle = transform.localRotation.eulerAngles.z;
             if (startAngle == endAngle)
             {
                 rotation = Mathf.Lerp(startAngle, endAngle + (rotateClockWise ? -360 : 360), currentProgression);
@@ -108,31 +106,5 @@ public class ElementRotator : MonoBehaviour
             newAngle = angle + 360;
         }
         return newAngle;
-    }
-
-    private bool IsBetweenAngle(float angle, float mininmumAngle, float maximumAngle)
-    {
-        bool isBetween = false;
-        if (mininmumAngle > maximumAngle)
-        {
-            if (angle >= mininmumAngle || angle < maximumAngle)
-            {
-                isBetween = true;
-            }
-        }
-        else
-        {
-            if (angle >= mininmumAngle && angle < maximumAngle)
-            {
-                isBetween = true;
-            }
-        }
-
-        return isBetween;
-    }
-
-    private Vector2 GetDirectionFromAngle(float angle)
-    {
-        return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
     }
 }
