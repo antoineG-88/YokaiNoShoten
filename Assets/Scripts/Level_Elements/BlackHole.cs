@@ -90,7 +90,6 @@ public class BlackHole : Piercable
             if (timer > 2f)
             {
                 GameData.playerManager.TakeDamage(1, (suckedPosition - (Vector2)transform.position).normalized * kbForce);
-                Debug.Log((suckedPosition - (Vector2)transform.position).normalized * kbForce);
                 timer = 0f;
                 hasAttacked = true;
             }

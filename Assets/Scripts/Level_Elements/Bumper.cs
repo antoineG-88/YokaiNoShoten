@@ -6,6 +6,7 @@ public class Bumper : MonoBehaviour
 {
     Vector2 directedForce;
     public float surge;
+    public float centerSurge;
     public Transform bumperDirection;
     public bool canPush;
     public bool isEntered;
@@ -17,16 +18,21 @@ public class Bumper : MonoBehaviour
         directedForce.Normalize();
         directedForce *= surge;
     }
+
     void Update()
     {
-        if(isEntered)
+        directedForce = bumperDirection.position - transform.position;
+        directedForce.Normalize();
+        directedForce *= surge;
+        if (isEntered)
         {
             centerForce = transform.position - GameData.movementHandler.transform.position;
             centerForce.Normalize();
-            centerForce *= surge;
+            centerForce *= centerSurge;
             GameData.movementHandler.rb.velocity = centerForce;
         }
-       if (Vector2.Distance(GameData.movementHandler.transform.position, transform.position) < (Time.deltaTime*surge) && canPush == true)
+
+        if (Vector2.Distance(GameData.movementHandler.transform.position, transform.position) <= (Time.deltaTime * centerSurge * 3) && canPush == true)
         {
             canPush = false;
             isEntered = false;
@@ -46,6 +52,6 @@ public class Bumper : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, (bumperDirection.position - transform.position).normalized*10f);
+        Gizmos.DrawRay(transform.position, (bumperDirection.position - transform.position).normalized * 10f);
     }
 }
