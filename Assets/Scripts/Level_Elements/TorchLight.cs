@@ -20,7 +20,7 @@ public class TorchLight : Switch
     private void Update()
     {
         isOn = isLit;
-        if(isLit && ((!torchSystem.isOn && torchSystem.stayOn) || !torchSystem.stayOn))
+        if(isLit && ((!torchSystem.IsON() && torchSystem.stayOn) || !torchSystem.stayOn))
         {
             if(timeLitElapsed > maxLitTime)
             {

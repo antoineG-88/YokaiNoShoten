@@ -56,6 +56,7 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool isTracting;
     [HideInInspector] public bool canUseTraction;
     [HideInInspector] public bool canShoot;
+    [HideInInspector] public bool isSucked;
 
     private bool tractTriggerDown;
     private bool tractTriggerPressed;
@@ -196,10 +197,10 @@ public class GrappleHandler : MonoBehaviour
                         Vector2 selectedObjectDirection = selectedObject.transform.position - transform.position;
                         selectedObjectDirection.Normalize();
                         selectedRing = selectedObject.GetComponent<Ring>();
-                        if(selectedRing != null)
+                        if (selectedRing != null)
                         {
                             selectedRing.AttachReaction();
-                            if(selectedRing.attachable == true)
+                            if (selectedRing.attachable == true)
                             {
                                 AttachHook(selectedObject);
                             }
@@ -210,9 +211,13 @@ public class GrappleHandler : MonoBehaviour
                         }
 
                         RaycastHit2D antiGrabWallHit = Physics2D.Raycast(transform.position, selectedObjectDirection, Vector2.Distance(selectedObject.transform.position, transform.position), LayerMask.GetMask("AntiGrabWall"));
-                        if(antiGrabWallHit)
+                        if (antiGrabWallHit)
                         {
                             BreakRope("AntigrabWall traversed");
+                        }
+                        if (isSucked)
+                        {
+                            BreakRope("nope u suck");
                         }
                     }
                 }
@@ -275,7 +280,7 @@ public class GrappleHandler : MonoBehaviour
 
                 if (rb.velocity.magnitude > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
-                    if(rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                    if (rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
                     {
                         rb.velocity -= tractionDirection * slowingForce * Time.fixedDeltaTime;
                     }
@@ -290,7 +295,7 @@ public class GrappleHandler : MonoBehaviour
                 }
                 else
                 {
-                    if(Vector2.Distance(transform.position, attachedObject.transform.position) <= minDistanceToAccelerate)
+                    if (Vector2.Distance(transform.position, attachedObject.transform.position) <= minDistanceToAccelerate)
                     {
                         rb.velocity += tractionDirection * tractionForce * Time.fixedDeltaTime;
                     }
@@ -311,7 +316,7 @@ public class GrappleHandler : MonoBehaviour
         {
             canShoot = true;
             ropeRenderer.enabled = false;
-            if(attachedObject == null)
+            if (attachedObject == null)
             {
                 //ReleaseHook();
             }
@@ -322,7 +327,7 @@ public class GrappleHandler : MonoBehaviour
     {
         if (isHooked)
         {
-            if(selectedRing!= null && selectedRing.attachable == false)
+            if (selectedRing != null && selectedRing.attachable == false)
             {
                 BreakRope("Not attachable");
                 rb.velocity *= velocityKeptReleasingHook / 100;
@@ -345,7 +350,10 @@ public class GrappleHandler : MonoBehaviour
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
-        GameData.dashHandler.canDash = true;
+        if (isSucked == false)
+        {
+            GameData.dashHandler.canDash = true;
+        }
         GameData.pierceHandler.canPierce = true;
     }
 
@@ -361,7 +369,7 @@ public class GrappleHandler : MonoBehaviour
 
     public void BreakRope(string message)
     {
-        if(attachedObject != null)
+        if (attachedObject != null)
         {
             int ropeBreakParticleNumber = Mathf.CeilToInt(Vector2.Distance(transform.position, attachedObject.transform.position) * ropeBreakParticleByUnit);
             float lerpUnit = 1 / (float)ropeBreakParticleNumber;
@@ -376,7 +384,7 @@ public class GrappleHandler : MonoBehaviour
 
     private void TractTriggerUpdate()
     {
-        if(!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
+        if (!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
         {
             tractTriggerDown = true;
         }
@@ -385,7 +393,7 @@ public class GrappleHandler : MonoBehaviour
             tractTriggerDown = false;
         }
 
-        if(tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1)
+        if (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1)
         {
             tractTriggerPressed = true;
         }
