@@ -47,7 +47,7 @@ public class Laser : MonoBehaviour
     {
         if(connectedSwitch != null)
         {
-            isActive = doesOnMeansActive ? connectedSwitch.isOn : !connectedSwitch.isOn;
+            isActive = doesOnMeansActive ? connectedSwitch.IsON() : !connectedSwitch.IsON();
 
             laserCollider.enabled = isActive;
             spriteRenderer.enabled = isActive;

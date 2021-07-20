@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class Switch : Piercable
 {
     public bool startOnON;
-    [HideInInspector] public bool isOn;
+    public bool inverseOutput;
+    protected bool isOn;
 
     public virtual void Start()
     {
@@ -15,5 +16,10 @@ public abstract class Switch : Piercable
     public void SwitchOnOff()
     {
         isOn = !isOn;
+    }
+
+    public bool IsON()
+    {
+        return inverseOutput ? !isOn : isOn;
     }
 }

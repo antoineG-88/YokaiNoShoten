@@ -71,12 +71,12 @@ public class ElementPath : MonoBehaviour
 
         if (startProgression != 0 && startProgression != 100)
         {
-            transform.position = GetPosProgressionInPath(startProgression / 100);
+            transform.localPosition = GetPosProgressionInPath(startProgression / 100);
         }
         else
         {
             currentTargetPositonIndex = 1;
-            transform.position = pathPositions[0].position;
+            transform.localPosition = pathPositions[0].position;
             currentDirection = pathPositions[1].position - pathPositions[0].position;
             currentDirection.Normalize();
         }
@@ -92,7 +92,7 @@ public class ElementPath : MonoBehaviour
     {
         if(connectedSwitch != null)
         {
-            isActive = connectedSwitch.isOn;
+            isActive = connectedSwitch.IsON();
         }
 
         if(isActive)
@@ -123,7 +123,7 @@ public class ElementPath : MonoBehaviour
             }
 
 
-            transform.position = GetPosProgressionInPath(currentProgression);
+            transform.localPosition = GetPosProgressionInPath(currentProgression);
         }
         else
         {
@@ -218,10 +218,13 @@ public class ElementPath : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        for (int i = 0; i < pathPositions.Length; i++)
+        if(pathPositions.Length > 0)
         {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(pathPositions[i].position, pathPositions[i < pathPositions.Length - 1 ? i + 1 : 0].position);
+            for (int i = 0; i < pathPositions.Length; i++)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(pathPositions[i].position, pathPositions[i < pathPositions.Length - 1 ? i + 1 : 0].position);
+            }
         }
     }
 }
