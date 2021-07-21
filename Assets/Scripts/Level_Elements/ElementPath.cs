@@ -71,12 +71,12 @@ public class ElementPath : MonoBehaviour
 
         if (startProgression != 0 && startProgression != 100)
         {
-            transform.localPosition = GetPosProgressionInPath(startProgression / 100);
+            transform.position = GetPosProgressionInPath(startProgression / 100);
         }
         else
         {
             currentTargetPositonIndex = 1;
-            transform.localPosition = pathPositions[0].position;
+            transform.position = pathPositions[0].position;
             currentDirection = pathPositions[1].position - pathPositions[0].position;
             currentDirection.Normalize();
         }
@@ -123,7 +123,7 @@ public class ElementPath : MonoBehaviour
             }
 
 
-            transform.localPosition = GetPosProgressionInPath(currentProgression);
+            transform.position = GetPosProgressionInPath(currentProgression);
         }
         else
         {
