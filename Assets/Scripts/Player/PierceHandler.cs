@@ -36,7 +36,7 @@ public class PierceHandler : MonoBehaviour
     public Transform comboPierceTimingHelper;
 
     private ContactFilter2D enemyFilter;
-    private Vector2 piercableDirection;
+    [HideInInspector] public Vector2 piercableDirection;
     [HideInInspector] public bool isPiercing;
     [HideInInspector] public bool isPhasing;
     private Rigidbody2D rb;
@@ -247,6 +247,7 @@ public class PierceHandler : MonoBehaviour
         //GameData.movementHandler.isAffectedbyGravity = false;
         isPiercing = true;
         yield return new WaitForSeconds(timeBeforeFirstPierce);
+        GameData.playerVisuals.animator.SetTrigger("PierceAttack");
 
         if(triggerSlowMo)
             StartPhasingTime();
