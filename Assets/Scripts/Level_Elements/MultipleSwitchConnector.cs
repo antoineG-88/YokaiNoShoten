@@ -14,7 +14,7 @@ public class MultipleSwitchConnector : Switch
             isOn = false;
             foreach (Switch singleSwitch in switches)
             {
-                if(singleSwitch.isOn)
+                if(singleSwitch.IsON())
                 {
                     isOn = true;
                 }
@@ -26,7 +26,7 @@ public class MultipleSwitchConnector : Switch
 
             foreach (Switch singleSwitch in switches)
             {
-                if (!singleSwitch.isOn)
+                if (!singleSwitch.IsON())
                 {
                     isOn = false;
                 }

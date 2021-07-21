@@ -5,27 +5,53 @@ using UnityEngine;
 public class Bumper : MonoBehaviour
 {
     Vector2 directedForce;
-    public float verticalSurge;
+    public float surge;
+    public float centerSurge;
     public Transform bumperDirection;
+    public bool canPush;
+    public bool isEntered;
+    public Vector2 centerForce;
 
     void Start()
     {
         directedForce = bumperDirection.position - transform.position;
         directedForce.Normalize();
-        directedForce *= verticalSurge;
+        directedForce *= surge;
     }
 
+    void Update()
+    {
+        directedForce = bumperDirection.position - transform.position;
+        directedForce.Normalize();
+        directedForce *= surge;
+        if (isEntered)
+        {
+            centerForce = transform.position - GameData.movementHandler.transform.position;
+            centerForce.Normalize();
+            centerForce *= centerSurge;
+            GameData.movementHandler.rb.velocity = centerForce;
+        }
+
+        if (Vector2.Distance(GameData.movementHandler.transform.position, transform.position) <= (Time.deltaTime * centerSurge * 3) && canPush == true)
+        {
+            canPush = false;
+            isEntered = false;
+            GameData.movementHandler.Propel(directedForce, true);
+        }
+    }
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Player"))
         {
-            GameData.movementHandler.Propel(directedForce, true);
+            isEntered = true;
+            GameData.grappleHandler.BreakRope("nope");
+            canPush = true;
             //Play gameObject Animation & SFX
         }
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, (bumperDirection.position - transform.position).normalized*10f);
+        Gizmos.DrawRay(transform.position, (bumperDirection.position - transform.position).normalized * 10f);
     }
 }

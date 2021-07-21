@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     {
         if(connectedSwitch != null)
         {
-            isOpened = connectedSwitch.isOn;
+            isOpened = connectedSwitch.IsON();
         }
 
         animator.SetBool("Opened", isOpened);
