@@ -7,15 +7,12 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour
 {
     [Header("Health settings")]
-    public int maxSpiritPoint;
-    public Text healthText;
-    public GameObject spiritPartPrefab;
-    public Vector2 spiritLossVelocityRange;
+    public int maxHealthPoint;
+    public List<GameObject> healthPointsDisplay;
     public float stunTime;
     public float damageInvulnerableTime;
 
-    private int currentSpiritPoint;
-    private List<SpiritPart> spiritParts = new List<SpiritPart>();
+    private int currentHealthPoint;
 
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool invulnerable;
@@ -24,7 +21,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        currentSpiritPoint = maxSpiritPoint;
+        currentHealthPoint = maxHealthPoint;
         inControl = true;
         invulnerable = false;
         invulnerableTimeRemaining = 0;
@@ -32,8 +29,6 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        healthText.text = currentSpiritPoint.ToString() + " / " + maxSpiritPoint.ToString();
-
         if (invulnerableTimeRemaining > 0)
         {
             invulnerableTimeRemaining -= Time.deltaTime;
@@ -43,6 +38,8 @@ public class PlayerManager : MonoBehaviour
         {
             invulnerable = false;
         }
+
+        RefreshHealthPointDisplay();
     }
 
     private void FixedUpdate()
@@ -58,14 +55,8 @@ public class PlayerManager : MonoBehaviour
         if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
-            currentSpiritPoint -= damage;
-            Vector2 initialVelocity = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            initialVelocity.Normalize();
-            initialVelocity *= Random.Range(spiritLossVelocityRange.x, spiritLossVelocityRange.y);
-            SpiritPart newSpiritPart = Instantiate(spiritPartPrefab, transform.position, Quaternion.identity).GetComponent<SpiritPart>();
-            newSpiritPart.Initialize(damage, initialVelocity);
-            spiritParts.Add(newSpiritPart);
-            if (currentSpiritPoint <= 0)
+            currentHealthPoint -= damage;
+            if (currentHealthPoint <= 0)
             {
                 Die();
             }
@@ -73,22 +64,36 @@ public class PlayerManager : MonoBehaviour
             GameData.playerVisuals.animator.SetTrigger("Hurt");
             StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));
 
-            //GameData.movementHandler.Propel(knockBackDirectedForce, false);
             StartCoroutine(NoControl(stunTime));
         }
     }
 
-    public void PickSpiritPart(SpiritPart part)
+    public void Heal(int healAmount)
     {
-        currentSpiritPoint += part.pointsHeld;
-        spiritParts.Remove(part);
-        Destroy(part.gameObject);
+        currentHealthPoint += healAmount;
+        currentHealthPoint = Mathf.Clamp(currentHealthPoint, 0, maxHealthPoint);
+    }
+
+    private void RefreshHealthPointDisplay()
+    {
+        for (int i = 0; i < healthPointsDisplay.Count; i++)
+        {
+            if(currentHealthPoint > i)
+            {
+                healthPointsDisplay[i].SetActive(true);
+            }
+            else
+            {
+                healthPointsDisplay[i].SetActive(false);
+            }
+        }
     }
 
     public void Die()
     {
         Debug.Log("You died");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //GameManager.LoadProgression();
     }
 
     public IEnumerator NoControl(float time)

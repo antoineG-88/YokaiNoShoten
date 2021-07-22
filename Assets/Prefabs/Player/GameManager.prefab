@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3267245876046976407}
   - component: {fileID: 3267245876046976406}
   - component: {fileID: 3267245876046976404}
+  - component: {fileID: 8500712147427434605}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerO: {fileID: 0}
   slowMoManageRef: {fileID: 3267245876046976404}
+  _noPiercableLayer: 12
 --- !u!114 &3267245876046976404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,3 +63,20 @@ MonoBehaviour:
   slowMoInitialRatio: 0.15
   smoothTime: 0.05
   inSlowMo: 0
+--- !u!114 &8500712147427434605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267245876046976401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae364c158a20684889feb2630b064d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneName: 
+  progressionDataSaveFileNamePrefixe: /YR_
+  saveFileExtension: .save
+  defaultSaveDirectoryName: /GameSave
+  defaultGameDirectoryName: /YokaiRescue

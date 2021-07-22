@@ -18,6 +18,7 @@ public class Laser : MonoBehaviour
     public GameObject beamImpactPrefab;
     public float spaceBetweenBeamFx;
     public float beamStartOffset;
+    public float beamDisplayStartOffset;
     public BoxCollider2D boxCollider;
     public Transform beamParent;
 
@@ -63,9 +64,9 @@ public class Laser : MonoBehaviour
     {
         if(isBeamActive && isActive)
         {
-            hit = Physics2D.Raycast(transform.position, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
+            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
 
-            playerHit = Physics2D.CircleCast(transform.position, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
+            playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
             if (playerHit && playerHit.collider.CompareTag("Player"))
             {
                 Vector2 knockbackDirection;
@@ -82,7 +83,7 @@ public class Laser : MonoBehaviour
             }
 
 
-            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxLaserRange;
+            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
             beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
 
 
@@ -96,7 +97,7 @@ public class Laser : MonoBehaviour
             {
                 for (int i = beamFxs.Count; i < beamFxNumber; i++)
                 {
-                    beamFxs.Add(Instantiate(i == 0 ? beamStartPrefab : beamPartPrefab, (Vector2)transform.position + Vector2.right * ((spaceBetweenBeamFx * i) + beamStartOffset), Quaternion.identity, beamParent));
+                    beamFxs.Add(Instantiate(i == 0 ? beamStartPrefab : beamPartPrefab, (Vector2)transform.position + Vector2.right * ((spaceBetweenBeamFx * i) + beamDisplayStartOffset), Quaternion.identity, beamParent));
                 }
             }
             else if (beamFxs.Count > beamFxNumber)

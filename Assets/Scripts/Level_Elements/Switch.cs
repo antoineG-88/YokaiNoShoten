@@ -6,11 +6,12 @@ public abstract class Switch : Piercable
 {
     public bool startOnON;
     public bool inverseOutput;
-    protected bool isOn;
+    public bool isOn;
 
     public virtual void Start()
     {
         isOn = startOnON;
+        GameManager.allZoneSwitchs.Add(this);
     }
 
     public void SwitchOnOff()

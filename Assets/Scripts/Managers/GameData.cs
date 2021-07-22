@@ -8,6 +8,7 @@ public class GameData : MonoBehaviour
 {
     public GameObject playerO;
     public SlowMoManager slowMoManageRef;
+    public int _noPiercableLayer;
 
     public static PierceHandler pierceHandler;
     public static MovementHandler movementHandler;
@@ -19,6 +20,7 @@ public class GameData : MonoBehaviour
     public static PlayerManager playerManager;
     public static Collider2D playerCollider;
     public static GridGraph gridGraph;
+    public static int noPiercableLayer;
 
     private void Awake()
     {
@@ -31,23 +33,11 @@ public class GameData : MonoBehaviour
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
         playerCollider = player.GetComponent<Collider2D>();
         pierceHandler = player.GetComponent<PierceHandler>();
+        noPiercableLayer = _noPiercableLayer;
     }
 
     private void Start()
     {
         gridGraph = (GridGraph)AstarData.active.graphs[0];
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.S))
-        {
-            SceneManager.LoadScene(0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SceneManager.LoadScene(1);
-        }
     }
 }
