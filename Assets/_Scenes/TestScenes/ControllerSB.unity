@@ -2162,6 +2162,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 343994995}
   m_CullTransparentMesh: 0
+--- !u!114 &377783298 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5202223809458673487, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
+    type: 3}
+  m_PrefabInstance: {fileID: 399394919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b0471b4ae5b354786e7523b3d581b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &387863470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2373,7 +2385,7 @@ PrefabInstance:
     - target: {fileID: 3222167889513680256, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5202223809458673487, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}
@@ -7980,6 +7992,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableTime: 0.2
+--- !u!114 &1692541197 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+    type: 3}
+  m_PrefabInstance: {fileID: 607391733}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6a40328eab9304f91368ab1c82c175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1698384695
 GameObject:
   m_ObjectHideFlags: 0
@@ -8345,7 +8369,6 @@ GameObject:
   - component: {fileID: 1786792668}
   - component: {fileID: 1786792667}
   - component: {fileID: 1786792672}
-  - component: {fileID: 1786792673}
   m_Layer: 9
   m_Name: Door
   m_TagString: Untagged
@@ -8460,7 +8483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d4344217e36204a883345631072279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedSwitch: {fileID: 1368409997}
+  connectedSwitch: {fileID: 1786792672}
 --- !u!4 &1786792671
 Transform:
   m_ObjectHideFlags: 0
@@ -8484,35 +8507,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1786792666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc15df59d727b2c4fb5e52e44e97f498, type: 3}
+  m_Script: {fileID: 11500000, guid: db45f156c4ae27b41a67466f9954c8e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startOnON: 0
   inverseOutput: 0
   isOn: 0
-  switches:
-  - {fileID: 1368409997}
-  - {fileID: 1870567823}
-  isOr: 0
---- !u!114 &1786792673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1786792666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc15df59d727b2c4fb5e52e44e97f498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startOnON: 0
-  inverseOutput: 0
-  isOn: 0
-  switches:
-  - {fileID: 1368409997}
-  - {fileID: 1870567823}
-  isOr: 0
+  enemyToDestroy:
+  - {fileID: 1692541197}
+  - {fileID: 377783298}
 --- !u!1001 &1789577504
 PrefabInstance:
   m_ObjectHideFlags: 0

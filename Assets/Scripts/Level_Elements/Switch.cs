@@ -6,7 +6,7 @@ public abstract class Switch : Piercable
 {
     public bool startOnON;
     public bool inverseOutput;
-    public bool isOn;
+    [HideInInspector] public bool isOn;
 
     public virtual void Start()
     {

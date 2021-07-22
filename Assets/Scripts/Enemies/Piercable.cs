@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Piercable : MonoBehaviour
 {
     private int initialLayer;
+    protected bool doNotReableCollider;
 
     private void Awake()
     {
@@ -22,7 +23,10 @@ public abstract class Piercable : MonoBehaviour
     public IEnumerator DisablePiercable()
     {
         gameObject.layer = GameData.noPiercableLayer;
-        yield return new WaitForSeconds(0.5f);
-        gameObject.layer = initialLayer;
+        if(!doNotReableCollider)
+        {
+            yield return new WaitForSeconds(0.5f);
+            gameObject.layer = initialLayer;
+        }
     }
 }

@@ -56,7 +56,7 @@ public static class SaveSystem
             formatter.Serialize(stream, progressionData);
             stream.Close();
 
-            Debug.Log("Player saved in " + path);
+            //Debug.Log("Player saved in " + path);
         }
         else
         {
@@ -77,7 +77,7 @@ public static class SaveSystem
             ProgressionData progressionData = formatter.Deserialize(stream) as ProgressionData;
             stream.Close();
 
-            Debug.Log("PLayer loaded from " + path);
+            //Debug.Log("PLayer loaded from " + path);
 
             return progressionData;
         }
