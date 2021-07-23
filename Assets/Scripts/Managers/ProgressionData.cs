@@ -12,15 +12,7 @@ public class ProgressionData
 
     public ProgressionData()
     {
-        /*for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
-        {
-            if(LevelManager.lastCheckPoint == LevelManager.allZoneCheckPoints[i])
-            {
-                lastCheckPointIndex = i;
-            }
-        }*/
         lastCheckPointIndex = LevelManager.lastCheckPoint.checkPointNumber;
-        Debug.Log("index saved : " + lastCheckPointIndex);
 
         currentZoneName = GameManager.currentZoneName;
 

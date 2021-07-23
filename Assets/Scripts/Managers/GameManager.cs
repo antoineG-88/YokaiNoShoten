@@ -48,6 +48,11 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     public static void LoadLevel(bool onlyOnRespawn)

@@ -18,7 +18,7 @@ public class CheckPoint : MonoBehaviour
     private bool saveFlag;
     private bool regenerateFlag;
 
-    private void Awake()
+    private void Start()
     {
         LevelManager.allZoneCheckPoints.Add(this);
     }

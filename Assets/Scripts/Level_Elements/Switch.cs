@@ -8,14 +8,11 @@ public abstract class Switch : Piercable
     public bool inverseOutput;
     [HideInInspector] public bool isOn;
 
-    private void Awake()
-    {
-        isOn = startOnON;
-        LevelManager.allZoneSwitchs.Add(this);
-    }
 
     public virtual void Start()
     {
+        isOn = startOnON;
+        LevelManager.allZoneSwitchs.Add(this);
     }
 
     public void SwitchOnOff()
