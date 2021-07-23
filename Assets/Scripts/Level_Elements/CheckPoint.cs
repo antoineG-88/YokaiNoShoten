@@ -23,11 +23,6 @@ public class CheckPoint : MonoBehaviour
         LevelManager.allZoneCheckPoints.Add(this);
     }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         UpdateBehavior();
