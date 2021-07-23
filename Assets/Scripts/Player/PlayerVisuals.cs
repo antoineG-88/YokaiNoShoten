@@ -35,12 +35,16 @@ public class PlayerVisuals : MonoBehaviour
             FlipTransform(facingRight);
         }
 
-        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated;
+        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing;
         if (useCustomRotation)
         {
             if (GameData.grappleHandler.isTracting)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, GameData.grappleHandler.tractionDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.grappleHandler.tractionDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.grappleHandler.tractionDirection));
+            }
+            if (GameData.pierceHandler.isPiercing)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.pierceHandler.piercableDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.pierceHandler.piercableDirection));
             }
         }
         else
@@ -71,6 +75,7 @@ public class PlayerVisuals : MonoBehaviour
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
         animator.SetBool("IsSliding", GameData.movementHandler.isOnSlidingSlope);
         animator.SetBool("IsDrifting", GameData.movementHandler.isInNoGravityZone);
+
     }
 
     public IEnumerator SetDashRotation(Vector2 dashDirection)
