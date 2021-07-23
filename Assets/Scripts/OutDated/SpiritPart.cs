@@ -58,7 +58,7 @@ public class SpiritPart : MonoBehaviour
     {
         if(distanceToPlayer < pickupDistance && timeRemainingBeforePickable <= 0)
         {
-            GameData.playerManager.PickSpiritPart(this);
+            //GameData.playerManager.PickSpiritPart(this);
         }
     }
 }

@@ -36,7 +36,7 @@ public class PierceHandler : MonoBehaviour
     public Transform comboPierceTimingHelper;
 
     private ContactFilter2D enemyFilter;
-    private Vector2 piercableDirection;
+    [HideInInspector] public Vector2 piercableDirection;
     [HideInInspector] public bool isPiercing;
     [HideInInspector] public bool isPhasing;
     private Rigidbody2D rb;
@@ -244,7 +244,6 @@ public class PierceHandler : MonoBehaviour
         GameData.grappleHandler.ReleaseHook();
         rb.velocity = Vector2.zero;
         GameData.movementHandler.canMove = false;
-        //GameData.movementHandler.isAffectedbyGravity = false;
         isPiercing = true;
         yield return new WaitForSeconds(timeBeforeFirstPierce);
 
@@ -264,8 +263,10 @@ public class PierceHandler : MonoBehaviour
         startPiercePos = transform.position;
         currentPiercePos = transform.position;
         previousPiercePos = transform.position;
-
         bool hasPierced = false;
+
+        GameData.playerVisuals.RotatePierce();
+        GameData.playerVisuals.animator.SetTrigger("PierceAttack");
 
         Piercable piercable = markedPiercable.GetComponent<Piercable>();
         Enemy enemy = markedPiercable.GetComponent<Enemy>();
@@ -294,6 +295,7 @@ public class PierceHandler : MonoBehaviour
                 if (piercable != null)
                 {
                     isPierceCancelled = piercable.PierceEffect(1, -piercableDirection * pierceKnockbackForce);
+                    StartCoroutine(piercable.DisablePiercable());
                     Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                     hasPierced = true;
                 }
@@ -310,7 +312,6 @@ public class PierceHandler : MonoBehaviour
 
         isPiercing = false;
         GameData.movementHandler.canMove = true;
-        //GameData.movementHandler.isAffectedbyGravity = true;
         if(!useCombo)
             canPierce = true;
         GameData.dashHandler.canDash = true;

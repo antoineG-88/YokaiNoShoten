@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -249,7 +249,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -443,6 +443,7 @@ MonoBehaviour:
   isTracting: 0
   canUseTraction: 0
   canShoot: 0
+  isSucked: 0
 --- !u!114 &6159655295043557527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,6 +519,7 @@ MonoBehaviour:
   comboPierceAimAssistRaycastNumber: 50
   comboPierceTresholdOffset: -0.2
   comboPierceTimingHelper: {fileID: 2413838916319084873}
+  piercableDirection: {x: 0, y: 0}
   isPiercing: 0
   isPhasing: 0
   canPierce: 0
@@ -590,11 +592,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7deaa099ae1144082092c23b705a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpiritPoint: 12
-  healthText: {fileID: 0}
-  spiritPartPrefab: {fileID: 6346672961636667937, guid: d5f3efd6aa173ad4295df2663a64e093,
-    type: 3}
-  spiritLossVelocityRange: {x: 8, y: 10}
+  maxHealthPoint: 5
+  healthPointsDisplay:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   stunTime: 0.3
   damageInvulnerableTime: 0.3
   inControl: 0
@@ -794,7 +798,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -858,6 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashAttackClip: {fileID: 7400000, guid: eedf34cffce06d847b3887a8b17b97e7, type: 2}
+  pierceAnimClip: {fileID: 7400000, guid: 41b3a958bb242d541be395271170f551, type: 2}
   facingRight: 0
   animator: {fileID: 0}
 --- !u!1 &3737249136681705722
@@ -909,7 +914,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -990,7 +995,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1071,7 +1076,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

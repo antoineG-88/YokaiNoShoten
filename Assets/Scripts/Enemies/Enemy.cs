@@ -49,6 +49,7 @@ public abstract class Enemy : Piercable
     protected float timeBeforeColliderActive;
     protected void Start()
     {
+        doNotReableCollider = true;
         ownCollider = GetComponent<Collider2D>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
