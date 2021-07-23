@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -92,8 +91,7 @@ public class PlayerManager : MonoBehaviour
     public void Die()
     {
         Debug.Log("You died");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //GameManager.LoadProgression();
+        GameManager.Respawn();
     }
 
     public IEnumerator NoControl(float time)

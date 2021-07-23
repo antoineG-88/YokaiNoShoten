@@ -246,7 +246,6 @@ public class PierceHandler : MonoBehaviour
         GameData.movementHandler.canMove = false;
         isPiercing = true;
         yield return new WaitForSeconds(timeBeforeFirstPierce);
-        GameData.playerVisuals.animator.SetTrigger("PierceAttack");
 
         if(triggerSlowMo)
             StartPhasingTime();
@@ -264,8 +263,10 @@ public class PierceHandler : MonoBehaviour
         startPiercePos = transform.position;
         currentPiercePos = transform.position;
         previousPiercePos = transform.position;
-
         bool hasPierced = false;
+
+        GameData.playerVisuals.RotatePierce();
+        GameData.playerVisuals.animator.SetTrigger("PierceAttack");
 
         Piercable piercable = markedPiercable.GetComponent<Piercable>();
         Enemy enemy = markedPiercable.GetComponent<Enemy>();

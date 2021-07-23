@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public string zoneName;
     [Header("Save settings")]
     public string progressionDataSaveFileNamePrefixe;
     public string saveFileExtension;
@@ -13,29 +12,29 @@ public class GameManager : MonoBehaviour
     public string defaultGameDirectoryName;
 
     [HideInInspector] public static string currentZoneName;
-    [HideInInspector] public static List<CheckPoint> allZoneCheckPoints;
-    [HideInInspector] public static CheckPoint lastCheckPoint;
-    [HideInInspector] public static List<Switch> allZoneSwitchs;
     [HideInInspector] public static int currentStoryStep;
 
-    private bool zoneLoaded;
+    public static bool isRespawning;
+    private static bool zoneLoaded;
+    public static GameManager I;
+
     private void Awake()
     {
-        allZoneCheckPoints = new List<CheckPoint>();
-        allZoneSwitchs = new List<Switch>();
+        if(I != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            I = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
     }
 
     private void Start()
     {
         SetSavePath();
-        if(zoneName == "")
-        {
-            currentZoneName = SceneManager.GetActiveScene().name;
-        }
-        else
-        {
-            currentZoneName = zoneName;
-        }
     }
 
     private void Update()
@@ -49,27 +48,45 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
-        if(!zoneLoaded && allZoneSwitchs.Count > 0 && allZoneCheckPoints.Count > 0)
+    }
+
+    public static void LoadLevel(bool onlyOnRespawn)
+    {
+        if(!onlyOnRespawn || (onlyOnRespawn && isRespawning))
         {
-            zoneLoaded = true;
+            isRespawning = false;
             LoadProgression();
         }
     }
 
+    public static void Respawn()
+    {
+        isRespawning = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public static void SaveProgression(CheckPoint checkPoint)
     {
-        lastCheckPoint = checkPoint;
+        LevelManager.lastCheckPoint = checkPoint;
         SaveSystem.SaveProgression();
     }
 
     public static void LoadProgression()
     {
         ProgressionData progressionData = SaveSystem.LoadProgression();
-        for (int i = 0; i < allZoneSwitchs.Count; i++)
+        for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
         {
-            allZoneSwitchs[i].isOn = progressionData.switchStates[i];
+            LevelManager.allZoneSwitchs[i].isOn = progressionData.switchStates[i];
         }
-        GameData.player.transform.position = allZoneCheckPoints[progressionData.lastCheckPointIndex].transform.position;
+        Debug.Log("index loaded : " + progressionData.lastCheckPointIndex);
+
+        for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
+        {
+            if(LevelManager.allZoneCheckPoints[i].checkPointNumber == progressionData.lastCheckPointIndex)
+            {
+                GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+            }
+        }
         currentStoryStep = progressionData.currentStoryStep;
     }
 

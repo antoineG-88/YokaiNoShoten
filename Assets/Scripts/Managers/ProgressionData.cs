@@ -12,20 +12,22 @@ public class ProgressionData
 
     public ProgressionData()
     {
-        for (int i = 0; i < GameManager.allZoneCheckPoints.Count; i++)
+        /*for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
         {
-            if(GameManager.lastCheckPoint == GameManager.allZoneCheckPoints[i])
+            if(LevelManager.lastCheckPoint == LevelManager.allZoneCheckPoints[i])
             {
                 lastCheckPointIndex = i;
             }
-        }
+        }*/
+        lastCheckPointIndex = LevelManager.lastCheckPoint.checkPointNumber;
+        Debug.Log("index saved : " + lastCheckPointIndex);
 
         currentZoneName = GameManager.currentZoneName;
 
         switchStates = new List<bool>();
-        for (int i = 0; i < GameManager.allZoneSwitchs.Count; i++)
+        for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
         {
-            switchStates.Add(GameManager.allZoneSwitchs[i].isOn);
+            switchStates.Add(LevelManager.allZoneSwitchs[i].isOn);
         }
 
         currentStoryStep = GameManager.currentStoryStep;

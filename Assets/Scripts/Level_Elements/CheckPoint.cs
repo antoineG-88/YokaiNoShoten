@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
+    public int checkPointNumber;
     public float timeToRegenerate;
     [Header("Temporary")]
     public float regenFBStartSize;
@@ -17,9 +18,14 @@ public class CheckPoint : MonoBehaviour
     private bool saveFlag;
     private bool regenerateFlag;
 
+    private void Awake()
+    {
+        LevelManager.allZoneCheckPoints.Add(this);
+    }
+
     void Start()
     {
-        GameManager.allZoneCheckPoints.Add(this);
+
     }
 
     void Update()

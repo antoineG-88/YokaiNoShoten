@@ -5,15 +5,21 @@ using UnityEngine;
 public class PlayerVisuals : MonoBehaviour
 {
     public AnimationClip dashAttackClip;
+    public AnimationClip pierceAnimClip;
 
     [HideInInspector] public bool facingRight;
 
+    private SpriteRenderer spriteRenderer;
     [HideInInspector] public Animator animator;
     private bool transformFacingRight;
     private bool useCustomRotation;
     private bool isDashRotated;
+    private bool wasPiercing;
+    private float pierceTimeElapsed;
+    private Vector2 dashDirection;
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         transformFacingRight = true;
     }
@@ -25,9 +31,44 @@ public class PlayerVisuals : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        facingRight = GameData.grappleHandler.isTracting ? (GameData.grappleHandler.tractionDirection.x > 0 ? true : false) :
-                (GameData.movementHandler.isOnSlidingSlope ? (GameData.movementHandler.rb.velocity.x > 0 ? true : false) : 
-                (GameData.movementHandler.horizontalTargetSpeed != 0 ? (GameData.movementHandler.horizontalTargetSpeed > 0 ? true : false) : facingRight));
+        if(GameData.grappleHandler.isTracting)
+        {
+            facingRight = GameData.grappleHandler.tractionDirection.x > 0 ? true : false;
+        }
+        else if(GameData.dashHandler.isDashing)
+        {
+            facingRight = dashDirection.x > 0 ? true : false;
+        }
+        else
+        {
+            if(wasPiercing)
+            {
+                facingRight = GameData.pierceHandler.piercableDirection.x > 0 ? true : false;
+            }
+            else
+            {
+                if (GameData.movementHandler.isOnSlidingSlope)
+                {
+                    facingRight = GameData.movementHandler.rb.velocity.x > 0 ? true : false; //A changer
+                }
+                else
+                {
+                    if (GameData.movementHandler.horizontalTargetSpeed != 0)
+                    {
+                        facingRight = GameData.movementHandler.horizontalTargetSpeed > 0 ? true : false;
+                    }
+                }
+            }
+        }
+
+        if(wasPiercing)
+        {
+            pierceTimeElapsed += Time.deltaTime;
+            if(pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting)
+            {
+                wasPiercing = false;
+            }
+        }
 
         if (facingRight != transformFacingRight)
         {
@@ -35,16 +76,21 @@ public class PlayerVisuals : MonoBehaviour
             FlipTransform(facingRight);
         }
 
-        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing;
+        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing || wasPiercing;
         if (useCustomRotation)
         {
             if (GameData.grappleHandler.isTracting)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, GameData.grappleHandler.tractionDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.grappleHandler.tractionDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.grappleHandler.tractionDirection));
             }
-            if (GameData.pierceHandler.isPiercing)
+            if (GameData.pierceHandler.isPiercing || wasPiercing)
             {
-                transform.localRotation = Quaternion.Euler(0, 0, GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.pierceHandler.piercableDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.pierceHandler.piercableDirection));
+                Debug.DrawRay(transform.position, GameData.pierceHandler.piercableDirection * 3);
+                transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.left : Vector2.right, GameData.pierceHandler.piercableDirection));
+            }
+            else if(isDashRotated)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(dashDirection.x <= 0 ? Vector2.left : Vector2.right, dashDirection));
             }
         }
         else
@@ -59,12 +105,18 @@ public class PlayerVisuals : MonoBehaviour
     {
         if (facing)
         {
-            transform.localScale = new Vector2(1, transform.localScale.y);
+            spriteRenderer.flipX = false;
         }
         else
         {
-            transform.localScale = new Vector2(-1, transform.localScale.y);
+            spriteRenderer.flipX = true;
         }
+    }
+
+    public void RotatePierce()
+    {
+        wasPiercing = true;
+        pierceTimeElapsed = 0;
     }
 
     private void UpdateAnimator()
@@ -78,10 +130,10 @@ public class PlayerVisuals : MonoBehaviour
 
     }
 
-    public IEnumerator SetDashRotation(Vector2 dashDirection)
+    public IEnumerator SetDashRotation(Vector2 lastDashDirection)
     {
         isDashRotated = true;
-        transform.localRotation = Quaternion.Euler(0, 0, dashDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 0), dashDirection) : Vector2.SignedAngle(new Vector2(1, 0), dashDirection));
+        dashDirection = lastDashDirection;
         yield return new WaitForSeconds(dashAttackClip.length);
         isDashRotated = false;
     }
