@@ -52,7 +52,6 @@ public static class SaveSystem
             FileStream stream = new FileStream(path, FileMode.Create);
 
             ProgressionData progressionData = new ProgressionData();
-
             formatter.Serialize(stream, progressionData);
             stream.Close();
 

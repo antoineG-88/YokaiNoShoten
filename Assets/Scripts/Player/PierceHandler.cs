@@ -219,7 +219,7 @@ public class PierceHandler : MonoBehaviour
                 comboPierceTimingHelper.gameObject.SetActive(false);
             }
 
-            if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton")) && canPierce)
+            if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper")) && canPierce)
             {
                 if (selectedEnemy != null)
                 {
