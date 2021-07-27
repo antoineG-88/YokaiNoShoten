@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
         {
             LevelManager.allZoneSwitchs[i].isOn = progressionData.switchStates[i];
         }
-        Debug.Log("index loaded : " + progressionData.lastCheckPointIndex);
 
         for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
         {

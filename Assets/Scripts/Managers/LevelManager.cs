@@ -12,12 +12,13 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public static CheckPoint lastCheckPoint;
     [HideInInspector] public static List<Switch> allZoneSwitchs;
 
-    private bool zoneLoaded;
+    private int zoneLoadCountDown;
 
     private void Awake()
     {
         allZoneCheckPoints = new List<CheckPoint>();
         allZoneSwitchs = new List<Switch>();
+        zoneLoadCountDown = 2;
     }
 
     void Start()
@@ -34,9 +35,13 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if(allZoneCheckPoints.Count > 0 && allZoneSwitchs.Count > 0 && !zoneLoaded)
+        if(zoneLoadCountDown > 0)
         {
-            zoneLoaded = true;
+            zoneLoadCountDown--;
+        }
+        else if(zoneLoadCountDown == 0)
+        {
+            zoneLoadCountDown--;
             GameManager.LoadLevel(loadSaveOnlyOnRespawn);
         }
     }
