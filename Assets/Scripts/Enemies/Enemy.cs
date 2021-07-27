@@ -322,7 +322,7 @@ public abstract class Enemy : Piercable
         if (animator != null)
             animator.SetBool("Dead",true);
         isDying = true;
-        yield return new WaitForSeconds(deathAnimClip.length);
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         Destroy(gameObject);
     }
 

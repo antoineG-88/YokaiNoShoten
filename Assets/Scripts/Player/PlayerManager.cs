@@ -62,7 +62,7 @@ public class PlayerManager : MonoBehaviour
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.animator.SetTrigger("Hurt");
             StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));
-
+            GameData.dashHandler.canDash = true;
             StartCoroutine(NoControl(stunTime));
         }
     }
