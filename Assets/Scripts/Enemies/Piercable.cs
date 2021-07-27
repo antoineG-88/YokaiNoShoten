@@ -4,6 +4,14 @@ using UnityEngine;
 
 public abstract class Piercable : MonoBehaviour
 {
+    private int initialLayer;
+    protected bool doNotReableCollider;
+
+    private void Awake()
+    {
+        initialLayer = gameObject.layer;
+    }
+
     /// <summary>
     /// Trigger the effect of the pierce attack
     /// </summary>
@@ -11,4 +19,14 @@ public abstract class Piercable : MonoBehaviour
     /// <param name="directedForce">the force to apply if target can be moved</param>
     /// <returns>Returns true if the target is protected and cannot be pierced</returns>
     public abstract bool PierceEffect(int damage, Vector2 directedForce);
+
+    public IEnumerator DisablePiercable()
+    {
+        gameObject.layer = GameData.noPiercableLayer;
+        if(!doNotReableCollider)
+        {
+            yield return new WaitForSeconds(0.5f);
+            gameObject.layer = initialLayer;
+        }
+    }
 }

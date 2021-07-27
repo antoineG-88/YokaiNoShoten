@@ -10,9 +10,9 @@ public class Hammer : MonoBehaviour
     public float upSurge;
     public float kbForce;
     private Vector2 formerPosition;
-    private bool hitFlag;
+    //private bool hitFlag;
     public LayerMask playerLayer;
-    private ContactFilter2D playerFilter;
+    //private ContactFilter2D playerFilter;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +27,10 @@ public class Hammer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && hitFlag == false)
+        /*if (collision.gameObject.CompareTag("Player") && hitFlag == false)
         {
             Slam(collision);
-        }
+        }*/
     }
 
     /*private void OnCollisionEnter2D(Collision2D collision)
@@ -46,7 +46,7 @@ public class Hammer : MonoBehaviour
         //StartCoroutine(ResetPosition(resetPositionTimer));
         rb.velocity = Vector2.down.normalized * downSurge;
         List<Collider2D> hitPlayer = new List<Collider2D>();
-        Physics2D.OverlapCollider(collider, playerFilter, hitPlayer);
+        //Physics2D.OverlapCollider(collider, playerFilter, hitPlayer);
         {
 
         }
