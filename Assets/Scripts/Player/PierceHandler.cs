@@ -21,6 +21,7 @@ public class PierceHandler : MonoBehaviour
     public Transform pierceArrowPreview;
     public Transform pierceEndPosPreview;
     public bool triggerSlowMo;
+    public bool useLeftTriggerInput;
     [Header("Pierce Aim settings")]
     public bool useAutoAim;
     public float pierceAimAssistAngle;
@@ -162,6 +163,7 @@ public class PierceHandler : MonoBehaviour
         }
     }
 
+    [HideInInspector] public GameObject selectedEnemy;
     private void UpdatePierceAim() //Affiche la visée du pierce et sélectionne un ennemi visée et attque si appuie dur l'attaque
     {
         Vector2 aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
@@ -179,7 +181,7 @@ public class PierceHandler : MonoBehaviour
         {
             pierceArrowPreview.gameObject.SetActive(true);
             pierceArrowPreview.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
-            GameObject selectedEnemy = null;
+            selectedEnemy = null;
 
             RaycastHit2D hit;
             float minAngleFound = pierceAimAssistAngle;
@@ -210,8 +212,6 @@ public class PierceHandler : MonoBehaviour
                 selectedEnemyDirection.Normalize();
 
                 pierceEndPosPreview.position = (Vector2)selectedEnemy.transform.position + selectedEnemyDirection * positionDistanceBehindEnemy;
-
-
             }
             else
             {
@@ -219,7 +219,7 @@ public class PierceHandler : MonoBehaviour
                 comboPierceTimingHelper.gameObject.SetActive(false);
             }
 
-            if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper")) && canPierce)
+            if ((useLeftTriggerInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) && canPierce)
             {
                 if (selectedEnemy != null)
                 {
@@ -235,6 +235,7 @@ public class PierceHandler : MonoBehaviour
         {
             pierceArrowPreview.gameObject.SetActive(false);
             pierceEndPosPreview.gameObject.SetActive(false);
+            selectedEnemy = null;
         }
     }
 

@@ -17,8 +17,8 @@ public class DashHandler : MonoBehaviour
     [HideInInspector] public bool isDashing;
     [HideInInspector] public bool isReaiming;
     [HideInInspector] public Vector2 dashDirection;
-    private bool dashTriggerPressed;
-    private bool dashTriggerDown;
+    [HideInInspector] public bool dashTriggerPressed;
+    [HideInInspector] public bool dashTriggerDown;
     private Rigidbody2D rb;
     private ContactFilter2D enemyFilter;
     private ContactFilter2D attackReactionFilter;
@@ -71,11 +71,10 @@ public class DashHandler : MonoBehaviour
 
         dashDirection.Normalize();
 
-        if (dashTriggerDown && !isDashing && canDash)
+        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useLeftTriggerInput) || !GameData.pierceHandler.useLeftTriggerInput))
         {
             StartCoroutine(Dash(dashDirection));
         }
-
     }
 
     private IEnumerator Dash(Vector2 startDashDirection)
