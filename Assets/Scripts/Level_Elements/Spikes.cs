@@ -12,7 +12,21 @@ public class Spikes : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         Vector2 direction = collider.transform.position - transform.position;
-        GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? direction * knockback.magnitude : knockback);
+        if (collider.CompareTag("Player"))
+        {
+            GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? direction * knockback.magnitude : knockback);
+        }
+        else if (collider.CompareTag("Enemy"))
+        {
+            Enemy hitEnemy = collider.GetComponent<Enemy>();
+            if (hitEnemy.currentSheepShield != null)
+            {
+                hitEnemy.currentSheepShield.Disabling();
+                hitEnemy.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback);
+                StartCoroutine(hitEnemy.NoControl(0.3f));
+            }
+        }
+
         //GameData.movementHandler.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback, true);
     }
 

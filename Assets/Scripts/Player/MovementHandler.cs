@@ -17,9 +17,6 @@ public class MovementHandler : MonoBehaviour
     public AnimationCurve knockAwayMovement;
     public float knockAwayTime;
     public float slopeMaxSpeed;
-    [Header("NoGravityZone settings")]
-    public float NGMomentumSlowingForce;
-    public float maxSpeedInNGZone;
     [Tooltip("Cursed")]
     public bool moveWithRightJoystick;
     [Space]
@@ -35,7 +32,8 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public bool isOnSlidingSlope;
     [HideInInspector] public bool canMove;
     [HideInInspector] private bool isAffectedbyGravity;
-    [HideInInspector] public bool isInNoGravityZone;
+    [HideInInspector] public int levitateSourceNumber;
+    [HideInInspector] public NoGravityZone currentGravityZone;
     [HideInInspector] public bool isKnockedAway;
     [HideInInspector] public int isInSlidingZone;
 
@@ -95,7 +93,7 @@ public class MovementHandler : MonoBehaviour
 
         if (horizontalTargetSpeed != relativeVelocity.x)
         {
-            currentAcceleration = isInNoGravityZone ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
+            currentAcceleration = currentGravityZone != null ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
             currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
@@ -128,29 +126,32 @@ public class MovementHandler : MonoBehaviour
             rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
         }
 
-        isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && !isInNoGravityZone;
-
+        isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && currentGravityZone == null && levitateSourceNumber <= 0;
+        levitateSourceNumber = Mathf.Clamp(levitateSourceNumber, 0, 100);
         if (isAffectedbyGravity)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
         }
 
-        if(isInNoGravityZone)
+        if(currentGravityZone != null)
         {
-            if(rb.velocity.magnitude > NGMomentumSlowingForce * Time.fixedDeltaTime)
+            if (!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
             {
-                rb.velocity -= rb.velocity * (NGMomentumSlowingForce * Time.fixedDeltaTime);
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-            }
-
-            if(!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
-            {
-                if(rb.velocity.magnitude > maxSpeedInNGZone)
+                if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone + (currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime))
                 {
-                    rb.velocity = rb.velocity.normalized * maxSpeedInNGZone;
+                    rb.velocity -= rb.velocity.normalized * currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime;
+                }
+                else if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone)
+                {
+                    rb.velocity = rb.velocity.normalized * currentGravityZone.maxSpeedInNGZone;
+                }
+                else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone + (currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime))
+                {
+                    rb.velocity -= rb.velocity.normalized * currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime;
+                }
+                else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone)
+                {
+                    rb.velocity = rb.velocity.normalized * currentGravityZone.minSpeedInNGZone;
                 }
             }
         }
@@ -160,7 +161,7 @@ public class MovementHandler : MonoBehaviour
     {
         List<Collider2D> colliders = new List<Collider2D>();
         Physics2D.OverlapCollider(feetCollider, groundFilter, colliders);
-        if(colliders.Count > 0 && !isInNoGravityZone)
+        if(colliders.Count > 0 && currentGravityZone == null)
         {
             return true;
         }
