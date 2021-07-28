@@ -56,7 +56,7 @@ public class Sheep : Enemy
     }
     public override void DamageEffect()
     {
-        throw new System.NotImplementedException();
+
     }
     protected override void UpdateBehavior()
     {
@@ -77,6 +77,15 @@ public class Sheep : Enemy
         {
             SheepShield sheepShield = Instantiate(shield, protectedEnemies[i].transform);
             sheepShield.enemy = protectedEnemies[i];
+            protectedEnemies[i].currentSheepShield = sheepShield;
+        }
+    }
+    protected override void OnDie()
+    {
+        base.OnDie();
+        for (int i = 0; i < protectedEnemies.Length; i++)
+        {
+            protectedEnemies[i].currentSheepShield.Disabling();
         }
     }
 }

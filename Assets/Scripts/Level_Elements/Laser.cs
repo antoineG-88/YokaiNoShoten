@@ -85,12 +85,21 @@ public class Laser : MonoBehaviour
             enemyHit = Physics2D.CircleCast(transform.position, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall"));
             if (enemyHit && enemyHit.collider.CompareTag("Enemy"))
             {
-                for (int i = 0; i < enemyHit.collider.transform.childCount; i++)
+                Enemy hitEnemy = enemyHit.collider.GetComponent<Enemy>();
+                if(hitEnemy.currentSheepShield != null)
                 {
-                    if (enemyHit.collider.transform.GetChild(i).CompareTag("Shield"))
+                    Vector2 knockbackDirection;
+                    if (Vector2.SignedAngle(currentDirection, hitEnemy.transform.position - transform.position) > 0)
                     {
-                        enemyHit.collider.transform.GetChild(i).GetComponent<SheepShield>().Disabling();
+                        knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90);
                     }
+                    else
+                    {
+                        knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z - 90);
+                    }
+                    hitEnemy.Propel(knockbackDirection * knockbackDistance * 2);
+                    StartCoroutine(hitEnemy.NoControl(0.3f));
+                    hitEnemy.currentSheepShield.Disabling();
                 }
             }
 

@@ -18,16 +18,15 @@ public class Spikes : MonoBehaviour
         }
         else if (collider.CompareTag("Enemy"))
         {
-            collider.GetComponentInParent<Enemy>().Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback);
-
-            for (int i = 0; i < collider.transform.childCount; i++)
+            Enemy hitEnemy = collider.GetComponent<Enemy>();
+            if (hitEnemy.currentSheepShield != null)
             {
-                if (collider.transform.GetChild(i).CompareTag("Shield"))
-                {
-                    collider.transform.GetChild(i).GetComponent<SheepShield>().Disabling();
-                }
+                hitEnemy.currentSheepShield.Disabling();
+                hitEnemy.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback);
+                StartCoroutine(hitEnemy.NoControl(0.3f));
             }
         }
+
         //GameData.movementHandler.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback, true);
     }
 
