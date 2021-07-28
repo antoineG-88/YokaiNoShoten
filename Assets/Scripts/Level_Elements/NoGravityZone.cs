@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class NoGravityZone : MonoBehaviour
 {
-    private bool isInZone;
+    public float minSpeedInNGZone;
+    public float momentumSlowingForce;
+    public float maxSpeedInNGZone;
+    public float aboveMaxMomentumSlowingForce;
+
     private Serpent potentialSerpent;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            isInZone = true;
+            GameData.movementHandler.currentGravityZone = this;
         }
 
         potentialSerpent = collision.gameObject.GetComponent<Serpent>();
@@ -23,7 +27,7 @@ public class NoGravityZone : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            isInZone = false;
+            GameData.movementHandler.currentGravityZone = null;
         }
 
 
@@ -32,10 +36,5 @@ public class NoGravityZone : MonoBehaviour
         {
             potentialSerpent.isInNoGravityZone = false;
         }
-    }
-
-    private void Update()
-    {
-        GameData.movementHandler.isInNoGravityZone = isInZone;
     }
 }

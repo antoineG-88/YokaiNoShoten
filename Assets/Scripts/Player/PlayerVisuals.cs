@@ -126,7 +126,7 @@ public class PlayerVisuals : MonoBehaviour
         animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
         animator.SetBool("IsSliding", GameData.movementHandler.isOnSlidingSlope);
-        animator.SetBool("IsDrifting", GameData.movementHandler.isInNoGravityZone);
+        animator.SetBool("IsDrifting", GameData.movementHandler.currentGravityZone != null);
 
     }
 

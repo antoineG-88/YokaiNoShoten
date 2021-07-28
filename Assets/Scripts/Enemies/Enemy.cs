@@ -37,19 +37,20 @@ public abstract class Enemy : Piercable
     protected float timeBeforeNextPathUpdate;
     protected float distToPlayer;
     protected Vector2 playerDirection;
-    protected bool isProtected;
+    [HideInInspector]
+    public bool isProtected;
 
     protected bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool isDying;
-
+    [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
     protected Collider2D ownCollider;
     protected float timeBeforeColliderActive;
     protected void Start()
     {
-        doNotReableCollider = true;
+        doNotReableCollider = false;
         ownCollider = GetComponent<Collider2D>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -322,8 +323,14 @@ public abstract class Enemy : Piercable
         if (animator != null)
             animator.SetBool("Dead",true);
         isDying = true;
-        yield return new WaitForSeconds(deathAnimClip.length);
+        doNotReableCollider = true;
+        OnDie();
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         Destroy(gameObject);
+    }
+    protected virtual void OnDie()
+    {
+        
     }
 
     public IEnumerator NoControl(float time)
@@ -350,6 +357,11 @@ public abstract class Enemy : Piercable
         if (!isProtected)
         {
             TakeDamage(damage, directedForce, 0.5f);
+        }
+        else
+        {
+            Propel(directedForce);
+            StartCoroutine(NoControl(0.3f));
         }
         return isProtected;
     }
