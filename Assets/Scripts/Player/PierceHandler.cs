@@ -23,6 +23,7 @@ public class PierceHandler : MonoBehaviour
     public Transform pierceSelector;
     public bool triggerSlowMo;
     public bool useLeftTriggerInput;
+    public float cancelPierceKADistance;
     [Header("Pierce Aim settings")]
     public bool useAutoAim;
     public float pierceAimAssistAngle;
@@ -323,13 +324,16 @@ public class PierceHandler : MonoBehaviour
         GameData.movementHandler.canMove = true;
         if(!useCombo)
             canPierce = true;
-        GameData.dashHandler.canDash = true;
         currentPierce = null;
 
         if(isPierceCancelled)
         {
             StopPhasingTime();
-            GameData.movementHandler.Propel(-piercableDirection * 5, true);
+            StartCoroutine(GameData.movementHandler.KnockAway(-piercableDirection * cancelPierceKADistance));
+        }
+        else
+        {
+            GameData.dashHandler.canDash = true;
         }
     }
 

@@ -13,8 +13,10 @@ public class Sheep : Enemy
     public float provocationRange;
     public float safeDistanceToPlayer;
     public float maxRangeFromInitialPos;
+
     private bool isFacingRight;
     private bool destinationReached;
+    private bool isProvoked;
     // Start is called before the first frame update
     new void Start()
     {
@@ -56,19 +58,27 @@ public class Sheep : Enemy
     }
     public override void DamageEffect()
     {
-        throw new System.NotImplementedException();
+
     }
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
+        isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange;
         destinationReached = safeDistanceToPlayer < distToPlayer;
-        if (!destinationReached)
+        if (isProvoked)
         {
-            targetPathfindingPosition = (Vector2)transform.position - playerDirection * 2;
+            if (!destinationReached)
+            {
+                targetPathfindingPosition = (Vector2)transform.position - playerDirection * 2;
+            }
+            else
+            {
+                targetPathfindingPosition = transform.position;
+            }
         }
         else
         {
-            targetPathfindingPosition = transform.position;
+            targetPathfindingPosition = initialPos;
         }
     }
     void CreateShield()
@@ -77,6 +87,15 @@ public class Sheep : Enemy
         {
             SheepShield sheepShield = Instantiate(shield, protectedEnemies[i].transform);
             sheepShield.enemy = protectedEnemies[i];
+            protectedEnemies[i].currentSheepShield = sheepShield;
+        }
+    }
+    protected override void OnDie()
+    {
+        base.OnDie();
+        for (int i = 0; i < protectedEnemies.Length; i++)
+        {
+            protectedEnemies[i].currentSheepShield.Disabling();
         }
     }
 }

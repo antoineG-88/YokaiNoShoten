@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class SheepShield : MonoBehaviour
 {
-    public bool isInLaser;
+    [HideInInspector]
     public Enemy enemy;
+    [HideInInspector]
+    public bool isActive;
+    private SpriteRenderer sr;
     // Start is called before the
     // first frame update
     void Start()
     {
         enemy.isProtected = true;
-        isInLaser = false;
+        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void Disabling()
     {
-        if(isInLaser == true)
-        {
-            enemy.isProtected = false;
-            Destroy(gameObject);
-        }
+        enemy.isProtected = false;
+        isActive = false;
+        sr.enabled = false;
     }
 }
