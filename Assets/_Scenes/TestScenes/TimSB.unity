@@ -3058,11 +3058,12 @@ MonoBehaviour:
   pathPositions:
   - {fileID: 1133754094}
   - {fileID: 217302381}
+  useSpeed: 0
   speed: 5
+  timeToCompleteFullLoop: 0
   isBackAndForth: 0
   endLoopByTp: 1
   startProgression: 0
-  pauseTime: 0
   connectedSwitch: {fileID: 0}
 --- !u!114 &596275116
 MonoBehaviour:
@@ -3076,6 +3077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60c0f9297fcf3743bba495ff5286e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stabilizeRotation: 0
+  calculateVelocityBasedOnMovement: 0
   groundChangeCollider: {fileID: 775151150}
 --- !u!1 &609861338
 GameObject:
@@ -7824,6 +7827,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 818fe825f5c695549ab4f1fd7b038272, type: 3}
+--- !u!1001 &1590587893411450212
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1590587893474340737, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_Name
+      value: Sheep
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -26.269466
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590587893474340749, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1a7759238dc90c6469e665931f1f1094, type: 3}
 --- !u!1001 &3267245875446101874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8160,6 +8232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60c0f9297fcf3743bba495ff5286e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stabilizeRotation: 0
+  calculateVelocityBasedOnMovement: 0
   groundChangeCollider: {fileID: 3694607315899300897}
 --- !u!61 &3694607315086719058
 BoxCollider2D:

@@ -37,7 +37,8 @@ public abstract class Enemy : Piercable
     protected float timeBeforeNextPathUpdate;
     protected float distToPlayer;
     protected Vector2 playerDirection;
-    protected bool isProtected;
+    [HideInInspector]
+    public bool isProtected;
 
     protected bool provoked;
     protected Vector2 initialPos;

@@ -28,6 +28,7 @@ public class Laser : MonoBehaviour
     private GameObject beamEnd = null;
     private RaycastHit2D hit;
     private RaycastHit2D playerHit;
+    private RaycastHit2D enemyHit;
 
     private bool isActive;
     private bool isBeamActive;
@@ -80,9 +81,19 @@ public class Laser : MonoBehaviour
                 GameData.dashHandler.isDashing = false;
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
+            enemyHit = Physics2D.CircleCast(transform.position, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall"));
+            if (enemyHit && enemyHit.collider.CompareTag("Enemy"))
+            {
+                for (int i = 0; i < enemyHit.collider.transform.childCount; i++)
+                {
+                    if (enemyHit.collider.transform.GetChild(i).CompareTag("Shield"))
+                    {
+                        enemyHit.collider.transform.GetChild(i).GetComponent<SheepShield>().Disabling();
+                    }
+                }
+            }
 
-
-            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxLaserRange;
+                beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxLaserRange;
             beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
 
 
