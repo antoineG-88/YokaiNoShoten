@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
 
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool invulnerable;
+    [HideInInspector] public int isGrabbingTorch;
 
     private float invulnerableTimeRemaining;
 

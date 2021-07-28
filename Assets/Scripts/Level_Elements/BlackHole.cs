@@ -64,7 +64,7 @@ public class BlackHole : Piercable
             if (isInRange == false)
             {
                 isInRange = true;
-                GameData.movementHandler.isInNoGravityZone = true;
+                GameData.movementHandler.levitateSourceNumber++;
                 suckedPosition = GameData.movementHandler.transform.position;
                 GameData.grappleHandler.isSucked = true;
             }
@@ -74,7 +74,7 @@ public class BlackHole : Piercable
             if (isInRange == true)
             {
                 isInRange = false;
-                GameData.movementHandler.isInNoGravityZone = false;
+                GameData.movementHandler.levitateSourceNumber--;
                 hasAttacked = false;
                 GameData.grappleHandler.isSucked = false;
             }
@@ -99,7 +99,7 @@ public class BlackHole : Piercable
     {
         GetComponent<SpriteRenderer>().color = Color.red;
         isDesactivated = true;
-        GameData.movementHandler.isInNoGravityZone = false;
+        GameData.movementHandler.levitateSourceNumber--;
     }
 
 

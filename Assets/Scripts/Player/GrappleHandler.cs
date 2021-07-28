@@ -179,6 +179,7 @@ public class GrappleHandler : MonoBehaviour
                     ringHighLighterO.SetActive(true);
                     ringHighLighterO.transform.position = selectedObject.transform.position;
                     shootDirection = new Vector2(selectedObject.transform.position.x - shootPoint.position.x, selectedObject.transform.position.y - shootPoint.position.y).normalized;
+                    ringHighLighterO.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, -shootDirection));
                 }
                 else
                 {
@@ -278,18 +279,18 @@ public class GrappleHandler : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));*/
                 rb.velocity = rb.velocity.magnitude * tractionDirection;
 
-                if (rb.velocity.magnitude > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                if (rb.velocity.magnitude > (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
-                    if (rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                    if (rb.velocity.magnitude - slowingForce * Time.fixedDeltaTime > (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))
                     {
                         rb.velocity -= tractionDirection * slowingForce * Time.fixedDeltaTime;
                     }
                     else
                     {
-                        rb.velocity = tractionDirection * (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed);
+                        rb.velocity = tractionDirection * (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed);
                     }
                 }
-                else if ((rb.velocity.magnitude + 0.1f) < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.isInNoGravityZone ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                else if ((rb.velocity.magnitude + 0.1f) < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
                     rb.velocity = tractionDirection * startTractionPropulsion;
                 }

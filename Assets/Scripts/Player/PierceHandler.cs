@@ -20,6 +20,7 @@ public class PierceHandler : MonoBehaviour
     public float slowMoDelay;
     public Transform pierceArrowPreview;
     public Transform pierceEndPosPreview;
+    public Transform pierceSelector;
     public bool triggerSlowMo;
     public bool useLeftTriggerInput;
     [Header("Pierce Aim settings")]
@@ -212,9 +213,15 @@ public class PierceHandler : MonoBehaviour
                 selectedEnemyDirection.Normalize();
 
                 pierceEndPosPreview.position = (Vector2)selectedEnemy.transform.position + selectedEnemyDirection * positionDistanceBehindEnemy;
+                pierceEndPosPreview.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, selectedEnemyDirection));
+                pierceSelector.gameObject.SetActive(true);
+                pierceSelector.position = selectedEnemy.transform.position;
+                pierceSelector.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, selectedEnemyDirection));
+
             }
             else
             {
+                pierceSelector.gameObject.SetActive(false);
                 pierceEndPosPreview.gameObject.SetActive(false);
                 comboPierceTimingHelper.gameObject.SetActive(false);
             }
@@ -233,6 +240,7 @@ public class PierceHandler : MonoBehaviour
         }
         else
         {
+            pierceSelector.gameObject.SetActive(false);
             pierceArrowPreview.gameObject.SetActive(false);
             pierceEndPosPreview.gameObject.SetActive(false);
             selectedEnemy = null;
