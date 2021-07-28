@@ -8214,10 +8214,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 814294341, guid: 1a7759238dc90c6469e665931f1f1094, type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 1590587893474340737, guid: 1a7759238dc90c6469e665931f1f1094,
         type: 3}
       propertyPath: m_Name
@@ -8288,6 +8284,11 @@ PrefabInstance:
       propertyPath: protectedEnemies.Array.data[1]
       value: 
       objectReference: {fileID: 2021242748}
+    - target: {fileID: 4288117371498261738, guid: 1a7759238dc90c6469e665931f1f1094,
+        type: 3}
+      propertyPath: provocationRange
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7759238dc90c6469e665931f1f1094, type: 3}
 --- !u!1001 &3267245875446101874

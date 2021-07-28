@@ -13,8 +13,10 @@ public class Sheep : Enemy
     public float provocationRange;
     public float safeDistanceToPlayer;
     public float maxRangeFromInitialPos;
+
     private bool isFacingRight;
     private bool destinationReached;
+    private bool isProvoked;
     // Start is called before the first frame update
     new void Start()
     {
@@ -61,14 +63,22 @@ public class Sheep : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
+        isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange;
         destinationReached = safeDistanceToPlayer < distToPlayer;
-        if (!destinationReached)
+        if (isProvoked)
         {
-            targetPathfindingPosition = (Vector2)transform.position - playerDirection * 2;
+            if (!destinationReached)
+            {
+                targetPathfindingPosition = (Vector2)transform.position - playerDirection * 2;
+            }
+            else
+            {
+                targetPathfindingPosition = transform.position;
+            }
         }
         else
         {
-            targetPathfindingPosition = transform.position;
+            targetPathfindingPosition = initialPos;
         }
     }
     void CreateShield()

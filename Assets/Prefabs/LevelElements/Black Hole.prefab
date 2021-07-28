@@ -112,13 +112,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855b88aa674786e4b9a95928e1b8bba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  disablingHoleTimer: 0
+  trappedTime: 0.5
   formerDisablingHoleTimer: 5
-  distanceInfluence: 1
-  basePower: 10
   kbForce: 5
-  minValueSuccionPower: 5
-  maxValueSuccionPower: 20
-  startColor: {r: 0, g: 0, b: 0, a: 0}
+  startColor: {r: 1, g: 0, b: 0, a: 1}
   suckingRadius: 3.2
+  suckingForceByDistance:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.15510409
+      inSlope: Infinity
+      outSlope: -0.0000000325732
+      tangentMode: 1
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.41194966
+    - serializedVersion: 3
+      time: 0.37397075
+      value: 0.20382252
+      inSlope: 0.48359793
+      outSlope: 0.985759
+      tangentMode: 1
+      weightedMode: 3
+      inWeight: 0.30404136
+      outWeight: 0.24811912
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.3837862
+      outSlope: 1.3837862
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.386509
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxSuckingForce: 30
