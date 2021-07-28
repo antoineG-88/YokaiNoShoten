@@ -44,9 +44,9 @@ public class TorchSystem : Switch
             }
         }
 
-        if(isOn && stayOn)
+        if(isOn && stayOn && isTorchGrabbed)
         {
-            isTorchGrabbed = false;
+            DropTorch();
         }
     }
 
@@ -86,7 +86,7 @@ public class TorchSystem : Switch
         {
             if(timeElapsedSinceGrab > torchMaxTime)
             {
-                isTorchGrabbed = false;
+                DropTorch();
             }
 
             timeElapsedSinceGrab += Time.fixedDeltaTime;
@@ -114,7 +114,15 @@ public class TorchSystem : Switch
     {
         isTorchGrabbed = true;
         timeElapsedSinceGrab = 0;
+        GameData.playerManager.isGrabbingTorch++;
         //feedback
+    }
+
+    private void DropTorch()
+    {
+        isTorchGrabbed = false;
+        GameData.playerManager.isGrabbingTorch--;
+        //feedbck
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)

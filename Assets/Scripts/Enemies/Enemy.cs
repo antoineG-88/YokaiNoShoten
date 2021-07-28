@@ -50,6 +50,7 @@ public abstract class Enemy : Piercable
     protected float timeBeforeColliderActive;
     protected void Start()
     {
+        doNotReableCollider = true;
         ownCollider = GetComponent<Collider2D>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -189,7 +190,8 @@ public abstract class Enemy : Piercable
             {
                 currentHealthPoint -= damage;
                 Propel(directedForce);
-                animator.SetTrigger("Hurt");
+                if(animator != null)
+                    animator.SetTrigger("Hurt");
                 StartCoroutine(NoControl(noControlTime));
                 if (currentHealthPoint <= 0)
                 {
@@ -318,9 +320,10 @@ public abstract class Enemy : Piercable
 
     private IEnumerator Die()
     {
-        animator.SetBool("Dead",true);
+        if (animator != null)
+            animator.SetBool("Dead",true);
         isDying = true;
-        yield return new WaitForSeconds(deathAnimClip.length);
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         Destroy(gameObject);
     }
 
@@ -340,7 +343,7 @@ public abstract class Enemy : Piercable
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(initialPos, movementZoneRadius);
+        Gizmos.DrawWireSphere(transform.position, movementZoneRadius);
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)
