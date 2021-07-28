@@ -303,7 +303,7 @@ public class PierceHandler : MonoBehaviour
             {
                 if (piercable != null)
                 {
-                    isPierceCancelled = piercable.PierceEffect(1, -piercableDirection * pierceKnockbackForce);
+                    isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                     StartCoroutine(piercable.DisablePiercable());
                     Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                     hasPierced = true;
