@@ -5,10 +5,12 @@ using UnityEngine;
 public class SheepShield : MonoBehaviour
 {
     public bool isInLaser;
-    // Start is called before the first frame update
+    public Enemy enemy;
+    // Start is called before the
+    // first frame update
     void Start()
     {
-        GetComponentInParent<Sheep>().isProtected = true;
+        enemy.isProtected = true;
         isInLaser = false;
     }
 
@@ -21,7 +23,7 @@ public class SheepShield : MonoBehaviour
     {
         if(isInLaser == true)
         {
-            GetComponentInParent<Enemy>().isProtected = false;
+            enemy.isProtected = false;
             Destroy(gameObject);
         }
     }

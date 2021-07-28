@@ -349,6 +349,11 @@ public abstract class Enemy : Piercable
         {
             TakeDamage(damage, directedForce, 0.5f);
         }
+        else
+        {
+            Propel(directedForce);
+            StartCoroutine(NoControl(0.3f));
+        }
         return isProtected;
     }
 }
