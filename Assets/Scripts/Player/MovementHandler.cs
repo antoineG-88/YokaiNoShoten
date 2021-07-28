@@ -93,7 +93,7 @@ public class MovementHandler : MonoBehaviour
 
         if (horizontalTargetSpeed != relativeVelocity.x)
         {
-            currentAcceleration = currentGravityZone != null ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
+            currentAcceleration = (currentGravityZone != null || levitateSourceNumber > 0) ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
             currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
 
             forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
