@@ -578,15 +578,14 @@ MonoBehaviour:
     m_RotationOrder: 4
   knockAwayTime: 0.4
   slopeMaxSpeed: 5
-  NGMomentumSlowingForce: 0.7
-  maxSpeedInNGZone: 8
   moveWithRightJoystick: 0
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
   isGrounded: 0
   isOnSlidingSlope: 0
   canMove: 0
-  isInNoGravityZone: 0
+  levitateSourceNumber: 0
+  currentGravityZone: {fileID: 0}
   isKnockedAway: 0
   isInSlidingZone: 0
   rb: {fileID: 0}
@@ -689,7 +688,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   pierceAttackKnockbackForce: 3
   maxPhasingTime: 2
-  pierceKnockbackForce: 0
+  pierceKnockbackForce: 10
   enemyMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -705,6 +704,7 @@ MonoBehaviour:
   pierceSelector: {fileID: 471252641}
   triggerSlowMo: 1
   useLeftTriggerInput: 1
+  cancelPierceKADistance: 3
   useAutoAim: 0
   pierceAimAssistAngle: 90
   pierceAimAssistRaycastNumber: 20
@@ -800,7 +800,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   stunTime: 0.3
-  damageInvulnerableTime: 0.3
+  damageInvulnerableTime: 0.6
   inControl: 0
   invulnerable: 0
   isGrabbingTorch: 0

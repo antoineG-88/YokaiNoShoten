@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentHealthPoint -= damage;
@@ -64,6 +64,7 @@ public class PlayerManager : MonoBehaviour
             GameData.playerVisuals.animator.SetTrigger("Hurt");
             StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));
             GameData.dashHandler.canDash = true;
+            GameData.pierceHandler.StopPierce();
             StartCoroutine(NoControl(stunTime));
         }
     }

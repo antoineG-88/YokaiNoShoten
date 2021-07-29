@@ -46,12 +46,11 @@ public abstract class Enemy : Piercable
     [HideInInspector] public bool isDying;
     [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
-    protected Collider2D ownCollider;
-    protected float timeBeforeColliderActive;
+
+
     protected void Start()
     {
         doNotReableCollider = false;
-        ownCollider = GetComponent<Collider2D>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
@@ -83,14 +82,6 @@ public abstract class Enemy : Piercable
     protected void FixedUpdate()
     {
         recentlyHit = false;
-        if(timeBeforeColliderActive > 0)
-        {
-            timeBeforeColliderActive -= Time.fixedDeltaTime * (1 / Time.timeScale);
-        }
-        else if(!ownCollider.enabled)
-        {
-            ownCollider.enabled = true;
-        }
         AvoidOtherEnemies();
         UpdateMovement();
     }
@@ -180,7 +171,7 @@ public abstract class Enemy : Piercable
         playerDirection.Normalize();
     }
 
-    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
+    public void TakeDamage(int damage, float noControlTime)
     {
         if(!recentlyHit)
         {
@@ -189,7 +180,6 @@ public abstract class Enemy : Piercable
             if (!isProtected)
             {
                 currentHealthPoint -= damage;
-                Propel(directedForce);
                 if(animator != null)
                     animator.SetTrigger("Hurt");
                 StartCoroutine(NoControl(noControlTime));
@@ -340,12 +330,6 @@ public abstract class Enemy : Piercable
         inControl = true;
     }
 
-    public void DisableColliderFor(float time)
-    {
-        timeBeforeColliderActive = time;
-        ownCollider.enabled = false;
-    }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -356,7 +340,7 @@ public abstract class Enemy : Piercable
     {
         if (!isProtected)
         {
-            TakeDamage(damage, directedForce, 0.5f);
+            TakeDamage(damage, 0.5f);
         }
         else
         {

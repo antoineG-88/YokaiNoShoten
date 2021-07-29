@@ -19,12 +19,12 @@ public class BodyPart : MonoBehaviour
             {
                 if (!protectionHandler.IsProtected(knockback))
                 {
-                    owner.TakeDamage(damage, knockback, noControlTime);
+                    owner.TakeDamage(damage, noControlTime);
                 }
             }
             else
             {
-                owner.TakeDamage(damage, knockback, noControlTime);
+                owner.TakeDamage(damage, noControlTime);
             }
 
             owner.recentlyHit = true;
