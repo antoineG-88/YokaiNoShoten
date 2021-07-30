@@ -22,6 +22,7 @@ public class Wasp : Enemy
     public float rushStunTime;
     public float rushKnockbackForce;
     public float wallStunTime;
+    public float rushDelay;
     public AnimationCurve rushCurve;
     private bool isStuckInWall = false;
     [Header("Visuals")]
@@ -172,6 +173,8 @@ public class Wasp : Enemy
         rushCoolDownRemaining = rushCooldown;
         rushTriggerTimeElapsed = 0;
         inControl = false;
+        isProtected = true;
+        yield return new WaitForSeconds(rushDelay);
 
         Vector2 rushStartPos = transform.position;
         Vector2 dashEndPos = (Vector2)transform.position + rushDirection * rushLength;
@@ -210,6 +213,10 @@ public class Wasp : Enemy
             }
 
             yield return new WaitForFixedUpdate();
+        }
+        if ((currentSheepShield != null && !currentSheepShield.isActive) || currentSheepShield == null)
+        {
+            isProtected = false;
         }
         isRushing = false;
         animator.SetInteger("RushStep", 0);
