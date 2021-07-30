@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine.UIElements;
 
 public class LevelManager : MonoBehaviour
 {
@@ -59,36 +56,5 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene(decoSceneIndex, LoadSceneMode.Additive);
         }
     }
-
-
-    public void OpenDecoScene()
-    {
-        if (decoScenePath != "")
-        {
-            decoScene = EditorSceneManager.OpenScene(decoScenePath, OpenSceneMode.Additive);
-        }
-        else
-        {
-            Debug.LogWarning("No path has been set for deco scene");
-        }
-    }
 }
 
-[InitializeOnLoad]
-[CustomEditor(typeof(LevelManager))]
-public class LevelManagerEditor : Editor
-{
-    private LevelManager levelManager;
-
-    public override void OnInspectorGUI()
-    {
-        levelManager = (LevelManager)target;
-
-        DrawDefaultInspector();
-
-        if (GUILayout.Button("Load Deco Scene"))
-        {
-            levelManager.OpenDecoScene();
-        }
-    }
-}
