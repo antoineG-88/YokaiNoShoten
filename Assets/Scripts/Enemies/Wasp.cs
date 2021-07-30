@@ -169,7 +169,6 @@ public class Wasp : Enemy
 
     private IEnumerator Rush(Vector2 rushDirection)
     {
-        Debug.Log("Deja vu");
         isRushing = true;
         rushCoolDownRemaining = rushCooldown;
         rushTriggerTimeElapsed = 0;
