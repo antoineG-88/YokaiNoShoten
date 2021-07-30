@@ -19,6 +19,11 @@ public class LevelManagerEditor : Editor
         {
             OpenDecoScene();
         }
+
+        if (GUILayout.Button("Delete zone save file"))
+        {
+            DeleteSave();
+        }
     }
 
     public void OpenDecoScene()
@@ -31,5 +36,10 @@ public class LevelManagerEditor : Editor
         {
             Debug.LogWarning("No path has been set for deco scene");
         }
+    }
+
+    public void DeleteSave()
+    {
+        SaveSystem.DeleteSaveFile(levelManager.zoneName);
     }
 }
