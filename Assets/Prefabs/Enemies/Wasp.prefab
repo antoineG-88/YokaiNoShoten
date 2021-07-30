@@ -143,8 +143,10 @@ MonoBehaviour:
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
   recentlyHit: 0
+  isProtected: 0
   inControl: 0
   isDying: 0
+  currentSheepShield: {fileID: 0}
   maxSpeed: 6
   accelerationForce: 25
   provocationRange: 10
@@ -153,7 +155,7 @@ MonoBehaviour:
   maxRangeFromInitialPos: 20
   rushCooldown: 2
   rushTriggerDistance: 7.5
-  rushTriggerTime: 1.5
+  rushTriggerTime: 0.5
   rushLength: 7.5
   rushTime: 1
   rushRadius: 0.3
@@ -161,6 +163,7 @@ MonoBehaviour:
   rushStunTime: 1
   rushKnockbackForce: 3
   wallStunTime: 3
+  rushDelay: 0.5
   rushCurve:
     serializedVersion: 2
     m_Curve:
