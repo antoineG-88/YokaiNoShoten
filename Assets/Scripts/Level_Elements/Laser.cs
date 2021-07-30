@@ -82,7 +82,8 @@ public class Laser : MonoBehaviour
                 GameData.dashHandler.isDashing = false;
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
-            enemyHit = Physics2D.CircleCast(transform.position, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall"));
+
+            enemyHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall", "NoInteraction"));
             if (enemyHit && enemyHit.collider.CompareTag("Enemy"))
             {
                 Enemy hitEnemy = enemyHit.collider.GetComponent<Enemy>();

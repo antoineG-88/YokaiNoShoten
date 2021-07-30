@@ -12,11 +12,12 @@ public class Sheep : Enemy
     public float accelerationForce;
     public float provocationRange;
     public float safeDistanceToPlayer;
-    public float maxRangeFromInitialPos;
 
     private bool isFacingRight;
     private bool destinationReached;
     private bool isProvoked;
+    private bool isFleeing;
+
     // Start is called before the first frame update
     new void Start()
     {
@@ -56,18 +57,21 @@ public class Sheep : Enemy
             }
         }
     }
+
     public override void DamageEffect()
     {
 
     }
+
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange;
-        destinationReached = safeDistanceToPlayer < distToPlayer;
+        isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange && Vector2.Distance(transform.position, initialPos) < movementZoneRadius;
+        destinationReached = Vector2.Distance(targetPathfindingPosition, transform.position) < 0.5f;
+        isFleeing = distToPlayer < safeDistanceToPlayer;
         if (isProvoked)
         {
-            if (!destinationReached)
+            if (isFleeing)
             {
                 targetPathfindingPosition = (Vector2)transform.position - playerDirection * 2;
             }
@@ -81,21 +85,29 @@ public class Sheep : Enemy
             targetPathfindingPosition = initialPos;
         }
     }
-    void CreateShield()
+
+    private void CreateShield()
     {
         for (int i = 0; i < protectedEnemies.Length; i++)
         {
-            SheepShield sheepShield = Instantiate(shield, protectedEnemies[i].transform);
-            sheepShield.enemy = protectedEnemies[i];
-            protectedEnemies[i].currentSheepShield = sheepShield;
+            if (protectedEnemies[i].gameObject.activeSelf)
+            {
+                SheepShield sheepShield = Instantiate(shield, protectedEnemies[i].transform);
+                sheepShield.enemy = protectedEnemies[i];
+                sheepShield.connectedSheep = this;
+                sheepShield.isActive = true;
+                protectedEnemies[i].currentSheepShield = sheepShield;
+            }
         }
     }
+
     protected override void OnDie()
     {
         base.OnDie();
         for (int i = 0; i < protectedEnemies.Length; i++)
         {
-            protectedEnemies[i].currentSheepShield.Disabling();
+            if(protectedEnemies[i] != null && protectedEnemies[i].gameObject.activeSelf)
+                protectedEnemies[i].currentSheepShield.Disabling();
         }
     }
 }

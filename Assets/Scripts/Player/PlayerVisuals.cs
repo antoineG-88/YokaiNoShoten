@@ -83,7 +83,7 @@ public class PlayerVisuals : MonoBehaviour
             {
                 transform.localRotation = Quaternion.Euler(0, 0, GameData.grappleHandler.tractionDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.grappleHandler.tractionDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.grappleHandler.tractionDirection));
             }
-            if (GameData.pierceHandler.isPiercing || wasPiercing)
+            else if (GameData.pierceHandler.isPiercing || wasPiercing)
             {
                 Debug.DrawRay(transform.position, GameData.pierceHandler.piercableDirection * 3);
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.left : Vector2.right, GameData.pierceHandler.piercableDirection));
