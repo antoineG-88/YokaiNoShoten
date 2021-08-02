@@ -6864,18 +6864,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e9d83fa8c7f33549bfac179c2fef548, type: 3}
---- !u!114 &1019164976 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5136852641540950302, guid: 06f07e53a9763bc4dbce6cb61276b09e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1024373746}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1022750748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7982,68 +7970,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 02294c5ecc80661489e9b4dadc6f1dc4, type: 2}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
       propertyPath: m_Parameters.colorGradient.m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656028, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656030, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: healthText
-      value: 
-      objectReference: {fileID: 1019164976}
-    - target: {fileID: 3737249135459656030, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: maxSpiritPoint
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: maxSlidingSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737249135459656033, guid: 4877c5fc972613c44b2984a54b80d5cd,
-        type: 3}
-      propertyPath: slideAcceleration
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3737249135459656034, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
