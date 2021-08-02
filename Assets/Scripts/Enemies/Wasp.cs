@@ -173,8 +173,8 @@ public class Wasp : Enemy
         rushCoolDownRemaining = rushCooldown;
         rushTriggerTimeElapsed = 0;
         inControl = false;
-        isProtected = true;
         yield return new WaitForSeconds(rushDelay);
+        isProtected = true;
 
         Vector2 rushStartPos = transform.position;
         Vector2 dashEndPos = (Vector2)transform.position + rushDirection * rushLength;

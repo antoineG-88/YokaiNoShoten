@@ -49,7 +49,10 @@ public class PlayerVisuals : MonoBehaviour
             {
                 if (GameData.movementHandler.isOnSlidingSlope)
                 {
-                    facingRight = GameData.movementHandler.rb.velocity.x > 0 ? true : false; //A changer
+                    //facingRight = GameData.movementHandler.rb.velocity.x > 0 ? true : false; //A changer
+                    RaycastHit2D groundHit = Physics2D.Raycast(transform.parent.position, Vector2.down, 5, LayerMask.GetMask("Wall", "DashWall", "Platform"));
+
+                    facingRight = groundHit.normal.x > 0 ? true : false;
                 }
                 else
                 {

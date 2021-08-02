@@ -90,7 +90,7 @@ public class Sheep : Enemy
     {
         for (int i = 0; i < protectedEnemies.Length; i++)
         {
-            if (protectedEnemies[i].gameObject.activeSelf)
+            if (protectedEnemies[i] != null && protectedEnemies[i].gameObject.activeSelf)
             {
                 SheepShield sheepShield = Instantiate(shield, protectedEnemies[i].transform);
                 sheepShield.enemy = protectedEnemies[i];
