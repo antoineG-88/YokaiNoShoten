@@ -183,6 +183,7 @@ public class Wasp : Enemy
         float currentRushSpeed;
         bool hasHit = false;
         bool hitWall = false;
+        bool hitDashWall = false;
         transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
 
         float dashTimeElapsed = 0;
@@ -199,12 +200,13 @@ public class Wasp : Enemy
             {
                 hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
                 hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall"));
+                hitDashWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("DashWall"));
                 if (hasHit)
                 {
                     GameData.playerManager.TakeDamage(1, rushDirection * rushKnockbackForce);
                 }
 
-                else if (hitWall)
+                else if (hitWall || hitDashWall)
                 {
                     isStuckInWall = true;
                     rb.constraints = RigidbodyConstraints2D.FreezeAll;
