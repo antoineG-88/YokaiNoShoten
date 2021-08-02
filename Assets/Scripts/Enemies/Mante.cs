@@ -163,7 +163,7 @@ public class Mante : Enemy
                 {
                     if (cytheCDElapsed > cytheAttackCooldown)
                     {
-                        if (provoked)
+                        if (provoked && !isFleeing)
                         {
                             ThrowCythe();
                         }
@@ -269,23 +269,26 @@ public class Mante : Enemy
 
     public override void UpdateMovement()
     {
-        if (path != null && !pathEndReached && inControl)
+        if(inControl)
         {
-            Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
-
-            rb.velocity += force * Time.fixedDeltaTime;
-
-            if (rb.velocity.magnitude > fleeSpeed)
+            if (path != null && !pathEndReached && inControl)
             {
-                rb.velocity = rb.velocity.normalized * fleeSpeed;
+                Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
+
+                rb.velocity += force * Time.fixedDeltaTime;
+
+                if (rb.velocity.magnitude > fleeSpeed)
+                {
+                    rb.velocity = rb.velocity.normalized * fleeSpeed;
+                }
             }
-        }
-        else if (destinationReached)
-        {
-            rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
-            if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
+            else if (destinationReached)
             {
-                rb.velocity = Vector2.zero;
+                rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
+                if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
+                {
+                    rb.velocity = Vector2.zero;
+                }
             }
         }
     }
@@ -321,4 +324,10 @@ public class Mante : Enemy
         }
     }
 
+    protected override void OnDie()
+    {
+        base.OnDie();
+        firstPortal.SetActive(false);
+        secondPortal.SetActive(false);
+    }
 }

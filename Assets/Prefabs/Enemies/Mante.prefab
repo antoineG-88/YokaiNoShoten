@@ -61,14 +61,16 @@ MonoBehaviour:
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
   recentlyHit: 0
+  isProtected: 0
   inControl: 0
   isDying: 0
-  distanceToRetreat: 3
-  fleeSpeed: 4
-  maxDistanceToFlee: 8
+  currentSheepShield: {fileID: 0}
+  distanceToRetreat: 3.5
+  fleeSpeed: 5
+  maxDistanceToFlee: 9
   firstPortal: {fileID: 8936422184179989825}
   secondPortal: {fileID: 8936422185778174433}
-  accelerationForce: 150
+  accelerationForce: 50
   stopDistance: 1
   provocationRange: 10
   playerDistanceToSabotagePortal: 1.5

@@ -63,8 +63,10 @@ MonoBehaviour:
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
   recentlyHit: 0
+  isProtected: 0
   inControl: 0
   isDying: 0
+  currentSheepShield: {fileID: 0}
   maxSpeed: 8
   accelerationForce: 25
   safeDistance: 8
@@ -79,7 +81,7 @@ MonoBehaviour:
   beamRotationAcceleration: 5
   beamCoolDown: 5
   maxBeamRange: 20
-  beamStartAngleOffset: 25
+  beamStartAngleOffset: 0
   beamNoMovementTime: 0.1
   beamEndSlowingTime: 0
   beamStartPrefab: {fileID: 7180278200209216271, guid: 37beed37ab056174aa79b5118b1bad13,

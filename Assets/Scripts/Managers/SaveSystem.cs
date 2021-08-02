@@ -86,4 +86,11 @@ public static class SaveSystem
             return null;
         }
     }
+
+    public static void DeleteSaveFile(string zoneName)
+    {
+        string path = savePath + progressionDataSaveFileNamePrefixe + zoneName + saveFileExtension;
+        Debug.Log("deleted at : " + path);
+        File.Delete(path);
+    }
 }
