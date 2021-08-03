@@ -9,10 +9,11 @@ public class LevelManager : MonoBehaviour
     public string decoScenePath;
     public string zoneName;
     public bool loadSaveOnlyOnRespawn;
+    public int specificCheckpointStart;
 
-    [HideInInspector] public static List<CheckPoint> allZoneCheckPoints;
-    [HideInInspector] public static CheckPoint lastCheckPoint;
-    [HideInInspector] public static List<Switch> allZoneSwitchs;
+    public static List<CheckPoint> allZoneCheckPoints;
+    public static CheckPoint lastCheckPoint;
+    public static List<Switch> allZoneSwitchs;
     [HideInInspector] public Scene decoScene;
     private int zoneLoadCountDown;
 
@@ -45,7 +46,7 @@ public class LevelManager : MonoBehaviour
         else if(zoneLoadCountDown == 0)
         {
             zoneLoadCountDown--;
-            GameManager.LoadLevel(loadSaveOnlyOnRespawn);
+            GameManager.LoadLevel(loadSaveOnlyOnRespawn, specificCheckpointStart);
         }
     }
 

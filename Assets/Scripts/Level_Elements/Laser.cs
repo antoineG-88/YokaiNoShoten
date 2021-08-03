@@ -8,7 +8,7 @@ public class Laser : MonoBehaviour
     public float beamWidth;
     public float beamWallWidth;
     public float knockbackDistance;
-    [Header("Index pair : Actif / Index impair : inactif")]
+    public bool oddIndexActive;
     public List<float> activationsSequence;
 
     public Switch connectedSwitch;
@@ -39,7 +39,16 @@ public class Laser : MonoBehaviour
     void Start()
     {
         isActive = true;
-        isBeamActive = true;
+        if(oddIndexActive)
+        {
+            isBeamActive = false;
+        }
+        else
+        {
+            isBeamActive = true;
+        }
+
+
     }
 
     void Update()
@@ -171,7 +180,8 @@ public class Laser : MonoBehaviour
                 {
                     currentSequenceIndex = 0;
                 }
-                if(currentSequenceIndex % 2 == 0)
+
+                if(oddIndexActive ? currentSequenceIndex % 2 != 0 : currentSequenceIndex % 2 == 0)
                 {
                     isBeamActive = true;
                 }
