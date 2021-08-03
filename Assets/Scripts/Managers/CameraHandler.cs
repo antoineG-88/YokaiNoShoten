@@ -5,13 +5,13 @@ using UnityEngine;
 public class CameraHandler : MonoBehaviour
 {
     [Header("Follow settings")]
-    //public bool useWallAvoidance;
     public Vector2 followCenterOffset;
     [Range(0.0f, 1f)] public float baseLerpSpeed;
-    //public float edgePointOffset;
     public float aimOffsetLength;
     public float momentumOffsetAmplitude;
     public float maxMomentumOffset;
+    public bool additionnalOffsetConstraint;
+    public float edgeMargin;
     [Header("General settings")]
     public float baseOrthographicSize = 5.625f;
     public float sizeLerpSpeed;
@@ -22,6 +22,7 @@ public class CameraHandler : MonoBehaviour
     [HideInInspector] public bool followPlayer;
     private float currentOrthographicSize;
     private float currentLerpSpeed;
+    [HideInInspector] public List<CameraConstraintZone> constraintZones;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class CameraHandler : MonoBehaviour
         followPlayer = true;
         currentOrthographicSize = baseOrthographicSize;
         currentLerpSpeed = baseLerpSpeed;
+        constraintZones = new List<CameraConstraintZone>();
     }
 
     void FixedUpdate()
@@ -57,13 +59,130 @@ public class CameraHandler : MonoBehaviour
     {
         if (followPlayer)
         {
-            cameraTarget = (Vector2)GameData.player.transform.position + followCenterOffset + AimOffset(GameData.grappleHandler.aimDirection) + MomentumOffset();
-            //cameraFinalPos = useWallAvoidance ? cameraTarget + OffsetForCamera(cameraTarget, rooms, roomWidth) : cameraTarget;
-            cameraFinalPos = cameraTarget;
+            if(constraintZones.Count > 0 && constraintZones[constraintZones.Count - 1].useAsCameraFocusPoint)
+            {
+                cameraTarget = constraintZones[constraintZones.Count - 1].cameraBaseOffset;
+            }
+            else
+            {
+                cameraTarget = (Vector2)GameData.player.transform.position + followCenterOffset + AimOffset(GameData.grappleHandler.aimDirection) + MomentumOffset() + ZoneOffset();
+            }
+            currentOrthographicSize = ZoneSize();
 
-            currentOrthographicSize = baseOrthographicSize;
+            cameraFinalPos = ValidPosByZoneLimits(cameraTarget);
+
             currentLerpSpeed = baseLerpSpeed;
         }
+    }
+
+
+    bool isOutUpEdge = false;
+    bool isOutDownEdge = false;
+    bool isOutRightEdge = false;
+    bool isOutLeftEdge = false;
+    CameraConstraintZone currentZone;
+    Vector2 correctedCameraPos;
+    Vector2 upEdgePos;
+    Vector2 downEdgePos;
+    Vector2 rightEdgePos;
+    Vector2 leftEdgePos;
+    private Vector2 ValidPosByZoneLimits(Vector2 originPos)
+    {
+        correctedCameraPos = originPos;
+        
+        upEdgePos = originPos + currentOrthographicSize * Vector2.up;
+        downEdgePos = originPos + currentOrthographicSize * Vector2.down;
+        rightEdgePos = originPos + (currentOrthographicSize * 16 / 9) * Vector2.right;
+        leftEdgePos = originPos + (currentOrthographicSize * 16 / 9) * Vector2.left;
+
+        Debug.DrawRay(upEdgePos, Vector2.down);
+        Debug.DrawRay(downEdgePos, Vector2.up);
+        Debug.DrawRay(rightEdgePos, Vector2.left);
+        Debug.DrawRay(leftEdgePos, Vector2.right);
+        Debug.DrawRay(originPos, Vector2.up * 1);
+
+        if (constraintZones.Count > 0)
+        {
+            currentZone = constraintZones[constraintZones.Count - 1];
+            float absoluteUpLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.y + currentZone.upLimit : currentZone.upLimit) + edgeMargin;
+            float absoluteDownLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.y + currentZone.downLimit : currentZone.downLimit) - edgeMargin;
+            float absoluteRightLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.x + currentZone.rightLimit : currentZone.rightLimit) + edgeMargin;
+            float absoluteLeftLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.x + currentZone.leftLimit : currentZone.leftLimit) - edgeMargin;
+
+            isOutUpEdge = false;
+            if (upEdgePos.y > absoluteUpLimit && currentZone.upLimit != 0)
+            {
+                isOutUpEdge = true;
+                correctedCameraPos = new Vector2(correctedCameraPos.x, absoluteUpLimit - currentOrthographicSize);
+            }
+
+            isOutDownEdge = false;
+            if (downEdgePos.y < absoluteDownLimit && currentZone.downLimit != 0)
+            {
+                isOutDownEdge = true;
+                correctedCameraPos = new Vector2(correctedCameraPos.x, absoluteDownLimit + currentOrthographicSize);
+            }
+
+            if(isOutUpEdge && isOutDownEdge)
+            {
+                correctedCameraPos = new Vector2(correctedCameraPos.x, (absoluteUpLimit + absoluteDownLimit) / 2);
+            }
+
+
+
+
+            isOutRightEdge = false;
+            if (rightEdgePos.x > absoluteRightLimit && currentZone.rightLimit != 0)
+            {
+                isOutRightEdge = true;
+                correctedCameraPos = new Vector2(absoluteRightLimit - currentOrthographicSize * 16 / 9, correctedCameraPos.y);
+            }
+
+            isOutLeftEdge = false;
+            if (leftEdgePos.x < absoluteLeftLimit && currentZone.leftLimit != 0)
+            {
+                isOutLeftEdge = true;
+                correctedCameraPos = new Vector2(absoluteLeftLimit + currentOrthographicSize * 16 / 9, correctedCameraPos.y);
+            }
+
+            if (isOutRightEdge && isOutLeftEdge)
+            {
+                correctedCameraPos = new Vector2((absoluteLeftLimit + absoluteRightLimit) / 2, correctedCameraPos.y);
+            }
+        }
+        Debug.DrawRay(correctedCameraPos, Vector2.up, Color.green);
+        return correctedCameraPos;
+    }
+
+    private Vector2 ZoneOffset()
+    {
+        Vector2 offset = Vector2.zero;
+        if(constraintZones.Count > 0)
+        {
+            if (additionnalOffsetConstraint)
+            {
+                for (int i = 0; i < constraintZones.Count; i++)
+                {
+                    offset += constraintZones[i].cameraBaseOffset;
+                }
+                offset /= constraintZones.Count - 1;
+            }
+            else
+            {
+                offset = constraintZones[constraintZones.Count - 1].cameraBaseOffset;
+            }
+        }
+        return offset;
+    }
+
+    private float ZoneSize()
+    {
+        float size = baseOrthographicSize;
+        if (constraintZones.Count > 0)
+        {
+            size = constraintZones[constraintZones.Count - 1].cameraSize;
+        }
+        return size;
     }
 
     private Vector2 AimOffset(Vector2 aimDirection)
