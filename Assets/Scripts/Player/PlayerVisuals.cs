@@ -49,7 +49,10 @@ public class PlayerVisuals : MonoBehaviour
             {
                 if (GameData.movementHandler.isOnSlidingSlope)
                 {
-                    facingRight = GameData.movementHandler.rb.velocity.x > 0 ? true : false; //A changer
+                    //facingRight = GameData.movementHandler.rb.velocity.x > 0 ? true : false; //A changer
+                    RaycastHit2D groundHit = Physics2D.Raycast(transform.parent.position, Vector2.down, 5, LayerMask.GetMask("Wall", "DashWall", "Platform"));
+
+                    facingRight = groundHit.normal.x > 0 ? true : false;
                 }
                 else
                 {
@@ -83,7 +86,7 @@ public class PlayerVisuals : MonoBehaviour
             {
                 transform.localRotation = Quaternion.Euler(0, 0, GameData.grappleHandler.tractionDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, 1.3f), GameData.grappleHandler.tractionDirection) : Vector2.SignedAngle(new Vector2(1, 1.3f), GameData.grappleHandler.tractionDirection));
             }
-            if (GameData.pierceHandler.isPiercing || wasPiercing)
+            else if (GameData.pierceHandler.isPiercing || wasPiercing)
             {
                 Debug.DrawRay(transform.position, GameData.pierceHandler.piercableDirection * 3);
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.left : Vector2.right, GameData.pierceHandler.piercableDirection));
@@ -126,7 +129,7 @@ public class PlayerVisuals : MonoBehaviour
         animator.SetBool("InTheAir", !GameData.movementHandler.isGrounded);
         animator.SetBool("IsTracting", GameData.grappleHandler.isTracting);
         animator.SetBool("IsSliding", GameData.movementHandler.isOnSlidingSlope);
-        animator.SetBool("IsDrifting", GameData.movementHandler.isInNoGravityZone);
+        animator.SetBool("IsDrifting", GameData.movementHandler.currentGravityZone != null);
 
     }
 

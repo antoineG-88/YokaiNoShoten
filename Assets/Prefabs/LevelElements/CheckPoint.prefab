@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abfcbee09dc0a8746899d0b01eeae46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToRegenerate: 2
+  checkPointNumber: 0
+  timeToRegenerate: 0.1
   regenFBStartSize: 0.0334872
   regenFBMaxSize: 0.18
   regenerationFeedback: {fileID: 666047526250085894}

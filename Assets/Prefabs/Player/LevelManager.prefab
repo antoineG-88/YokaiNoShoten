@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3267245876046976404}
   - component: {fileID: 5735401736421732534}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: LevelManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -75,5 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8079606d2e2724fb6ef505fb6e7db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  decoSceneIndex: 0
+  decoScenePath: 
   zoneName: FirstSandBox
   loadSaveOnlyOnRespawn: 0
+  decoScene:
+    m_Handle: 43

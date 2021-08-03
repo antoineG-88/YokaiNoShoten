@@ -28,6 +28,7 @@ public class Serpent : Enemy
     public List<Rigidbody2D> bodiesRb;
     public SpriteRenderer headSprite;
     public float maxDistanceBetweenBodyParts;
+    public float bounceCircleRadiusTest;
 
     private bool isTooFarFromPlayer;
     private float currentSpeed;
@@ -90,6 +91,15 @@ public class Serpent : Enemy
         {
             currentSpeed = rb.velocity.magnitude;
             currentDirection = rb.velocity.normalized;
+        }
+
+        if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall")))
+        {
+            RaycastHit2D wallHit = Physics2D.Raycast(transform.position, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall"));
+            if(wallHit)
+            {
+                currentDirection = Vector2.Reflect(currentDirection, wallHit.normal);
+            }
         }
 
 

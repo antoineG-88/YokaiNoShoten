@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class BlackHole : Piercable
 {
-    public float timer;
-    public float disablingHoleTimer;
+    public float trappedTime;
     public float formerDisablingHoleTimer;
-    public float distanceInfluence;
-    public float basePower;
     public float kbForce;
-    private float succionPower;
-    private bool isInRange;
-    [Range(0, 15)]
-    public float minValueSuccionPower;
-    [Range(15, 30)]
-    public float maxValueSuccionPower;
-    private bool hasAttacked;
-    private Vector2 suckedPosition;
     public Color startColor;
     public float suckingRadius;
-    private bool isDesactivated;
+    public AnimationCurve suckingForceByDistance;
+    public float maxSuckingForce;
 
+    private float timer;
+    private float disablingHoleTimer;
+    private float succionPower;
+    private bool isInRange;
+    private bool hasAttacked;
+    private Vector2 suckedPosition;
+    private bool isDesactivated;
+    private bool isInCenter;
     void Start()
     {
         disablingHoleTimer = formerDisablingHoleTimer;
@@ -31,14 +29,29 @@ public class BlackHole : Piercable
     {
         if (isInRange == true && hasAttacked == false && isDesactivated == false)
         {
-            succionPower = basePower * (1f / (Vector2.Distance(GameData.movementHandler.transform.position, transform.position) * distanceInfluence));
-            succionPower = Mathf.Clamp(succionPower, minValueSuccionPower, maxValueSuccionPower);
+            succionPower = suckingForceByDistance.Evaluate(1 - (Vector2.Distance(GameData.player.transform.position, transform.position) / suckingRadius)) * maxSuckingForce;
             GameData.grappleHandler.BreakRope("nope");
-            Vector2 dir = (transform.position - GameData.movementHandler.transform.position).normalized;
-            if (GameData.dashHandler.isDashing != true)
+            Vector2 dir = transform.position - GameData.movementHandler.transform.position;
+            dir.Normalize();
+
+            if(Vector2.Distance(GameData.movementHandler.transform.position, transform.position) > succionPower * Time.fixedDeltaTime)
             {
-                GameData.movementHandler.rb.velocity = dir * succionPower;
+                if (GameData.dashHandler.isDashing != true)
+                {
+                    GameData.movementHandler.rb.velocity = dir * succionPower;
+                }
+                isInCenter = false;
             }
+            else
+            {
+                if(!isInCenter)
+                {
+                    GameData.movementHandler.rb.velocity = Vector2.zero;
+                    GameData.player.transform.position = transform.position;
+                    isInCenter = true;
+                }
+            }
+
             Attack();
         }
         if (isDesactivated == true)
@@ -64,7 +77,7 @@ public class BlackHole : Piercable
             if (isInRange == false)
             {
                 isInRange = true;
-                GameData.movementHandler.isInNoGravityZone = true;
+                GameData.movementHandler.levitateSourceNumber++;
                 suckedPosition = GameData.movementHandler.transform.position;
                 GameData.grappleHandler.isSucked = true;
             }
@@ -74,7 +87,7 @@ public class BlackHole : Piercable
             if (isInRange == true)
             {
                 isInRange = false;
-                GameData.movementHandler.isInNoGravityZone = false;
+                GameData.movementHandler.levitateSourceNumber--;
                 hasAttacked = false;
                 GameData.grappleHandler.isSucked = false;
             }
@@ -83,11 +96,11 @@ public class BlackHole : Piercable
 
     private void Attack()
     {
-        if (Vector2.Distance(transform.position, GameData.movementHandler.transform.position) < 0.2f)
+        if (Vector2.Distance(transform.position, GameData.movementHandler.transform.position) < 0.05f * succionPower)
         {
             GameData.pierceHandler.canPierce = false;
             timer += Time.deltaTime;
-            if (timer > 2f)
+            if (timer > trappedTime)
             {
                 GameData.playerManager.TakeDamage(1, (suckedPosition - (Vector2)transform.position).normalized * kbForce);
                 timer = 0f;
@@ -99,7 +112,7 @@ public class BlackHole : Piercable
     {
         GetComponent<SpriteRenderer>().color = Color.red;
         isDesactivated = true;
-        GameData.movementHandler.isInNoGravityZone = false;
+        GameData.movementHandler.levitateSourceNumber--;
     }
 
 

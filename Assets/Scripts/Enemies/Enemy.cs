@@ -37,20 +37,20 @@ public abstract class Enemy : Piercable
     protected float timeBeforeNextPathUpdate;
     protected float distToPlayer;
     protected Vector2 playerDirection;
-    protected bool isProtected;
+    [HideInInspector]
+    public bool isProtected;
 
     protected bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool isDying;
-
+    [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
-    protected Collider2D ownCollider;
-    protected float timeBeforeColliderActive;
+
+
     protected void Start()
     {
-        doNotReableCollider = true;
-        ownCollider = GetComponent<Collider2D>();
+        doNotReableCollider = false;
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
@@ -82,14 +82,6 @@ public abstract class Enemy : Piercable
     protected void FixedUpdate()
     {
         recentlyHit = false;
-        if(timeBeforeColliderActive > 0)
-        {
-            timeBeforeColliderActive -= Time.fixedDeltaTime * (1 / Time.timeScale);
-        }
-        else if(!ownCollider.enabled)
-        {
-            ownCollider.enabled = true;
-        }
         AvoidOtherEnemies();
         UpdateMovement();
     }
@@ -179,7 +171,7 @@ public abstract class Enemy : Piercable
         playerDirection.Normalize();
     }
 
-    public void TakeDamage(int damage, Vector2 directedForce, float noControlTime)
+    public void TakeDamage(int damage, float noControlTime)
     {
         if(!recentlyHit)
         {
@@ -188,8 +180,8 @@ public abstract class Enemy : Piercable
             if (!isProtected)
             {
                 currentHealthPoint -= damage;
-                Propel(directedForce);
-                animator.SetTrigger("Hurt");
+                if(animator != null)
+                    animator.SetTrigger("Hurt");
                 StartCoroutine(NoControl(noControlTime));
                 if (currentHealthPoint <= 0)
                 {
@@ -318,10 +310,17 @@ public abstract class Enemy : Piercable
 
     private IEnumerator Die()
     {
-        animator.SetBool("Dead",true);
+        if (animator != null)
+            animator.SetBool("Dead",true);
         isDying = true;
-        yield return new WaitForSeconds(deathAnimClip.length);
+        doNotReableCollider = true;
+        OnDie();
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         Destroy(gameObject);
+    }
+    protected virtual void OnDie()
+    {
+        
     }
 
     public IEnumerator NoControl(float time)
@@ -331,23 +330,22 @@ public abstract class Enemy : Piercable
         inControl = true;
     }
 
-    public void DisableColliderFor(float time)
-    {
-        timeBeforeColliderActive = time;
-        ownCollider.enabled = false;
-    }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(initialPos, movementZoneRadius);
+        Gizmos.DrawWireSphere(transform.position, movementZoneRadius);
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)
     {
         if (!isProtected)
         {
-            TakeDamage(damage, directedForce, 0.5f);
+            TakeDamage(damage, 0.5f);
+        }
+        else
+        {
+            Propel(directedForce);
+            StartCoroutine(NoControl(0.3f));
         }
         return isProtected;
     }
