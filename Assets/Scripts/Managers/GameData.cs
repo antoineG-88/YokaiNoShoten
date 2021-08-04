@@ -20,6 +20,8 @@ public class GameData : MonoBehaviour
     public static PlayerManager playerManager;
     public static Collider2D playerCollider;
     public static GridGraph gridGraph;
+    public static Camera mainCamera;
+    public static CameraHandler cameraHandler;
     public static int noPiercableLayer;
 
     private void Awake()
@@ -34,6 +36,8 @@ public class GameData : MonoBehaviour
         playerCollider = player.GetComponent<Collider2D>();
         pierceHandler = player.GetComponent<PierceHandler>();
         noPiercableLayer = _noPiercableLayer;
+        mainCamera = Camera.main;
+        cameraHandler = mainCamera.GetComponent<CameraHandler>();
     }
 
     private void Start()
