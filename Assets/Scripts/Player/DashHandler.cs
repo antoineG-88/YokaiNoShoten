@@ -6,7 +6,7 @@ public class DashHandler : MonoBehaviour
     [Header("Dash settings")]
     public float dashDistance;
     public float dashTime;
-    public AnimationCurve dashCurve;
+    public AnimationCurve dashCurveSetDashRotation;
     public float dashEndVelocityForceAdded;
     public bool useVelocity;
     public GameObject shadowFx;
@@ -23,6 +23,8 @@ public class DashHandler : MonoBehaviour
     private ContactFilter2D enemyFilter;
     private ContactFilter2D attackReactionFilter;
     private Vector2 defaultDashDirection;
+    public AnimationCurve dashCurve;
+    
 
     void Start()
     {

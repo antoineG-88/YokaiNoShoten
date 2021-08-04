@@ -735,6 +735,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashDistance: 2.5
   dashTime: 0.12
+  dashCurveSetDashRotation:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashEndVelocityForceAdded: 0
+  useVelocity: 1
+  shadowFx: {fileID: 7624000263744496207, guid: 34f5eee68060f95419fc1f4c5f0f6025,
+    type: 3}
+  dashWithRightTrigger: 0
+  aimWithRightJoystick: 0
+  canDash: 0
+  isDashing: 0
+  isReaiming: 0
+  dashDirection: {x: 0, y: 0}
+  dashTriggerPressed: 0
+  dashTriggerDown: 0
   dashCurve:
     serializedVersion: 2
     m_Curve:
@@ -768,18 +786,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashEndVelocityForceAdded: 0
-  useVelocity: 1
-  shadowFx: {fileID: 7624000263744496207, guid: 34f5eee68060f95419fc1f4c5f0f6025,
-    type: 3}
-  dashWithRightTrigger: 0
-  aimWithRightJoystick: 0
-  canDash: 0
-  isDashing: 0
-  isReaiming: 0
-  dashDirection: {x: 0, y: 0}
-  dashTriggerPressed: 0
-  dashTriggerDown: 0
 --- !u!114 &3737249135459656030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,7 +1708,7 @@ ParticleSystem:
     radiusThickness: 0.2
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 90, z: -0.53}
+    m_Rotation: {x: 180, y: 90, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0

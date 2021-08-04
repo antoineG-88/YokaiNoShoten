@@ -60,6 +60,8 @@ public class GrappleHandler : MonoBehaviour
 
     private bool tractTriggerDown;
     private bool tractTriggerPressed;
+
+    //pour corriger le stretch visuel du material du grappin
     private float distanceRopeRing;
 
     void Start()
@@ -250,8 +252,9 @@ public class GrappleHandler : MonoBehaviour
             ropePoints[1] = attachedObject.transform.position;
             ropeRenderer.SetPositions(ropePoints);
 
+            //pour corriger le stretch visuel du material du grappin
             distanceRopeRing = Vector3.Distance(transform.position, attachedObject.transform.position);
-            ropeRenderer.material.mainTextureScale = new Vector2(distanceRopeRing,1);
+            ropeRenderer.material.mainTextureScale = new Vector2(distanceRopeRing*2,1);
             
             if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
