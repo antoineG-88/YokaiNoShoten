@@ -28,6 +28,9 @@ public class Wasp : Enemy
     [Header("Visuals")]
     public SpriteRenderer sprite;
 
+    //Fx de prévisualitation
+    public GameObject previsFX;
+
 
     private float rangeFromInitialPos;
     private bool fleeing;
@@ -113,6 +116,12 @@ public class Wasp : Enemy
                 {
                     rushTriggerTimeElapsed += Time.deltaTime;
                     animator.SetInteger("RushStep", 1);
+
+                    //Fx de prévisualitation
+                    
+                    Instantiate(previsFX, transform.position, Quaternion.identity).transform.localScale = new Vector3(playerDirection.x > 0 ? 1 : -1, 1, 1);
+                                            
+
                     if (rushTriggerTimeElapsed > rushTriggerTime)
                     {
                         playerDirection = GameData.player.transform.position - transform.position;
