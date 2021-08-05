@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class PlayerVisuals : MonoBehaviour
 {
@@ -17,11 +18,23 @@ public class PlayerVisuals : MonoBehaviour
     private bool wasPiercing;
     private float pierceTimeElapsed;
     private Vector2 dashDirection;
+
+    //System particle dash
+    //SerializedObject dashParticles;
+    //float psConeAngle;
+    
+    
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         transformFacingRight = true;
+
+        //System particle dash
+        //dashParticles = new SerializedObject(GetComponent<ParticleSystem>());
+        //dashParticles.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
+        //dashParticles.ApplyModifiedProperties();
+        
     }
 
     void Update()
@@ -31,17 +44,18 @@ public class PlayerVisuals : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        if(GameData.grappleHandler.isTracting)
+        if (GameData.grappleHandler.isTracting)
         {
             facingRight = GameData.grappleHandler.tractionDirection.x > 0 ? true : false;
         }
-        else if(GameData.dashHandler.isDashing)
+        else if (GameData.dashHandler.isDashing)
         {
             facingRight = dashDirection.x > 0 ? true : false;
+
         }
         else
         {
-            if(wasPiercing)
+            if (wasPiercing)
             {
                 facingRight = GameData.pierceHandler.piercableDirection.x > 0 ? true : false;
             }
@@ -64,10 +78,10 @@ public class PlayerVisuals : MonoBehaviour
             }
         }
 
-        if(wasPiercing)
+        if (wasPiercing)
         {
             pierceTimeElapsed += Time.deltaTime;
-            if(pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting)
+            if (pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting)
             {
                 wasPiercing = false;
             }
@@ -91,7 +105,7 @@ public class PlayerVisuals : MonoBehaviour
                 Debug.DrawRay(transform.position, GameData.pierceHandler.piercableDirection * 3);
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.left : Vector2.right, GameData.pierceHandler.piercableDirection));
             }
-            else if(isDashRotated)
+            else if (isDashRotated)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(dashDirection.x <= 0 ? Vector2.left : Vector2.right, dashDirection));
             }
@@ -100,6 +114,12 @@ public class PlayerVisuals : MonoBehaviour
         {
             transform.localRotation = Quaternion.identity;
         }
+
+        {
+
+        }
+
+
 
         UpdateAnimator();
     }
@@ -113,6 +133,11 @@ public class PlayerVisuals : MonoBehaviour
         else
         {
             spriteRenderer.flipX = true;
+
+            //System particle de dash
+            //psConeAngle = 0f;
+            //dashParticles.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
+            //dashParticles.ApplyModifiedProperties();
         }
     }
 
@@ -137,7 +162,14 @@ public class PlayerVisuals : MonoBehaviour
     {
         isDashRotated = true;
         dashDirection = lastDashDirection;
+
+        //System particle dash
+        //psConeAngle = -dashDirection.x;
+        //dashParticles.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
+        //dashParticles.ApplyModifiedProperties();
+
         yield return new WaitForSeconds(dashAttackClip.length);
         isDashRotated = false;
     }
+
 }
