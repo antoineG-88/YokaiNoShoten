@@ -5,17 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    public int decoSceneIndex;
+    public string decoScenePath;
     public string zoneName;
     public bool loadSaveOnlyOnRespawn;
+    public int specificCheckpointStart;
 
-    [HideInInspector] public static List<CheckPoint> allZoneCheckPoints;
-    [HideInInspector] public static CheckPoint lastCheckPoint;
-    [HideInInspector] public static List<Switch> allZoneSwitchs;
-
+    public static List<CheckPoint> allZoneCheckPoints;
+    public static CheckPoint lastCheckPoint;
+    public static List<Switch> allZoneSwitchs;
+    [HideInInspector] public Scene decoScene;
     private int zoneLoadCountDown;
 
     private void Awake()
     {
+        LoadDecoScene();
         allZoneCheckPoints = new List<CheckPoint>();
         allZoneSwitchs = new List<Switch>();
         zoneLoadCountDown = 2;
@@ -42,7 +46,16 @@ public class LevelManager : MonoBehaviour
         else if(zoneLoadCountDown == 0)
         {
             zoneLoadCountDown--;
-            GameManager.LoadLevel(loadSaveOnlyOnRespawn);
+            GameManager.LoadLevel(loadSaveOnlyOnRespawn, specificCheckpointStart);
+        }
+    }
+
+    public void LoadDecoScene()
+    {
+        if (decoSceneIndex != 0)
+        {
+            SceneManager.LoadScene(decoSceneIndex, LoadSceneMode.Additive);
         }
     }
 }
+

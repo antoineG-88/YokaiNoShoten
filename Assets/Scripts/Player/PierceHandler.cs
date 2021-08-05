@@ -54,6 +54,8 @@ public class PierceHandler : MonoBehaviour
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
     private Coroutine currentPierce;
+    private Collider2D lastPiercedObject;
+
     private void Start()
     {
         enemyFilter.SetLayerMask(enemyMask);
@@ -248,6 +250,7 @@ public class PierceHandler : MonoBehaviour
         }
     }
 
+    bool isPierceCancelled;
     private IEnumerator Pierce(GameObject markedPiercable)
     {
         currentComboPierceStep = 0;
@@ -279,19 +282,16 @@ public class PierceHandler : MonoBehaviour
         GameData.playerVisuals.animator.SetTrigger("PierceAttack");
 
         Piercable piercable = markedPiercable.GetComponent<Piercable>();
-        Enemy enemy = markedPiercable.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemy.DisableColliderFor(0.5f);
-        }
 
-        bool isPierceCancelled = false;
+        isPierceCancelled = false;
 
         if (damageDelay <= 0)
         {
             if (piercable != null && !hasPierced)
             {
                 isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
+                StartCoroutine(piercable.DisablePiercable());
+
                 Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                 hasPierced = true;
             }
@@ -474,5 +474,10 @@ public class PierceHandler : MonoBehaviour
         }
         currentComboPierceStep = 0;
         isPhasing = false;
+    }
+
+    public void StopPierce()
+    {
+        isPierceCancelled = true;
     }
 }

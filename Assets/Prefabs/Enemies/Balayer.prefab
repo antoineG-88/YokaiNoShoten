@@ -63,8 +63,10 @@ MonoBehaviour:
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
   recentlyHit: 0
+  isProtected: 0
   inControl: 0
   isDying: 0
+  currentSheepShield: {fileID: 0}
   maxSpeed: 8
   accelerationForce: 25
   safeDistance: 8
@@ -79,7 +81,7 @@ MonoBehaviour:
   beamRotationAcceleration: 5
   beamCoolDown: 5
   maxBeamRange: 20
-  beamStartAngleOffset: 25
+  beamStartAngleOffset: 0
   beamNoMovementTime: 0.1
   beamEndSlowingTime: 0
   beamStartPrefab: {fileID: 7180278200209216271, guid: 37beed37ab056174aa79b5118b1bad13,
@@ -258,9 +260,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -686706029
+  m_SortingLayer: 5
+  m_SortingOrder: 2
   m_Sprite: {fileID: -7793894156786082221, guid: 7463bcb3f263e154aa75666659c0f1fb,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

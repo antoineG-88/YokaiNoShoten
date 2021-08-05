@@ -1,7 +1,34 @@
 fileFormatVersion: 2
 guid: 4f95ddd83ed1dbb40b481da787acb4fd
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 3622633309095621965
+    second: ENV_Station_ConteneurAnim_0
+  - first:
+      213: -7148102476693702713
+    second: ENV_Station_ConteneurAnim_1
+  - first:
+      213: 1589168305766608573
+    second: ENV_Station_ConteneurAnim_2
+  - first:
+      213: 5540631575707182558
+    second: ENV_Station_ConteneurAnim_3
+  - first:
+      213: 2136111135478212152
+    second: ENV_Station_ConteneurAnim_4
+  - first:
+      213: -7189483592529735918
+    second: ENV_Station_ConteneurAnim_5
+  - first:
+      213: 8954358095192250659
+    second: ENV_Station_ConteneurAnim_6
+  - first:
+      213: -3004787639083224320
+    second: ENV_Station_ConteneurAnim_7
+  - first:
+      213: 2965327341380353007
+    second: ENV_Station_ConteneurAnim_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -31,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -40,12 +67,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -64,7 +91,19 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -73,7 +112,196 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4574241dcd264230800000000000000
+      internalID: 3622633309095621965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_1
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c7f4927ba6dccc90800000000000000
+      internalID: -7148102476693702713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_2
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbe2781872cdd0610800000000000000
+      internalID: 1589168305766608573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_3
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed5e655001744ec40800000000000000
+      internalID: 5540631575707182558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_4
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8366fe692cdf4ad10800000000000000
+      internalID: 2136111135478212152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_5
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f04cc93c2d93c90800000000000000
+      internalID: -7189483592529735918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_6
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 329d39fce35444c70800000000000000
+      internalID: 8954358095192250659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_7
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 003b5f2ff89dc46d0800000000000000
+      internalID: -3004787639083224320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station_ConteneurAnim_8
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 1
+        width: 72
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: febbab98185f62920800000000000000
+      internalID: 2965327341380353007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

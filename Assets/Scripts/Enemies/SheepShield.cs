@@ -5,23 +5,40 @@ using UnityEngine;
 public class SheepShield : MonoBehaviour
 {
     [HideInInspector]
+    public Sheep connectedSheep;
+    [HideInInspector]
     public Enemy enemy;
     [HideInInspector]
     public bool isActive;
     private SpriteRenderer sr;
-    // Start is called before the
-    // first frame update
+    [HideInInspector]
+    public LineRenderer shieldConnection;
+
+    private Vector3[] connectionPos;
     void Start()
     {
         enemy.isProtected = true;
         sr = GetComponent<SpriteRenderer>();
+        shieldConnection = GetComponent<LineRenderer>();
+        connectionPos = new Vector3[2];
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if(isActive)
+        {
+            shieldConnection.enabled = true;
 
+            connectionPos[0] = transform.position;
+            connectionPos[1] = connectedSheep.transform.position;
+            shieldConnection.SetPositions(connectionPos);
+        }
+        else
+        {
+            shieldConnection.enabled = false;
+        }
     }
+
     public void Disabling()
     {
         enemy.isProtected = false;

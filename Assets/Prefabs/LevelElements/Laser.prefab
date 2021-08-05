@@ -68,8 +68,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -407621029
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7d2f865333d29354190456cac7ad98d0, type: 3}
   m_Color: {r: 1, g: 0.9981045, b: 0, a: 1}
@@ -188,6 +188,7 @@ MonoBehaviour:
   beamWidth: 0.4
   beamWallWidth: 0.3
   knockbackDistance: 3
+  oddIndexActive: 0
   activationsSequence:
   - 3
   - 1
@@ -202,6 +203,7 @@ MonoBehaviour:
     type: 3}
   spaceBetweenBeamFx: 1
   beamStartOffset: 1
+  beamDisplayStartOffset: 0
   boxCollider: {fileID: 5878177530126879612}
   beamParent: {fileID: 5878177530126879613}
 --- !u!1 &5878177530272031725
@@ -271,8 +273,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -407621029
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 2e2cafadb6d086f4f8324d6c69e03efa, type: 3}
   m_Color: {r: 1, g: 0.52359486, b: 0, a: 1}
