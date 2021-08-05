@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startOnON: 0
   inverseOutput: 0
+  isOn: 0
   maxLitTime: 3
   torchSystem: {fileID: 0}
   isLit: 0
@@ -87,8 +88,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -407621029
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 8063294229965312128, guid: 29d81859ce19c164188ec988c0f962f7,
     type: 3}
