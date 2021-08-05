@@ -35,10 +35,8 @@ public class PlayerVisuals : MonoBehaviour
         //dashParticle = new SerializedObject(GetComponent<ParticleSystem>());
 
         ParticleSystem.ShapeModule shape = dashParticle.shape;
-        shape.rotation = new Vector3(psConeAngle, -90, 0);
-
-        //dashParticle.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
-        //dashParticle.ApplyModifiedProperties();
+        shape.rotation = new Vector3(psConeAngle, -90, 90);
+        dashParticle.Stop();
         
     }
 
@@ -167,7 +165,7 @@ public class PlayerVisuals : MonoBehaviour
         //System particle dash
         psConeAngle = Vector2.SignedAngle(Vector2.right, dashDirection);
         ParticleSystem.ShapeModule shape = dashParticle.shape;
-        shape.rotation = new Vector3(psConeAngle, -90, 0);
+        shape.rotation = new Vector3(psConeAngle, -90, 90);
 
         yield return new WaitForSeconds(dashAttackClip.length);
         isDashRotated = false;
