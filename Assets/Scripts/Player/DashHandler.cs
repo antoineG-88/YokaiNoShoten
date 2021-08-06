@@ -103,7 +103,9 @@ public class DashHandler : MonoBehaviour
         while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
         {
             dashTimeElapsed += Time.fixedDeltaTime;
-            Instantiate(shadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(startDashDirection.x > 0 ? 1 : -1, 1, 1);
+            GameObject shadowClone = Instantiate(shadowFx, transform.position, Quaternion.identity);
+            shadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, startDashDirection));
+            shadowClone.transform.localScale = new Vector3(1, dashDirection.x > 0 ? 1 : -1, 1);
             dashPos = Vector2.LerpUnclamped(dashStartPos, dashEndPos, dashCurve.Evaluate(dashTimeElapsed / dashTime));
             currentDashSpeed = (dashPos - previousDashPos).magnitude;
             previousDashPos = dashPos;

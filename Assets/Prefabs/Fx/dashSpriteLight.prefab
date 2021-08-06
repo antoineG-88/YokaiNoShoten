@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5319161074557287748}
   - component: {fileID: 5090960043177934119}
+  - component: {fileID: -5256215730253390059}
+  - component: {fileID: 8022032860594722841}
   m_Layer: 0
   m_Name: dashSpriteLight
   m_TagString: Untagged
@@ -73,3 +75,35 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!95 &-5256215730253390059
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647430776645223448}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fba04edfbb5725a409e52558eb291bcd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8022032860594722841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647430776645223448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b59a74898d537d43a49a1e1d1e69ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fxAnimation: {fileID: 7400000, guid: 865cfc87935ba5d4e9e6f02a5b4ab349, type: 2}
