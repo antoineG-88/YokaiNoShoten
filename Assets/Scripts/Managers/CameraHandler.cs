@@ -203,4 +203,31 @@ public class CameraHandler : MonoBehaviour
         }
         return offset;
     }
+
+    public bool IsPointInCameraView(Vector2 positionTested, float margin)
+    {
+        bool isInView = true;
+
+        if(positionTested.x > transform.position.x + (currentOrthographicSize * (16/9)) + margin)
+        {
+            isInView = false;
+        }
+
+        if (positionTested.x < transform.position.x - (currentOrthographicSize * (16 / 9)) - margin)
+        {
+            isInView = false;
+        }
+
+        if (positionTested.y > transform.position.y + (currentOrthographicSize) + margin)
+        {
+            isInView = false;
+        }
+
+        if (positionTested.y < transform.position.y - (currentOrthographicSize) - margin)
+        {
+            isInView = false;
+        }
+
+        return isInView;
+    }
 }

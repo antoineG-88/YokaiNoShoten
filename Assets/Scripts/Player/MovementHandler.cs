@@ -66,7 +66,11 @@ public class MovementHandler : MonoBehaviour
             if(IsOnSlope() && isInSlidingZone > 0 && !isOnSlidingSlope)
             {
                 isOnSlidingSlope = true;
-                Propel(Vector2.down, false);
+            }
+
+            if(!IsOnSlope() && isOnSlidingSlope)
+            {
+                isOnSlidingSlope = false;
             }
         }
         else

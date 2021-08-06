@@ -579,6 +579,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   knockAwayTime: 0.4
   slopeMaxSpeed: 5
+  godModeSpeed: 10
   moveWithRightJoystick: 0
   feetCollider: {fileID: 3737249134625820600}
   horizontalTargetSpeed: 0
@@ -808,9 +809,12 @@ MonoBehaviour:
   - {fileID: 0}
   stunTime: 0.3
   damageInvulnerableTime: 0.6
+  enableGodMode: 1
+  godModeLayer: 15
   inControl: 0
   invulnerable: 0
   isGrabbingTorch: 0
+  isInGodMode: 0
 --- !u!61 &3737249135459656032
 BoxCollider2D:
   m_ObjectHideFlags: 0
