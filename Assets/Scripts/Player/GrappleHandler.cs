@@ -151,7 +151,7 @@ public class GrappleHandler : MonoBehaviour
                     hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy"));
                     if (hit)
                     {
-                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 0.8f))
+                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound/* && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 0.8f)*/)
                         {
                             selectedObject = hit.collider.gameObject;
                             minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));

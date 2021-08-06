@@ -208,22 +208,22 @@ public class CameraHandler : MonoBehaviour
     {
         bool isInView = true;
 
-        if(positionTested.x > transform.position.x + (currentOrthographicSize * (16/9)) + margin)
+        if(positionTested.x > transform.position.x + (currentOrthographicSize * (16/9) * 2) + margin)
         {
             isInView = false;
         }
 
-        if (positionTested.x < transform.position.x - (currentOrthographicSize * (16 / 9)) - margin)
+        if (positionTested.x < transform.position.x - (currentOrthographicSize * (16 / 9) * 2) - margin)
         {
             isInView = false;
         }
 
-        if (positionTested.y > transform.position.y + (currentOrthographicSize) + margin)
+        if (positionTested.y > transform.position.y + (currentOrthographicSize * 2) + margin)
         {
             isInView = false;
         }
 
-        if (positionTested.y < transform.position.y - (currentOrthographicSize) - margin)
+        if (positionTested.y < transform.position.y - (currentOrthographicSize * 2) - margin)
         {
             isInView = false;
         }
