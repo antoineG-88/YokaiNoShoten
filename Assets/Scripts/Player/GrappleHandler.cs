@@ -250,8 +250,8 @@ public class GrappleHandler : MonoBehaviour
 
             ropeRenderer.enabled = true;
             Vector3[] ropePoints = new Vector3[2];
-            ropePoints[0] = transform.position;
-            ropePoints[1] = attachedObject.transform.position;
+            ropePoints[1] = transform.position;
+            ropePoints[0] = attachedObject.transform.position;
             ropeRenderer.SetPositions(ropePoints);
 
             //pour corriger le stretch visuel du material du grappin

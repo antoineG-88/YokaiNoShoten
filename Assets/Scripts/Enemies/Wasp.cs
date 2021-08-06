@@ -30,7 +30,7 @@ public class Wasp : Enemy
 
     //Fx de prévisualitation
     public GameObject previsFX;
-
+    public int numberOfPrevisFx;
 
     private float rangeFromInitialPos;
     private bool fleeing;
@@ -116,10 +116,6 @@ public class Wasp : Enemy
                 {
                     rushTriggerTimeElapsed += Time.deltaTime;
                     animator.SetInteger("RushStep", 1);
-
-                    //Fx de prévisualitation
-                    
-                    Instantiate(previsFX, transform.position, Quaternion.identity).transform.localScale = new Vector3(playerDirection.x > 0 ? 1 : -1, 1, 1);
                                             
 
                     if (rushTriggerTimeElapsed > rushTriggerTime)
@@ -182,6 +178,13 @@ public class Wasp : Enemy
         rushCoolDownRemaining = rushCooldown;
         rushTriggerTimeElapsed = 0;
         inControl = false;
+
+        //Fx de prévisualitation
+        for (int i = 0; i < numberOfPrevisFx; i++)
+        {
+            Instantiate(previsFX, (Vector2)transform.position + rushDirection * i * (rushLength / numberOfPrevisFx), Quaternion.identity);
+        }
+
         yield return new WaitForSeconds(rushDelay);
         isProtected = true;
 
