@@ -105,7 +105,7 @@ public class GrappleHandler : MonoBehaviour
         if (canShoot && GameData.playerManager.inControl)
         {
             Vector2 aimStickMag = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
-            if (!isAiming && aimStickMag.magnitude > 0.1f)
+            if (!isAiming && aimStickMag.magnitude > 0.1f && !isTracting)
             {
                 isAiming = true;
                 armShoulderO.SetActive(true);
@@ -234,6 +234,8 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             ringHighLighterO.SetActive(false);
+            armShoulderO.SetActive(false);
+            isAiming = false;
         }
     }
 
@@ -258,8 +260,9 @@ public class GrappleHandler : MonoBehaviour
             
             if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
-                //GameData.movementHandler.isAffectedbyGravity = false;
                 GameData.movementHandler.canMove = false;
+                armShoulderO.SetActive(false);
+                isAiming = false;
 
                 if (!isTracting)
                 {
@@ -273,17 +276,6 @@ public class GrappleHandler : MonoBehaviour
                     startTractionVelocity += startTractionPropulsion;
                     rb.velocity = startTractionVelocity * tractionDirection;
                 }
-                /*
-                float tractionDirectionAngle = Mathf.Atan(tractionDirection.y / tractionDirection.x);
-                if (tractionDirection.x < 0)
-                {
-                    tractionDirectionAngle += Mathf.PI;
-                }
-                else if (tractionDirection.y < 0 && tractionDirection.x > 0)
-                {
-                    tractionDirectionAngle += 2 * Mathf.PI;
-                }
-                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));*/
                 rb.velocity = rb.velocity.magnitude * tractionDirection;
 
                 if (rb.velocity.magnitude > (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))

@@ -73,7 +73,7 @@ public class DashHandler : MonoBehaviour
 
         dashDirection.Normalize();
 
-        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useLeftTriggerInput) || !GameData.pierceHandler.useLeftTriggerInput))
+        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useLeftTriggerInput) || !GameData.pierceHandler.useLeftTriggerInput) && GameData.playerManager.inControl)
         {
             StartCoroutine(Dash(dashDirection));
         }

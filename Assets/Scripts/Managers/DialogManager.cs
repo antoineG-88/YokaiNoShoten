@@ -11,10 +11,16 @@ public class DialogManager : MonoBehaviour
     [Header("References")]
     public Text dialogText;
     public Image seikiFaceImage;
+    public Image dialogBox;
+    public GameObject dialogPanel;
+    public Text nameText;
+    public Image characterFace;
+    [Space]
     public Sprite neutralFace;
     public Sprite happyFace;
     public Sprite sadFace;
     public Sprite angryFace;
+    public List<CharacterFace> characterFaces;
 
     public Dialog testDialog;
 
@@ -29,6 +35,13 @@ public class DialogManager : MonoBehaviour
     private string sentenceProgression;
     private float charProgression;
     private bool isWaitingNext;
+    private bool seikiReacting;
+
+    private void Start()
+    {
+        dialogText.text = string.Empty;
+        dialogPanel.SetActive(false);
+    }
 
     public void StartDialogue(Dialog newDialog)
     {
@@ -39,6 +52,18 @@ public class DialogManager : MonoBehaviour
         sentenceProgression = string.Empty;
         charProgression = 0;
         speakPauseTimeRemaining = 0;
+        dialogPanel.SetActive(true);
+        seikiFaceImage.sprite = neutralFace;
+        nameText.text = string.Empty;
+    }
+
+    public void CloseDialogue()
+    {
+        currentDialog = null;
+        isInDialogue = false;
+        dialogText.text = string.Empty;
+        dialogPanel.SetActive(false);
+
     }
 
     public void Update()
@@ -52,59 +77,137 @@ public class DialogManager : MonoBehaviour
         {
             if(isWaitingNext)
             {
-                dialogText.text = currentDialog.sentences[currentDialogSentenceIndex].sentence.Replace("_", string.Empty);
-                //petite flêche qui vloup vloup
-                if (Input.GetButtonDown("AButton"))
+                timeElapsedOnSentence = 0;
+                if(seikiReacting)
                 {
-                    isWaitingNext = false;
-                    currentDialogSentenceIndex++;
-                    sentenceProgression = string.Empty;
-                    if (currentDialogSentenceIndex >= currentDialog.sentences.Count)
+                    if (Input.GetButtonDown("AButton"))
                     {
-                        isInDialogue = false;
-                        dialogText.text = string.Empty;
+                        currentDialogSentenceIndex++;
+                        isWaitingNext = false;
+                        sentenceProgression = string.Empty;
+                        seikiReacting = false;
+                        if (currentDialogSentenceIndex >= currentDialog.sentences.Count)
+                        {
+                            CloseDialogue();
+                        }
+                    }
+                }
+                else
+                {
+                    dialogText.text = currentDialog.sentences[currentDialogSentenceIndex].sentence.Replace("_", string.Empty);
+                    //petite flêche qui vloup vloup
+                    if (Input.GetButtonDown("AButton"))
+                    {
+                        isWaitingNext = false;
+                        seikiReacting = true;
                     }
                 }
             }
             else
             {
-                if(speakPauseTimeRemaining > 0)
+                if(seikiReacting)
                 {
-                    speakPauseTimeRemaining -= Time.deltaTime;
+                    seikiFaceImage.sprite = GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction);
+
+                    timeElapsedOnSentence += Time.deltaTime;
+                    if (timeElapsedOnSentence > minTimeToPass)
+                    {
+                        isWaitingNext = true;
+                        currentCharIndex = 0;
+                    }
                 }
                 else
                 {
-                    if (Input.GetButtonDown("AButton"))
+                    timeElapsedOnSentence += Time.deltaTime;
+                    nameText.text = currentDialog.sentences[currentDialogSentenceIndex].characterName;
+                    characterFace.sprite = GetCharacterFaceFromName(currentDialog.sentences[currentDialogSentenceIndex].characterName);
+                    if (Input.GetButtonDown("AButton") && timeElapsedOnSentence > minTimeToPass)
                     {
                         isWaitingNext = true;
                         currentCharIndex = 0;
                     }
-                    charProgression += currentDialog.sentences[currentDialogSentenceIndex].speakingSpeed * baseSpeakingSpeed * Time.deltaTime;
 
-                    while (charProgression >= 1 && currentCharIndex < currentDialog.sentences[currentDialogSentenceIndex].sentence.Length && speakPauseTimeRemaining <= 0)
+                    if (speakPauseTimeRemaining > 0)
                     {
-                        if (currentDialog.sentences[currentDialogSentenceIndex].sentence[currentCharIndex] == '_')
-                        {
-                            speakPauseTimeRemaining = baseSpeakPauseTime * currentDialog.sentences[currentDialogSentenceIndex].speakingSpeed;
-                        }
-                        else
-                        {
-                            sentenceProgression += currentDialog.sentences[currentDialogSentenceIndex].sentence[currentCharIndex];
-                        }
-                        currentCharIndex++;
-                        charProgression--;
+                        speakPauseTimeRemaining -= Time.deltaTime;
                     }
-
-                    if (currentCharIndex >= currentDialog.sentences[currentDialogSentenceIndex].sentence.Length)
+                    else
                     {
-                        currentCharIndex = 0;
-                        isWaitingNext = true;
-                    }
+                        charProgression += currentDialog.sentences[currentDialogSentenceIndex].speakingSpeed * baseSpeakingSpeed * Time.deltaTime;
 
-                    dialogText.text = sentenceProgression;
+                        while (charProgression >= 1 && currentCharIndex < currentDialog.sentences[currentDialogSentenceIndex].sentence.Length && speakPauseTimeRemaining <= 0)
+                        {
+                            if (currentDialog.sentences[currentDialogSentenceIndex].sentence[currentCharIndex] == '_')
+                            {
+                                speakPauseTimeRemaining = baseSpeakPauseTime * currentDialog.sentences[currentDialogSentenceIndex].speakingSpeed;
+                            }
+                            else
+                            {
+                                sentenceProgression += currentDialog.sentences[currentDialogSentenceIndex].sentence[currentCharIndex];
+                            }
+                            currentCharIndex++;
+                            charProgression--;
+                        }
+
+                        if (currentCharIndex >= currentDialog.sentences[currentDialogSentenceIndex].sentence.Length)
+                        {
+                            currentCharIndex = 0;
+                            isWaitingNext = true;
+                        }
+
+                        dialogText.text = sentenceProgression;
+                    }
                 }
             }
 
         }
+    }
+
+    private Sprite GetFaceFromReaction(SeikiEmote seikiEmote)
+    {
+        Sprite faceSprite = null;
+        switch(seikiEmote)
+        {
+            case SeikiEmote.Neutral:
+                faceSprite = neutralFace;
+                break;
+
+            case SeikiEmote.Angry:
+                faceSprite = angryFace;
+                break;
+
+            case SeikiEmote.Happy:
+                faceSprite = happyFace;
+                break;
+
+            case SeikiEmote.Sad:
+                faceSprite = sadFace;
+                break;
+
+            default:
+                break;
+        }
+
+        return faceSprite;
+    }
+
+    [System.Serializable]
+    public class CharacterFace
+    {
+        public string characterName;
+        public Sprite face;
+    }
+
+    private Sprite GetCharacterFaceFromName(string characeterName)
+    {
+        Sprite face = null;
+        for (int i = 0; i < characterFaces.Count; i++)
+        {
+            if(characterFaces[i].characterName == characeterName)
+            {
+                face = characterFaces[i].face;
+            }
+        }
+        return face;
     }
 }
