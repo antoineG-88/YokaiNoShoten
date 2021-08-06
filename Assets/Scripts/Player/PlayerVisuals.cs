@@ -18,10 +18,11 @@ public class PlayerVisuals : MonoBehaviour
     private bool wasPiercing;
     private float pierceTimeElapsed;
     private Vector2 dashDirection;
+    public ParticleSystem dashParticle;
 
     //System particle dash
-    //SerializedObject dashParticles;
-    //float psConeAngle;
+    //SerializedObject dashParticle;
+    float psConeAngle;
     
     
     void Start()
@@ -31,9 +32,11 @@ public class PlayerVisuals : MonoBehaviour
         transformFacingRight = true;
 
         //System particle dash
-        //dashParticles = new SerializedObject(GetComponent<ParticleSystem>());
-        //dashParticles.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
-        //dashParticles.ApplyModifiedProperties();
+        //dashParticle = new SerializedObject(GetComponent<ParticleSystem>());
+
+        ParticleSystem.ShapeModule shape = dashParticle.shape;
+        shape.rotation = new Vector3(psConeAngle, -90, 90);
+        dashParticle.Stop();
         
     }
 
@@ -134,10 +137,6 @@ public class PlayerVisuals : MonoBehaviour
         {
             spriteRenderer.flipX = true;
 
-            //System particle de dash
-            //psConeAngle = 0f;
-            //dashParticles.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
-            //dashParticles.ApplyModifiedProperties();
         }
     }
 
@@ -164,9 +163,9 @@ public class PlayerVisuals : MonoBehaviour
         dashDirection = lastDashDirection;
 
         //System particle dash
-        //psConeAngle = -dashDirection.x;
-        //dashParticles.FindProperty("ShapeModule.Rotation.X").floatValue = psConeAngle;
-        //dashParticles.ApplyModifiedProperties();
+        psConeAngle = Vector2.SignedAngle(Vector2.right, dashDirection);
+        ParticleSystem.ShapeModule shape = dashParticle.shape;
+        shape.rotation = new Vector3(psConeAngle, -90, 90);
 
         yield return new WaitForSeconds(dashAttackClip.length);
         isDashRotated = false;

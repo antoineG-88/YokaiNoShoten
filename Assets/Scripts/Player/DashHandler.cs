@@ -87,6 +87,7 @@ public class DashHandler : MonoBehaviour
         GameData.pierceHandler.StopPhasingTime();
         //GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
+        GameData.playerVisuals.dashParticle.Play();
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
 
         Vector2 dashStartPos = transform.position;
@@ -120,6 +121,7 @@ public class DashHandler : MonoBehaviour
         //transform.position = dashEndPos;  Test de raycast à faire si utilisé
 
         rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
+        GameData.playerVisuals.dashParticle.Stop();
 
         GameData.movementHandler.canMove = true;
         //GameData.movementHandler.isAffectedbyGravity = true;
