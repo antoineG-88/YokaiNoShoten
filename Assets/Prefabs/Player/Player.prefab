@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d95fff7a5c00942b02942384bc949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGrappleRange: 10
+  maxGrappleRange: 9
   grappleAttachLengthDifference: 4
   shootCooldown: 0.2
   releasingHookDist: 0.5
@@ -622,6 +622,7 @@ MonoBehaviour:
     type: 3}
   aimAssistAngle: 30
   aimAssistRaycastNumber: 30
+  angleToTakeClosest: 0
   aimWithLeftJoystick: 0
   tractWithLeftTrigger: 0
   armShoulderO: {fileID: 3737249135026604181}
