@@ -68,10 +68,10 @@ public class DialogManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetButtonDown("XButton"))
+        /*if (Input.GetButtonDown("XButton"))
         {
             StartDialogue(testDialog);
-        }
+        }*/
 
         if (isInDialogue)
         {

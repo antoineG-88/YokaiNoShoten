@@ -17,6 +17,7 @@ public class MovementHandler : MonoBehaviour
     public AnimationCurve knockAwayMovement;
     public float knockAwayTime;
     public float slopeMaxSpeed;
+    public float godModeSpeed;
     [Tooltip("Cursed")]
     public bool moveWithRightJoystick;
     [Space]
@@ -62,7 +63,11 @@ public class MovementHandler : MonoBehaviour
         isGrounded = IsOnGround();
         if(isGrounded)
         {
-            isOnSlidingSlope = IsOnSlope() && isInSlidingZone > 0;
+            if(IsOnSlope() && isInSlidingZone > 0 && !isOnSlidingSlope)
+            {
+                isOnSlidingSlope = true;
+                Propel(Vector2.down, false);
+            }
         }
         else
         {
@@ -82,76 +87,86 @@ public class MovementHandler : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if(groundRb != null)
+        if(GameData.playerManager.isInGodMode)
         {
-            relativeVelocity = rb.velocity - groundRb.velocity;
+            Vector2 inputAxis = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+            inputAxis = Vector2.ClampMagnitude(inputAxis, 1);
+            transform.position = (Vector2)transform.position + inputAxis * Time.fixedDeltaTime * godModeSpeed;
+            rb.velocity = Vector2.zero;
         }
         else
         {
-            relativeVelocity = rb.velocity;
-        }
-
-        if (horizontalTargetSpeed != relativeVelocity.x)
-        {
-            currentAcceleration = (currentGravityZone != null || levitateSourceNumber > 0) ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
-            currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
-
-            forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
-            if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
+            if (groundRb != null)
             {
-                horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
+                relativeVelocity = rb.velocity - groundRb.velocity;
             }
             else
             {
-                horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
+                relativeVelocity = rb.velocity;
             }
 
-
-            if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
+            if (horizontalTargetSpeed != relativeVelocity.x)
             {
-                rb.velocity = new Vector2((groundRb != null ? groundRb.velocity.x : 0) + horizontalTargetSpeed, rb.velocity.y);
+                currentAcceleration = (currentGravityZone != null || levitateSourceNumber > 0) ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
+                currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
+
+                forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
+                if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
+                {
+                    horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
+                }
+
+
+                if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
+                {
+                    rb.velocity = new Vector2((groundRb != null ? groundRb.velocity.x : 0) + horizontalTargetSpeed, rb.velocity.y);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
+                }
             }
-            else
+            else if (groundRb != null)
             {
-                rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
+                rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
             }
-        }
-        else if(groundRb != null)
-        {
-            rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
-        }
 
-        if (isGrounded && isOnSlidingSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
-        {
-            rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
-        }
-
-        isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && currentGravityZone == null && levitateSourceNumber <= 0;
-        levitateSourceNumber = Mathf.Clamp(levitateSourceNumber, 0, 100);
-        if (isAffectedbyGravity)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
-        }
-
-        if(currentGravityZone != null)
-        {
-            if (!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
+            if (isGrounded && isOnSlidingSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
             {
-                if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone + (currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime))
+                rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
+            }
+
+            isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && currentGravityZone == null && levitateSourceNumber <= 0;
+            levitateSourceNumber = Mathf.Clamp(levitateSourceNumber, 0, 100);
+            if (isAffectedbyGravity)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
+            }
+
+            if (currentGravityZone != null)
+            {
+                if (!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
                 {
-                    rb.velocity -= rb.velocity.normalized * currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime;
-                }
-                else if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone)
-                {
-                    rb.velocity = rb.velocity.normalized * currentGravityZone.maxSpeedInNGZone;
-                }
-                else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone + (currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime))
-                {
-                    rb.velocity -= rb.velocity.normalized * currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime;
-                }
-                else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone)
-                {
-                    rb.velocity = rb.velocity.normalized * currentGravityZone.minSpeedInNGZone;
+                    if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone + (currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime))
+                    {
+                        rb.velocity -= rb.velocity.normalized * currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime;
+                    }
+                    else if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone)
+                    {
+                        rb.velocity = rb.velocity.normalized * currentGravityZone.maxSpeedInNGZone;
+                    }
+                    else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone + (currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime))
+                    {
+                        rb.velocity -= rb.velocity.normalized * currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime;
+                    }
+                    else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone)
+                    {
+                        rb.velocity = rb.velocity.normalized * currentGravityZone.minSpeedInNGZone;
+                    }
                 }
             }
         }

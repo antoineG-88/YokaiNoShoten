@@ -10,20 +10,26 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> healthPointsDisplay;
     public float stunTime;
     public float damageInvulnerableTime;
+    [Tooltip("Press start in game to activate")]
+    public bool enableGodMode;
+    public int godModeLayer;
 
     private int currentHealthPoint;
 
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool invulnerable;
     [HideInInspector] public int isGrabbingTorch;
+    [HideInInspector] public bool isInGodMode;
 
     private float invulnerableTimeRemaining;
+    private int basePlayerLayer;
 
     void Start()
     {
         currentHealthPoint = maxHealthPoint;
         inControl = true;
         invulnerable = false;
+        basePlayerLayer = gameObject.layer;
         invulnerableTimeRemaining = 0;
     }
 
@@ -39,12 +45,24 @@ public class PlayerManager : MonoBehaviour
             invulnerable = false;
         }
 
+
+        if (Input.GetAxisRaw("CrossH") == 1 && Input.GetButtonDown("XButton") && enableGodMode)
+        {
+            isInGodMode = !isInGodMode;
+        }
+        gameObject.layer = isInGodMode ? godModeLayer : basePlayerLayer;
+
+        if (Input.GetButtonDown("StartButton") && enableGodMode)
+        {
+            Die();
+        }
+
         RefreshHealthPointDisplay();
     }
 
     private void FixedUpdate()
     {
-        if (IsPlayerInWall())
+        if (IsPlayerInWall() && !isInGodMode)
         {
             Die();
         }
@@ -52,7 +70,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentHealthPoint -= damage;
