@@ -380,6 +380,12 @@ TextureImporter:
   - first:
       213: -2309511115081024085
     second: ENV_Station__TilemapSol_85
+  - first:
+      213: -7953226213038976541
+    second: ENV_Station__TilemapSol_86
+  - first:
+      213: -8726716206065021703
+    second: ENV_Station__TilemapSol_87
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -2302,6 +2308,58 @@ TextureImporter:
       bones: []
       spriteID: bad77cc80e7f2ffd0800000000000000
       internalID: -2309511115081024085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station__TilemapSol_86
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 16}
+        - {x: -16, y: -16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e19c71b5e670a190800000000000000
+      internalID: -7953226213038976541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_Station__TilemapSol_87
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: -16}
+        - {x: -16, y: 16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fc89d1c8d974e680800000000000000
+      internalID: -8726716206065021703
       vertices: []
       indices: 
       edges: []

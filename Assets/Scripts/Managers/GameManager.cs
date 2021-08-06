@@ -55,12 +55,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void LoadLevel(bool onlyOnRespawn)
+    public static void LoadLevel(bool onlyOnRespawn, int specificStart)
     {
         if(!onlyOnRespawn || (onlyOnRespawn && isRespawning))
         {
             isRespawning = false;
             LoadProgression();
+        }
+        else if(specificStart >= 0)
+        {
+            SetSpecificStart(specificStart);
         }
     }
 
@@ -89,9 +93,22 @@ public class GameManager : MonoBehaviour
             if(LevelManager.allZoneCheckPoints[i].checkPointNumber == progressionData.lastCheckPointIndex)
             {
                 GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
             }
         }
         currentStoryStep = progressionData.currentStoryStep;
+    }
+
+    public static void SetSpecificStart(int checkpointIndex)
+    {
+        for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
+        {
+            if (LevelManager.allZoneCheckPoints[i].checkPointNumber == checkpointIndex)
+            {
+                GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+            }
+        }
     }
 
     private void SetSavePath()
