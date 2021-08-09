@@ -53,6 +53,12 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(2);
         }
+
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            SaveSystem.DeleteSaveFile(currentZoneName);
+        }
     }
 
     public static void LoadLevel(bool onlyOnRespawn, int specificStart)
@@ -83,20 +89,23 @@ public class GameManager : MonoBehaviour
     public static void LoadProgression()
     {
         ProgressionData progressionData = SaveSystem.LoadProgression();
-        for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
+        if(progressionData != null)
         {
-            LevelManager.allZoneSwitchs[i].isOn = progressionData.switchStates[i];
-        }
-
-        for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
-        {
-            if(LevelManager.allZoneCheckPoints[i].checkPointNumber == progressionData.lastCheckPointIndex)
+            for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
             {
-                GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                LevelManager.allZoneSwitchs[i].isOn = progressionData.switchStates[i];
             }
+
+            for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
+            {
+                if (LevelManager.allZoneCheckPoints[i].checkPointNumber == progressionData.lastCheckPointIndex)
+                {
+                    GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                    Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                }
+            }
+            currentStoryStep = progressionData.currentStoryStep;
         }
-        currentStoryStep = progressionData.currentStoryStep;
     }
 
     public static void SetSpecificStart(int checkpointIndex)

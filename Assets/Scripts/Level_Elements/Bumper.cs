@@ -30,6 +30,7 @@ public class Bumper : MonoBehaviour
             centerForce.Normalize();
             centerForce *= centerSurge;
             GameData.movementHandler.rb.velocity = centerForce;
+            GameData.playerManager.inControl = false;
         }
 
         if (Vector2.Distance(GameData.movementHandler.transform.position, transform.position) <= (Time.deltaTime * centerSurge * 3) && canPush == true)
@@ -37,6 +38,7 @@ public class Bumper : MonoBehaviour
             canPush = false;
             isEntered = false;
             GameData.movementHandler.Propel(directedForce, true);
+            GameData.playerManager.inControl = true;
         }
     }
     void OnTriggerEnter2D(Collider2D col)
