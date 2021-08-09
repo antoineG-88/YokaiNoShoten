@@ -292,7 +292,9 @@ public class PierceHandler : MonoBehaviour
                 isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                 StartCoroutine(piercable.DisablePiercable());
 
-                Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+                GameObject pierceMarkClone = Instantiate (pierceMarkFx, transform.position, Quaternion.identity); ;
+                pierceMarkClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
+                pierceMarkClone.transform.localScale = new Vector3(1, piercableDirection.x < 0 ? 1 : -1, 1);
                 hasPierced = true;
             }
         }
