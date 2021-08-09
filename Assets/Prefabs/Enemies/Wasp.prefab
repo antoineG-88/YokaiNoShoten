@@ -189,6 +189,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   sprite: {fileID: 763350509277404794}
+  previsFX: {fileID: 5270052241577888343, guid: 5996c384a7e508941bf15da290a6293e,
+    type: 3}
+  numberOfPrevisFx: 10
 --- !u!114 &763350508382447395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,7 +322,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9bdc3eb1e179e6843b874be910847a61, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
