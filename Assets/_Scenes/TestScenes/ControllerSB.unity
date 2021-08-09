@@ -4801,6 +4801,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CamContraintZone
       objectReference: {fileID: 0}
+    - target: {fileID: 5464473137033219862, guid: d2d6e553b5260a3428f87b61b052bcba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5464473137033219863, guid: d2d6e553b5260a3428f87b61b052bcba,
         type: 3}
       propertyPath: m_Offset.x
@@ -6624,6 +6629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PostProcessing
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605334686500873130, guid: bde5b0bdd8efa564582949c8a8c581e9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2605334686500873132, guid: bde5b0bdd8efa564582949c8a8c581e9,
         type: 3}
@@ -8543,7 +8553,7 @@ PrefabInstance:
     - target: {fileID: 3737249135459656029, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}
       propertyPath: maxGrappleRange
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3737249135459656030, guid: 4877c5fc972613c44b2984a54b80d5cd,
         type: 3}

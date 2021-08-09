@@ -92,14 +92,14 @@ public class CameraHandler : MonoBehaviour
         
         upEdgePos = originPos + currentOrthographicSize * Vector2.up;
         downEdgePos = originPos + currentOrthographicSize * Vector2.down;
-        rightEdgePos = originPos + (currentOrthographicSize * 16 / 9) * Vector2.right;
-        leftEdgePos = originPos + (currentOrthographicSize * 16 / 9) * Vector2.left;
+        rightEdgePos = originPos + (currentOrthographicSize * mainCamera.aspect) * Vector2.right;
+        leftEdgePos = originPos + (currentOrthographicSize * mainCamera.aspect) * Vector2.left;
 
-        Debug.DrawRay(upEdgePos, Vector2.down);
+        /*Debug.DrawRay(upEdgePos, Vector2.down);
         Debug.DrawRay(downEdgePos, Vector2.up);
         Debug.DrawRay(rightEdgePos, Vector2.left);
         Debug.DrawRay(leftEdgePos, Vector2.right);
-        Debug.DrawRay(originPos, Vector2.up * 1);
+        Debug.DrawRay(originPos, Vector2.up * 1);*/
 
         if (constraintZones.Count > 0)
         {
@@ -135,14 +135,14 @@ public class CameraHandler : MonoBehaviour
             if (rightEdgePos.x > absoluteRightLimit && currentZone.rightLimit != 0)
             {
                 isOutRightEdge = true;
-                correctedCameraPos = new Vector2(absoluteRightLimit - currentOrthographicSize * 16 / 9, correctedCameraPos.y);
+                correctedCameraPos = new Vector2(absoluteRightLimit - currentOrthographicSize * mainCamera.aspect, correctedCameraPos.y);
             }
 
             isOutLeftEdge = false;
             if (leftEdgePos.x < absoluteLeftLimit && currentZone.leftLimit != 0)
             {
                 isOutLeftEdge = true;
-                correctedCameraPos = new Vector2(absoluteLeftLimit + currentOrthographicSize * 16 / 9, correctedCameraPos.y);
+                correctedCameraPos = new Vector2(absoluteLeftLimit + currentOrthographicSize * mainCamera.aspect, correctedCameraPos.y);
             }
 
             if (isOutRightEdge && isOutLeftEdge)
@@ -208,22 +208,22 @@ public class CameraHandler : MonoBehaviour
     {
         bool isInView = true;
 
-        if(positionTested.x > transform.position.x + (currentOrthographicSize * (16/9) * 2) + margin)
+        if(positionTested.x > transform.position.x + (currentOrthographicSize * mainCamera.aspect) + margin)
         {
             isInView = false;
         }
 
-        if (positionTested.x < transform.position.x - (currentOrthographicSize * (16 / 9) * 2) - margin)
+        if (positionTested.x < transform.position.x - (currentOrthographicSize * mainCamera.aspect) - margin)
         {
             isInView = false;
         }
 
-        if (positionTested.y > transform.position.y + (currentOrthographicSize * 2) + margin)
+        if (positionTested.y > transform.position.y + (currentOrthographicSize) + margin)
         {
             isInView = false;
         }
 
-        if (positionTested.y < transform.position.y - (currentOrthographicSize * 2) - margin)
+        if (positionTested.y < transform.position.y - (currentOrthographicSize) - margin)
         {
             isInView = false;
         }
