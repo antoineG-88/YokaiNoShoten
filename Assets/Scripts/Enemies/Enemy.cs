@@ -353,8 +353,8 @@ public abstract class Enemy : Piercable
         }
         else
         {
-            Propel(directedForce);
-            StartCoroutine(NoControl(0.3f));
+            //Propel(directedForce);
+            //StartCoroutine(NoControl(0.3f));
         }
         return isProtected;
     }

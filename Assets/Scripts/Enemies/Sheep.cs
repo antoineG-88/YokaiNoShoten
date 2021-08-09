@@ -14,7 +14,6 @@ public class Sheep : Enemy
 
     private bool isFacingRight;
     private bool destinationReached;
-    private bool isProvoked;
     private bool isFleeing;
 
     new void Start()
@@ -63,14 +62,13 @@ public class Sheep : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        //isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange && Vector2.Distance(transform.position, initialPos) < movementZoneRadius;
         destinationReached = Vector2.Distance(targetPathfindingPosition, transform.position) < 0.5f;
         isFleeing = distToPlayer < safeDistanceToPlayer;
-        if (isProvoked)
+        if (provoked)
         {
             if (isFleeing)
             {
-                targetPathfindingPosition = (Vector2)transform.position - playerDirection * 2;
+                targetPathfindingPosition = FindNearestSightSpot(5, safeDistanceToPlayer, false); //(Vector2)transform.position - playerDirection * 2;
             }
             else
             {
