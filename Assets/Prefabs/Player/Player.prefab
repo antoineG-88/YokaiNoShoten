@@ -696,9 +696,9 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 2048
-  pierceShadowFx: {fileID: 1368177033577197783, guid: d21d83d996c6a81499510a66d86088ca,
+  pierceShadowFx: {fileID: 8647430776645223448, guid: 694ec26c4e7684248a8b0cd5cc8572aa,
     type: 3}
-  pierceMarkFx: {fileID: 4198612265735637209, guid: f49989a3204a8df44b3d498b244ab018,
+  pierceMarkFx: {fileID: 4198612265735637209, guid: 589f34dfa09249e4dbb4d377ef372ab7,
     type: 3}
   timeBeforeFirstPierce: 0
   damageDelay: 0.02
@@ -1564,7 +1564,17 @@ PrefabInstance:
     - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
         type: 3}
       propertyPath: ShapeModule.m_Rotation.x
-      value: -30.872114
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeda45fe2a2947c4987e1466ef371b8d, type: 3}
