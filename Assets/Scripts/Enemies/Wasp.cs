@@ -7,7 +7,6 @@ public class Wasp : Enemy
     [Header("Movement settings")]
     public float maxSpeed;
     public float accelerationForce;
-    public float provocationRange;
     public float safeDistanceToPlayer;
     public float safeDistanceWidth;
     public float maxRangeFromInitialPos;
@@ -94,7 +93,7 @@ public class Wasp : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        provoked = distToPlayer < provocationRange;
+        //provoked = distToPlayer < provocationRange;
         pathNeedUpdate = false;
         rangeFromInitialPos = Vector2.Distance(transform.position, initialPos);
         if (rangeFromInitialPos > maxRangeFromInitialPos && inControl)
@@ -155,7 +154,7 @@ public class Wasp : Enemy
             {
                 Vector2 playerOppositeDirection = -playerDirection;
                 playerOppositeDirection.Normalize();
-                //targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
+                targetPathfindingPosition = (Vector2)transform.position + playerOppositeDirection * 3;
             }
 
             if (pathNeedUpdate)
@@ -222,6 +221,7 @@ public class Wasp : Enemy
                 {
                     isStuckInWall = true;
                     rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                    isProtected = false;
                     //play stuck anim
                 }
             }

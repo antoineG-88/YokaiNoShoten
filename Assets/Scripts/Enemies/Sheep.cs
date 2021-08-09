@@ -10,7 +10,6 @@ public class Sheep : Enemy
     [Header("Movement settings")]
     public float maxSpeed;
     public float accelerationForce;
-    public float provocationRange;
     public float safeDistanceToPlayer;
 
     private bool isFacingRight;
@@ -18,14 +17,12 @@ public class Sheep : Enemy
     private bool isProvoked;
     private bool isFleeing;
 
-    // Start is called before the first frame update
     new void Start()
     {
         base.Start();
         CreateShield();
     }
 
-    // Update is called once per frame
     new void Update()
     {
         base.Update();
@@ -66,7 +63,7 @@ public class Sheep : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange && Vector2.Distance(transform.position, initialPos) < movementZoneRadius;
+        //isProvoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange && Vector2.Distance(transform.position, initialPos) < movementZoneRadius;
         destinationReached = Vector2.Distance(targetPathfindingPosition, transform.position) < 0.5f;
         isFleeing = distToPlayer < safeDistanceToPlayer;
         if (isProvoked)
