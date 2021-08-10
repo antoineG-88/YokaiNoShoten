@@ -11600,6 +11600,26 @@ PrefabInstance:
       propertyPath: specificCheckPointStart
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5968018509765834389, guid: 87b3911e42b2bdd499a50d4981099e68,
+        type: 3}
+      propertyPath: zoneDataSaveFileNamePrefixe
+      value: /YR_Zone_
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968018509765834389, guid: 87b3911e42b2bdd499a50d4981099e68,
+        type: 3}
+      propertyPath: progressionDataSaveFileName
+      value: /YR_Progression
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968018509765834389, guid: 87b3911e42b2bdd499a50d4981099e68,
+        type: 3}
+      propertyPath: zoneSaveFileExtension
+      value: .zsave
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968018509765834389, guid: 87b3911e42b2bdd499a50d4981099e68,
+        type: 3}
+      propertyPath: progressionSaveFileExtension
+      value: .psave
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87b3911e42b2bdd499a50d4981099e68, type: 3}
 --- !u!1001 &7029462397420212691
