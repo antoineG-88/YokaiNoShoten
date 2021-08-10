@@ -43,7 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae364c158a20684889feb2630b064d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressionDataSaveFileNamePrefixe: /YR_
-  saveFileExtension: .save
+  progressionDataSaveFileName: /YR_Progression
+  zoneDataSaveFileNamePrefixe: /YR_Zone_
+  zoneSaveFileExtension: .zsave
+  progressionSaveFileExtension: .psave
   defaultSaveDirectoryName: /GameSave
   defaultGameDirectoryName: /YokaiRescue
