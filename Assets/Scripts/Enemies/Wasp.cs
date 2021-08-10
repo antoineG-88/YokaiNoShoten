@@ -181,7 +181,9 @@ public class Wasp : Enemy
         //Fx de prévisualitation
         for (int i = 0; i < numberOfPrevisFx; i++)
         {
-            Instantiate(previsFX, (Vector2)transform.position + rushDirection * i * (rushLength / numberOfPrevisFx), Quaternion.identity);
+            GameObject previsClone = Instantiate(previsFX, (Vector2)transform.position + rushDirection * i * (rushLength / numberOfPrevisFx), Quaternion.identity);
+            previsClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, -rushDirection));
+            previsClone.transform.localScale = new Vector3(1, rushDirection.x < 0 ? 1 : -1, 1);
         }
 
         yield return new WaitForSeconds(rushDelay);
