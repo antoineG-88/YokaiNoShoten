@@ -292,6 +292,8 @@ public class PierceHandler : MonoBehaviour
                 isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                 StartCoroutine(piercable.DisablePiercable());
 
+                
+
                 Instantiate (pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3 (1,1,1);
                 hasPierced = true;
             }
@@ -308,6 +310,8 @@ public class PierceHandler : MonoBehaviour
                     StartCoroutine(piercable.DisablePiercable());
                     Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                     hasPierced = true;
+                    GameData.playerVisuals.pierceParticle.Play();
+                    
                 }
             }
             Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
@@ -321,6 +325,7 @@ public class PierceHandler : MonoBehaviour
         }
 
         isPiercing = false;
+        GameData.playerVisuals.pierceParticle.Stop();
         GameData.movementHandler.canMove = true;
         if(!useCombo)
             canPierce = true;
