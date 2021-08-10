@@ -315,7 +315,7 @@ public class PierceHandler : MonoBehaviour
                     //Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
                     GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity);
                     pierceMarkFx.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
-                    pierceMarkFx.transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
+                    //pierceMarkFx.transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
 
                     hasPierced = true;
                     GameData.playerVisuals.pierceParticle.Play();
