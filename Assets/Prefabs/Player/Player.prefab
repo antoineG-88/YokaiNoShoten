@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d95fff7a5c00942b02942384bc949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGrappleRange: 9
+  maxGrappleRange: 8
   grappleAttachLengthDifference: 4
   shootCooldown: 0.2
   releasingHookDist: 0.5
@@ -621,16 +621,16 @@ MonoBehaviour:
   ropeBreakParticleByUnit: 2
   breakRopeParticle: {fileID: 671408987734076028, guid: c176b946c9ac64245b920f8b6419a1a0,
     type: 3}
-  aimAssistAngle: 30
+  aimAssistAngle: 40
   aimAssistRaycastNumber: 30
-  angleToTakeClosest: 0
+  angleToTakeClosest: 30
   aimWithLeftJoystick: 0
   tractWithLeftTrigger: 0
   armShoulderO: {fileID: 3737249135026604181}
   shootPoint: {fileID: 3737249135026604182}
   ringHighLighterO: {fileID: 3737249135314207288}
   grapplingStartPointO: {fileID: 3737249135026604181}
-  displayAutoAimRaycast: 0
+  displayAutoAimRaycast: 1
   rb: {fileID: 0}
   aimDirection: {x: 0, y: 0}
   isAiming: 0
@@ -817,6 +817,7 @@ MonoBehaviour:
   invulnerable: 0
   isGrabbingTorch: 0
   isInGodMode: 0
+  isBeingKnocked: 0
 --- !u!61 &3737249135459656032
 BoxCollider2D:
   m_ObjectHideFlags: 0
