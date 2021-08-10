@@ -9,7 +9,6 @@ public class Wasp : Enemy
     public float accelerationForce;
     public float safeDistanceToPlayer;
     public float safeDistanceWidth;
-    public float maxRangeFromInitialPos;
     [Header("RushAttack settings")]
     public float rushCooldown;
     public float rushTriggerDistance;
@@ -26,6 +25,7 @@ public class Wasp : Enemy
     private bool isStuckInWall = false;
     [Header("Visuals")]
     public SpriteRenderer sprite;
+    public GameObject stuckImpactParticle;
 
     //Fx de prévisualitation
     public GameObject previsFX;
@@ -40,6 +40,8 @@ public class Wasp : Enemy
     private float rushCoolDownRemaining;
     private float rushTriggerTimeElapsed;
     private bool isFacingRight;
+    private Vector2 stuckDirection;
+    private bool shouldNotFlipSprite;
 
     new void Start()
     {
@@ -93,16 +95,10 @@ public class Wasp : Enemy
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        //provoked = distToPlayer < provocationRange;
         pathNeedUpdate = false;
         rangeFromInitialPos = Vector2.Distance(transform.position, initialPos);
-        if (rangeFromInitialPos > maxRangeFromInitialPos && inControl)
-        {
-            rushTriggerTimeElapsed = 0;
-            animator.SetInteger("RushStep", 0);
-            targetPathfindingPosition = initialPos;
-        }
-        else if (provoked && inControl)
+
+        if (provoked && inControl)
         {
             fleeing = distToPlayer < safeDistanceToPlayer && rushCoolDownRemaining > 0;
 
@@ -164,29 +160,33 @@ public class Wasp : Enemy
         }
         else
         {
-            targetPathfindingPosition = initialPos;
-            destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
-            animator.SetInteger("RushStep", 0);
-            rushTriggerTimeElapsed = 0;
+            if(!isRushing)
+            {
+                targetPathfindingPosition = initialPos;
+                destinationReached = Vector2.Distance(transform.position, initialPos) < 1;
+                animator.SetInteger("RushStep", 0);
+                rushTriggerTimeElapsed = 0;
+            }
         }
     }
 
     private IEnumerator Rush(Vector2 rushDirection)
     {
-        isRushing = true;
         rushCoolDownRemaining = rushCooldown;
         rushTriggerTimeElapsed = 0;
         inControl = false;
+        isRushing = true;
 
         //Fx de prévisualitation
         for (int i = 0; i < numberOfPrevisFx; i++)
         {
             GameObject previsClone = Instantiate(previsFX, (Vector2)transform.position + rushDirection * i * (rushLength / numberOfPrevisFx), Quaternion.identity);
-            previsClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, -rushDirection));
-            previsClone.transform.localScale = new Vector3(1, rushDirection.x < 0 ? 1 : -1, 1);
+            previsClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, rushDirection));
+            //previsClone.transform.localScale = new Vector3(1, rushDirection.x < 0 ? 1 : -1, 1);
         }
 
         yield return new WaitForSeconds(rushDelay);
+        shouldNotFlipSprite = true;
         isProtected = true;
 
         Vector2 rushStartPos = transform.position;
@@ -196,11 +196,13 @@ public class Wasp : Enemy
         float currentRushSpeed;
         bool hasHit = false;
         bool hitWall = false;
-        bool hitDashWall = false;
-        transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
+        //transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
+
+
+        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, rushDirection));
 
         float dashTimeElapsed = 0;
-        while (dashTimeElapsed < rushTime)
+        while (dashTimeElapsed < rushTime && !isStuckInWall)
         {
             animator.SetInteger("RushStep", 2);
             dashTimeElapsed += Time.fixedDeltaTime;
@@ -212,19 +214,30 @@ public class Wasp : Enemy
             if (!hasHit)
             {
                 hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
-                hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall"));
-                hitDashWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("DashWall"));
                 if (hasHit)
                 {
                     GameData.playerManager.TakeDamage(1, rushDirection * rushKnockbackForce);
                 }
-
-                else if (hitWall || hitDashWall)
+                else
                 {
-                    isStuckInWall = true;
-                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
-                    isProtected = false;
-                    //play stuck anim
+                    hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall", "DashWall"));
+                    if (hitWall)
+                    {
+                        RaycastHit2D impactHit = Physics2D.CircleCast(transform.position, rushWallRadius, rushDirection, 2, LayerMask.GetMask("Wall", "DashWall"));
+                        if(Vector2.Angle(-impactHit.normal, rushDirection) < 50)
+                        {
+                            isStuckInWall = true;
+                            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                            isProtected = false;
+                            stuckDirection = impactHit.normal;
+                            if (animator != null)
+                            {
+                                animator.SetBool("IsStuck", true);
+                            }
+                            Instantiate(stuckImpactParticle, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, impactHit.normal)));
+                            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, -stuckDirection));
+                        }
+                    }
                 }
             }
 
@@ -234,11 +247,12 @@ public class Wasp : Enemy
         {
             isProtected = false;
         }
-        isRushing = false;
+
         animator.SetInteger("RushStep", 0);
-        transform.rotation = Quaternion.identity;
+        rb.velocity = Vector2.zero;
         if (isStuckInWall != true)
         {
+            transform.rotation = Quaternion.identity;
             yield return new WaitForSeconds(rushStunTime);
             inControl = true;
         }
@@ -247,9 +261,16 @@ public class Wasp : Enemy
             yield return new WaitForSeconds(wallStunTime);
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            transform.rotation = Quaternion.identity;
             inControl = true;
             isStuckInWall = false;
+            if (animator != null)
+            {
+                animator.SetBool("IsStuck", false);
+            }
         }
+        isRushing = false;
+        shouldNotFlipSprite = false;
     }
 
     private void UpdateVisuals()
@@ -258,7 +279,7 @@ public class Wasp : Enemy
         {
             sprite.flipX = true;
         }
-        if (!isFacingRight && sprite.flipX)
+        if ((!isFacingRight || shouldNotFlipSprite) && sprite.flipX)
         {
             sprite.flipX = false;
         }

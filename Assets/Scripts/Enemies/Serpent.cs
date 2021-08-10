@@ -26,8 +26,10 @@ public class Serpent : Enemy
     [Header("Display settings")]
     public List<Rigidbody2D> bodiesRb;
     public SpriteRenderer headSprite;
-    public float maxDistanceBetweenBodyParts;
     public float bounceCircleRadiusTest;
+    public float angleCorrection;
+    public float headHeightCorrection;
+    public int trailSubdivision;
 
     private bool isTooFarFromPlayer;
     private float currentSpeed;
@@ -38,6 +40,7 @@ public class Serpent : Enemy
     private bool wallAhead;
     private List<Vector2> movementTrailPos;
     private List<int> currentBodyTrailPosIndex;
+    private float[] maxDistanceBetweenBodyParts;
 
     private ContactFilter2D playerFilter;
     private bool isSpikesActive;
@@ -46,6 +49,8 @@ public class Serpent : Enemy
     private bool headingToFirstPoint;
     private bool isFacingLeft;
     private List<SpriteRenderer> bodiesSprite;
+    private List<Animator> bodiesAnimator;
+    private Vector2 previousHeadPos;
     [HideInInspector] public bool isInNoGravityZone;
 
     private new void Start()
@@ -59,14 +64,30 @@ public class Serpent : Enemy
         isSpikesActive = true;
         headingToFirstPoint = true;
         bodiesSprite = new List<SpriteRenderer>();
+        bodiesAnimator = new List<Animator>();
         currentBodyTrailPosIndex = new List<int>();
         for (int i = 0; i < bodiesRb.Count; i++)
         {
             bodiesSprite.Add(bodiesRb[i].GetComponentInChildren<SpriteRenderer>());
+            bodiesAnimator.Add(bodiesRb[i].GetComponentInChildren<Animator>());
             currentBodyTrailPosIndex.Add(0);
         }
         movementTrailPos = new List<Vector2>();
         movementTrailPos.Add(transform.position);
+
+        maxDistanceBetweenBodyParts = new float[bodiesRb.Count];
+        for (int i = 0; i < bodiesRb.Count; i++)
+        {
+            if (i != 0)
+            {
+                maxDistanceBetweenBodyParts[i] = Vector2.Distance(bodiesRb[i - 1].transform.position, bodiesRb[i].transform.position);
+            }
+            else
+            {
+                maxDistanceBetweenBodyParts[i] = Vector2.Distance(transform.position, bodiesRb[i].transform.position);
+            }
+        }
+        previousHeadPos = transform.position;
     }
 
     private new void Update()
@@ -138,12 +159,22 @@ public class Serpent : Enemy
             }
         }
 
-        rb.velocity = currentDirection * currentSpeed;
-        movementTrailPos.Add(transform.position);
-        for (int i = 0; i < currentBodyTrailPosIndex.Count; i++)
+        if(!isDying)
         {
-            //currentBodyTrailPosIndex[i]++;
+            rb.velocity = currentDirection * currentSpeed;
         }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            movementTrailPos.Add(Vector2.Lerp(previousHeadPos, transform.position, (float)(i + 1)/10));
+        }
+
+        previousHeadPos = transform.position;
+
         transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
         isFacingLeft = currentDirection.x < 0;
 
@@ -213,6 +244,7 @@ public class Serpent : Enemy
             if(inactiveSpikeTimeElapsed >= spikesReactivationTime)
             {
                 isSpikesActive = true;
+                bodiesAnimator[bodiesAnimator.Count - 1].SetBool("IsTailBroken", false);
             }
             inactiveSpikeTimeElapsed += Time.fixedDeltaTime;
             spikeDisplay.SetActive(false);
@@ -224,19 +256,23 @@ public class Serpent : Enemy
     {
         isSpikesActive = false;
         inactiveSpikeTimeElapsed = 0;
+        bodiesAnimator[bodiesAnimator.Count - 1].SetBool("IsTailBroken", true);
         //ajouter anim et effet
     }
 
+    Vector2 newBodyPartPos = Vector2.zero;
+    Vector2 newBodyPartDirectionFromPrevious;
     private void UpdateBodyPos()
     {
         for (int i = 0; i < bodiesRb.Count; i++)
         {
-            while (Vector2.Distance(movementTrailPos[currentBodyTrailPosIndex[i]], i == 0 ? (Vector2)transform.position : movementTrailPos[currentBodyTrailPosIndex[i - 1]]) > maxDistanceBetweenBodyParts)
+            while (Vector2.Distance(movementTrailPos[currentBodyTrailPosIndex[i]], i == 0 ? (Vector2)transform.position : movementTrailPos[currentBodyTrailPosIndex[i - 1]]) > maxDistanceBetweenBodyParts[i])
             {
                 currentBodyTrailPosIndex[i]++;
             }
             bodiesRb[i].transform.position = movementTrailPos[currentBodyTrailPosIndex[i]];
-            Vector2 direction = movementTrailPos[currentBodyTrailPosIndex[i]] - bodiesRb[i].position;
+
+            Vector2 direction = movementTrailPos[currentBodyTrailPosIndex[i]] - (Vector2)bodiesRb[i].position;
             bodiesRb[i].velocity = direction;
 
             while(i == (bodiesRb.Count - 1) && currentBodyTrailPosIndex[i] > 0)
@@ -248,16 +284,25 @@ public class Serpent : Enemy
                 }
             }
         }
-
+        
         for (int i = 0; i < movementTrailPos.Count; i++)
         {
-            Debug.DrawRay(movementTrailPos[i], Vector3.up * 0.1f, Color.blue);
+            //Debug.DrawRay(movementTrailPos[i], Vector3.up * 0.1f, Color.blue);
         }
     }
 
     public override void DamageEffect()
     {
         maxSpeed = 0;
+    }
+
+    protected override void OnDie()
+    {
+        base.OnDie();
+        for (int i = 0; i < bodiesAnimator.Count; i++)
+        {
+            bodiesAnimator[i].SetBool("Dead", true);
+        }
     }
 
     private void OnDestroy()
@@ -270,10 +315,14 @@ public class Serpent : Enemy
         if (isFacingLeft && !headSprite.flipY)
         {
             headSprite.flipY = true;
+            headSprite.transform.localRotation = Quaternion.Euler(0, 0, -angleCorrection);
+            headSprite.transform.localPosition = new Vector3(0, -headHeightCorrection, 0);
         }
         if (!isFacingLeft && headSprite.flipY)
         {
             headSprite.flipY = false;
+            headSprite.transform.localRotation = Quaternion.Euler(0, 0, angleCorrection);
+            headSprite.transform.localPosition = new Vector3(0, headHeightCorrection, 0);
         }
 
         for (int i = 0; i < bodiesRb.Count; i++)
@@ -283,10 +332,12 @@ public class Serpent : Enemy
             if (bodiesRb[i].velocity.x < 0 && !bodiesSprite[i].flipY)
             {
                 bodiesSprite[i].flipY = true;
+                bodiesSprite[i].transform.localRotation = Quaternion.Euler(0, 0, -angleCorrection);
             }
             if (bodiesRb[i].velocity.x > 0 && bodiesSprite[i].flipY)
             {
                 bodiesSprite[i].flipY = false;
+                bodiesSprite[i].transform.localRotation = Quaternion.Euler(0, 0, angleCorrection);
             }
         }
     }
