@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
   movementZoneRadius: 4
+  provocationRange: 20
   hurtAnimClip: {fileID: 7400000, guid: 2b46b9f3d4c37b24f934735f70e42788, type: 2}
   deathAnimClip: {fileID: 7400000, guid: 6a458a1d1551e464583f4d1817f7652f, type: 2}
   nextWaypointDistance: 2
@@ -64,22 +65,22 @@ MonoBehaviour:
   avoidDistanceInfluence: 1
   recentlyHit: 0
   isProtected: 0
+  provoked: 0
   inControl: 0
   isDying: 0
   currentSheepShield: {fileID: 0}
   maxSpeed: 8
   accelerationForce: 25
-  safeDistance: 8
-  safeDistanceWidth: 3
-  provocationRange: 20
+  safeDistance: 7
+  safeDistanceWidth: 10
   beamDamage: 2
   beamKnockback: 3
-  aimTime: 0
-  chargeTime: 1
+  aimTime: 0.2
+  chargeTime: 0.7
   beamTime: 2
   beamMaxRotationSpeed: 0.8
   beamRotationAcceleration: 5
-  beamCoolDown: 5
+  beamCoolDown: 2
   maxBeamRange: 20
   beamStartAngleOffset: 0
   beamNoMovementTime: 0.1
