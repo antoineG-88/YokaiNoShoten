@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Header("Save settings")]
-    public string progressionDataSaveFileNamePrefixe;
-    public string saveFileExtension;
+    public string progressionDataSaveFileName;
+    public string zoneDataSaveFileNamePrefixe;
+    public string zoneSaveFileExtension;
+    public string progressionSaveFileExtension;
     public string defaultSaveDirectoryName;
     public string defaultGameDirectoryName;
 
@@ -83,27 +85,32 @@ public class GameManager : MonoBehaviour
     public static void SaveProgression(CheckPoint checkPoint)
     {
         LevelManager.lastCheckPoint = checkPoint;
-        SaveSystem.SaveProgression();
+        SaveSystem.SaveProgression(currentZoneName);
     }
 
     public static void LoadProgression()
     {
-        ProgressionData progressionData = SaveSystem.LoadProgression();
-        if(progressionData != null)
+        ZoneData zoneData = SaveSystem.LoadZone(currentZoneName);
+        if(zoneData != null)
         {
             for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
             {
-                LevelManager.allZoneSwitchs[i].isOn = progressionData.switchStates[i];
+                LevelManager.allZoneSwitchs[i].isOn = zoneData.switchStates[i];
             }
 
             for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
             {
-                if (LevelManager.allZoneCheckPoints[i].checkPointNumber == progressionData.lastCheckPointIndex)
+                if (LevelManager.allZoneCheckPoints[i].checkPointNumber == zoneData.lastCheckPointIndex)
                 {
                     GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
                     Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
                 }
             }
+        }
+
+        ProgressionData progressionData = SaveSystem.LoadProgression();
+        if(progressionData != null)
+        {
             currentStoryStep = progressionData.currentStoryStep;
         }
     }
@@ -122,10 +129,12 @@ public class GameManager : MonoBehaviour
 
     private void SetSavePath()
     {
-        SaveSystem.progressionDataSaveFileNamePrefixe = progressionDataSaveFileNamePrefixe;
-        SaveSystem.saveFileExtension = saveFileExtension;
+        SaveSystem.progressionDataSaveFileName = progressionDataSaveFileName;
+        SaveSystem.zoneSaveFileExtension = zoneSaveFileExtension;
+        SaveSystem.progressionSaveFileExtension = progressionSaveFileExtension;
         SaveSystem.defaultGameDirectoryName = defaultGameDirectoryName;
         SaveSystem.defaultSaveDirectoryName = defaultSaveDirectoryName;
+        SaveSystem.zoneDataFileNamePrefixe = zoneDataSaveFileNamePrefixe;
         SaveSystem.SetSavePath(string.Empty);
     }
 }

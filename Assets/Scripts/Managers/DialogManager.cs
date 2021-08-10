@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class DialogManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class DialogManager : MonoBehaviour
     private float charProgression;
     private bool isWaitingNext;
     private bool seikiReacting;
+    private EndDialCallback endDialCallback;
 
     private void Start()
     {
@@ -43,18 +45,24 @@ public class DialogManager : MonoBehaviour
         dialogPanel.SetActive(false);
     }
 
-    public void StartDialogue(Dialog newDialog)
+    public delegate void EndDialCallback();
+
+    public void StartDialogue(Dialog newDialog, EndDialCallback endDial)
     {
-        currentDialog = newDialog;
-        currentDialogSentenceIndex = 0;
-        timeElapsedOnSentence = 0;
-        isInDialogue = true;
-        sentenceProgression = string.Empty;
-        charProgression = 0;
-        speakPauseTimeRemaining = 0;
-        dialogPanel.SetActive(true);
-        seikiFaceImage.sprite = neutralFace;
-        nameText.text = string.Empty;
+        if(!isInDialogue)
+        {
+            currentDialog = newDialog;
+            currentDialogSentenceIndex = 0;
+            timeElapsedOnSentence = 0;
+            isInDialogue = true;
+            sentenceProgression = string.Empty;
+            charProgression = 0;
+            speakPauseTimeRemaining = 0;
+            dialogPanel.SetActive(true);
+            seikiFaceImage.sprite = neutralFace;
+            nameText.text = string.Empty;
+            endDialCallback = endDial;
+        }
     }
 
     public void CloseDialogue()
@@ -63,16 +71,12 @@ public class DialogManager : MonoBehaviour
         isInDialogue = false;
         dialogText.text = string.Empty;
         dialogPanel.SetActive(false);
-
+        endDialCallback();
+        endDialCallback = null;
     }
 
     public void Update()
     {
-        /*if (Input.GetButtonDown("XButton"))
-        {
-            StartDialogue(testDialog);
-        }*/
-
         if (isInDialogue)
         {
             if(isWaitingNext)

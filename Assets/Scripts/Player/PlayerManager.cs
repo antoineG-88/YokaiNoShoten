@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public bool invulnerable;
     [HideInInspector] public int isGrabbingTorch;
     [HideInInspector] public bool isInGodMode;
+    [HideInInspector] public bool isBeingKnocked;
 
     private float invulnerableTimeRemaining;
     private int basePlayerLayer;
@@ -84,6 +85,7 @@ public class PlayerManager : MonoBehaviour
             GameData.dashHandler.canDash = true;
             GameData.pierceHandler.StopPierce();
             StartCoroutine(NoControl(stunTime));
+            StartCoroutine(KnockawayTime(stunTime));
         }
     }
 
@@ -119,6 +121,13 @@ public class PlayerManager : MonoBehaviour
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    public IEnumerator KnockawayTime(float time)
+    {
+        isBeingKnocked = true;
+        yield return new WaitForSeconds(time);
+        isBeingKnocked = false;
     }
 
     private bool IsPlayerInWall()
