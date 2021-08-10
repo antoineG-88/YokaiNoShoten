@@ -182,7 +182,7 @@ public class Wasp : Enemy
         for (int i = 0; i < numberOfPrevisFx; i++)
         {
             GameObject previsClone = Instantiate(previsFX, (Vector2)transform.position + rushDirection * i * (rushLength / numberOfPrevisFx), Quaternion.identity);
-            previsClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, -rushDirection));
+            previsClone.transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(Vector2.right, -rushDirection) -45 : Vector2.SignedAngle(Vector2.right, -rushDirection) + 45);
             previsClone.transform.localScale = new Vector3(1, rushDirection.x < 0 ? 1 : -1, 1);
         }
 
