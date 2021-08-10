@@ -83,22 +83,29 @@ public class Mante : Enemy
         isFleeing = distToPlayer < maxDistanceToFlee;
         destinationReached = Vector2.Distance(transform.position, targetPathfindingPosition) < stopDistance;
 
-        if(inControl)
+        if(provoked)
         {
-            if (isFleeing)
+            if (inControl)
             {
-                if (Vector2.Distance((Vector2)transform.position - playerDirection, initialPos) < movementZoneRadius)
+                if (isFleeing)
                 {
-                    targetPathfindingPosition = (Vector2)transform.position - playerDirection;
+                    if (Vector2.Distance((Vector2)transform.position - playerDirection, initialPos) < movementZoneRadius)
+                    {
+                        targetPathfindingPosition = (Vector2)transform.position - playerDirection;
+                    }
                 }
-            }
-            else
-            {
-                targetPathfindingPosition = transform.position;
-            }
+                else
+                {
+                    targetPathfindingPosition = transform.position;
+                }
 
 
-            CheckRetreat();
+                CheckRetreat();
+            }
+        }
+        else
+        {
+            targetPathfindingPosition = initialPos;
         }
     }
 

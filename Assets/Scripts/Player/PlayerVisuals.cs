@@ -96,7 +96,7 @@ public class PlayerVisuals : MonoBehaviour
             FlipTransform(facingRight);
         }
 
-        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing || wasPiercing;
+        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing || wasPiercing || GameData.playerManager.isBeingKnocked;
         if (useCustomRotation)
         {
             if (GameData.grappleHandler.isTracting)
@@ -112,17 +112,15 @@ public class PlayerVisuals : MonoBehaviour
             {
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(dashDirection.x <= 0 ? Vector2.left : Vector2.right, dashDirection));
             }
+            else if(GameData.playerManager.isBeingKnocked)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, GameData.movementHandler.rb.velocity));
+            }
         }
         else
         {
             transform.localRotation = Quaternion.identity;
         }
-
-        {
-
-        }
-
-
 
         UpdateAnimator();
     }
