@@ -51,6 +51,7 @@ public class GrappleHandler : MonoBehaviour
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
     private Vector2 shootDirection;
+    private List<GameObject> allPossibleRings;
     [HideInInspector] public bool isHooked;
     [HideInInspector] public GameObject attachedObject;
     [HideInInspector] public Vector2 tractionDirection;
@@ -81,6 +82,7 @@ public class GrappleHandler : MonoBehaviour
         aimAssistFirstAngle = -aimAssistAngle / 2;
         tractTriggerDown = false;
         tractTriggerPressed = false;
+        allPossibleRings = new List<GameObject>();
     }
 
     private void Update()
@@ -134,6 +136,7 @@ public class GrappleHandler : MonoBehaviour
 
                 RaycastHit2D hit;
                 float minAngleFound = aimAssistAngle;
+                allPossibleRings.Clear();
                 for (int i = 0; i < aimAssistRaycastNumber; i++)
                 {
                     float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
@@ -151,14 +154,29 @@ public class GrappleHandler : MonoBehaviour
                     hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy"));
                     if (hit)
                     {
-                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 1.0f))
+                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 1.0f))
                         {
-                            selectedObject = hit.collider.gameObject;
-                            minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                            allPossibleRings.Add(hit.collider.gameObject);
+
+                            if(Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                            {
+                                selectedObject = hit.collider.gameObject;
+                                minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                            }
                         }
                     }
                 }
 
+                GameObject closeObject = selectedObject;
+                for (int i = 0; i < allPossibleRings.Count; i++)
+                {
+                    if(Vector2.Distance(transform.position, closeObject.transform.position) > Vector2.Distance(transform.position, allPossibleRings[i].transform.position) &&
+                        Vector2.Angle(selectedObject.transform.position - transform.position, allPossibleRings[i].transform.position - transform.position) < angleToTakeClosest)
+                    {
+                        closeObject = allPossibleRings[i];
+                    }
+                }
+                selectedObject = closeObject;
 
                 Vector3[] ropePoints = new Vector3[2];
 

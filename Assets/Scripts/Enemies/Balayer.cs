@@ -101,7 +101,7 @@ public class Balayer : Enemy
     {
         base.UpdateBehavior();
         playerInSight = IsPlayerInSightFrom(transform.position);
-        shootDestinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (/*Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius &&*/ Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)) && playerInSight;
+        shootDestinationReached = distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth && Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius && playerInSight;
         if (provoked)
         {
             potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
@@ -112,6 +112,7 @@ public class Balayer : Enemy
             }
             else
             {
+                targetPathfindingPosition = initialPos;
                 canBeInSight = true;
             }
 
@@ -155,7 +156,7 @@ public class Balayer : Enemy
         }
 
 
-        if (beamCoolDownElapsed < beamCoolDown)
+        if (beamCoolDownElapsed < beamCoolDown && !isShooting)
         {
             beamCoolDownElapsed += Time.deltaTime;
         }
@@ -182,6 +183,18 @@ public class Balayer : Enemy
         RaycastHit2D previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
         linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
         beamWarningLine.SetPositions(linePos);
+        float chargeTimer = 0;
+        while(chargeTimer < chargeTime)
+        {
+            linePos = new Vector3[2];
+            linePos[0] = transform.position;
+            previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
+            linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
+            beamWarningLine.SetPositions(linePos);
+            chargeTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
         yield return new WaitForSeconds(chargeTime);
         beamWarningLine.enabled = false;
         bool rotPositive = Vector2.SignedAngle(Vector2.right, playerDirection) - shootAngle > 0;
