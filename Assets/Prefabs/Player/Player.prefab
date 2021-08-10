@@ -1089,7 +1089,7 @@ MonoBehaviour:
   facingRight: 0
   animator: {fileID: 0}
   dashParticle: {fileID: 4208649470404408853}
-  pierceParticle: {fileID: 0}
+  pierceParticle: {fileID: 6215873716540111163}
 --- !u!1 &3737249136681705722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1425,7 @@ PrefabInstance:
     - target: {fileID: 7263424112995997120, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: m_Name
-      value: pierceAttackParticleSystem 1
+      value: pierceAttackParticleSystem
       objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997121, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
@@ -1482,11 +1482,52 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: ShapeModule.arc.mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}
 --- !u!4 &6215873716540111161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7263424112995997121, guid: e9e334d4664b4ae4ab437291ab618a3a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3643383000528153848}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6215873716540111163 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
     type: 3}
   m_PrefabInstance: {fileID: 3643383000528153848}
   m_PrefabAsset: {fileID: 0}
