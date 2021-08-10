@@ -5,8 +5,10 @@ using System;
 
 public static class SaveSystem
 {
-    public static string progressionDataSaveFileNamePrefixe;
-    public static string saveFileExtension;
+    public static string zoneDataFileNamePrefixe;
+    public static string progressionDataSaveFileName;
+    public static string zoneSaveFileExtension;
+    public static string progressionSaveFileExtension;
     public static string defaultSaveDirectoryName;
     public static string defaultGameDirectoryName;
 
@@ -42,16 +44,34 @@ public static class SaveSystem
         }
     }
 
-    public static void SaveProgression()
+    public static void SaveProgression(string zoneName)
     {
         if (savePath != "" && savePath != null)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            string path = savePath + progressionDataSaveFileNamePrefixe + GameManager.currentZoneName + saveFileExtension;
+            string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
 
             FileStream stream = new FileStream(path, FileMode.Create);
 
-            ProgressionData progressionData = new ProgressionData();
+            ZoneData zoneData = new ZoneData();
+            formatter.Serialize(stream, zoneData);
+            stream.Close();
+
+            //Debug.Log("Player saved in " + path);
+        }
+        else
+        {
+            Debug.LogError("The savePath has not been set");
+        }
+
+        if (savePath != "" && savePath != null)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
+
+            FileStream stream = new FileStream(path, FileMode.Create);
+
+            ProgressionData progressionData = new ProgressionData(GameManager.currentStoryStep);
             formatter.Serialize(stream, progressionData);
             stream.Close();
 
@@ -63,9 +83,33 @@ public static class SaveSystem
         }
     }
 
+    public static ZoneData LoadZone(string zoneName)
+    {
+        string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            ZoneData zoneData = formatter.Deserialize(stream) as ZoneData;
+            stream.Close();
+
+            //Debug.Log("PLayer loaded from " + path);
+
+            return zoneData;
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found in " + path);
+            return null;
+        }
+    }
+
     public static ProgressionData LoadProgression()
     {
-        string path = savePath + progressionDataSaveFileNamePrefixe + GameManager.currentZoneName + saveFileExtension;
+        string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
 
         if (File.Exists(path))
         {
@@ -89,7 +133,7 @@ public static class SaveSystem
 
     public static void DeleteSaveFile(string zoneName)
     {
-        string path = savePath + progressionDataSaveFileNamePrefixe + zoneName + saveFileExtension;
+        string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
         Debug.Log("deleted at : " + path);
         File.Delete(path);
     }
