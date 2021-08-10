@@ -71,7 +71,7 @@ public static class SaveSystem
 
             FileStream stream = new FileStream(path, FileMode.Create);
 
-            ProgressionData progressionData = new ProgressionData();
+            ProgressionData progressionData = new ProgressionData(GameManager.currentStoryStep);
             formatter.Serialize(stream, progressionData);
             stream.Close();
 

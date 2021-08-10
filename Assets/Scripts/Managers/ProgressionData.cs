@@ -6,4 +6,9 @@ using UnityEngine;
 public class ProgressionData
 {
     public int currentStoryStep;
+
+    public ProgressionData(int storyStep)
+    {
+        currentStoryStep = storyStep;
+    }
 }
