@@ -10,7 +10,6 @@ public class Balayer : Enemy
     public float safeDistance;
     public float safeDistanceWidth;
     [Header("Beam settings")]
-    public float provocationRange;
     public int beamDamage;
     public float beamKnockback;
     public float aimTime;
@@ -103,7 +102,6 @@ public class Balayer : Enemy
         base.UpdateBehavior();
         playerInSight = IsPlayerInSightFrom(transform.position);
         shootDestinationReached = ((distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth) || (/*Vector2.Distance(GetPathNextPosition(0), initialPos) > movementZoneRadius &&*/ Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius)) && playerInSight;
-        provoked = distToPlayer < provocationRange;
         if (provoked)
         {
             potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);

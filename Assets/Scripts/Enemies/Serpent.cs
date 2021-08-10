@@ -11,7 +11,6 @@ public class Serpent : Enemy
     public float accelerationForce;
     public float wallDetectionDistance;
     public float slowSpeed;
-    public float provocationRange;
     public float rangeGoalToPlayer;
     public float steeringRatio;
     public float minAngleDiffToTurn;
@@ -155,7 +154,7 @@ public class Serpent : Enemy
     {
         base.UpdateBehavior();
         isTooFarFromPlayer = distToPlayer > rangeGoalToPlayer;
-        provoked = Vector2.Distance(initialPos, GameData.player.transform.position) < provocationRange;
+        //provoked = Vector2.Distance(initialPos, GameData.player.transform.position) < provocationRange;
 
         if (provoked)
         {

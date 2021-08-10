@@ -92,6 +92,7 @@ public class Laser : MonoBehaviour
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
 
+            /*
             enemyHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall", "NoInteraction"));
             if (enemyHit && enemyHit.collider.CompareTag("Enemy"))
             {
@@ -111,7 +112,7 @@ public class Laser : MonoBehaviour
                     StartCoroutine(hitEnemy.NoControl(0.3f));
                     hitEnemy.currentSheepShield.Disabling();
                 }
-            }
+            }*/
 
 
             beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;

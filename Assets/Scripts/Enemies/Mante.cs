@@ -12,7 +12,6 @@ public class Mante : Enemy
     public GameObject secondPortal;
     public float accelerationForce;
     public float stopDistance;
-    public float provocationRange;
     public float playerDistanceToSabotagePortal;
     public float portalSabotageTime;
     public float sabotageStunTime;
@@ -83,7 +82,6 @@ public class Mante : Enemy
         base.UpdateBehavior();
         isFleeing = distToPlayer < maxDistanceToFlee;
         destinationReached = Vector2.Distance(transform.position, targetPathfindingPosition) < stopDistance;
-        provoked = Vector2.Distance(GameData.player.transform.position, initialPos) < provocationRange;
 
         if(inControl)
         {
