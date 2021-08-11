@@ -611,7 +611,7 @@ MonoBehaviour:
   shootCooldown: 0.2
   releasingHookDist: 0.5
   minAttachDistance: 2
-  keepAim: 0
+  keepAim: 1
   tractionForce: 60
   slowingForce: 50
   maxTractionSpeed: 15
@@ -625,7 +625,7 @@ MonoBehaviour:
   aimAssistAngle: 40
   aimAssistRaycastNumber: 30
   angleToTakeClosest: 30
-  alwaysDisplayAim: 0
+  alwaysDisplayAim: 1
   aimWithLeftJoystick: 0
   tractWithLeftTrigger: 0
   aimArrow: {fileID: 3737249135026604181}
@@ -633,6 +633,7 @@ MonoBehaviour:
   ringHighLighterO: {fileID: 3737249135314207288}
   grapplingStartPointO: {fileID: 3737249135026604181}
   displayAutoAimRaycast: 1
+  ropeAppearSpeed: 6
   rb: {fileID: 0}
   aimDirection: {x: 0, y: 0}
   isAiming: 0
@@ -692,7 +693,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  pierceAttackKnockbackForce: 3
+  pierceAttackKnockbackForce: 0
   maxPhasingTime: 2
   pierceKnockbackForce: 10
   enemyMask:

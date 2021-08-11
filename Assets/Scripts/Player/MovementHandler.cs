@@ -90,6 +90,10 @@ public class MovementHandler : MonoBehaviour
                 horizontalTargetSpeed = 0;
             }
         }
+        else
+        {
+            horizontalTargetSpeed = 0;
+        }
     }
 
     private void UpdateMovement()

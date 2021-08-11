@@ -8,11 +8,11 @@ public class ScreenFade : EventPart
     public float fadeTime;
     public float minSceenTime;
     [Header("Optionnal")]
-    //public CameraConstraintZone cameraConstraintToApplyUntilUnfade;
     public AudioClip soundToPlayDuringBlackScreen;
     public List<GameObject> objectToDisable;
     public List<GameObject> objectToEnable;
-
+    public Vector2 seikiNewPos;
+    public CameraConstraintZone cameraChangeDuringScreen;
 
     private float fadeTimeElapsed;
     private float screenTimeElasped;
@@ -37,6 +37,18 @@ public class ScreenFade : EventPart
                     for (int i = 0; i < objectToEnable.Count; i++)
                     {
                         objectToEnable[i].SetActive(true);
+                    }
+
+                    if(seikiNewPos != Vector2.zero)
+                    {
+                        GameData.player.transform.position = seikiNewPos;
+                    }
+
+                    if(cameraChangeDuringScreen != null)
+                    {
+                        eventTrigger.previousCamera = cameraConstraintDuringEventPart;
+                        cameraConstraintDuringEventPart = cameraChangeDuringScreen;
+                        eventTrigger.SetNewCameraConstraint();
                     }
 
                     if (soundToPlayDuringBlackScreen != null)

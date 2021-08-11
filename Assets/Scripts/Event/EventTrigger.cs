@@ -24,7 +24,7 @@ public class EventTrigger : Switch
 
     private void Update()
     {
-        if(isInEvent)
+        if (isInEvent)
         {
             if(currentEventPartIndex < eventParts.Count)
             {

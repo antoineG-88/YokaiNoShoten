@@ -57,5 +57,20 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene(decoSceneIndex, LoadSceneMode.Additive);
         }
     }
+
+    public static void ActivateSingleCheckPoint(CheckPoint singleCheckpoint)
+    {
+        for (int i = 0; i < allZoneCheckPoints.Count; i++)
+        {
+            if(allZoneCheckPoints[i] != singleCheckpoint)
+            {
+                allZoneCheckPoints[i].isActivated = false;
+            }
+            else
+            {
+                allZoneCheckPoints[i].isActivated = true;
+            }
+        }
+    }
 }
 

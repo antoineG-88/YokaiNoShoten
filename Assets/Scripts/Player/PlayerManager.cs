@@ -75,6 +75,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode)
         {
+            invulnerable = true;
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentHealthPoint -= damage;
             if (currentHealthPoint <= 0)

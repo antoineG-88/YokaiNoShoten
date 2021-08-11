@@ -325,10 +325,10 @@ public class PierceHandler : MonoBehaviour
                     
                 }
             }
-            Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
-            /*GameObject pierceShadowClone = Instantiate(pierceShadowFx, transform.position, Quaternion.identity);
-            pierceShadowFx.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
-            pierceShadowFx.transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);*/
+            //Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
+            GameObject pierceShadowClone = Instantiate(pierceShadowFx, transform.position, Quaternion.identity);
+            pierceShadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
+            pierceShadowClone.transform.localScale = new Vector3(1, piercableDirection.x > 0 ? 1 : -1, 1);
 
             currentPiercePos = Vector2.LerpUnclamped(startPiercePos, pierceEndPos, pierceMovementCurve.Evaluate(pierceTimeElapsed / pierceMoveTime));
             currentPierceSpeed = (currentPiercePos - previousPiercePos).magnitude;
