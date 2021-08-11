@@ -19,12 +19,10 @@ public class PlayerVisuals : MonoBehaviour
     private float pierceTimeElapsed;
     private Vector2 dashDirection;
     public ParticleSystem dashParticle;
+    public ParticleSystem pierceParticle;
+    float shapeAngle;
+    float pierceShapeAngle;
 
-    //System particle dash
-    //SerializedObject dashParticle;
-    float psConeAngle;
-    
-    
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -34,10 +32,12 @@ public class PlayerVisuals : MonoBehaviour
         //System particle dash
         //dashParticle = new SerializedObject(GetComponent<ParticleSystem>());
 
-        ParticleSystem.ShapeModule shape = dashParticle.shape;
-        shape.rotation = new Vector3(psConeAngle, -90, 90);
-        dashParticle.Stop();
-        
+        ParticleSystem.ShapeModule shapeD = dashParticle.shape;
+        shapeD.rotation = new Vector3(shapeAngle, -90, 90);
+
+        ParticleSystem.ShapeModule shapeP = pierceParticle.shape;
+        shapeP.rotation = new Vector3(0, 0, pierceShapeAngle);
+
     }
 
     void Update()
@@ -161,9 +161,14 @@ public class PlayerVisuals : MonoBehaviour
         dashDirection = lastDashDirection;
 
         //System particle dash
-        psConeAngle = Vector2.SignedAngle(Vector2.right, dashDirection);
-        ParticleSystem.ShapeModule shape = dashParticle.shape;
-        shape.rotation = new Vector3(psConeAngle, -90, 90);
+        shapeAngle = Vector2.SignedAngle(Vector2.right, dashDirection);
+        ParticleSystem.ShapeModule shapeD = dashParticle.shape;
+        shapeD.rotation = new Vector3(shapeAngle, -90, 90);
+
+        //System particle pierce
+        pierceShapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
+        ParticleSystem.ShapeModule shapeP = pierceParticle.shape;
+        shapeP.rotation = new Vector3(0, 0, pierceShapeAngle-90);
 
         yield return new WaitForSeconds(dashAttackClip.length);
         isDashRotated = false;
