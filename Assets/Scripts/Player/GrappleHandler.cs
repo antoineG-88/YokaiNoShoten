@@ -28,12 +28,13 @@ public class GrappleHandler : MonoBehaviour
     public float aimAssistAngle;
     public float aimAssistRaycastNumber;
     public float angleToTakeClosest;
+    public bool alwaysDisplayAim;
     [Header("Key bindings settings")]
     public bool aimWithLeftJoystick;
     public bool tractWithLeftTrigger;
     [Space]
     [Header("References")]
-    public GameObject armShoulderO;
+    public GameObject aimArrow;
     public Transform shootPoint;
     public GameObject ringHighLighterO;
     public GameObject grapplingStartPointO;
@@ -76,7 +77,8 @@ public class GrappleHandler : MonoBehaviour
         isTracting = false;
         canUseTraction = true;
         canShoot = true;
-        armShoulderO.SetActive(false);
+        if (!alwaysDisplayAim)
+            aimArrow.SetActive(false);
         timeBeforeNextShoot = 0;
         aimAssistSubAngle = aimAssistAngle / (aimAssistRaycastNumber - 1);
         aimAssistFirstAngle = -aimAssistAngle / 2;
@@ -111,14 +113,14 @@ public class GrappleHandler : MonoBehaviour
             if (!isAiming && aimStickMag.magnitude > 0.1f && !isTracting)
             {
                 isAiming = true;
-                armShoulderO.SetActive(true);
+                aimArrow.SetActive(true);
             }
             else if (isAiming && aimStickMag.magnitude <= 0.1f)
             {
                 isAiming = false;
-                if (!keepAim)
+                if (!keepAim && !alwaysDisplayAim)
                 {
-                    armShoulderO.SetActive(false);
+                    aimArrow.SetActive(false);
                 }
             }
 
@@ -128,7 +130,7 @@ public class GrappleHandler : MonoBehaviour
                 {
                     aimDirection = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
                     aimDirection.Normalize();
-                    armShoulderO.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
+                    aimArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
                 }
 
 
@@ -253,7 +255,8 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             ringHighLighterO.SetActive(false);
-            armShoulderO.SetActive(false);
+            if(!alwaysDisplayAim)
+                aimArrow.SetActive(false);
             isAiming = false;
         }
     }
@@ -280,7 +283,8 @@ public class GrappleHandler : MonoBehaviour
             if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
                 GameData.movementHandler.canMove = false;
-                armShoulderO.SetActive(false);
+                if (!alwaysDisplayAim)
+                    aimArrow.SetActive(false);
                 isAiming = false;
 
                 if (!isTracting)

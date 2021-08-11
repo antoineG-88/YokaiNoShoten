@@ -7,7 +7,9 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Health settings")]
     public int maxHealthPoint;
-    public List<GameObject> healthPointsDisplay;
+    //public List<GameObject> healthPointsDisplay;
+    public List<Sprite> healthPointSprites;
+    public SpriteRenderer healthPointsDisplay;
     public float stunTime;
     public float damageInvulnerableTime;
     [Tooltip("Press start in game to activate")]
@@ -97,6 +99,13 @@ public class PlayerManager : MonoBehaviour
 
     private void RefreshHealthPointDisplay()
     {
+        if(currentHealthPoint > 0)
+        {
+            healthPointsDisplay.sprite = healthPointSprites[currentHealthPoint - 1];
+        }
+
+
+        /*
         for (int i = 0; i < healthPointsDisplay.Count; i++)
         {
             if(currentHealthPoint > i)
@@ -107,7 +116,7 @@ public class PlayerManager : MonoBehaviour
             {
                 healthPointsDisplay[i].SetActive(false);
             }
-        }
+        }*/
     }
 
     public void Die()

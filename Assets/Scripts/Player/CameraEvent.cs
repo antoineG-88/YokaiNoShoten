@@ -14,7 +14,7 @@ public class CameraEvent : EventPart
     {
         if(eventStarted && !eventEnded)
         {
-            if(timeElasped < focusTime)
+            if(timeElasped < (currentFocusStep == 0 ? focusTime : postFocusTime))
             {
                 timeElasped += Time.deltaTime;
             }
@@ -38,6 +38,7 @@ public class CameraEvent : EventPart
     {
         base.StartEventPart();
         timeElasped = 0;
+        currentFocusStep = 0;
     }
     public override void EndEventPart()
     {
