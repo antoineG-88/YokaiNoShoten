@@ -188,6 +188,9 @@ TextureImporter:
   - first:
       213: -6535258402545073924
     second: ENV_village_tilemap_mur_61
+  - first:
+      213: 7313802843839648264
+    second: ENV_village_tilemap_mur_62
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1562,7 +1565,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1570,6 +1573,27 @@ TextureImporter:
       bones: []
       spriteID: cf00ae0bb191e45a0800000000000000
       internalID: -6535258402545073924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ENV_village_tilemap_mur_62
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 802dd40bfe8df7560800000000000000
+      internalID: 7313802843839648264
       vertices: []
       indices: 
       edges: []
