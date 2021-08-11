@@ -91,7 +91,6 @@ public class DashHandler : MonoBehaviour
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
 
         Vector2 dashStartPos = transform.position;
-
         Vector2 dashEndPos = (Vector2)transform.position + startDashDirection * dashDistance;
         Vector2 dashPos = transform.position;
         Vector2 previousDashPos = transform.position;
