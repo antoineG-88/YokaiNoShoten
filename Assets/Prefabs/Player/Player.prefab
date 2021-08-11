@@ -720,6 +720,7 @@ MonoBehaviour:
   comboPierceAimAssistRaycastNumber: 50
   comboPierceTresholdOffset: -0.2
   comboPierceTimingHelper: {fileID: 2413838916319084873}
+  fxOffset: {x: 0.8, y: 0.5, z: 0}
   piercableDirection: {x: 0, y: 0}
   isPiercing: 0
   isPhasing: 0
@@ -1577,6 +1578,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.7114625
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: SizeBySpeedModule.curve.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: SizeBySpeedModule.y.minScalar
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}
