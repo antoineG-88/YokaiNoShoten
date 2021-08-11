@@ -6,7 +6,7 @@ public class DashHandler : MonoBehaviour
     [Header("Dash settings")]
     public float dashDistance;
     public float dashTime;
-    public AnimationCurve dashCurve;
+    public AnimationCurve dashCurveSetDashRotation;
     public float dashEndVelocityForceAdded;
     public bool useVelocity;
     public GameObject shadowFx;
@@ -23,6 +23,8 @@ public class DashHandler : MonoBehaviour
     private ContactFilter2D enemyFilter;
     private ContactFilter2D attackReactionFilter;
     private Vector2 defaultDashDirection;
+    public AnimationCurve dashCurve;
+    
 
     void Start()
     {
@@ -71,7 +73,7 @@ public class DashHandler : MonoBehaviour
 
         dashDirection.Normalize();
 
-        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useLeftTriggerInput) || !GameData.pierceHandler.useLeftTriggerInput))
+        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useLeftTriggerInput) || !GameData.pierceHandler.useLeftTriggerInput) && GameData.playerManager.inControl)
         {
             StartCoroutine(Dash(dashDirection));
         }
@@ -85,6 +87,7 @@ public class DashHandler : MonoBehaviour
         GameData.pierceHandler.StopPhasingTime();
         //GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
+        GameData.playerVisuals.dashParticle.Play();
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
 
         Vector2 dashStartPos = transform.position;
@@ -100,7 +103,9 @@ public class DashHandler : MonoBehaviour
         while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
         {
             dashTimeElapsed += Time.fixedDeltaTime;
-            Instantiate(shadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(startDashDirection.x > 0 ? 1 : -1, 1, 1);
+            GameObject shadowClone = Instantiate(shadowFx, transform.position, Quaternion.identity);
+            shadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, startDashDirection));
+            shadowClone.transform.localScale = new Vector3(1, dashDirection.x > 0 ? 1 : -1, 1);
             dashPos = Vector2.LerpUnclamped(dashStartPos, dashEndPos, dashCurve.Evaluate(dashTimeElapsed / dashTime));
             currentDashSpeed = (dashPos - previousDashPos).magnitude;
             previousDashPos = dashPos;
@@ -118,6 +123,7 @@ public class DashHandler : MonoBehaviour
         //transform.position = dashEndPos;  Test de raycast à faire si utilisé
 
         rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
+        GameData.playerVisuals.dashParticle.Stop();
 
         GameData.movementHandler.canMove = true;
         //GameData.movementHandler.isAffectedbyGravity = true;

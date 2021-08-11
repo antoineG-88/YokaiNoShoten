@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameData : MonoBehaviour
 {
     public GameObject playerO;
-    public SlowMoManager slowMoManageRef;
+    public LevelManager levelManagerRef;
     public int _noPiercableLayer;
 
     public static PierceHandler pierceHandler;
@@ -20,6 +20,10 @@ public class GameData : MonoBehaviour
     public static PlayerManager playerManager;
     public static Collider2D playerCollider;
     public static GridGraph gridGraph;
+    public static Camera mainCamera;
+    public static CameraHandler cameraHandler;
+    public static LevelManager levelManager;
+    public static DialogManager dialogManager;
     public static int noPiercableLayer;
 
     private void Awake()
@@ -29,11 +33,15 @@ public class GameData : MonoBehaviour
         grappleHandler = player.GetComponent<GrappleHandler>();
         dashHandler = player.GetComponent<DashHandler>();
         playerManager = player.GetComponent<PlayerManager>();
-        slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
         playerCollider = player.GetComponent<Collider2D>();
         pierceHandler = player.GetComponent<PierceHandler>();
         noPiercableLayer = _noPiercableLayer;
+        mainCamera = Camera.main;
+        cameraHandler = mainCamera.GetComponent<CameraHandler>();
+        levelManager = levelManagerRef;
+        dialogManager = levelManager.GetComponent<DialogManager>();
+        slowMoManager = levelManager.GetComponent<SlowMoManager>();
     }
 
     private void Start()

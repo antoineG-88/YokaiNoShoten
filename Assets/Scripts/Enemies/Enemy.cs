@@ -8,6 +8,7 @@ public abstract class Enemy : Piercable
     [Header("General settings")]
     public int maxHealthPoint;
     public float movementZoneRadius;
+    public float provocationRange;
     public AnimationClip hurtAnimClip;
     public AnimationClip deathAnimClip;
     [Header("Pathfinding settings")]
@@ -40,7 +41,7 @@ public abstract class Enemy : Piercable
     [HideInInspector]
     public bool isProtected;
 
-    protected bool provoked;
+    [HideInInspector] public bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool isDying;
@@ -62,6 +63,7 @@ public abstract class Enemy : Piercable
         inControl = true;
         pathPositions = new List<Vector3>();
         isProtected = false;
+        provoked = false;
     }
     protected void Update()
     {
@@ -137,7 +139,7 @@ public abstract class Enemy : Piercable
             {
                 if (closeEnemy.gameObject != gameObject)
                 {
-                    Vector2 directedForce = closeEnemy.transform.position - transform.position;
+                    Vector2 directedForce = transform.position- closeEnemy.transform.position;
                     if (directedForce == Vector2.zero)
                     {
                         directedForce = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
@@ -158,6 +160,7 @@ public abstract class Enemy : Piercable
                         directedForce = directedForce.normalized * maximalAvoidForce;
                     }
 
+                    Propel(directedForce);
                     //closeEnemy.GetComponent<Enemy>().Propel(directedForce * Time.fixedDeltaTime);
                 }
             }
@@ -169,6 +172,15 @@ public abstract class Enemy : Piercable
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
+
+        if(Vector2.Distance(transform.position, initialPos) > movementZoneRadius)
+        {
+            provoked = false;
+        }
+        else if (distToPlayer < provocationRange)
+        {
+            provoked = true;
+        }
     }
 
     public void TakeDamage(int damage, float noControlTime)
@@ -344,8 +356,8 @@ public abstract class Enemy : Piercable
         }
         else
         {
-            Propel(directedForce);
-            StartCoroutine(NoControl(0.3f));
+            //Propel(directedForce);
+            //StartCoroutine(NoControl(0.3f));
         }
         return isProtected;
     }

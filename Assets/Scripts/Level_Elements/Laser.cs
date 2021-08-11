@@ -8,7 +8,7 @@ public class Laser : MonoBehaviour
     public float beamWidth;
     public float beamWallWidth;
     public float knockbackDistance;
-    [Header("Index pair : Actif / Index impair : inactif")]
+    public bool oddIndexActive;
     public List<float> activationsSequence;
 
     public Switch connectedSwitch;
@@ -39,7 +39,16 @@ public class Laser : MonoBehaviour
     void Start()
     {
         isActive = true;
-        isBeamActive = true;
+        if(oddIndexActive)
+        {
+            isBeamActive = false;
+        }
+        else
+        {
+            isBeamActive = true;
+        }
+
+
     }
 
     void Update()
@@ -83,6 +92,7 @@ public class Laser : MonoBehaviour
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
 
+            /*
             enemyHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall", "NoInteraction"));
             if (enemyHit && enemyHit.collider.CompareTag("Enemy"))
             {
@@ -102,7 +112,7 @@ public class Laser : MonoBehaviour
                     StartCoroutine(hitEnemy.NoControl(0.3f));
                     hitEnemy.currentSheepShield.Disabling();
                 }
-            }
+            }*/
 
 
             beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
@@ -171,7 +181,8 @@ public class Laser : MonoBehaviour
                 {
                     currentSequenceIndex = 0;
                 }
-                if(currentSequenceIndex % 2 == 0)
+
+                if(oddIndexActive ? currentSequenceIndex % 2 != 0 : currentSequenceIndex % 2 == 0)
                 {
                     isBeamActive = true;
                 }

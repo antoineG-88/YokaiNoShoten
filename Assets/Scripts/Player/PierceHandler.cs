@@ -171,7 +171,7 @@ public class PierceHandler : MonoBehaviour
     private void UpdatePierceAim() //Affiche la visée du pierce et sélectionne un ennemi visée et attque si appuie dur l'attaque
     {
         Vector2 aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
-        if (aimDirection.magnitude > 0.1f && canPierce)
+        if (aimDirection.magnitude > 0.1f && canPierce && GameData.playerManager.inControl)
         {
             isAimingPierce = true;
         }
@@ -292,7 +292,7 @@ public class PierceHandler : MonoBehaviour
                 isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                 StartCoroutine(piercable.DisablePiercable());
 
-                Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+                Instantiate (pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3 (1,1,1);
                 hasPierced = true;
             }
         }

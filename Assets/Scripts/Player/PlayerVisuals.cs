@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class PlayerVisuals : MonoBehaviour
 {
@@ -17,11 +18,26 @@ public class PlayerVisuals : MonoBehaviour
     private bool wasPiercing;
     private float pierceTimeElapsed;
     private Vector2 dashDirection;
+    public ParticleSystem dashParticle;
+
+    //System particle dash
+    //SerializedObject dashParticle;
+    float psConeAngle;
+    
+    
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         transformFacingRight = true;
+
+        //System particle dash
+        //dashParticle = new SerializedObject(GetComponent<ParticleSystem>());
+
+        ParticleSystem.ShapeModule shape = dashParticle.shape;
+        shape.rotation = new Vector3(psConeAngle, -90, 90);
+        dashParticle.Stop();
+        
     }
 
     void Update()
@@ -31,17 +47,18 @@ public class PlayerVisuals : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        if(GameData.grappleHandler.isTracting)
+        if (GameData.grappleHandler.isTracting)
         {
             facingRight = GameData.grappleHandler.tractionDirection.x > 0 ? true : false;
         }
-        else if(GameData.dashHandler.isDashing)
+        else if (GameData.dashHandler.isDashing)
         {
             facingRight = dashDirection.x > 0 ? true : false;
+
         }
         else
         {
-            if(wasPiercing)
+            if (wasPiercing)
             {
                 facingRight = GameData.pierceHandler.piercableDirection.x > 0 ? true : false;
             }
@@ -64,10 +81,10 @@ public class PlayerVisuals : MonoBehaviour
             }
         }
 
-        if(wasPiercing)
+        if (wasPiercing)
         {
             pierceTimeElapsed += Time.deltaTime;
-            if(pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting)
+            if (pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting)
             {
                 wasPiercing = false;
             }
@@ -79,7 +96,7 @@ public class PlayerVisuals : MonoBehaviour
             FlipTransform(facingRight);
         }
 
-        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing || wasPiercing;
+        useCustomRotation = GameData.grappleHandler.isTracting || isDashRotated || GameData.pierceHandler.isPiercing || wasPiercing || GameData.playerManager.isBeingKnocked;
         if (useCustomRotation)
         {
             if (GameData.grappleHandler.isTracting)
@@ -91,9 +108,13 @@ public class PlayerVisuals : MonoBehaviour
                 Debug.DrawRay(transform.position, GameData.pierceHandler.piercableDirection * 3);
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(GameData.pierceHandler.piercableDirection.x < 0 ? Vector2.left : Vector2.right, GameData.pierceHandler.piercableDirection));
             }
-            else if(isDashRotated)
+            else if (isDashRotated)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(dashDirection.x <= 0 ? Vector2.left : Vector2.right, dashDirection));
+            }
+            else if(GameData.playerManager.isBeingKnocked)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, GameData.movementHandler.rb.velocity));
             }
         }
         else
@@ -113,6 +134,7 @@ public class PlayerVisuals : MonoBehaviour
         else
         {
             spriteRenderer.flipX = true;
+
         }
     }
 
@@ -137,7 +159,14 @@ public class PlayerVisuals : MonoBehaviour
     {
         isDashRotated = true;
         dashDirection = lastDashDirection;
+
+        //System particle dash
+        psConeAngle = Vector2.SignedAngle(Vector2.right, dashDirection);
+        ParticleSystem.ShapeModule shape = dashParticle.shape;
+        shape.rotation = new Vector3(psConeAngle, -90, 90);
+
         yield return new WaitForSeconds(dashAttackClip.length);
         isDashRotated = false;
     }
+
 }

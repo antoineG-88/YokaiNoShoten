@@ -28,7 +28,7 @@ public class SheepShield : MonoBehaviour
         if(isActive)
         {
             shieldConnection.enabled = true;
-
+            enemy.isProtected = true;
             connectionPos[0] = transform.position;
             connectionPos[1] = connectedSheep.transform.position;
             shieldConnection.SetPositions(connectionPos);

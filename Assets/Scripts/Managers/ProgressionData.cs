@@ -6,22 +6,9 @@ using UnityEngine;
 public class ProgressionData
 {
     public int currentStoryStep;
-    public string currentZoneName;
-    public int lastCheckPointIndex;
-    public List<bool> switchStates;
 
-    public ProgressionData()
+    public ProgressionData(int storyStep)
     {
-        lastCheckPointIndex = LevelManager.lastCheckPoint.checkPointNumber;
-
-        currentZoneName = GameManager.currentZoneName;
-
-        switchStates = new List<bool>();
-        for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
-        {
-            switchStates.Add(LevelManager.allZoneSwitchs[i].isOn);
-        }
-
-        currentStoryStep = GameManager.currentStoryStep;
+        currentStoryStep = storyStep;
     }
 }

@@ -130,7 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
-  movementZoneRadius: 0
+  movementZoneRadius: 15
+  provocationRange: 10
   hurtAnimClip: {fileID: 7400000, guid: 89f7a2aab51e4794abd476333acd3974, type: 2}
   deathAnimClip: {fileID: 7400000, guid: 06b5e03fceb0e9543820e7352039762e, type: 2}
   nextWaypointDistance: 2
@@ -138,29 +139,28 @@ MonoBehaviour:
   pathUpdatingFrequency: 0.1
   avoidEnemies: 1
   avoidEffectRadius: 0.5
-  avoidForce: 5
-  minimalAvoidForce: 5
-  maximalAvoidForce: 15
+  avoidForce: 0.5
+  minimalAvoidForce: 0.2
+  maximalAvoidForce: 3
   avoidDistanceInfluence: 1
   recentlyHit: 0
   isProtected: 0
+  provoked: 0
   inControl: 0
   isDying: 0
   currentSheepShield: {fileID: 0}
   maxSpeed: 6
   accelerationForce: 25
-  provocationRange: 10
   safeDistanceToPlayer: 5
-  safeDistanceWidth: 0.3
-  maxRangeFromInitialPos: 20
+  safeDistanceWidth: 4
   rushCooldown: 2
   rushTriggerDistance: 7.5
   rushTriggerTime: 0.5
   rushLength: 8.5
-  rushTime: 0.8
-  rushRadius: 0.3
-  rushWallRadius: 0.45
-  rushStunTime: 1
+  rushTime: 0.5
+  rushRadius: 0.5
+  rushWallRadius: 0.6
+  rushStunTime: 0.1
   rushKnockbackForce: 3
   wallStunTime: 3
   rushDelay: 0.5
@@ -189,6 +189,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   sprite: {fileID: 763350509277404794}
+  stuckImpactParticle: {fileID: 3696424741153445526, guid: 926d8a8058c84a442bf3ef7f0e848a37,
+    type: 3}
+  previsFX: {fileID: 5270052241577888343, guid: 5996c384a7e508941bf15da290a6293e,
+    type: 3}
+  numberOfPrevisFx: 10
 --- !u!114 &763350508382447395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,7 +324,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9bdc3eb1e179e6843b874be910847a61, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -337,10 +342,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -686706029
+  m_SortingLayer: 5
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 8cf5dc81f50391442afe70f4c9d6d4fc, type: 3}
+  m_Sprite: {fileID: -5611115051201775841, guid: bf2114d54379e484e931d921ac719052,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

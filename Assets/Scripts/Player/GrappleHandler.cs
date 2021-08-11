@@ -27,6 +27,7 @@ public class GrappleHandler : MonoBehaviour
     [Header("AutoAim settings")]
     public float aimAssistAngle;
     public float aimAssistRaycastNumber;
+    public float angleToTakeClosest;
     [Header("Key bindings settings")]
     public bool aimWithLeftJoystick;
     public bool tractWithLeftTrigger;
@@ -50,6 +51,7 @@ public class GrappleHandler : MonoBehaviour
     private float aimAssistSubAngle;
     private float aimAssistFirstAngle;
     private Vector2 shootDirection;
+    private List<GameObject> allPossibleRings;
     [HideInInspector] public bool isHooked;
     [HideInInspector] public GameObject attachedObject;
     [HideInInspector] public Vector2 tractionDirection;
@@ -60,6 +62,9 @@ public class GrappleHandler : MonoBehaviour
 
     private bool tractTriggerDown;
     private bool tractTriggerPressed;
+
+    //pour corriger le stretch visuel du material du grappin
+    private float distanceRopeRing;
 
     void Start()
     {
@@ -77,6 +82,7 @@ public class GrappleHandler : MonoBehaviour
         aimAssistFirstAngle = -aimAssistAngle / 2;
         tractTriggerDown = false;
         tractTriggerPressed = false;
+        allPossibleRings = new List<GameObject>();
     }
 
     private void Update()
@@ -102,7 +108,7 @@ public class GrappleHandler : MonoBehaviour
         if (canShoot && GameData.playerManager.inControl)
         {
             Vector2 aimStickMag = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
-            if (!isAiming && aimStickMag.magnitude > 0.1f)
+            if (!isAiming && aimStickMag.magnitude > 0.1f && !isTracting)
             {
                 isAiming = true;
                 armShoulderO.SetActive(true);
@@ -130,6 +136,7 @@ public class GrappleHandler : MonoBehaviour
 
                 RaycastHit2D hit;
                 float minAngleFound = aimAssistAngle;
+                allPossibleRings.Clear();
                 for (int i = 0; i < aimAssistRaycastNumber; i++)
                 {
                     float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
@@ -147,14 +154,29 @@ public class GrappleHandler : MonoBehaviour
                     hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy"));
                     if (hit)
                     {
-                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 1.0f))
                         {
-                            selectedObject = hit.collider.gameObject;
-                            minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                            allPossibleRings.Add(hit.collider.gameObject);
+
+                            if(Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                            {
+                                selectedObject = hit.collider.gameObject;
+                                minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                            }
                         }
                     }
                 }
 
+                GameObject closeObject = selectedObject;
+                for (int i = 0; i < allPossibleRings.Count; i++)
+                {
+                    if(Vector2.Distance(transform.position, closeObject.transform.position) > Vector2.Distance(transform.position, allPossibleRings[i].transform.position) &&
+                        Vector2.Angle(selectedObject.transform.position - transform.position, allPossibleRings[i].transform.position - transform.position) < angleToTakeClosest)
+                    {
+                        closeObject = allPossibleRings[i];
+                    }
+                }
+                selectedObject = closeObject;
 
                 Vector3[] ropePoints = new Vector3[2];
 
@@ -231,6 +253,8 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             ringHighLighterO.SetActive(false);
+            armShoulderO.SetActive(false);
+            isAiming = false;
         }
     }
 
@@ -245,14 +269,19 @@ public class GrappleHandler : MonoBehaviour
 
             ropeRenderer.enabled = true;
             Vector3[] ropePoints = new Vector3[2];
-            ropePoints[0] = transform.position;
-            ropePoints[1] = attachedObject.transform.position;
+            ropePoints[1] = transform.position;
+            ropePoints[0] = attachedObject.transform.position;
             ropeRenderer.SetPositions(ropePoints);
 
+            //pour corriger le stretch visuel du material du grappin
+            distanceRopeRing = Vector3.Distance(transform.position, attachedObject.transform.position);
+            ropeRenderer.material.mainTextureScale = new Vector2(distanceRopeRing*2,1);
+            
             if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
-                //GameData.movementHandler.isAffectedbyGravity = false;
                 GameData.movementHandler.canMove = false;
+                armShoulderO.SetActive(false);
+                isAiming = false;
 
                 if (!isTracting)
                 {
@@ -266,17 +295,6 @@ public class GrappleHandler : MonoBehaviour
                     startTractionVelocity += startTractionPropulsion;
                     rb.velocity = startTractionVelocity * tractionDirection;
                 }
-                /*
-                float tractionDirectionAngle = Mathf.Atan(tractionDirection.y / tractionDirection.x);
-                if (tractionDirection.x < 0)
-                {
-                    tractionDirectionAngle += Mathf.PI;
-                }
-                else if (tractionDirection.y < 0 && tractionDirection.x > 0)
-                {
-                    tractionDirectionAngle += 2 * Mathf.PI;
-                }
-                rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(tractionDirectionAngle), rb.velocity.magnitude * Mathf.Sin(tractionDirectionAngle));*/
                 rb.velocity = rb.velocity.magnitude * tractionDirection;
 
                 if (rb.velocity.magnitude > (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))

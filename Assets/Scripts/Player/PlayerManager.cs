@@ -10,20 +10,27 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> healthPointsDisplay;
     public float stunTime;
     public float damageInvulnerableTime;
+    [Tooltip("Press start in game to activate")]
+    public bool enableGodMode;
+    public int godModeLayer;
 
     private int currentHealthPoint;
 
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool invulnerable;
     [HideInInspector] public int isGrabbingTorch;
+    [HideInInspector] public bool isInGodMode;
+    [HideInInspector] public bool isBeingKnocked;
 
     private float invulnerableTimeRemaining;
+    private int basePlayerLayer;
 
     void Start()
     {
         currentHealthPoint = maxHealthPoint;
         inControl = true;
         invulnerable = false;
+        basePlayerLayer = gameObject.layer;
         invulnerableTimeRemaining = 0;
     }
 
@@ -39,12 +46,24 @@ public class PlayerManager : MonoBehaviour
             invulnerable = false;
         }
 
+
+        if (Input.GetAxisRaw("CrossH") == 1 && Input.GetButtonDown("XButton") && enableGodMode)
+        {
+            isInGodMode = !isInGodMode;
+        }
+        gameObject.layer = isInGodMode ? godModeLayer : basePlayerLayer;
+
+        if (Input.GetButtonDown("StartButton") && enableGodMode)
+        {
+            Die();
+        }
+
         RefreshHealthPointDisplay();
     }
 
     private void FixedUpdate()
     {
-        if (IsPlayerInWall())
+        if (IsPlayerInWall() && !isInGodMode)
         {
             Die();
         }
@@ -52,7 +71,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode)
         {
             invulnerableTimeRemaining = damageInvulnerableTime;
             currentHealthPoint -= damage;
@@ -66,6 +85,7 @@ public class PlayerManager : MonoBehaviour
             GameData.dashHandler.canDash = true;
             GameData.pierceHandler.StopPierce();
             StartCoroutine(NoControl(stunTime));
+            StartCoroutine(KnockawayTime(stunTime));
         }
     }
 
@@ -101,6 +121,13 @@ public class PlayerManager : MonoBehaviour
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    public IEnumerator KnockawayTime(float time)
+    {
+        isBeingKnocked = true;
+        yield return new WaitForSeconds(time);
+        isBeingKnocked = false;
     }
 
     private bool IsPlayerInWall()
