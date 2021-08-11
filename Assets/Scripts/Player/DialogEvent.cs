@@ -1,32 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class DialogTrigger : Switch
+public class DialogEvent : EventPart
 {
     public Dialog dialogToPlay;
-    public CameraConstraintZone cameraConstraintDuringDialog;
+    //public CameraConstraintZone cameraConstraintDuringDialog;
     public Vector2 seikiPositionDuringDialog;
     public bool seikiOrientationIsRight;
     public float seikiWalkingSpeed;
     [Header("Technical Settings")]
     public GameObject seikiPosPreview;
 
-    private bool eventTriggered;
-    private DialogManager.EndDialCallback callback;
-    private bool isReachingDialoguePos;
-    private bool isInEvent;
+    [HideInInspector] public bool isReachingDialoguePos;
 
-    private new void Start()
+    private DialogManager.EndDialCallback callback;
+
+    private void Start()
     {
-        base.Start();
         seikiPosPreview.SetActive(false);
     }
 
     private void Update()
     {
-        if(isInEvent)
+        if(eventStarted && !eventEnded)
         {
             if (isReachingDialoguePos)
             {
@@ -52,43 +49,21 @@ public class DialogTrigger : Switch
         }
     }
 
-    private void StartEvent()
+    public override void EndEventPart()
     {
-        if(!eventTriggered)
-        {
-            isInEvent = true;
-            eventTriggered = true;
-            isReachingDialoguePos = true;
-            callback = EndEvent;
-            GameData.cameraHandler.constraintZones.Add(cameraConstraintDuringDialog);
-            GameData.playerManager.inControl = false;
-        }
+        base.EndEventPart();
     }
 
-    private void EndEvent()
+    public override void StartEventPart()
     {
-        GameData.cameraHandler.constraintZones.Remove(cameraConstraintDuringDialog);
-        GameData.playerManager.inControl = true;
-        isInEvent = false;
-        isOn = true;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if(collider.CompareTag("Player"))
-        {
-            StartEvent();
-        }
+        base.StartEventPart();
+        isReachingDialoguePos = true;
+        callback = EndEventPart;
     }
 
     private void OnDrawGizmosSelected()
     {
         seikiPositionDuringDialog = seikiPosPreview.transform.position;
         seikiOrientationIsRight = seikiPosPreview.transform.localScale.x == 1;
-    }
-
-    public override bool PierceEffect(int damage, Vector2 directedForce)
-    {
-        return false;
     }
 }
