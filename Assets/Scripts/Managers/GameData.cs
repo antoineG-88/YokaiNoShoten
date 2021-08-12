@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
@@ -25,6 +24,7 @@ public class GameData : MonoBehaviour
     public static LevelManager levelManager;
     public static DialogManager dialogManager;
     public static int noPiercableLayer;
+    public static AudioSource playerSource;
 
     private void Awake()
     {
@@ -42,6 +42,7 @@ public class GameData : MonoBehaviour
         levelManager = levelManagerRef;
         dialogManager = levelManager.GetComponent<DialogManager>();
         slowMoManager = levelManager.GetComponent<SlowMoManager>();
+        playerSource = player.GetComponent<AudioSource>();
     }
 
     private void Start()

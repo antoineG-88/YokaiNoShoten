@@ -35,16 +35,16 @@ public class DialogEvent : EventPart
 
                 if (GameData.movementHandler.transform.position.x > seikiPositionDuringDialog.x)
                 {
-                    GameData.movementHandler.horizontalTargetSpeed = seikiWalkingSpeed * -1;
+                    GameData.movementHandler.noControlTargetSpeed = seikiWalkingSpeed * -1;
                 }
                 else
                 {
-                    GameData.movementHandler.horizontalTargetSpeed = seikiWalkingSpeed;
+                    GameData.movementHandler.noControlTargetSpeed = seikiWalkingSpeed;
                 }
             }
             else
             {
-                GameData.movementHandler.horizontalTargetSpeed = 0;
+                GameData.movementHandler.noControlTargetSpeed = 0;
             }
         }
     }

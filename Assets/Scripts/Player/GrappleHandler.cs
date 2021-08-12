@@ -42,6 +42,8 @@ public class GrappleHandler : MonoBehaviour
     public bool displayAutoAimRaycast;
     [Header("Graphics settings")]
     public float ropeAppearSpeed;
+    public AudioClip attachGrappleSound;
+    public AudioSource grappleLoopSource;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
@@ -403,6 +405,8 @@ public class GrappleHandler : MonoBehaviour
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
+        if(attachGrappleSound != null)
+            GameData.playerSource.PlayOneShot(attachGrappleSound);
         if (isSucked == false)
         {
             GameData.dashHandler.canDash = true;

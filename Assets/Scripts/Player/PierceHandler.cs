@@ -37,6 +37,7 @@ public class PierceHandler : MonoBehaviour
     public float comboPierceAimAssistRaycastNumber;
     [Range(-0.2f, 0.2f)] public float comboPierceTresholdOffset;
     public Transform comboPierceTimingHelper;
+    public AudioClip pierceSound;
 
     public Vector3 fxOffset;
 
@@ -260,10 +261,13 @@ public class PierceHandler : MonoBehaviour
         rb.velocity = Vector2.zero;
         GameData.movementHandler.canMove = false;
         isPiercing = true;
-        yield return new WaitForSeconds(timeBeforeFirstPierce);
+        if(timeBeforeFirstPierce != 0)
+            yield return new WaitForSeconds(timeBeforeFirstPierce);
 
         if(triggerSlowMo)
             StartPhasingTime();
+        if(pierceSound != null)
+            GameData.playerSource.PlayOneShot(pierceSound);
 
         Vector2 startPiercePos;
         Vector2 currentPiercePos;

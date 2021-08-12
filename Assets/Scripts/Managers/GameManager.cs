@@ -137,4 +137,10 @@ public class GameManager : MonoBehaviour
         SaveSystem.zoneDataFileNamePrefixe = zoneDataSaveFileNamePrefixe;
         SaveSystem.SetSavePath(string.Empty);
     }
+
+    public static void LoadNewZone(int sceneIndex)
+    {
+        SaveProgression(LevelManager.lastCheckPoint);
+        SceneManager.LoadScene(sceneIndex);
+    }
 }

@@ -9,7 +9,7 @@ public class BlackScreenManager : MonoBehaviour
 
     public static Image blackScreen;
 
-    private void Start()
+    private void Awake()
     {
         blackScreen = blackScreenImage;
     }
