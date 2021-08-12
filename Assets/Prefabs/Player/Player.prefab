@@ -1090,6 +1090,7 @@ MonoBehaviour:
   facingRight: 0
   animator: {fileID: 0}
   dashParticle: {fileID: 4208649470404408853}
+  pierceParticle: {fileID: 5288564626838442122}
 --- !u!1 &3737249136681705722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,21 +1488,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: fb0142aae030e9b4d8a2a672751e9b24,
+    - target: {fileID: 7263424112995997123, guid: fb0142aae030e9b4d8a2a672751e9b24,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: fb0142aae030e9b4d8a2a672751e9b24,
+    - target: {fileID: 7263424112995997123, guid: fb0142aae030e9b4d8a2a672751e9b24,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: fb0142aae030e9b4d8a2a672751e9b24,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 100000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb0142aae030e9b4d8a2a672751e9b24, type: 3}
 --- !u!4 &5288564626838442120 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7263424112995997121, guid: fb0142aae030e9b4d8a2a672751e9b24,
+    type: 3}
+  m_PrefabInstance: {fileID: 3289910577425859913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5288564626838442122 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7263424112995997123, guid: fb0142aae030e9b4d8a2a672751e9b24,
     type: 3}
   m_PrefabInstance: {fileID: 3289910577425859913}
   m_PrefabAsset: {fileID: 0}
