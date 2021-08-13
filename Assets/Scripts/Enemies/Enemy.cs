@@ -64,6 +64,7 @@ public abstract class Enemy : Piercable
         pathPositions = new List<Vector3>();
         isProtected = false;
         provoked = false;
+        gameObject.GetComponentInChildren<Renderer>().sharedMaterial.SetFloat("_deadOrAlive", 1);
     }
     protected void Update()
     {
@@ -326,8 +327,10 @@ public abstract class Enemy : Piercable
             animator.SetBool("Dead",true);
         isDying = true;
         doNotReableCollider = true;
+        gameObject.GetComponentInChildren<Renderer>().sharedMaterial.SetFloat("_deadOrAlive", 0);
         OnDie();
         yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
+        gameObject.GetComponentInChildren<Renderer>().sharedMaterial.SetFloat("_deadOrAlive", 1);
         Destroy(gameObject);
     }
     protected virtual void OnDie()
