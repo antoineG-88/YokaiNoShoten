@@ -22,12 +22,15 @@ public class Balayer : Enemy
     public float beamStartAngleOffset;
     public float beamNoMovementTime;
     public float beamEndSlowingTime;
+    public float beamLineTransitionSpeedBetweenWarningAndShooting;
+    public float beamLineActivationSpeed;
+    public bool usePixelBeam;
     public GameObject beamStartPrefab;
     public GameObject beamPartPrefab;
     public GameObject beamImpactPrefab;
     [Header("Technical settings")]
     public float seekingBeamSpotAngleInterval;
-    public LineRenderer beamWarningLine;
+    public LineRenderer beamLine;
     public float spaceBetweenBeamFx;
     public float beamStartOffset;
     public Transform beamParent;
@@ -42,6 +45,9 @@ public class Balayer : Enemy
     private float beamCoolDownElapsed;
     private bool isFacingRight;
     private SpriteRenderer sprite;
+    private float beamState; // 0 = warning, 1 = laser
+    private float beamActiveState; // 0 = off, 1 = on
+    private Material beamMat;
 
     new void Start()
     {
@@ -53,8 +59,10 @@ public class Balayer : Enemy
         canBeInSight = true;
         elapsedAimTime = 0;
         beamCoolDownElapsed = 0;
-        beamWarningLine.enabled = false;
+        beamLine.enabled = false;
         sprite = GetComponentInChildren<SpriteRenderer>();
+        beamMat = Instantiate(beamLine.sharedMaterial);
+        beamLine.sharedMaterial = beamMat;
     }
 
     new void Update()
@@ -73,7 +81,6 @@ public class Balayer : Enemy
         if(!isShooting)
         {
             isFacingRight = pathDirection.x > 0;
-            beamWarningLine.enabled = false;
         }
 
         if (path != null && !pathEndReached && !shootDestinationReached && inControl && canBeInSight && !isShooting && !isAiming)
@@ -177,26 +184,38 @@ public class Balayer : Enemy
         float currentRotSpeed = 0;
 
         isFacingRight = startDirection.x > 0;
-        beamWarningLine.enabled = true;
+        beamLine.enabled = true;
         Vector3[] linePos = new Vector3[2];
-        linePos[0] = transform.position;
+        linePos[0] = (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamStartOffset; ;
         RaycastHit2D previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
         linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
-        beamWarningLine.SetPositions(linePos);
+        beamLine.SetPositions(linePos);
+        beamState = 0;
+        beamMat.SetFloat("_previsOrAttack", beamState);
         float chargeTimer = 0;
-        while(chargeTimer < chargeTime)
+        while(chargeTimer < chargeTime && !isDying)
         {
             linePos = new Vector3[2];
-            linePos[0] = transform.position;
+            linePos[0] = (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamStartOffset;
             previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
             linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
-            beamWarningLine.SetPositions(linePos);
+            beamLine.SetPositions(linePos);
             chargeTimer += Time.deltaTime;
+
+
+            beamActiveState += Time.deltaTime * beamLineActivationSpeed;
+            beamActiveState = Mathf.Clamp(beamActiveState, 0, 1);
+            beamMat.SetFloat("_laserSwitch", beamActiveState);
+            beamLine.sharedMaterial = beamMat;
+
             yield return new WaitForEndOfFrame();
         }
 
         yield return new WaitForSeconds(chargeTime);
-        beamWarningLine.enabled = false;
+
+        if (usePixelBeam)
+            beamLine.enabled = false;
+
         bool rotPositive = Vector2.SignedAngle(Vector2.right, playerDirection) - shootAngle > 0;
 
         List<GameObject> beamFxs = new List<GameObject>();
@@ -204,7 +223,7 @@ public class Balayer : Enemy
         float beamLength;
         int beamFxNumber;
 
-        while (elapsedBeamTime < beamTime)
+        while (elapsedBeamTime < beamTime && !isDying)
         {
             animator.SetInteger("BeamStep", 2);
             if (elapsedBeamTime > beamTime - beamEndSlowingTime)
@@ -233,7 +252,6 @@ public class Balayer : Enemy
             transform.rotation = Quaternion.Euler(0, 0, DirectionFromAngle(shootAngle).x < 0 ? Vector2.SignedAngle(new Vector2(-1, 0), DirectionFromAngle(shootAngle)) : Vector2.SignedAngle(new Vector2(1, 0), DirectionFromAngle(shootAngle)));
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
-            //Debug.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * 100, Color.red);
 
             RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall"));
             if(playerHit && playerHit.collider.CompareTag("Player"))
@@ -242,33 +260,50 @@ public class Balayer : Enemy
             }
 
             beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamStartOffset : maxBeamRange;
-            beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
 
-            beamParent.rotation = Quaternion.identity;
-
-            if (beamFxs.Count < beamFxNumber)
+            if(usePixelBeam)
             {
-                for (int i = beamFxs.Count; i < beamFxNumber; i++)
+                beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
+
+                beamParent.rotation = Quaternion.identity;
+
+                if (beamFxs.Count < beamFxNumber)
                 {
-                    beamFxs.Add(Instantiate(i == 0 ? beamStartPrefab : beamPartPrefab, (Vector2)transform.position + Vector2.right * ((spaceBetweenBeamFx * i) + beamStartOffset), Quaternion.identity, beamParent));
+                    for (int i = beamFxs.Count; i < beamFxNumber; i++)
+                    {
+                        beamFxs.Add(Instantiate(i == 0 ? beamStartPrefab : beamPartPrefab, (Vector2)transform.position + Vector2.right * ((spaceBetweenBeamFx * i) + beamStartOffset), Quaternion.identity, beamParent));
+                    }
                 }
-            }
-            else if(beamFxs.Count > beamFxNumber)
-            {
-                for (int i = beamFxs.Count - 1; i > beamFxNumber - 1; i--)
+                else if (beamFxs.Count > beamFxNumber)
                 {
-                    Destroy(beamFxs[i]);
-                    beamFxs.RemoveAt(i);
+                    for (int i = beamFxs.Count - 1; i > beamFxNumber - 1; i--)
+                    {
+                        Destroy(beamFxs[i]);
+                        beamFxs.RemoveAt(i);
+                    }
                 }
+
+                beamParent.rotation = Quaternion.Euler(0, 0, shootAngle);
+
+                if (beamEnd == null)
+                {
+                    beamEnd = Instantiate(beamImpactPrefab, transform.position, Quaternion.identity);
+                }
+                beamEnd.transform.position = hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamLength;
             }
-
-            beamParent.rotation = Quaternion.Euler(0, 0, shootAngle);
-
-            if(beamEnd == null)
+            else
             {
-                beamEnd = Instantiate(beamImpactPrefab, transform.position, Quaternion.identity);
+                beamLine.enabled = true;
+                linePos[0] = (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamStartOffset;
+                linePos[1] = hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
+                beamLine.SetPositions(linePos);
+
+
+                beamState += Time.fixedDeltaTime * beamLineTransitionSpeedBetweenWarningAndShooting;
+                beamState = Mathf.Clamp(beamState, 0, 1);
+                beamMat.SetFloat("_previsOrAttack", beamState);
+                beamLine.sharedMaterial = beamMat;
             }
-            beamEnd.transform.position = hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamLength;
 
             yield return new WaitForFixedUpdate();
             elapsedBeamTime += Time.fixedDeltaTime;
@@ -277,12 +312,15 @@ public class Balayer : Enemy
         animator.SetInteger("BeamStep", 0);
         transform.rotation = Quaternion.identity;
 
-        for (int i = beamFxs.Count - 1; i >= 0; i--)
+        if(usePixelBeam)
         {
-            Destroy(beamFxs[i]);
-            beamFxs.RemoveAt(i);
+            for (int i = beamFxs.Count - 1; i >= 0; i--)
+            {
+                Destroy(beamFxs[i]);
+                beamFxs.RemoveAt(i);
+            }
+            DestroyImmediate(beamEnd);
         }
-        DestroyImmediate(beamEnd);
     }
 
 
@@ -295,6 +333,18 @@ public class Balayer : Enemy
         if (!isFacingRight && sprite.flipX)
         {
             sprite.flipX = false;
+        }
+
+        if(beamActiveState > 0 && !isShooting)
+        {
+            beamActiveState -= Time.deltaTime * beamLineActivationSpeed;
+            beamActiveState = Mathf.Clamp(beamActiveState, 0, 1);
+            beamMat.SetFloat("_laserSwitch", beamActiveState);
+            beamLine.sharedMaterial = beamMat;
+        }
+        else
+        {
+            //beamLine.enabled = false;
         }
     }
 

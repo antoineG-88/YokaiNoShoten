@@ -9,7 +9,7 @@ public abstract class Enemy : Piercable
     public int maxHealthPoint;
     public float movementZoneRadius;
     public float provocationRange;
-    public AnimationClip hurtAnimClip;
+    public GameObject prefabObject;
     public AnimationClip deathAnimClip;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -330,11 +330,13 @@ public abstract class Enemy : Piercable
             animator.SetBool("Dead",true);
         isDying = true;
         doNotReableCollider = true;
-        deathParticle.Play();
+        if(deathParticle != null)
+            deathParticle.Play();
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
         yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length*2 : 0.8f);
-        deathParticle.Stop();
+        if (deathParticle != null)
+            deathParticle.Stop();
         material.SetFloat("_deadOrAlive", 1);
         Destroy(gameObject);
     }
@@ -348,6 +350,18 @@ public abstract class Enemy : Piercable
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    public void Activate()
+    {
+        //effet d'activation
+        prefabObject.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        //effet d'activation
+        prefabObject.SetActive(false);
     }
 
     private void OnDrawGizmosSelected()

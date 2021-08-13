@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class EventTrigger : Switch
 {
+    [Header("Add event component on this object and drop them in order in the list")]
     public List<EventPart> eventParts;
+    [Header("Optionnal, put a switch if the event is triggered by a switch")]
+    public Switch switchToTriggerEvent;
 
     public int neededStoryStepToTrigger;
     public int maxStoryStepToTrigger;
@@ -45,11 +48,19 @@ public class EventTrigger : Switch
             }
 
         }
+        else
+        {
+            if(switchToTriggerEvent != null && switchToTriggerEvent.IsON() && !eventTriggered)
+            {
+                StartEvent();
+            }
+        }
+
     }
 
     private void StartEvent()
     {
-        if(!eventTriggered && GameManager.currentStoryStep >= neededStoryStepToTrigger && GameManager.currentStoryStep <= maxStoryStepToTrigger)
+        if(!eventTriggered && GameManager.currentStoryStep >= neededStoryStepToTrigger && GameManager.currentStoryStep <= maxStoryStepToTrigger && !isOn)
         {
             for (int i = 0; i < eventParts.Count; i++)
             {
@@ -95,7 +106,7 @@ public class EventTrigger : Switch
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("Player"))
+        if(collider.CompareTag("Player") && switchToTriggerEvent == null)
         {
             StartEvent();
         }

@@ -636,6 +636,8 @@ MonoBehaviour:
   grapplingStartPointO: {fileID: 3737249135026604181}
   displayAutoAimRaycast: 1
   ropeAppearSpeed: 6
+  attachGrappleSound: {fileID: 0}
+  grappleLoopSource: {fileID: 0}
   rb: {fileID: 0}
   aimDirection: {x: 0, y: 0}
   isAiming: 0
@@ -725,6 +727,7 @@ MonoBehaviour:
   comboPierceAimAssistRaycastNumber: 50
   comboPierceTresholdOffset: -0.2
   comboPierceTimingHelper: {fileID: 2413838916319084873}
+  pierceSound: {fileID: 0}
   fxOffset: {x: 0.8, y: 0.5, z: 0}
   piercableDirection: {x: 0, y: 0}
   isPiercing: 0
@@ -757,6 +760,7 @@ MonoBehaviour:
     type: 3}
   dashWithRightTrigger: 0
   aimWithRightJoystick: 0
+  dashSound: {fileID: 0}
   canDash: 0
   isDashing: 0
   isReaiming: 0
@@ -1220,8 +1224,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3737249136681705722}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.512, z: 0}
-  m_LocalScale: {x: 0.78935, y: 0.78935, z: 0.78935}
+  m_LocalPosition: {x: -0.01, y: 1.66, z: 0}
+  m_LocalScale: {x: 0.4933221, y: 0.93230116, z: 0.49332216}
   m_Children: []
   m_Father: {fileID: 3737249135026604182}
   m_RootOrder: 0
@@ -1668,6 +1672,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.64
+      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997122, guid: fb0142aae030e9b4d8a2a672751e9b24,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -1682,16 +1696,6 @@ PrefabInstance:
         type: 3}
       propertyPath: ShapeModule.m_Rotation.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: ShapeModule.m_Rotation.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 0.64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeda45fe2a2947c4987e1466ef371b8d, type: 3}
@@ -1774,21 +1778,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
@@ -1818,6 +1807,21 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeBySpeedModule.y.minScalar
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 657174447
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}
