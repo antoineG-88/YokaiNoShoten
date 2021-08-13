@@ -49,6 +49,7 @@ public abstract class Enemy : Piercable
     protected Animator animator;
     [HideInInspector] public Material material;
     public ParticleSystem deathParticle;
+    float shapeAngle;
 
 
     protected void Start()
@@ -66,7 +67,10 @@ public abstract class Enemy : Piercable
         pathPositions = new List<Vector3>();
         isProtected = false;
         provoked = false;
+        ParticleSystem.ShapeModule shape = deathParticle.shape;
+        shape.rotation = new Vector3(90, shapeAngle, 0);
         material = GetComponentInChildren<Renderer>().sharedMaterial;
+
 
     }
     protected void Update()
@@ -330,6 +334,9 @@ public abstract class Enemy : Piercable
             animator.SetBool("Dead",true);
         isDying = true;
         doNotReableCollider = true;
+        shapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
+        ParticleSystem.ShapeModule shape = deathParticle.shape;
+        shape.rotation = new Vector3(90,-shapeAngle, 0);
         deathParticle.Play();
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
