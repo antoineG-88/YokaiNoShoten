@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
         }
         gameObject.layer = isInGodMode ? godModeLayer : basePlayerLayer;
 
-        if (Input.GetButtonDown("StartButton") && enableGodMode)
+        if (Input.GetKeyDown(KeyCode.R) && enableGodMode)
         {
             Die();
         }
