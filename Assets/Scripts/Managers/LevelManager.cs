@@ -27,6 +27,7 @@ public class LevelManager : MonoBehaviour
         LoadDecoScene();
         allZoneCheckPoints = new List<CheckPoint>();
         allZoneSwitchs = new List<Switch>();
+        GetAllZoneSwitches();
         zoneLoadCountDown = 2;
     }
 
@@ -106,6 +107,30 @@ public class LevelManager : MonoBehaviour
             timer += Time.deltaTime;
         }
         BlackScreenManager.blackScreen.color = Color.clear;
+    }
+
+    private void GetAllZoneSwitches()
+    {
+        GameObject[] sceneRootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+
+        for (int i = 0; i < sceneRootGameObjects.Length; i++)
+        {
+            SearchSwitchesIn(sceneRootGameObjects[i].transform);
+        }
+    }
+
+    private void SearchSwitchesIn(Transform parent)
+    {
+        Switch potentialSwitch = parent.GetComponent<Switch>();
+        if(potentialSwitch != null)
+        {
+            allZoneSwitchs.Add(potentialSwitch);
+        }
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            SearchSwitchesIn(parent.GetChild(i));
+        }
     }
 }
 
