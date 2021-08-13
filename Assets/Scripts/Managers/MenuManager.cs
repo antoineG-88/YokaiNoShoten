@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
     public List<string> SceneNames;
+    private EventSystem eventSystem;
+    public GameObject playButton;
+    public GameObject scrollBar;
     // Start is called before the first frame update
 
+    private void Start()
+    {
+        eventSystem = EventSystem.current;
+        SelectButtonWithController();
+    }
     public void StartNewGame()
     {
         Time.timeScale = 1f;
@@ -15,7 +24,7 @@ public class MenuManager : MonoBehaviour
         {
             SaveSystem.DeleteSaveFile(SceneNames[i]);
         }
-        SceneManager.LoadScene("1");
+        SceneManager.LoadScene(1);
     }
 
     public void ContinueGame()
@@ -29,5 +38,15 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
         Debug.Log("Salut");
+    }
+    public void SelectButtonWithController()
+    {
+        eventSystem.firstSelectedGameObject = playButton;
+        eventSystem.SetSelectedGameObject(playButton);
+    }
+    public void SelectScrollBarWithController()
+    {
+        eventSystem.firstSelectedGameObject = scrollBar;
+        eventSystem.SetSelectedGameObject(scrollBar);
     }
 }
