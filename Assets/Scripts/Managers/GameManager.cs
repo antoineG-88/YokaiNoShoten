@@ -43,19 +43,23 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SceneManager.LoadScene(0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
             SceneManager.LoadScene(1);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
         }
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SceneManager.LoadScene(5);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SceneManager.LoadScene(6);
+        }
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {

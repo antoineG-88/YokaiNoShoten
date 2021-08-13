@@ -814,11 +814,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 5
   healthPointSprites:
-  - {fileID: 21300000, guid: 460ca25e34e6c454dbd50300697c97e8, type: 3}
-  - {fileID: 21300000, guid: bed36a44f7f60404588ab91021ac5d27, type: 3}
-  - {fileID: 21300000, guid: 08aadc8d6a86d5041b50423c51e170d3, type: 3}
-  - {fileID: 21300000, guid: 26359b1a24a37d3499d88e3a076b5a23, type: 3}
-  - {fileID: 21300000, guid: 794e6ab32aee66749bea0541d8ee81b4, type: 3}
+  - {fileID: 21300000, guid: f3160f9c087d6d14191ddba8786352cf, type: 3}
+  - {fileID: 21300000, guid: f5d2216f3e1707b468d08d49a438e75e, type: 3}
+  - {fileID: 21300000, guid: f9b034deb2abfd64a88f98da6950945a, type: 3}
+  - {fileID: 21300000, guid: a02348255b547ef4fba1c39291be363f, type: 3}
+  - {fileID: 21300000, guid: 636f020cc124c2f4fa0edbfd8c1f8cbe, type: 3}
   healthPointsDisplay: {fileID: 3737249136681705716}
   stunTime: 0.3
   damageInvulnerableTime: 0.6
@@ -1224,8 +1224,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3737249136681705722}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.01, y: 1.66, z: 0}
-  m_LocalScale: {x: 0.4933221, y: 0.93230116, z: 0.49332216}
+  m_LocalPosition: {x: -0.003, y: 1.461, z: 0}
+  m_LocalScale: {x: 0.3791687, y: 0.3791687, z: 0.37916872}
   m_Children: []
   m_Father: {fileID: 3737249135026604182}
   m_RootOrder: 0
@@ -1269,7 +1269,7 @@ SpriteRenderer:
   m_SortingLayerID: 657174447
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 794e6ab32aee66749bea0541d8ee81b4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 636f020cc124c2f4fa0edbfd8c1f8cbe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

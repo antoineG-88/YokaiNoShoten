@@ -68,7 +68,7 @@ public abstract class Enemy : Piercable
         isProtected = false;
         provoked = false;
         ParticleSystem.ShapeModule shape = deathParticle.shape;
-        shape.rotation = new Vector3(90, shapeAngle, 0);
+        //shape.rotation = new Vector3(90, shapeAngle, 0);
         material = GetComponentInChildren<Renderer>().sharedMaterial;
 
 
