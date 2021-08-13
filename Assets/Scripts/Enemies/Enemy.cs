@@ -47,6 +47,8 @@ public abstract class Enemy : Piercable
     [HideInInspector] public bool isDying;
     [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
+    [HideInInspector] public Material material;
+    public ParticleSystem deathParticle;
 
 
     protected void Start()
@@ -64,6 +66,8 @@ public abstract class Enemy : Piercable
         pathPositions = new List<Vector3>();
         isProtected = false;
         provoked = false;
+        material = GetComponentInChildren<Renderer>().sharedMaterial;
+
     }
     protected void Update()
     {
@@ -326,8 +330,12 @@ public abstract class Enemy : Piercable
             animator.SetBool("Dead",true);
         isDying = true;
         doNotReableCollider = true;
+        deathParticle.Play();
+        material.SetFloat("_deadOrAlive", 0);
         OnDie();
-        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length*2 : 0.8f);
+        deathParticle.Stop();
+        material.SetFloat("_deadOrAlive", 1);
         Destroy(gameObject);
     }
     protected virtual void OnDie()
