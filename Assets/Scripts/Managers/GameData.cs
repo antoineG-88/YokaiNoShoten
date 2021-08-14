@@ -6,6 +6,7 @@ using Pathfinding;
 public class GameData : MonoBehaviour
 {
     public GameObject playerO;
+    public CameraHandler cameraHandlerRef;
     public LevelManager levelManagerRef;
     public int _noPiercableLayer;
 
@@ -37,8 +38,8 @@ public class GameData : MonoBehaviour
         playerCollider = player.GetComponent<Collider2D>();
         pierceHandler = player.GetComponent<PierceHandler>();
         noPiercableLayer = _noPiercableLayer;
-        mainCamera = Camera.main;
-        cameraHandler = mainCamera.GetComponent<CameraHandler>();
+        cameraHandler = cameraHandlerRef;
+        mainCamera = cameraHandler.GetComponent<Camera>();
         levelManager = levelManagerRef;
         dialogManager = levelManager.GetComponent<DialogManager>();
         slowMoManager = levelManager.GetComponent<SlowMoManager>();

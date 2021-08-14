@@ -67,8 +67,11 @@ public abstract class Enemy : Piercable
         pathPositions = new List<Vector3>();
         isProtected = false;
         provoked = false;
-        ParticleSystem.ShapeModule shape = deathParticle.shape;
-        //shape.rotation = new Vector3(90, shapeAngle, 0);
+        if(deathParticle != null)
+        {
+            ParticleSystem.ShapeModule shape = deathParticle.shape;
+            //shape.rotation = new Vector3(90, shapeAngle, 0);
+        }
         material = GetComponentInChildren<Renderer>().sharedMaterial;
 
 
@@ -335,9 +338,12 @@ public abstract class Enemy : Piercable
         isDying = true;
         doNotReableCollider = true;
         shapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
-        ParticleSystem.ShapeModule shape = deathParticle.shape;
-        shape.rotation = new Vector3(90,-shapeAngle, 0);
-        deathParticle.Play();
+        if (deathParticle != null)
+        {
+            ParticleSystem.ShapeModule shape = deathParticle.shape;
+            //shape.rotation = new Vector3(90,-shapeAngle, 0);
+            deathParticle.Play();
+        }
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
         yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length*2 : 0.8f);

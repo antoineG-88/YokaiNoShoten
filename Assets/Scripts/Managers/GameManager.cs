@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
             I = this;
             DontDestroyOnLoad(gameObject);
         }
-
     }
 
     private void Start()
@@ -107,7 +106,7 @@ public class GameManager : MonoBehaviour
                 if (LevelManager.allZoneCheckPoints[i].checkPointNumber == zoneData.lastCheckPointIndex)
                 {
                     GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                    Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                    GameData.mainCamera.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
                 }
             }
         }
@@ -126,7 +125,7 @@ public class GameManager : MonoBehaviour
             if (LevelManager.allZoneCheckPoints[i].checkPointNumber == checkpointIndex)
             {
                 GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                GameData.mainCamera.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
             }
         }
     }
@@ -144,7 +143,7 @@ public class GameManager : MonoBehaviour
 
     public static void LoadNewZone(int sceneIndex)
     {
-        SaveProgression(LevelManager.lastCheckPoint);
         SceneManager.LoadScene(sceneIndex);
+        //SaveProgression(LevelManager.lastCheckPoint);
     }
 }
