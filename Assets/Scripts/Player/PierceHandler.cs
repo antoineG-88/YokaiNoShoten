@@ -37,6 +37,9 @@ public class PierceHandler : MonoBehaviour
     public float comboPierceAimAssistRaycastNumber;
     [Range(-0.2f, 0.2f)] public float comboPierceTresholdOffset;
     public Transform comboPierceTimingHelper;
+    public AudioClip pierceSound;
+
+    public Vector3 fxOffset;
 
     private ContactFilter2D enemyFilter;
     [HideInInspector] public Vector2 piercableDirection;
@@ -258,10 +261,13 @@ public class PierceHandler : MonoBehaviour
         rb.velocity = Vector2.zero;
         GameData.movementHandler.canMove = false;
         isPiercing = true;
-        yield return new WaitForSeconds(timeBeforeFirstPierce);
+        if(timeBeforeFirstPierce != 0)
+            yield return new WaitForSeconds(timeBeforeFirstPierce);
 
         if(triggerSlowMo)
             StartPhasingTime();
+        if(pierceSound != null)
+            GameData.playerSource.PlayOneShot(pierceSound);
 
         Vector2 startPiercePos;
         Vector2 currentPiercePos;
@@ -292,9 +298,13 @@ public class PierceHandler : MonoBehaviour
                 isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                 StartCoroutine(piercable.DisablePiercable());
 
-                
 
-                Instantiate (pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3 (1,1,1);
+
+                //Instantiate (pierceMarkFx, piercable.transform.position + fxOffset, Quaternion.identity).transform.localScale = new Vector3 (1,1,1);
+                GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercableDirection.x > 0 ? piercable.transform.position - fxOffset : piercable.transform.position + fxOffset, Quaternion.identity);
+                pierceMarkClone.transform.rotation = Quaternion.Euler(0, 0, piercableDirection.x > 0 ? Random.Range(20,50) : Random.Range(-50,-20));
+                pierceMarkClone.transform.localScale = new Vector3(0.3f, 0.3f, 1);
+
                 hasPierced = true;
             }
         }
@@ -308,13 +318,22 @@ public class PierceHandler : MonoBehaviour
                 {
                     isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                     StartCoroutine(piercable.DisablePiercable());
-                    Instantiate(pierceMarkFx, piercable.transform.position, Quaternion.identity).transform.localScale = new Vector3(1, 1, 1);
+
+                    //Instantiate(pierceMarkFx, piercable.transform.position + fxOffset, Quaternion.identity).transform.localScale = new Vector3(0.3f, 0.3f, 1);
+                    GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercableDirection.x > 0 ? piercable.transform.position - fxOffset : piercable.transform.position + fxOffset, Quaternion.identity);
+                    pierceMarkClone.transform.rotation = Quaternion.Euler(0, 0, piercableDirection.x > 0 ? Random.Range(20, 50) : Random.Range(-50, -20));
+                    pierceMarkClone.transform.localScale = new Vector3(0.3f, 0.3f, 1);
+
                     hasPierced = true;
                     GameData.playerVisuals.pierceParticle.Play();
                     
                 }
             }
-            Instantiate(pierceShadowFx, transform.position, Quaternion.identity).transform.localScale = new Vector3(piercableDirection.x > 0 ? 1 : -1, 1, 1);
+            
+            GameObject pierceShadowClone = Instantiate(pierceShadowFx, transform.position, Quaternion.identity);
+            pierceShadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
+            pierceShadowClone.transform.localScale = new Vector3(1, piercableDirection.x > 0 ? 1 : -1, 1);
+
             currentPiercePos = Vector2.LerpUnclamped(startPiercePos, pierceEndPos, pierceMovementCurve.Evaluate(pierceTimeElapsed / pierceMoveTime));
             currentPierceSpeed = (currentPiercePos - previousPiercePos).magnitude;
             previousPiercePos = currentPiercePos;

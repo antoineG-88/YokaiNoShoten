@@ -12,7 +12,7 @@ public abstract class Switch : Piercable
     public virtual void Start()
     {
         isOn = startOnON;
-        LevelManager.allZoneSwitchs.Add(this);
+        //LevelManager.allZoneSwitchs.Add(this);
     }
 
     public void SwitchOnOff()

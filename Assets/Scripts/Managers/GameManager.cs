@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
             I = this;
             DontDestroyOnLoad(gameObject);
         }
-
     }
 
     private void Start()
@@ -43,19 +42,23 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SceneManager.LoadScene(0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
             SceneManager.LoadScene(1);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
         }
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SceneManager.LoadScene(5);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SceneManager.LoadScene(6);
+        }
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
@@ -103,7 +106,7 @@ public class GameManager : MonoBehaviour
                 if (LevelManager.allZoneCheckPoints[i].checkPointNumber == zoneData.lastCheckPointIndex)
                 {
                     GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                    Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                    GameData.mainCamera.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
                 }
             }
         }
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour
             if (LevelManager.allZoneCheckPoints[i].checkPointNumber == checkpointIndex)
             {
                 GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                Camera.main.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                GameData.mainCamera.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
             }
         }
     }
@@ -136,5 +139,11 @@ public class GameManager : MonoBehaviour
         SaveSystem.defaultSaveDirectoryName = defaultSaveDirectoryName;
         SaveSystem.zoneDataFileNamePrefixe = zoneDataSaveFileNamePrefixe;
         SaveSystem.SetSavePath(string.Empty);
+    }
+
+    public static void LoadNewZone(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+        //SaveProgression(LevelManager.lastCheckPoint);
     }
 }

@@ -70,7 +70,7 @@ public class Wasp : Enemy
         if (!isRushing)
         {
             isFacingRight = pathDirection.x > 0;
-            if (path != null && !pathEndReached && !destinationReached && inControl)
+            if (path != null && !pathEndReached && !destinationReached && inControl && !isDying)
             {
                 Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -98,7 +98,7 @@ public class Wasp : Enemy
         pathNeedUpdate = false;
         rangeFromInitialPos = Vector2.Distance(transform.position, initialPos);
 
-        if (provoked && inControl)
+        if (provoked && inControl && !isDying)
         {
             fleeing = distToPlayer < safeDistanceToPlayer && rushCoolDownRemaining > 0;
 
@@ -202,7 +202,7 @@ public class Wasp : Enemy
         transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, rushDirection));
 
         float dashTimeElapsed = 0;
-        while (dashTimeElapsed < rushTime && !isStuckInWall)
+        while (dashTimeElapsed < rushTime && !isStuckInWall && !isDying)
         {
             animator.SetInteger("RushStep", 2);
             dashTimeElapsed += Time.fixedDeltaTime;
@@ -287,6 +287,10 @@ public class Wasp : Enemy
         animator.SetBool("IsFleeing", rushCoolDownRemaining > 0);
     }
 
+    protected override void OnDie()
+    {
+        rb.velocity = Vector2.zero;
+    }
     public override void DamageEffect()
     {
 

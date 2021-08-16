@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7263424112995997123}
   - component: {fileID: 7263424112995997122}
   m_Layer: 0
-  m_Name: dashParticleSystem
+  m_Name: pierceAttackParticleSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4786,8 +4786,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 657174447
+  m_SortingLayer: 6
   m_SortingOrder: 5
   m_RenderMode: 1
   m_SortMode: 0

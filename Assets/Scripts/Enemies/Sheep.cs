@@ -33,7 +33,7 @@ public class Sheep : Enemy
     public override void UpdateMovement()
     {
         isFacingRight = pathDirection.x > 0;
-        if (path != null && !pathEndReached && !destinationReached && inControl)
+        if (path != null && !pathEndReached && !destinationReached && inControl && !isDying)
         {
             Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
 
@@ -104,5 +104,6 @@ public class Sheep : Enemy
             if(protectedEnemies[i] != null && protectedEnemies[i].gameObject.activeSelf)
                 protectedEnemies[i].currentSheepShield.Disabling();
         }
+        rb.velocity = Vector2.zero;
     }
 }
