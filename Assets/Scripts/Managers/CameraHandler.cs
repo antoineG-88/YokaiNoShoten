@@ -15,8 +15,8 @@ public class CameraHandler : MonoBehaviour
     [Header("General settings")]
     public float baseOrthographicSize = 5.625f;
     public float sizeLerpSpeed;
+    public Camera mainCamera;
 
-    private Camera mainCamera;
     private Vector2 cameraTarget;
     private Vector2 cameraFinalPos;
     [HideInInspector] public bool followPlayer;
@@ -26,7 +26,6 @@ public class CameraHandler : MonoBehaviour
 
     void Start()
     {
-        mainCamera = Camera.main;
         followPlayer = true;
         currentOrthographicSize = baseOrthographicSize;
         currentLerpSpeed = baseLerpSpeed;

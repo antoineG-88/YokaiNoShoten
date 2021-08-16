@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
     public GameObject playerO;
-    public SlowMoManager slowMoManageRef;
+    public CameraHandler cameraHandlerRef;
+    public LevelManager levelManagerRef;
     public int _noPiercableLayer;
 
     public static PierceHandler pierceHandler;
@@ -22,7 +22,10 @@ public class GameData : MonoBehaviour
     public static GridGraph gridGraph;
     public static Camera mainCamera;
     public static CameraHandler cameraHandler;
+    public static LevelManager levelManager;
+    public static DialogManager dialogManager;
     public static int noPiercableLayer;
+    public static AudioSource playerSource;
 
     private void Awake()
     {
@@ -31,13 +34,16 @@ public class GameData : MonoBehaviour
         grappleHandler = player.GetComponent<GrappleHandler>();
         dashHandler = player.GetComponent<DashHandler>();
         playerManager = player.GetComponent<PlayerManager>();
-        slowMoManager = slowMoManageRef;
         playerVisuals = player.GetComponentInChildren<PlayerVisuals>();
         playerCollider = player.GetComponent<Collider2D>();
         pierceHandler = player.GetComponent<PierceHandler>();
         noPiercableLayer = _noPiercableLayer;
-        mainCamera = Camera.main;
-        cameraHandler = mainCamera.GetComponent<CameraHandler>();
+        cameraHandler = cameraHandlerRef;
+        mainCamera = cameraHandler.GetComponent<Camera>();
+        levelManager = levelManagerRef;
+        dialogManager = levelManager.GetComponent<DialogManager>();
+        slowMoManager = levelManager.GetComponent<SlowMoManager>();
+        playerSource = player.GetComponent<AudioSource>();
     }
 
     private void Start()

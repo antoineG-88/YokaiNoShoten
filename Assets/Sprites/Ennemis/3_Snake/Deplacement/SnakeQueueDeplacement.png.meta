@@ -14,6 +14,24 @@ TextureImporter:
   - first:
       213: 4072386825034669336
     second: SnakeQueueDeplacement_3
+  - first:
+      213: -4919031463772917580
+    second: SnakeQueueDeplacement_0
+  - first:
+      213: -7625611430525058944
+    second: SnakeQueueDeplacement_1
+  - first:
+      213: -1793489250660360267
+    second: SnakeQueueDeplacement_2
+  - first:
+      213: 7078401122359913645
+    second: SnakeQueueDeplacement_3
+  - first:
+      213: 7403102689609389341
+    second: SnakeQueueDeplacement_4
+  - first:
+      213: 2127593441756446949
+    second: SnakeQueueDeplacement_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -104,8 +122,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 40
-        height: 40
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -113,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0204ede9af0982d20800000000000000
-      internalID: 3254010136856772640
+      spriteID: 4b078d222f61cbbb0800000000000000
+      internalID: -4919031463772917580
       vertices: []
       indices: 
       edges: []
@@ -123,10 +141,10 @@ TextureImporter:
       name: SnakeQueueDeplacement_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 42
         y: 0
-        width: 40
-        height: 40
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ffa4882d245996c50800000000000000
-      internalID: 6659017638276516607
+      spriteID: 08045606ec26c2690800000000000000
+      internalID: -7625611430525058944
       vertices: []
       indices: 
       edges: []
@@ -144,10 +162,10 @@ TextureImporter:
       name: SnakeQueueDeplacement_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 84
         y: 0
-        width: 40
-        height: 40
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12a6e1d24f0fef4d0800000000000000
-      internalID: -3098774562064668127
+      spriteID: 5bf58e1670f3c17e0800000000000000
+      internalID: -1793489250660360267
       vertices: []
       indices: 
       edges: []
@@ -165,10 +183,10 @@ TextureImporter:
       name: SnakeQueueDeplacement_3
       rect:
         serializedVersion: 2
-        x: 120
+        x: 126
         y: 0
-        width: 40
-        height: 40
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,8 +194,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81d1c2ead36048830800000000000000
-      internalID: 4072386825034669336
+      spriteID: dac2dfb51588b3260800000000000000
+      internalID: 7078401122359913645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SnakeQueueDeplacement_4
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1518e14caa1db660800000000000000
+      internalID: 7403102689609389341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SnakeQueueDeplacement_5
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 0
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e0085a76fab68d10800000000000000
+      internalID: 2127593441756446949
       vertices: []
       indices: 
       edges: []

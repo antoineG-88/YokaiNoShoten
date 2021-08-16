@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 270c9ac368cca3847a636c4e0c4d2e1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +108,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3860300035935982030}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5799999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -133,9 +133,13 @@ MonoBehaviour:
   aimOffsetLength: 1.5
   momentumOffsetAmplitude: 30
   maxMomentumOffset: 8
+  additionnalOffsetConstraint: 0
+  edgeMargin: 0
   baseOrthographicSize: 7
   sizeLerpSpeed: 5
+  mainCamera: {fileID: 3860300035935982029}
   followPlayer: 0
+  constraintZones: []
 --- !u!20 &3860300035935982029
 Camera:
   m_ObjectHideFlags: 0
@@ -209,7 +213,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

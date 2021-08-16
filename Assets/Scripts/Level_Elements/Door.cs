@@ -21,7 +21,6 @@ public class Door : MonoBehaviour
         {
             isOpened = connectedSwitch.IsON();
         }
-
         animator.SetBool("Opened", isOpened);
         doorCollider.enabled = !isOpened;
     }

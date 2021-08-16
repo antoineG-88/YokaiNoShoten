@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class DialogManager : MonoBehaviour
 {
@@ -36,25 +37,46 @@ public class DialogManager : MonoBehaviour
     private float charProgression;
     private bool isWaitingNext;
     private bool seikiReacting;
+    private EndDialCallback endDialCallback;
 
     private void Start()
     {
-        dialogText.text = string.Empty;
-        dialogPanel.SetActive(false);
+        if(dialogPanel != null)
+        {
+            dialogText.text = string.Empty;
+            dialogPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("Les élements d'UI de dialogue ne sont pas référencé dans le DialogManager, ils se trouve dans le canvas");
+        }
     }
 
-    public void StartDialogue(Dialog newDialog)
+    public delegate void EndDialCallback();
+
+    public void StartDialogue(Dialog newDialog, EndDialCallback endDial)
     {
-        currentDialog = newDialog;
-        currentDialogSentenceIndex = 0;
-        timeElapsedOnSentence = 0;
-        isInDialogue = true;
-        sentenceProgression = string.Empty;
-        charProgression = 0;
-        speakPauseTimeRemaining = 0;
-        dialogPanel.SetActive(true);
-        seikiFaceImage.sprite = neutralFace;
-        nameText.text = string.Empty;
+        if(dialogPanel != null)
+        {
+            if (!isInDialogue)
+            {
+                currentDialog = newDialog;
+                currentDialogSentenceIndex = 0;
+                timeElapsedOnSentence = 0;
+                isInDialogue = true;
+                sentenceProgression = string.Empty;
+                charProgression = 0;
+                speakPauseTimeRemaining = 0;
+                dialogPanel.SetActive(true);
+                seikiFaceImage.sprite = neutralFace;
+                nameText.text = string.Empty;
+                endDialCallback = endDial;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Ne peux pas lancé le dialogue car les éléments d'ui de dialogue ne sont pas référencés. Ils se trouvent dans le canvas");
+        }
     }
 
     public void CloseDialogue()
@@ -63,16 +85,12 @@ public class DialogManager : MonoBehaviour
         isInDialogue = false;
         dialogText.text = string.Empty;
         dialogPanel.SetActive(false);
-
+        endDialCallback();
+        endDialCallback = null;
     }
 
     public void Update()
     {
-        /*if (Input.GetButtonDown("XButton"))
-        {
-            StartDialogue(testDialog);
-        }*/
-
         if (isInDialogue)
         {
             if(isWaitingNext)

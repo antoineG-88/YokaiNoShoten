@@ -18,6 +18,7 @@ public class Saw : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
+            /*
             Vector2 direction = (GameData.player.transform.position - gameObject.transform.position);
             Enemy hitEnemy = collision.gameObject.GetComponent<Enemy>();
             if (hitEnemy.currentSheepShield != null)
@@ -25,7 +26,7 @@ public class Saw : MonoBehaviour
                 hitEnemy.currentSheepShield.Disabling();
                 hitEnemy.Propel(direction.normalized * knockbackDirectedForce);
                 StartCoroutine(hitEnemy.NoControl(0.3f));
-            }
+            }*/
         }
     }
 }

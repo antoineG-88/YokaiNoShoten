@@ -8,7 +8,8 @@ public abstract class Enemy : Piercable
     [Header("General settings")]
     public int maxHealthPoint;
     public float movementZoneRadius;
-    public AnimationClip hurtAnimClip;
+    public float provocationRange;
+    public GameObject prefabObject;
     public AnimationClip deathAnimClip;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -40,12 +41,15 @@ public abstract class Enemy : Piercable
     [HideInInspector]
     public bool isProtected;
 
-    protected bool provoked;
+    [HideInInspector] public bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool isDying;
     [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
+    [HideInInspector] public Material material;
+    public ParticleSystem deathParticle;
+    float shapeAngle;
 
 
     protected void Start()
@@ -62,6 +66,15 @@ public abstract class Enemy : Piercable
         inControl = true;
         pathPositions = new List<Vector3>();
         isProtected = false;
+        provoked = false;
+        if(deathParticle != null)
+        {
+            ParticleSystem.ShapeModule shape = deathParticle.shape;
+            //shape.rotation = new Vector3(90, shapeAngle, 0);
+        }
+        material = GetComponentInChildren<Renderer>().sharedMaterial;
+
+
     }
     protected void Update()
     {
@@ -137,7 +150,7 @@ public abstract class Enemy : Piercable
             {
                 if (closeEnemy.gameObject != gameObject)
                 {
-                    Vector2 directedForce = closeEnemy.transform.position - transform.position;
+                    Vector2 directedForce = transform.position- closeEnemy.transform.position;
                     if (directedForce == Vector2.zero)
                     {
                         directedForce = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
@@ -158,6 +171,7 @@ public abstract class Enemy : Piercable
                         directedForce = directedForce.normalized * maximalAvoidForce;
                     }
 
+                    Propel(directedForce);
                     //closeEnemy.GetComponent<Enemy>().Propel(directedForce * Time.fixedDeltaTime);
                 }
             }
@@ -169,6 +183,15 @@ public abstract class Enemy : Piercable
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
         playerDirection = GameData.player.transform.position - transform.position;
         playerDirection.Normalize();
+
+        if(Vector2.Distance(transform.position, initialPos) > movementZoneRadius)
+        {
+            provoked = false;
+        }
+        else if (distToPlayer < provocationRange)
+        {
+            provoked = true;
+        }
     }
 
     public void TakeDamage(int damage, float noControlTime)
@@ -314,8 +337,19 @@ public abstract class Enemy : Piercable
             animator.SetBool("Dead",true);
         isDying = true;
         doNotReableCollider = true;
+        shapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
+        if (deathParticle != null)
+        {
+            ParticleSystem.ShapeModule shape = deathParticle.shape;
+            //shape.rotation = new Vector3(90,-shapeAngle, 0);
+            deathParticle.Play();
+        }
+        material.SetFloat("_deadOrAlive", 0);
         OnDie();
-        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length*2 : 0.8f);
+        if (deathParticle != null)
+            deathParticle.Stop();
+        material.SetFloat("_deadOrAlive", 1);
         Destroy(gameObject);
     }
     protected virtual void OnDie()
@@ -328,6 +362,18 @@ public abstract class Enemy : Piercable
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    public void Activate()
+    {
+        //effet d'activation
+        prefabObject.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        //effet d'activation
+        prefabObject.SetActive(false);
     }
 
     private void OnDrawGizmosSelected()
@@ -344,8 +390,8 @@ public abstract class Enemy : Piercable
         }
         else
         {
-            Propel(directedForce);
-            StartCoroutine(NoControl(0.3f));
+            //Propel(directedForce);
+            //StartCoroutine(NoControl(0.3f));
         }
         return isProtected;
     }

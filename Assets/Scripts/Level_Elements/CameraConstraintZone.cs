@@ -14,10 +14,11 @@ public class CameraConstraintZone : MonoBehaviour
     public float leftLimit;
     public float rightLimit;
     public Color cameraPreviewColor;
+    public bool isTriggeredExternaly;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("Player"))
+        if(collider.CompareTag("Player") && !isTriggeredExternaly)
         {
             GameData.cameraHandler.constraintZones.Add(this);
         }
@@ -25,7 +26,7 @@ public class CameraConstraintZone : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag("Player") && !isTriggeredExternaly)
         {
             GameData.cameraHandler.constraintZones.Remove(this);
         }

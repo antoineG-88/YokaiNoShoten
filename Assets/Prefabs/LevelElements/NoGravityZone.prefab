@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d761a0b7da7d5df44b32647f49bc7441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeedInNGZone: 0
-  momentumSlowingForce: 0
-  maxSpeedInNGZone: 0
-  aboveMaxMomentumSlowingForce: 0
+  minSpeedInNGZone: 3
+  momentumSlowingForce: 5
+  maxSpeedInNGZone: 8
+  aboveMaxMomentumSlowingForce: 80
 --- !u!212 &8607124443657085903
 SpriteRenderer:
   m_ObjectHideFlags: 0
