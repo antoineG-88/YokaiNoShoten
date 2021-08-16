@@ -50,7 +50,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9bdc3eb1e179e6843b874be910847a61, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,6 +153,9 @@ MonoBehaviour:
   provocationRange: 15
   prefabObject: {fileID: 1590587893474340737}
   deathAnimClip: {fileID: 7400000, guid: 53720b6e532ce9e49a25350fb8448b19, type: 2}
+  enemySprites:
+  - {fileID: 4130565839816083979}
+  dissolveTime: 1
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
