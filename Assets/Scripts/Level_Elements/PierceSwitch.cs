@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class PierceSwitch : Switch
 {
-    public Color activatedColor;
-
-    private SpriteRenderer spriteRenderer;
-    private Color baseColor;
+    public Animator animator;
 
     public override bool PierceEffect(int damage, Vector2 directedForce)
     {
@@ -18,12 +15,10 @@ public class PierceSwitch : Switch
     public override void Start()
     {
         base.Start();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        baseColor = spriteRenderer.color;
     }
 
     private void Update()
     {
-        spriteRenderer.color = isOn ? activatedColor : baseColor;
+        animator.SetBool("LeverOn", isOn);
     }
 }

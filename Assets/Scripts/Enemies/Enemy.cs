@@ -178,6 +178,8 @@ public abstract class Enemy : Piercable
         }
     }
     public abstract void UpdateMovement();
+
+    Collider2D wallCollider;
     protected virtual void UpdateBehavior()
     {
         distToPlayer = Vector2.Distance(transform.position, GameData.player.transform.position);
@@ -191,6 +193,13 @@ public abstract class Enemy : Piercable
         else if (distToPlayer < provocationRange)
         {
             provoked = true;
+        }
+
+        wallCollider = Physics2D.OverlapBox(transform.position, Vector2.one * 0.02f, 0, LayerMask.GetMask("Wall"));
+
+        if(wallCollider != null)
+        {
+            Die();
         }
     }
 
