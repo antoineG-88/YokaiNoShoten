@@ -37,6 +37,7 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public NoGravityZone currentGravityZone;
     [HideInInspector] public bool isKnockedAway;
     [HideInInspector] public int isInSlidingZone;
+    [HideInInspector] public float noControlTargetSpeed;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Rigidbody2D groundRb;
@@ -89,6 +90,10 @@ public class MovementHandler : MonoBehaviour
             {
                 horizontalTargetSpeed = 0;
             }
+        }
+        else
+        {
+            horizontalTargetSpeed = noControlTargetSpeed;
         }
     }
 

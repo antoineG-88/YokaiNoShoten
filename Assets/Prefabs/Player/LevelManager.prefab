@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8079606d2e2724fb6ef505fb6e7db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
+  transitionTime: 1
   decoSceneIndex: 0
   decoScenePath: 
   zoneName: FirstSandBox
@@ -97,20 +99,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpeakingSpeed: 30
   baseSpeakPauseTime: 0.3
-  minTimeToPass: 0.3
+  minTimeToPass: 0.1
   dialogText: {fileID: 0}
   seikiFaceImage: {fileID: 0}
   dialogBox: {fileID: 0}
   dialogPanel: {fileID: 0}
   nameText: {fileID: 0}
   characterFace: {fileID: 0}
-  neutralFace: {fileID: 21300000, guid: 08cd7b2d55ef0ef44b135bb7d4e211cc, type: 3}
-  happyFace: {fileID: 21300000, guid: 08cd7b2d55ef0ef44b135bb7d4e211cc, type: 3}
-  sadFace: {fileID: 21300000, guid: 08cd7b2d55ef0ef44b135bb7d4e211cc, type: 3}
-  angryFace: {fileID: 21300000, guid: 08cd7b2d55ef0ef44b135bb7d4e211cc, type: 3}
+  neutralFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
+  happyFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
+  sadFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
+  angryFace: {fileID: 21300000, guid: 9df00edcab046f6439f2c7bb41877206, type: 3}
   characterFaces:
-  - characterName: kage
-    face: {fileID: 21300000, guid: 5a695bbd8e28d2644be36172172e94c9, type: 3}
-  - characterName: tekuno
-    face: {fileID: 21300000, guid: 460c266d4d5b119428a28fb7b2ef5deb, type: 3}
+  - characterName: Dash
+    face: {fileID: 21300000, guid: 861cfc88ec9dc104f88bbf21c5149010, type: 3}
+  - characterName: Tekuno
+    face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
+  - characterName: Dorima
+    face: {fileID: 21300000, guid: 7106ce99c0c86424aabeb799bb232232, type: 3}
+  - characterName: Raido
+    face: {fileID: 21300000, guid: beabb2d06acbbb34685381c300fdc1d2, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
