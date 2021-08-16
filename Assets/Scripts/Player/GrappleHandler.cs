@@ -28,17 +28,22 @@ public class GrappleHandler : MonoBehaviour
     public float aimAssistAngle;
     public float aimAssistRaycastNumber;
     public float angleToTakeClosest;
+    public bool alwaysDisplayAim;
     [Header("Key bindings settings")]
     public bool aimWithLeftJoystick;
     public bool tractWithLeftTrigger;
     [Space]
     [Header("References")]
-    public GameObject armShoulderO;
+    public GameObject aimArrow;
     public Transform shootPoint;
     public GameObject ringHighLighterO;
     public GameObject grapplingStartPointO;
     [Header("Debug settings")]
     public bool displayAutoAimRaycast;
+    [Header("Graphics settings")]
+    public float ropeAppearSpeed;
+    public AudioClip attachGrappleSound;
+    public AudioSource grappleLoopSource;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
@@ -60,6 +65,9 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool canShoot;
     [HideInInspector] public bool isSucked;
 
+    private Material ropeMaterial;
+    private float ropeAppearState;
+
     private bool tractTriggerDown;
     private bool tractTriggerPressed;
 
@@ -70,13 +78,15 @@ public class GrappleHandler : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         ropeRenderer = GetComponent<LineRenderer>();
+        ropeMaterial = ropeRenderer.sharedMaterial;
         ringHighLighterO.SetActive(false);
         isAiming = false;
         isHooked = false;
         isTracting = false;
         canUseTraction = true;
         canShoot = true;
-        armShoulderO.SetActive(false);
+        if (!alwaysDisplayAim)
+            aimArrow.SetActive(false);
         timeBeforeNextShoot = 0;
         aimAssistSubAngle = aimAssistAngle / (aimAssistRaycastNumber - 1);
         aimAssistFirstAngle = -aimAssistAngle / 2;
@@ -111,14 +121,14 @@ public class GrappleHandler : MonoBehaviour
             if (!isAiming && aimStickMag.magnitude > 0.1f && !isTracting)
             {
                 isAiming = true;
-                armShoulderO.SetActive(true);
+                aimArrow.SetActive(true);
             }
             else if (isAiming && aimStickMag.magnitude <= 0.1f)
             {
                 isAiming = false;
-                if (!keepAim)
+                if (!keepAim && !alwaysDisplayAim)
                 {
-                    armShoulderO.SetActive(false);
+                    aimArrow.SetActive(false);
                 }
             }
 
@@ -128,7 +138,7 @@ public class GrappleHandler : MonoBehaviour
                 {
                     aimDirection = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
                     aimDirection.Normalize();
-                    armShoulderO.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
+                    aimArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
                 }
 
 
@@ -177,7 +187,7 @@ public class GrappleHandler : MonoBehaviour
                     }
                 }
                 selectedObject = closeObject;
-
+                /*
                 Vector3[] ropePoints = new Vector3[2];
 
                 RaycastHit2D ropeHit = Physics2D.Raycast(transform.position, aimDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "SpiritPart"));
@@ -193,8 +203,8 @@ public class GrappleHandler : MonoBehaviour
                     ropePoints[1] = (Vector2)transform.position + aimDirection * maxGrappleRange;
                 }
 
-                ropeRenderer.enabled = false;
-                ropeRenderer.SetPositions(ropePoints);
+                ropeRenderer.enabled = true;
+                ropeRenderer.SetPositions(ropePoints);*/
 
                 if (selectedObject != null)
                 {
@@ -253,7 +263,8 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             ringHighLighterO.SetActive(false);
-            armShoulderO.SetActive(false);
+            if(!alwaysDisplayAim)
+                aimArrow.SetActive(false);
             isAiming = false;
         }
     }
@@ -276,11 +287,25 @@ public class GrappleHandler : MonoBehaviour
             //pour corriger le stretch visuel du material du grappin
             distanceRopeRing = Vector3.Distance(transform.position, attachedObject.transform.position);
             ropeRenderer.material.mainTextureScale = new Vector2(distanceRopeRing*2,1);
-            
+
+            if(ropeAppearState < 1)
+            {
+                ropeAppearState += ropeAppearSpeed * Time.fixedDeltaTime;
+                ropeMaterial.SetFloat("_grappLineSwitch", ropeAppearState);
+            }
+            else
+            {
+                ropeMaterial.SetFloat("_grappLineSwitch", 1);
+            }
+            ropeRenderer.sharedMaterial = ropeMaterial;
+
+            aimArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, tractionDirection));
+
             if (canUseTraction && tractTriggerPressed && !GameData.dashHandler.isDashing)
             {
                 GameData.movementHandler.canMove = false;
-                armShoulderO.SetActive(false);
+                if (!alwaysDisplayAim)
+                    aimArrow.SetActive(false);
                 isAiming = false;
 
                 if (!isTracting)
@@ -334,11 +359,22 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             canShoot = true;
-            ropeRenderer.enabled = false;
             if (attachedObject == null)
             {
                 //ReleaseHook();
             }
+
+            if (ropeAppearState > 0)
+            {
+                ropeAppearState -= ropeAppearSpeed * Time.fixedDeltaTime;
+                ropeMaterial.SetFloat("_grappLineSwitch", ropeAppearState);
+            }
+            else
+            {
+                ropeMaterial.SetFloat("_grappLineSwitch", 0);
+                ropeRenderer.enabled = false;
+            }
+            ropeRenderer.sharedMaterial = ropeMaterial;
         }
     }
 
@@ -369,6 +405,8 @@ public class GrappleHandler : MonoBehaviour
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
+        if(attachGrappleSound != null)
+            GameData.playerSource.PlayOneShot(attachGrappleSound);
         if (isSucked == false)
         {
             GameData.dashHandler.canDash = true;
@@ -380,7 +418,6 @@ public class GrappleHandler : MonoBehaviour
     {
         isHooked = false;
         isTracting = false;
-        ropeRenderer.enabled = false;
         GameData.movementHandler.canMove = true;
         attachedObject = null;
         //GameData.movementHandler.isAffectedbyGravity = true;

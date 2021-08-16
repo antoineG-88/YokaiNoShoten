@@ -26,17 +26,20 @@ public static class SaveSystem
         }
         else
         {
-            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/My Games";
+            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            savePath = Path.Combine(savePath, "My Games");
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
             }
-            savePath += defaultGameDirectoryName;
+            savePath = Path.Combine(savePath, defaultGameDirectoryName);
+            //savePath += defaultGameDirectoryName;
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
             }
-            savePath += defaultSaveDirectoryName;
+            savePath = Path.Combine(savePath, defaultSaveDirectoryName);
+            //savePath += defaultSaveDirectoryName;
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
@@ -49,7 +52,8 @@ public static class SaveSystem
         if (savePath != "" && savePath != null)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+            //string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+            string path = Path.Combine(savePath, zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension);
 
             FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -67,7 +71,8 @@ public static class SaveSystem
         if (savePath != "" && savePath != null)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
+            //string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
+            string path = Path.Combine(savePath, progressionDataSaveFileName + progressionSaveFileExtension);
 
             FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -85,7 +90,8 @@ public static class SaveSystem
 
     public static ZoneData LoadZone(string zoneName)
     {
-        string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+        //string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+        string path = Path.Combine(savePath, zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension);
 
         if (File.Exists(path))
         {
@@ -109,7 +115,8 @@ public static class SaveSystem
 
     public static ProgressionData LoadProgression()
     {
-        string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
+        //string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
+        string path = Path.Combine(savePath, progressionDataSaveFileName + progressionSaveFileExtension);
 
         if (File.Exists(path))
         {
@@ -133,7 +140,9 @@ public static class SaveSystem
 
     public static void DeleteSaveFile(string zoneName)
     {
-        string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+        //string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
+        string path = Path.Combine(savePath, zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension);
+
         Debug.Log("deleted at : " + path);
         File.Delete(path);
     }

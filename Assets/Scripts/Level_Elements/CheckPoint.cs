@@ -13,7 +13,7 @@ public class CheckPoint : MonoBehaviour
     public GameObject checkPointActivationDisplay;
 
     private bool isPlayerInRange;
-    private bool isActivated;
+    [HideInInspector] public bool isActivated;
     private float elapsedTimeNearCheckPoint;
     private bool saveFlag;
     private bool regenerateFlag;
@@ -49,7 +49,6 @@ public class CheckPoint : MonoBehaviour
             if(saveFlag)
             {
                 saveFlag = false;
-                isActivated = true;
                 SaveAsCurrentCheckPoint();
             }
         }
@@ -66,6 +65,7 @@ public class CheckPoint : MonoBehaviour
 
     private void SaveAsCurrentCheckPoint()
     {
+        LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);
     }
 

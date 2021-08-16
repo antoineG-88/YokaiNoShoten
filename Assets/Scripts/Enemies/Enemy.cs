@@ -9,7 +9,7 @@ public abstract class Enemy : Piercable
     public int maxHealthPoint;
     public float movementZoneRadius;
     public float provocationRange;
-    public AnimationClip hurtAnimClip;
+    public GameObject prefabObject;
     public AnimationClip deathAnimClip;
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -47,6 +47,9 @@ public abstract class Enemy : Piercable
     [HideInInspector] public bool isDying;
     [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
+    [HideInInspector] public Material material;
+    public ParticleSystem deathParticle;
+    float shapeAngle;
 
 
     protected void Start()
@@ -64,6 +67,14 @@ public abstract class Enemy : Piercable
         pathPositions = new List<Vector3>();
         isProtected = false;
         provoked = false;
+        if(deathParticle != null)
+        {
+            ParticleSystem.ShapeModule shape = deathParticle.shape;
+            //shape.rotation = new Vector3(90, shapeAngle, 0);
+        }
+        material = GetComponentInChildren<Renderer>().sharedMaterial;
+
+
     }
     protected void Update()
     {
@@ -326,8 +337,19 @@ public abstract class Enemy : Piercable
             animator.SetBool("Dead",true);
         isDying = true;
         doNotReableCollider = true;
+        shapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
+        if (deathParticle != null)
+        {
+            ParticleSystem.ShapeModule shape = deathParticle.shape;
+            //shape.rotation = new Vector3(90,-shapeAngle, 0);
+            deathParticle.Play();
+        }
+        material.SetFloat("_deadOrAlive", 0);
         OnDie();
-        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length*2 : 0.8f);
+        if (deathParticle != null)
+            deathParticle.Stop();
+        material.SetFloat("_deadOrAlive", 1);
         Destroy(gameObject);
     }
     protected virtual void OnDie()
@@ -340,6 +362,18 @@ public abstract class Enemy : Piercable
         inControl = false;
         yield return new WaitForSeconds(time);
         inControl = true;
+    }
+
+    public void Activate()
+    {
+        //effet d'activation
+        prefabObject.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        //effet d'activation
+        prefabObject.SetActive(false);
     }
 
     private void OnDrawGizmosSelected()

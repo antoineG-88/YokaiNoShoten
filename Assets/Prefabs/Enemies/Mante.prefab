@@ -49,7 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 1
   movementZoneRadius: 10
-  hurtAnimClip: {fileID: 0}
+  provocationRange: 10
+  prefabObject: {fileID: 8936422184792327274}
   deathAnimClip: {fileID: 0}
   nextWaypointDistance: 2
   waypointAhead: 0
@@ -62,9 +63,12 @@ MonoBehaviour:
   avoidDistanceInfluence: 1
   recentlyHit: 0
   isProtected: 0
+  provoked: 0
   inControl: 0
   isDying: 0
   currentSheepShield: {fileID: 0}
+  material: {fileID: 0}
+  deathParticle: {fileID: 0}
   distanceToRetreat: 3.5
   fleeSpeed: 5
   maxDistanceToFlee: 9
@@ -72,7 +76,6 @@ MonoBehaviour:
   secondPortal: {fileID: 8936422185778174433}
   accelerationForce: 50
   stopDistance: 1
-  provocationRange: 10
   playerDistanceToSabotagePortal: 1.5
   portalSabotageTime: 10
   sabotageStunTime: 5
