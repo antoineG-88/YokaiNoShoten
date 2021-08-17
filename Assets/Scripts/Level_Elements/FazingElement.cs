@@ -4,59 +4,81 @@ using UnityEngine;
 
 public class FazingElement : MonoBehaviour
 {
-    public Collider2D col;
-    public SpriteRenderer sr;
     [Header("Pair = disparition, Impair = apparition")]
     public float[] fazeTimings;
-    public bool loop;
-    private bool coroutineCanLoop;
-    // Start is called before the first frame update
+    public float timeWarning;
+
+    private Collider2D ringCollider;
+    private SpriteRenderer spriteRenderer;
+    private float timeRemainingForCurrentStep;
+    private int stepIndex;
+    private Animator animator;
+
     void Start()
     {
-        if (sr == null)
-        {
-            sr = GetComponent<SpriteRenderer>();
-        }
-        if (col == null)
-        {
-            col = GetComponent<Collider2D>();
-        }
-        StartCoroutine(PlatformFade());
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        ringCollider = GetComponent<Collider2D>();
+        stepIndex = -1;
+        animator.enabled = true;
+        timeRemainingForCurrentStep = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (coroutineCanLoop == true)
+        if (timeRemainingForCurrentStep <= 0)
         {
-            StartCoroutine(PlatformFade());
-        }
-    }
-    IEnumerator PlatformFade()
-    {
-        for (int i = 0; i < fazeTimings.Length; i++)
-        {
-            if (i % 2 == 0)
+            stepIndex++;
+            if (stepIndex >= fazeTimings.Length)
             {
-                //pair, disparait
-                coroutineCanLoop = false;
-                col.enabled = false;
-                sr.enabled = false;
+                stepIndex = 0;
+            }
 
-                yield return new WaitForSeconds(fazeTimings[i]);
+            if(fazeTimings[stepIndex] == 0)
+            {
+                stepIndex++;
+                if (stepIndex >= fazeTimings.Length)
+                {
+                    stepIndex = 0;
+                }
+            }
+            timeRemainingForCurrentStep = fazeTimings[stepIndex];
+
+            if (stepIndex % 2 == 0)
+            {
+                FazeOut();
             }
             else
             {
-                //impair, apparait
-                col.enabled = true;
-                sr.enabled = true;
-                yield return new WaitForSeconds(fazeTimings[i]);
+                FazeIn();
             }
         }
-
-        if (loop == true)
+        else
         {
-            coroutineCanLoop = true;
+            timeRemainingForCurrentStep -= Time.deltaTime;
+            if(timeRemainingForCurrentStep <= timeWarning && stepIndex % 2 != 0)
+            {
+                animator.SetBool("Faze", true);
+            }
         }
+    }
+
+    private void FazeOut()
+    {
+        //spriteRenderer.enabled =false;
+        ringCollider.enabled = false;
+        animator.SetBool("Faze", true);
+        if(GameData.grappleHandler.attachedObject == gameObject)
+        {
+            GameData.movementHandler.rb.velocity *= GameData.grappleHandler.velocityKeptReleasingHook / 100;
+            GameData.grappleHandler.BreakRope("Fazing ring");
+        }
+    }
+
+    private void FazeIn()
+    {
+        //spriteRenderer.enabled = true;
+        ringCollider.enabled = true;
+        animator.SetBool("Faze", false);
     }
 }
