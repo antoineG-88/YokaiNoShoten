@@ -14,6 +14,7 @@ public class TorchSystem : Switch
     public LayerMask playerLayerMask;
     public float torchLerpRatio;
     public bool stayOn;
+    public Animator animator;
 
     private ContactFilter2D playerFilter;
     private bool isTorchGrabbed;
@@ -35,14 +36,20 @@ public class TorchSystem : Switch
 
     private void Update()
     {
-        isOn = true;
-        for (int i = 0; i < allLights.Count; i++)
+        if(!isOn)
         {
-            if (!allLights[i].IsON())
+            isOn = true;
+            for (int i = 0; i < allLights.Count; i++)
             {
-                isOn = false;
+                if (!allLights[i].IsON())
+                {
+                    isOn = false;
+                }
             }
         }
+
+        animator.SetBool("Activated", isOn);
+
 
         if(isOn && stayOn && isTorchGrabbed)
         {
