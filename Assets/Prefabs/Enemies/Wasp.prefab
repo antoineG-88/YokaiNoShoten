@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 763350508382447388}
   - component: {fileID: 763350508382447395}
   - component: {fileID: 763350508382447393}
-  - component: {fileID: 763350508382447392}
+  - component: {fileID: 1309729319477215805}
   m_Layer: 11
   m_Name: Wasp
   m_TagString: Enemy
@@ -246,8 +246,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &763350508382447392
-PolygonCollider2D:
+--- !u!58 &1309729319477215805
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -260,23 +260,8 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
+  serializedVersion: 2
+  m_Radius: 0.4
 --- !u!1 &763350509277404791
 GameObject:
   m_ObjectHideFlags: 0

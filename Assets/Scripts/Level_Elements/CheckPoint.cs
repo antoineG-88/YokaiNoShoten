@@ -6,11 +6,12 @@ public class CheckPoint : MonoBehaviour
 {
     public int checkPointNumber;
     public float timeToRegenerate;
-    [Header("Temporary")]
+    public Animator animator;
+    /*[Header("Temporary")]
     public float regenFBStartSize;
     public float regenFBMaxSize;
     public GameObject regenerationFeedback;
-    public GameObject checkPointActivationDisplay;
+    public GameObject checkPointActivationDisplay;*/
 
     private bool isPlayerInRange;
     [HideInInspector] public bool isActivated;
@@ -33,38 +34,30 @@ public class CheckPoint : MonoBehaviour
         if(isPlayerInRange)
         {
             elapsedTimeNearCheckPoint += Time.deltaTime;
-            regenerationFeedback.SetActive(true);
 
             if (elapsedTimeNearCheckPoint > timeToRegenerate && regenerateFlag)
             {
-                regenerationFeedback.transform.localScale = Vector2.one * regenFBMaxSize;
                 regenerateFlag = false;
                 Regenerate();
-            }
-            else
-            {
-                regenerationFeedback.transform.localScale = Vector2.one * Mathf.Lerp(regenFBStartSize, regenFBMaxSize, elapsedTimeNearCheckPoint / timeToRegenerate);
-            }
 
-            if(saveFlag)
-            {
-                saveFlag = false;
-                SaveAsCurrentCheckPoint();
+                if (saveFlag)
+                {
+                    saveFlag = false;
+                    SaveAsCurrentCheckPoint();
+                }
             }
         }
         else
         {
             elapsedTimeNearCheckPoint = 0;
-            regenerationFeedback.SetActive(false);
             regenerateFlag = true;
             saveFlag = true;
         }
-
-        checkPointActivationDisplay.SetActive(isActivated);
     }
 
     private void SaveAsCurrentCheckPoint()
     {
+        animator.SetBool("Activated", true);
         LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);
     }

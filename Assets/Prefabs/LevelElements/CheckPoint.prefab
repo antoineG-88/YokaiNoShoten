@@ -47,10 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkPointNumber: 0
   timeToRegenerate: 0.1
-  regenFBStartSize: 0.0334872
-  regenFBMaxSize: 0.18
-  regenerationFeedback: {fileID: 666047526250085894}
-  checkPointActivationDisplay: {fileID: 666047526453805807}
+  animator: {fileID: 1637558097713902682}
   isActivated: 0
 --- !u!61 &666047525666869489
 BoxCollider2D:
@@ -505,8 +502,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -407621029
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: abe9bfebc95f1554ca109da92b01ef1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5542755897880323008
 Transform:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   startOnON: 1
   inverseOutput: 0
   isOn: 0
-  activatedColor: {r: 0.9528302, g: 0.33710343, b: 0.04045032, a: 1}
+  animator: {fileID: 3627050463241111812}
 --- !u!95 &3627050463241111812
 Animator:
   serializedVersion: 3
