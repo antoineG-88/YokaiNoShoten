@@ -44,6 +44,7 @@ public class GrappleHandler : MonoBehaviour
     public float ropeAppearSpeed;
     public AudioClip attachGrappleSound;
     public AudioSource grappleLoopSource;
+    public AudioClip releaseGrappleSound;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
@@ -407,8 +408,17 @@ public class GrappleHandler : MonoBehaviour
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
+
         if(attachGrappleSound != null)
+        {
             GameData.playerSource.PlayOneShot(attachGrappleSound);
+        }
+
+        if(grappleLoopSource!= null)
+        {
+            grappleLoopSource.Play();
+        }
+
         if (isSucked == false)
         {
             GameData.dashHandler.canDash = true;
@@ -418,10 +428,21 @@ public class GrappleHandler : MonoBehaviour
 
     public void ReleaseHook()
     {
+        if (releaseGrappleSound != null && isHooked)
+        {
+            GameData.playerSource.PlayOneShot(releaseGrappleSound);
+        }
+
         isHooked = false;
         isTracting = false;
         GameData.movementHandler.canMove = true;
         attachedObject = null;
+
+
+        if (grappleLoopSource != null)
+        {
+            grappleLoopSource.Stop();
+        }
         //GameData.movementHandler.isAffectedbyGravity = true;
     }
 
