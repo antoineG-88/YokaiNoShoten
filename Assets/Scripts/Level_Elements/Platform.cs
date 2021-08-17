@@ -17,16 +17,15 @@ public class Platform : MonoBehaviour
     {
         if (timeRemaining > 0)
         {
-            platformCollider.enabled = false;
             timeRemaining -= Time.fixedDeltaTime;
         }
-        else
-        {
-            platformCollider.enabled = true;
-        }
 
+        platformCollider.enabled = timeRemaining <= 0;
+    }
 
-        if (Input.GetAxisRaw("LeftStickV") == 1 || GameData.grappleHandler.isTracting)
+    private void Update()
+    {
+        if (Input.GetAxisRaw("LeftStickV") > 0.5f || GameData.grappleHandler.isTracting)
         {
             timeRemaining = reactivationDelay;
         }

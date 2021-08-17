@@ -280,7 +280,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5962325125717775066}
   - component: {fileID: 1419287428432987123}
-  - component: {fileID: 6668219014692241684}
   m_Layer: 12
   m_Name: SerpentPart (7)
   m_TagString: Untagged
@@ -296,7 +295,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789561275148493330}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.1850014, y: 0, z: 0}
+  m_LocalPosition: {x: -4.706, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3301629220403723975}
@@ -316,7 +315,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -324,37 +323,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &6668219014692241684
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789561275148493330}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &1172760015330282210
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +639,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3267747729346158534}
   - component: {fileID: 4623040133469737678}
-  - component: {fileID: 3533241767544827047}
   m_Layer: 12
   m_Name: SerpentPart (5)
   m_TagString: Untagged
@@ -707,7 +674,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -715,37 +682,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &3533241767544827047
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2557914394495882193}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &3222167889513680256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4061497407081252107}
   m_LocalRotation: {x: 0, y: 0, z: 0.17364816, w: 0.9848078}
-  m_LocalPosition: {x: -0.46, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1539987326697424731}
@@ -1205,7 +1141,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3077654173483806478}
   - component: {fileID: 3508355619582698214}
-  - component: {fileID: 1171836958355823805}
   m_Layer: 12
   m_Name: SerpentPart (3)
   m_TagString: Untagged
@@ -1241,7 +1176,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1249,37 +1184,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &1171836958355823805
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4831083098343925897}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &5202223807556047670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,7 +1296,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5202223808009607644}
   - component: {fileID: 5202223808009607646}
-  - component: {fileID: 8339700414697760770}
   m_Layer: 12
   m_Name: SerpentPart (2)
   m_TagString: Untagged
@@ -1428,7 +1331,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1436,37 +1339,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &8339700414697760770
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5202223808009607456}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &5202223808204664181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1477,7 +1349,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5202223808204664177}
   - component: {fileID: 5202223808204664179}
-  - component: {fileID: 8961531821024938565}
   m_Layer: 12
   m_Name: SerpentPart (4)
   m_TagString: Untagged
@@ -1513,7 +1384,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1521,37 +1392,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &8961531821024938565
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5202223808204664181}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &5202223808570074869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,7 +1402,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5202223808570074865}
   - component: {fileID: 5202223808570074867}
-  - component: {fileID: 2596042084023788419}
   m_Layer: 12
   m_Name: SerpentPart (1)
   m_TagString: Untagged
@@ -1598,7 +1437,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1606,37 +1445,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &2596042084023788419
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5202223808570074869}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &5202223809162792924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,8 +1455,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5202223809162792921}
   - component: {fileID: 5202223809162792923}
-  - component: {fileID: 1489588986947605285}
   - component: {fileID: 1980815398}
+  - component: {fileID: 6444637542600002839}
   m_Layer: 11
   m_Name: Tail
   m_TagString: Untagged
@@ -1692,37 +1500,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &1489588986947605285
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5202223809162792924}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!114 &1980815398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,7 +1512,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d57320f4874f74492e9b5c50c9b6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serpent: {fileID: 0}
+  serpent: {fileID: 5202223809458673487}
+--- !u!58 &6444637542600002839
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809162792924}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.45
 --- !u!1 &5202223809410743028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1746,7 +1539,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5202223809410743024}
   - component: {fileID: 5202223809410743027}
-  - component: {fileID: 6632081174666064729}
   m_Layer: 12
   m_Name: SerpentPart
   m_TagString: Untagged
@@ -1782,7 +1574,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1790,37 +1582,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &6632081174666064729
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5202223809410743028}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.25, y: 1.25}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &5202223809458673488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,8 +1593,8 @@ GameObject:
   - component: {fileID: 5202223809458673485}
   - component: {fileID: 5202223809458673487}
   - component: {fileID: 5202223809458673484}
-  - component: {fileID: 5202223809458673486}
   - component: {fileID: 5202223809458673483}
+  - component: {fileID: 6516496859321095351}
   m_Layer: 11
   m_Name: Serpent
   m_TagString: Untagged
@@ -1946,37 +1707,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &5202223809458673486
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5202223809458673488}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!114 &5202223809458673483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2005,6 +1735,22 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!58 &6516496859321095351
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202223809458673488}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4
 --- !u!1 &6825701083536327384
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,7 +1761,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1539987326697424731}
   - component: {fileID: 7951637774736458556}
-  - component: {fileID: 6710199590052082590}
   m_Layer: 12
   m_Name: SerpentPart (6)
   m_TagString: Untagged
@@ -2031,7 +1776,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6825701083536327384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2250013, y: 0, z: 0}
+  m_LocalPosition: {x: -4.207, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6580147148688962112}
@@ -2051,7 +1796,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.0001
-  m_LinearDrag: 50
+  m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -2059,37 +1804,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &6710199590052082590
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6825701083536327384}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
 --- !u!1 &7256397200915870999
 GameObject:
   m_ObjectHideFlags: 0
