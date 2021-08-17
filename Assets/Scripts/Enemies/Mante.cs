@@ -28,6 +28,10 @@ public class Mante : Enemy
     public float cytheTargetPlayerOffsetDistance;
     public float cytheKnockbackDistance;
     public LayerMask playerMask;
+    public float timeBeforeFirstCytheThrow;
+    [Header("Visuals")]
+    public SpriteRenderer sprite;
+    public GameObject disparitionFXPrefab;
     [Header("Temporary")]
     public float baseCytheScale;
     public float anticipationCytheScale;
@@ -56,6 +60,7 @@ public class Mante : Enemy
 
     private SpriteRenderer firstPortalRenderer;
     private SpriteRenderer secondPortalRenderer;
+    private bool isFacingRight;
 
     protected new void Start()
     {
@@ -64,11 +69,13 @@ public class Mante : Enemy
         playerFilter.SetLayerMask(playerMask);
         firstPortalRenderer = firstPortal.transform.GetChild(0).GetComponent<SpriteRenderer>();
         secondPortalRenderer = secondPortal.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        cytheCDElapsed = cytheAttackCooldown - timeBeforeFirstCytheThrow;
     }
 
     protected new void Update()
     {
         base.Update();
+        UpdateVisuals();
     }
 
     protected new void FixedUpdate()
@@ -82,8 +89,8 @@ public class Mante : Enemy
         base.UpdateBehavior();
         isFleeing = distToPlayer < maxDistanceToFlee;
         destinationReached = Vector2.Distance(transform.position, targetPathfindingPosition) < stopDistance;
-
-        if(provoked)
+        isFacingRight = playerDirection.x > 0;
+        if (provoked)
         {
             if (inControl)
             {
@@ -111,7 +118,7 @@ public class Mante : Enemy
 
     private void UpdateCythe()
     {
-        if(inControl)
+        if(inControl && !isDying)
         {
             if (isTeleguidingCythe)
             {
@@ -184,7 +191,7 @@ public class Mante : Enemy
         else
         {
             isTeleguidingCythe = false;
-            isCytheInRecall = true;
+            isCytheInRecall = false;
         }
     }
 
@@ -267,14 +274,18 @@ public class Mante : Enemy
             StartCoroutine(NoControl(sabotageStunTime));
         }
 
+        Transform newFx = Instantiate(disparitionFXPrefab, transform.position, Quaternion.identity).transform;
+        newFx.localScale = new Vector3(isFacingRight ? -1 : 1, 1, 1);
         transform.position = portal.transform.position;
+
+        animator.SetTrigger("Teleport");
 
         yield return null;
     }
 
     public override void UpdateMovement()
     {
-        if(inControl)
+        if(inControl && !isDying)
         {
             if (path != null && !pathEndReached && inControl)
             {
@@ -295,6 +306,10 @@ public class Mante : Enemy
                     rb.velocity = Vector2.zero;
                 }
             }
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -327,6 +342,20 @@ public class Mante : Enemy
             secondPortalSabotaged = false;
             secondPortalRenderer.color = portalBaseColor;
         }
+    }
+
+    private void UpdateVisuals()
+    {
+        if (isFacingRight && !sprite.flipX)
+        {
+            sprite.flipX = true;
+        }
+        if (!isFacingRight&& sprite.flipX)
+        {
+            sprite.flipX = false;
+        }
+
+        animator.SetBool("IsTeleguiding", isTeleguidingCythe || isCytheSpinning || isCytheInRecall);
     }
 
     protected override void OnDie()

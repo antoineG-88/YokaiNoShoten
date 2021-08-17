@@ -247,7 +247,9 @@ public class GrappleHandler : MonoBehaviour
                         if (antiGrabWallHit)
                         {
                             BreakRope("AntigrabWall traversed");
+                            antiGrabWallHit.collider.GetComponent<AntiGrappleWall>().PlayFeedBack();
                         }
+
                         if (isSucked)
                         {
                             BreakRope("nope u suck");
