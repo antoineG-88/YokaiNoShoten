@@ -42,9 +42,9 @@ public class GrappleHandler : MonoBehaviour
     public bool displayAutoAimRaycast;
     [Header("Graphics settings")]
     public float ropeAppearSpeed;
-    public AudioClip attachGrappleSound;
+    public Sound attachGrappleSound;
     public AudioSource grappleLoopSource;
-    public AudioClip releaseGrappleSound;
+    public Sound releaseGrappleSound;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
@@ -411,7 +411,7 @@ public class GrappleHandler : MonoBehaviour
 
         if(attachGrappleSound != null)
         {
-            GameData.playerSource.PlayOneShot(attachGrappleSound);
+            GameData.playerSource.PlayOneShot(attachGrappleSound.clip, attachGrappleSound.volumeScale);
         }
 
         if(grappleLoopSource!= null)
@@ -430,7 +430,7 @@ public class GrappleHandler : MonoBehaviour
     {
         if (releaseGrappleSound != null && isHooked)
         {
-            GameData.playerSource.PlayOneShot(releaseGrappleSound);
+            GameData.playerSource.PlayOneShot(releaseGrappleSound.clip, releaseGrappleSound.volumeScale);
         }
 
         isHooked = false;
