@@ -52,6 +52,9 @@ MonoBehaviour:
   provocationRange: 10
   prefabObject: {fileID: 8936422184792327274}
   deathAnimClip: {fileID: 7400000, guid: 865376625133f2445accc2eb5f698865, type: 2}
+  enemySprites:
+  - {fileID: 8193358008734632398}
+  dissolveTime: 1
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -93,6 +96,7 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 256
+  timeBeforeFirstCytheThrow: 0
   sprite: {fileID: 8193358008734632398}
   disparitionFXPrefab: {fileID: 7807796807176625397, guid: 8ff48cf8fc395534f895ede46b805d7a,
     type: 3}
@@ -216,7 +220,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9bdc3eb1e179e6843b874be910847a61, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
