@@ -162,10 +162,10 @@ public class GrappleHandler : MonoBehaviour
                         Debug.DrawRay(raycastOrigin, direction * maxGrappleRange, Color.cyan);
                     }
 
-                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy"));
+                    hit = Physics2D.Raycast(raycastOrigin, direction, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "DashWall"));
                     if (hit)
                     {
-                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedObject != hit.collider.gameObject && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 1.0f))
+                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall" && LayerMask.LayerToName(hit.collider.gameObject.layer) != "DashWall") && selectedObject != hit.collider.gameObject && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 1.0f))
                         {
                             allPossibleRings.Add(hit.collider.gameObject);
 
@@ -188,24 +188,6 @@ public class GrappleHandler : MonoBehaviour
                     }
                 }
                 selectedObject = closeObject;
-                /*
-                Vector3[] ropePoints = new Vector3[2];
-
-                RaycastHit2D ropeHit = Physics2D.Raycast(transform.position, aimDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "SpiritPart"));
-                ropePoints[0] = transform.position;
-                if (ropeHit)
-                {
-                    ropePoints[1] = ropeHit.point;
-                    ringHighLighterO.SetActive(false);
-                    ringHighLighterO.transform.position = ropeHit.point;
-                }
-                else
-                {
-                    ropePoints[1] = (Vector2)transform.position + aimDirection * maxGrappleRange;
-                }
-
-                ropeRenderer.enabled = true;
-                ropeRenderer.SetPositions(ropePoints);*/
 
                 if (selectedObject != null)
                 {
@@ -254,6 +236,15 @@ public class GrappleHandler : MonoBehaviour
                         if (isSucked)
                         {
                             BreakRope("nope u suck");
+                        }
+
+                        if(attachedObject.CompareTag("Enemy"))
+                        {
+                            Enemy attachedEnemy = attachedObject.GetComponent<Enemy>();
+                            if(attachedEnemy != null && attachedEnemy.isProtected)
+                            {
+                                BreakRope("enemy is protected");
+                            }
                         }
                     }
                 }

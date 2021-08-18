@@ -1597,7 +1597,7 @@ GameObject:
   - component: {fileID: 6516496859321095351}
   m_Layer: 11
   m_Name: Serpent
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1647,6 +1647,7 @@ MonoBehaviour:
   - {fileID: 2727753508622971696}
   - {fileID: 3323082929172777310}
   dissolveTime: 1
+  apparitionTime: 2
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -1664,6 +1665,7 @@ MonoBehaviour:
   currentSheepShield: {fileID: 0}
   material: {fileID: 0}
   deathParticle: {fileID: 5230686554069284041}
+  zoneIndex: 0
   maxSpeed: 7
   fleeMaxSpeed: 3
   noGravityZoneMaxSpeed: 5

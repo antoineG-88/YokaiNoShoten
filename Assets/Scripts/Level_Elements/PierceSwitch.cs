@@ -8,7 +8,7 @@ public class PierceSwitch : Switch
 
     public override bool PierceEffect(int damage, Vector2 directedForce)
     {
-        SwitchOnOff();
+        isOn = true;
         return false;
     }
 

@@ -4217,6 +4217,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 620405221}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &796806467 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5034296065250401535, guid: 75de80d66fc644f459104bff8a7673db,
+    type: 3}
+  m_PrefabInstance: {fileID: 5034296065044967236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed78950609cc38a4ab34657144e20e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &801239574
 GameObject:
   m_ObjectHideFlags: 0
@@ -10513,7 +10525,7 @@ PrefabInstance:
         type: 3}
       propertyPath: connectedSwitch
       value: 
-      objectReference: {fileID: 1368409997}
+      objectReference: {fileID: 796806467}
     - target: {fileID: 514308720732726819, guid: 38c1cdc06ea558940b48b3ce93c8901d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10752,6 +10764,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3267245876046976401, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: m_Name
@@ -10821,6 +10837,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6212043412841279488, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
@@ -11676,6 +11697,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4531211885962297080, guid: 75de80d66fc644f459104bff8a7673db,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5034296065250401528, guid: 75de80d66fc644f459104bff8a7673db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11735,11 +11761,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TorchHolder
-      objectReference: {fileID: 0}
-    - target: {fileID: 5034296065250401533, guid: 75de80d66fc644f459104bff8a7673db,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5034296065250401535, guid: 75de80d66fc644f459104bff8a7673db,
         type: 3}
@@ -12081,6 +12102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878177530266848650, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5878177530266848660, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}

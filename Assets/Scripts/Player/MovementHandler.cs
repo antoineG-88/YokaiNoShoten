@@ -160,7 +160,13 @@ public class MovementHandler : MonoBehaviour
                 rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
             }
 
-            isAffectedbyGravity = !GameData.pierceHandler.isPiercing && !GameData.dashHandler.isDashing && !GameData.grappleHandler.isTracting && currentGravityZone == null && levitateSourceNumber <= 0;
+            isAffectedbyGravity = !GameData.pierceHandler.isPiercing
+                && !GameData.dashHandler.isDashing
+                && !GameData.grappleHandler.isTracting
+                && currentGravityZone == null
+                && levitateSourceNumber <= 0
+                && !(IsOnSlope() && isInSlidingZone == 0 && horizontalTargetSpeed == 0 && isGrounded);
+
             levitateSourceNumber = Mathf.Clamp(levitateSourceNumber, 0, 100);
             if (isAffectedbyGravity)
             {
