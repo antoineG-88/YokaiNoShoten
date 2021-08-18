@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8193358007314346154}
   - component: {fileID: 8193358007314346135}
   - component: {fileID: 8193358007314346133}
-  - component: {fileID: 8193358007314346132}
+  - component: {fileID: 5958038722097302181}
   m_Layer: 11
   m_Name: Mante
   m_TagString: Enemy
@@ -51,10 +51,9 @@ MonoBehaviour:
   movementZoneRadius: 10
   provocationRange: 10
   prefabObject: {fileID: 8936422184792327274}
-  deathAnimClip: {fileID: 0}
-  enemySprites:
   - {fileID: 8193358008734632398}
   dissolveTime: 1
+  deathAnimClip: {fileID: 7400000, guid: 865376625133f2445accc2eb5f698865, type: 2}
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -96,6 +95,9 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 256
+  sprite: {fileID: 8193358008734632398}
+  disparitionFXPrefab: {fileID: 7807796807176625397, guid: 8ff48cf8fc395534f895ede46b805d7a,
+    type: 3}
   baseCytheScale: 0.8
   anticipationCytheScale: 0.1
   cytheScaleLerpRatio: 30
@@ -141,7 +143,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.1
   m_GravityScale: 0
@@ -150,8 +152,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &8193358007314346132
-PolygonCollider2D:
+--- !u!58 &5958038722097302181
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -164,23 +166,8 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.25}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.000000059604645, y: -0.5}
-      - {x: 0.43301272, y: -0.24999994}
-      - {x: 0.43301272, y: 0.24999994}
+  serializedVersion: 2
+  m_Radius: 0.55
 --- !u!1 &8193358008734632387
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8193358008734632396}
   - component: {fileID: 8193358008734632398}
+  - component: {fileID: 1160585803445611727}
   m_Layer: 11
   m_Name: Graphics
   m_TagString: Untagged
@@ -251,7 +239,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 16b647919dab5f8468b6e0f9c734bd89, type: 3}
+  m_Sprite: {fileID: 6845573618167508493, guid: 47d9d273e83b7d941b7c2bbfc5b8d460,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -262,6 +251,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1160585803445611727
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193358008734632387}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb65926388604c943a06ae575a9d5ce0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8936422183815680944
 GameObject:
   m_ObjectHideFlags: 0
