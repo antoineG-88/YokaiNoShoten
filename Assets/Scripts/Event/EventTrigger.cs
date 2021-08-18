@@ -60,6 +60,7 @@ public class EventTrigger : Switch
 
     private void StartEvent()
     {
+        Debug.Log(GameManager.currentStoryStep);
         if(!eventTriggered && GameManager.currentStoryStep >= neededStoryStepToTrigger && GameManager.currentStoryStep <= maxStoryStepToTrigger && !isOn)
         {
             for (int i = 0; i < eventParts.Count; i++)
