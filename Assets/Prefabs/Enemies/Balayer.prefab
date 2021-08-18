@@ -54,6 +54,9 @@ MonoBehaviour:
   provocationRange: 20
   prefabObject: {fileID: 1133783526514271764}
   deathAnimClip: {fileID: 7400000, guid: 6a458a1d1551e464583f4d1817f7652f, type: 2}
+  enemySprites:
+  - {fileID: 1133783527580456791}
+  dissolveTime: 1
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1

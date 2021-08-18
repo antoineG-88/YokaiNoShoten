@@ -11,6 +11,9 @@ public abstract class Enemy : Piercable
     public float provocationRange;
     public GameObject prefabObject;
     public AnimationClip deathAnimClip;
+    public List<SpriteRenderer> enemySprites;
+    public float dissolveTime;
+
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
     public int waypointAhead;
@@ -72,7 +75,11 @@ public abstract class Enemy : Piercable
             ParticleSystem.ShapeModule shape = deathParticle.shape;
             //shape.rotation = new Vector3(90, shapeAngle, 0);
         }
-        material = GetComponentInChildren<Renderer>().sharedMaterial;
+        material = Instantiate (enemySprites[0].sharedMaterial);
+        for (int i = 0; i < enemySprites.Count; i++)
+        {
+            enemySprites[i].sharedMaterial = material;
+        }
 
 
     }
@@ -355,10 +362,17 @@ public abstract class Enemy : Piercable
         }
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
-        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length*2 : 0.8f);
+        yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         if (deathParticle != null)
             deathParticle.Stop();
-        material.SetFloat("_deadOrAlive", 1);
+        float timer = 0;
+        while(timer < dissolveTime)
+        {
+            timer += Time.deltaTime;
+            material.SetFloat("_dissolve", 1 - (timer / dissolveTime));
+            yield return new WaitForEndOfFrame();
+        }
+        material.SetFloat("_dissolve", 0);
         Destroy(gameObject);
     }
     protected virtual void OnDie()
