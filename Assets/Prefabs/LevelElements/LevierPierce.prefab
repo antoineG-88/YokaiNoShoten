@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5542755897880323008
 Transform:
   m_ObjectHideFlags: 0
@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 7029462398786524764}
   - component: {fileID: 7029462398786524765}
   - component: {fileID: 7029462398786524766}
+  - component: {fileID: 3627050463241111812}
   m_Layer: 13
   m_Name: LevierPierce
   m_TagString: Untagged
@@ -166,8 +167,8 @@ SpriteRenderer:
   m_SortingLayerID: -407621029
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2e2cafadb6d086f4f8324d6c69e03efa, type: 3}
-  m_Color: {r: 0.91514987, g: 0.3443396, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 76602f09510d6c14da5c8398b3b77dd1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -208,4 +209,23 @@ MonoBehaviour:
   startOnON: 1
   inverseOutput: 0
   isOn: 0
-  activatedColor: {r: 0.9528302, g: 0.33710343, b: 0.04045032, a: 1}
+  animator: {fileID: 3627050463241111812}
+--- !u!95 &3627050463241111812
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7029462398786524767}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: defa62be9a1b59748ac0d290e9ffc80a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

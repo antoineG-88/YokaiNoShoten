@@ -42,8 +42,9 @@ public class GrappleHandler : MonoBehaviour
     public bool displayAutoAimRaycast;
     [Header("Graphics settings")]
     public float ropeAppearSpeed;
-    public AudioClip attachGrappleSound;
+    public Sound attachGrappleSound;
     public AudioSource grappleLoopSource;
+    public Sound releaseGrappleSound;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
@@ -247,7 +248,9 @@ public class GrappleHandler : MonoBehaviour
                         if (antiGrabWallHit)
                         {
                             BreakRope("AntigrabWall traversed");
+                            antiGrabWallHit.collider.GetComponent<AntiGrappleWall>().PlayFeedBack();
                         }
+
                         if (isSucked)
                         {
                             BreakRope("nope u suck");
@@ -405,8 +408,17 @@ public class GrappleHandler : MonoBehaviour
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();
+
         if(attachGrappleSound != null)
-            GameData.playerSource.PlayOneShot(attachGrappleSound);
+        {
+            GameData.playerSource.PlayOneShot(attachGrappleSound.clip, attachGrappleSound.volumeScale);
+        }
+
+        if(grappleLoopSource!= null)
+        {
+            grappleLoopSource.Play();
+        }
+
         if (isSucked == false)
         {
             GameData.dashHandler.canDash = true;
@@ -416,10 +428,21 @@ public class GrappleHandler : MonoBehaviour
 
     public void ReleaseHook()
     {
+        if (releaseGrappleSound != null && isHooked)
+        {
+            GameData.playerSource.PlayOneShot(releaseGrappleSound.clip, releaseGrappleSound.volumeScale);
+        }
+
         isHooked = false;
         isTracting = false;
         GameData.movementHandler.canMove = true;
         attachedObject = null;
+
+
+        if (grappleLoopSource != null)
+        {
+            grappleLoopSource.Stop();
+        }
         //GameData.movementHandler.isAffectedbyGravity = true;
     }
 
