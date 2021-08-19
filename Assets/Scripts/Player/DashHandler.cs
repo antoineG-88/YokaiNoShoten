@@ -12,7 +12,7 @@ public class DashHandler : MonoBehaviour
     public GameObject shadowFx;
     public bool dashWithRightTrigger;
     public bool aimWithRightJoystick;
-    public AudioClip dashSound;
+    public Sound dashSound;
 
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
@@ -91,7 +91,7 @@ public class DashHandler : MonoBehaviour
         GameData.playerVisuals.dashParticle.Play();
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
         if(dashSound != null)
-            GameData.playerSource.PlayOneShot(dashSound);
+            GameData.playerSource.PlayOneShot(dashSound.clip, dashSound.volumeScale);
 
         Vector2 dashStartPos = transform.position;
         Vector2 dashEndPos = (Vector2)transform.position + startDashDirection * dashDistance;
