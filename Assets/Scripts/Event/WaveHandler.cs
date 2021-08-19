@@ -14,10 +14,20 @@ public class WaveHandler : Switch
     private float pauseTimeElapsed;
 
     private bool allEnnemiesKilled;
+    private bool lateStartFlag;
+
+    private void Awake()
+    {
+        lateStartFlag = true;
+    }
 
     private new void Start()
     {
         base.Start();
+    }
+
+    private void LateStart()
+    {
         for (int i = 0; i < waves.Count; i++)
         {
             for (int y = 0; y < waves[i].waveEnemies.Count; y++)
@@ -29,54 +39,62 @@ public class WaveHandler : Switch
 
     private void Update()
     {
-        if (switchToTriggerWaves != null && switchToTriggerWaves.IsON() && !wavesAreUnfolding && !isOn)
+        if(lateStartFlag)
         {
-            StartWaves();
+            lateStartFlag = false;
+            LateStart();
         }
-
-        if(wavesAreUnfolding)
+        else
         {
-            if(currentWaveIndex < waves.Count)
+            if (switchToTriggerWaves != null && switchToTriggerWaves.IsON() && !wavesAreUnfolding && !isOn)
             {
-                if (!waveSpawned)
+                StartWaves();
+            }
+
+            if (wavesAreUnfolding)
+            {
+                if (currentWaveIndex < waves.Count)
                 {
-                    waveSpawned = true;
-                    for (int i = 0; i < waves[currentWaveIndex].waveEnemies.Count; i++)
+                    if (!waveSpawned)
                     {
-                        waves[currentWaveIndex].waveEnemies[i].Activate();
-                        waves[currentWaveIndex].waveEnemies[i].provoked = true;
+                        waveSpawned = true;
+                        for (int i = 0; i < waves[currentWaveIndex].waveEnemies.Count; i++)
+                        {
+                            StartCoroutine(waves[currentWaveIndex].waveEnemies[i].Activate());
+                            waves[currentWaveIndex].waveEnemies[i].provoked = true;
+                        }
+                        pauseTimeElapsed = 0;
                     }
-                    pauseTimeElapsed = 0;
+                    else
+                    {
+                        allEnnemiesKilled = true;
+                        for (int i = 0; i < waves[currentWaveIndex].waveEnemies.Count; i++)
+                        {
+                            if (waves[currentWaveIndex].waveEnemies[i] != null && !waves[currentWaveIndex].waveEnemies[i].isDying)
+                            {
+                                allEnnemiesKilled = false;
+                            }
+                        }
+
+                        if (allEnnemiesKilled)
+                        {
+                            if (pauseTimeElapsed < pauseTimeBetweenWaves)
+                            {
+                                pauseTimeElapsed += Time.deltaTime;
+                            }
+                            else
+                            {
+                                currentWaveIndex++;
+                                waveSpawned = false;
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    allEnnemiesKilled = true;
-                    for (int i = 0; i < waves[currentWaveIndex].waveEnemies.Count; i++)
-                    {
-                        if (waves[currentWaveIndex].waveEnemies[i] != null && !waves[currentWaveIndex].waveEnemies[i].isDying)
-                        {
-                            allEnnemiesKilled = false;
-                        }
-                    }
-
-                    if (allEnnemiesKilled)
-                    {
-                        if(pauseTimeElapsed < pauseTimeBetweenWaves)
-                        {
-                            pauseTimeElapsed += Time.deltaTime;
-                        }
-                        else
-                        {
-                            currentWaveIndex++;
-                            waveSpawned = false;
-                        }
-                    }
+                    wavesAreUnfolding = false;
+                    isOn = true;
                 }
-            }
-            else
-            {
-                wavesAreUnfolding = false;
-                isOn = true;
             }
         }
     }

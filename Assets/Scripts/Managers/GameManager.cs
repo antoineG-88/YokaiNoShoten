@@ -50,14 +50,19 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(3);
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             SceneManager.LoadScene(5);
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(6);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SceneManager.LoadScene(7);
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
@@ -99,6 +104,14 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
             {
                 LevelManager.allZoneSwitchs[i].isOn = zoneData.switchStates[i];
+            }
+
+            for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)
+            {
+                if(!zoneData.enemyStates[i])
+                {
+                    Destroy(LevelManager.allZoneEnemies[i].gameObject);
+                }
             }
 
             for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
