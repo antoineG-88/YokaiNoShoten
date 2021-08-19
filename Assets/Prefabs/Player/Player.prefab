@@ -548,6 +548,7 @@ MonoBehaviour:
   slideAcceleration: 5
   groundSlowing: 50
   airSlowing: 0.1
+  maxFallingSpeed: 23
   slideSlowing: 0
   gravityForce: 20
   maxSlidingSpeed: 10
@@ -622,7 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxGrappleRange: 8
   grappleAttachLengthDifference: 4
-  shootCooldown: 0.2
+  shootCooldown: 0.1
   releasingHookDist: 0.5
   minAttachDistance: 2
   keepAim: 1
