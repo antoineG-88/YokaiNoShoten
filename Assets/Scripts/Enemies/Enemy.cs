@@ -14,6 +14,9 @@ public abstract class Enemy : Piercable
     public List<SpriteRenderer> enemySprites;
     public float dissolveTime;
     public float apparitionTime;
+    [Header("Sounds")]
+    public Sound deathSound;
+    public Sound provokedSound;
 
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -52,6 +55,9 @@ public abstract class Enemy : Piercable
     [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
     [HideInInspector] public Material material;
+    [HideInInspector] public AudioSource source;
+    private bool provokeFlag;
+
     public ParticleSystem deathParticle;
     float shapeAngle;
 
@@ -63,15 +69,16 @@ public abstract class Enemy : Piercable
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
+        source = GetComponent<AudioSource>();
         currentHealthPoint = maxHealthPoint;
         pathEndReached = false;
         provoked = false;
+        provokeFlag = true;
         initialPos = transform.position;
         targetPathfindingPosition = transform.position;
         inControl = true;
         pathPositions = new List<Vector3>();
         isProtected = false;
-        provoked = false;
         if(deathParticle != null)
         {
             ParticleSystem.ShapeModule shape = deathParticle.shape;
@@ -209,6 +216,16 @@ public abstract class Enemy : Piercable
         if(wallCollider != null)
         {
             Die();
+        }
+
+        if(provokeFlag && provoked)
+        {
+            provokeFlag = false;
+            source.PlayOneShot(provokedSound.clip, provokedSound.volumeScale);
+        }
+        if (!provokeFlag && !provoked)
+        {
+            provokeFlag = true;
         }
     }
 
@@ -364,6 +381,8 @@ public abstract class Enemy : Piercable
         }
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
+        source.PlayOneShot(deathSound.clip, deathSound.volumeScale);
+
         yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         if (deathParticle != null)
             deathParticle.Stop();

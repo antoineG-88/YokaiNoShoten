@@ -48,6 +48,9 @@ MonoBehaviour:
   checkPointNumber: 0
   timeToRegenerate: 0.1
   animator: {fileID: 1637558097713902682}
+  activationSound:
+    clip: {fileID: 0}
+    volumeScale: 1
   isActivated: 0
 --- !u!61 &666047525666869489
 BoxCollider2D:
