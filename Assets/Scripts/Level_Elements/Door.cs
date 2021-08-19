@@ -5,10 +5,15 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public Switch connectedSwitch;
+    public List<Animator> animators;
+    public Sound openingSound;
+    public Sound closingSound;
+
     private bool isOpened;
     private Collider2D doorCollider;
-    public List<Animator> animators;
     private Animator animator;
+    private AudioSource source;
+    private bool openFlag;
 
     private void Start()
     {
@@ -46,6 +51,7 @@ public class Door : MonoBehaviour
                 break;
         }
 
+        source = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -53,8 +59,27 @@ public class Door : MonoBehaviour
         if(connectedSwitch != null)
         {
             isOpened = connectedSwitch.IsON();
+            if (isOpened != openFlag)
+            {
+                openFlag = isOpened;
+                if(isOpened)
+                {
+                    if(openingSound.clip != null)
+                        source.PlayOneShot(openingSound.clip, openingSound.volumeScale);
+                }
+                else
+                {
+                    if (closingSound.clip != null)
+                        source.PlayOneShot(closingSound.clip, closingSound.volumeScale);
+                }
+            }
         }
         animator.SetBool("Opened", isOpened);
         doorCollider.enabled = !isOpened;
+    }
+
+    private void FixedUpdate()
+    {
+        source.pitch = Time.timeScale;
     }
 }

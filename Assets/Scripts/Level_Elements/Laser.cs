@@ -178,21 +178,21 @@ public class Laser : MonoBehaviour
             boxCollider.enabled = false;
         }
 
-        if(activationsSequence.Count == 0)
+        if (isActive)
         {
-            if(isActive)
+            if(activationsSequence.Count == 0)
             {
                 beamActivationState += beamChangeStateSpeed * Time.deltaTime;
                 beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
                 beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+                beamMaterial.SetFloat("_previsOrAttack", 1);
             }
-            else
-            {
-                beamActivationState -= beamChangeStateSpeed * Time.deltaTime;
-                beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
-                beamMaterial.SetFloat("_laserSwitch", beamActivationState);
-            }
-            beamMaterial.SetFloat("_previsOrAttack", 1);
+        }
+        else
+        {
+            beamActivationState -= beamChangeStateSpeed * Time.deltaTime;
+            beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
+            beamMaterial.SetFloat("_laserSwitch", beamActivationState);
         }
     }
 
