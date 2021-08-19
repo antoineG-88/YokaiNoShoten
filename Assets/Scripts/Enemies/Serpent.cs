@@ -113,9 +113,9 @@ public class Serpent : Enemy
             currentDirection = rb.velocity.normalized;
         }
 
-        if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall")))
+        if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall")))
         {
-            RaycastHit2D wallHit = Physics2D.Raycast(transform.position, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall"));
+            RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall"));
             if(wallHit)
             {
                 currentDirection = Vector2.Reflect(currentDirection, wallHit.normal);

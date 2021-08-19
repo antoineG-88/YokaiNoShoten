@@ -13,6 +13,7 @@ public abstract class Enemy : Piercable
     public AnimationClip deathAnimClip;
     public List<SpriteRenderer> enemySprites;
     public float dissolveTime;
+    public float apparitionTime;
 
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -54,6 +55,7 @@ public abstract class Enemy : Piercable
     public ParticleSystem deathParticle;
     float shapeAngle;
 
+    [HideInInspector] public int zoneIndex;
 
     protected void Start()
     {
@@ -387,15 +389,23 @@ public abstract class Enemy : Piercable
         inControl = true;
     }
 
-    public void Activate()
+    public IEnumerator Activate()
     {
-        //effet d'activation
         prefabObject.SetActive(true);
+        inControl = false;
+        float timer = 0;
+        while (timer < apparitionTime)
+        {
+            timer += Time.deltaTime;
+            material.SetFloat("_dissolve", timer / apparitionTime);
+            yield return new WaitForEndOfFrame();
+        }
+        material.SetFloat("_dissolve", 1);
+        inControl = true;
     }
 
     public void Deactivate()
     {
-        //effet d'activation
         prefabObject.SetActive(false);
     }
 

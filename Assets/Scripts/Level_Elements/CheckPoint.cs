@@ -53,11 +53,12 @@ public class CheckPoint : MonoBehaviour
             regenerateFlag = true;
             saveFlag = true;
         }
+        if(animator.transform.parent.gameObject.activeSelf)
+            animator.SetBool("Activated", isActivated);
     }
 
     private void SaveAsCurrentCheckPoint()
     {
-        animator.SetBool("Activated", true);
         LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);
     }

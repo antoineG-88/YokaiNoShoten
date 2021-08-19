@@ -13,11 +13,10 @@ public class TorchSystem : Switch
     public float lightTriggerRange;
     public LayerMask playerLayerMask;
     public float torchLerpRatio;
-    public bool stayOn;
     public Animator animator;
 
     private ContactFilter2D playerFilter;
-    private bool isTorchGrabbed;
+    [HideInInspector] public bool isTorchGrabbed;
     private float timeElapsedSinceGrab;
 
     public override void Start()
@@ -51,7 +50,7 @@ public class TorchSystem : Switch
         animator.SetBool("Activated", isOn);
 
 
-        if(isOn && stayOn && isTorchGrabbed)
+        if(isOn && isTorchGrabbed)
         {
             DropTorch();
         }
@@ -61,7 +60,7 @@ public class TorchSystem : Switch
     {
         UpdateTorch();
 
-        if((!isOn && stayOn) || !stayOn)
+        if(!isOn)
         {
             UpdateGrab();
         }

@@ -57,6 +57,7 @@ MonoBehaviour:
   enemySprites:
   - {fileID: 1133783527580456791}
   dissolveTime: 1
+  apparitionTime: 2
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1
@@ -74,6 +75,7 @@ MonoBehaviour:
   currentSheepShield: {fileID: 0}
   material: {fileID: 0}
   deathParticle: {fileID: 3590439887393693899}
+  zoneIndex: 0
   maxSpeed: 8
   accelerationForce: 25
   safeDistance: 7
