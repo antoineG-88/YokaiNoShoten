@@ -221,7 +221,8 @@ public abstract class Enemy : Piercable
         if(provokeFlag && provoked)
         {
             provokeFlag = false;
-            source.PlayOneShot(provokedSound.clip, provokedSound.volumeScale);
+            if(provokedSound.clip != null)
+                source.PlayOneShot(provokedSound.clip, provokedSound.volumeScale);
         }
         if (!provokeFlag && !provoked)
         {
@@ -381,7 +382,9 @@ public abstract class Enemy : Piercable
         }
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
-        source.PlayOneShot(deathSound.clip, deathSound.volumeScale);
+
+        if (deathSound.clip != null)
+            source.PlayOneShot(deathSound.clip, deathSound.volumeScale);
 
         yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         if (deathParticle != null)

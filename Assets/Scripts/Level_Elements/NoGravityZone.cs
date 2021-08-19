@@ -17,7 +17,9 @@ public class NoGravityZone : MonoBehaviour
 
     private void Start()
     {
-        
+        material = Instantiate(GetComponent<SpriteRenderer>().sharedMaterial);
+        material.SetVector("_tiling", new Vector2(transform.localScale.x, transform.localScale.y));
+        GetComponent<SpriteRenderer>().sharedMaterial = material;
     }
 
     public void SetEdgeLines()
@@ -26,10 +28,6 @@ public class NoGravityZone : MonoBehaviour
         edgeLine.SetPosition(1, corners[1].position);
         edgeLine.SetPosition(2, corners[2].position);
         edgeLine.SetPosition(3, corners[3].position);
-
-        material = Instantiate(GetComponent<SpriteRenderer>().sharedMaterial);
-        material.SetVector("_tiling", new Vector2(transform.localScale.x, transform.localScale.y));
-        GetComponent<SpriteRenderer>().sharedMaterial = material;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
