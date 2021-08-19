@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
         allZoneSwitchs = new List<Switch>();
         GetAllZoneSwitches();
         zoneLoadCountDown = 2;
+        GameManager.currentStoryStep = 0;
     }
 
     void Start()

@@ -145,5 +145,9 @@ public static class SaveSystem
 
         Debug.Log("deleted at : " + path);
         File.Delete(path);
+        path = Path.Combine(savePath, progressionDataSaveFileName + progressionSaveFileExtension);
+        Debug.Log("deleted at : " + path);
+        File.Delete(path);
+
     }
 }

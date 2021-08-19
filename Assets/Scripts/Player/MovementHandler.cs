@@ -18,6 +18,13 @@ public class MovementHandler : MonoBehaviour
     public float knockAwayTime;
     public float slopeMaxSpeed;
     public float godModeSpeed;
+    [Header("Sounds")]
+    public Sound footstepSound;
+    public float baseTimeBtwFootStep;
+    public AudioSource windSource;
+    public float windVolumeBySpeed;
+    public float windVolumePower;
+    public AudioSource slideSource;
     [Tooltip("Cursed")]
     public bool moveWithRightJoystick;
     [Space]
@@ -57,6 +64,7 @@ public class MovementHandler : MonoBehaviour
     void Update()
     {
         GetInputs();
+        UpdateSounds();
     }
 
     private void FixedUpdate()
@@ -193,6 +201,40 @@ public class MovementHandler : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+
+    private float timeSinceLastStep;
+    private void UpdateSounds()
+    {
+        if(isGrounded && horizontalTargetSpeed != 0)
+        {
+            if(timeSinceLastStep > baseTimeBtwFootStep/* / Mathf.Abs(horizontalTargetSpeed)*/)
+            {
+                timeSinceLastStep = 0;
+                GameData.playerSource.PlayOneShot(footstepSound.clip, footstepSound.volumeScale);
+            }
+            else
+            {
+                timeSinceLastStep += Time.deltaTime;
+            }
+        }
+        else
+        {
+            timeSinceLastStep = 10;
+        }
+
+
+        windSource.volume = isGrounded ? 0 : Mathf.Pow(rb.velocity.magnitude * windVolumeBySpeed, windVolumePower);
+        
+        if(slideSource.isPlaying && !isOnSlidingSlope)
+        {
+            slideSource.Stop();
+        }
+        else if(!slideSource.isPlaying && isOnSlidingSlope)
+        {
+            slideSource.Play();
+        }
     }
 
     private bool IsOnSlope()

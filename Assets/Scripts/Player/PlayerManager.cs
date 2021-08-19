@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Press start in game to activate")]
     public bool enableGodMode;
     public int godModeLayer;
+    public Sound hurtSound;
 
     private int currentHealthPoint;
 
@@ -87,6 +88,8 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));
             GameData.dashHandler.canDash = true;
             GameData.pierceHandler.StopPierce();
+            if(hurtSound != null)
+                GameData.playerSource.PlayOneShot(hurtSound.clip, hurtSound.volumeScale);
             StartCoroutine(NoControl(stunTime));
             StartCoroutine(KnockawayTime(stunTime));
         }
