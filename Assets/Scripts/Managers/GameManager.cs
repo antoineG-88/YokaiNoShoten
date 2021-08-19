@@ -101,6 +101,14 @@ public class GameManager : MonoBehaviour
                 LevelManager.allZoneSwitchs[i].isOn = zoneData.switchStates[i];
             }
 
+            for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)
+            {
+                if(!zoneData.enemyStates[i])
+                {
+                    Destroy(LevelManager.allZoneEnemies[i].gameObject);
+                }
+            }
+
             for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
             {
                 if (LevelManager.allZoneCheckPoints[i].checkPointNumber == zoneData.lastCheckPointIndex)

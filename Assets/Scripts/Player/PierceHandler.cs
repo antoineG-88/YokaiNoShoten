@@ -37,7 +37,7 @@ public class PierceHandler : MonoBehaviour
     public float comboPierceAimAssistRaycastNumber;
     [Range(-0.2f, 0.2f)] public float comboPierceTresholdOffset;
     public Transform comboPierceTimingHelper;
-    public AudioClip pierceSound;
+    public Sound pierceSound;
 
     public Vector3 fxOffset;
 
@@ -266,8 +266,8 @@ public class PierceHandler : MonoBehaviour
 
         if(triggerSlowMo)
             StartPhasingTime();
-        if(pierceSound != null)
-            GameData.playerSource.PlayOneShot(pierceSound);
+        if (pierceSound != null)
+            GameData.playerSource.PlayOneShot(pierceSound.clip, pierceSound.volumeScale);
 
         Vector2 startPiercePos;
         Vector2 currentPiercePos;

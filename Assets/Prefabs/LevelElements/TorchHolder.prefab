@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 5034296065250401535}
   - component: {fileID: 5034296065250401534}
   - component: {fileID: 1962967296735263929}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: TorchHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 5034296065250401533}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.24, y: 3.36, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3474439681633407342}
   - {fileID: 5034296066065062922}
@@ -155,8 +155,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   torchLerpRatio: 25
-  stayOn: 0
   animator: {fileID: 1962967296735263929}
+  isTorchGrabbed: 0
 --- !u!212 &5034296065250401534
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5034296066065062920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.301, y: 0.02, z: 0}
+  m_LocalPosition: {x: 0.65, y: -0.225, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5034296065250401528}

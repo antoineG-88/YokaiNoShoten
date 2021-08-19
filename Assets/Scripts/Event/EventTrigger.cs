@@ -84,6 +84,7 @@ public class EventTrigger : Switch
         GameData.playerManager.inControl = true;
         isInEvent = false;
         isOn = true;
+        GameManager.currentStoryStep = storyStepProgressionAtTheEnd;
     }
 
 

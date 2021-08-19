@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
     public static List<CheckPoint> allZoneCheckPoints;
     public static CheckPoint lastCheckPoint;
     public static List<Switch> allZoneSwitchs;
+    public static List<Enemy> allZoneEnemies;
     [HideInInspector] public Scene decoScene;
     private int zoneLoadCountDown;
 
@@ -27,8 +28,10 @@ public class LevelManager : MonoBehaviour
         LoadDecoScene();
         allZoneCheckPoints = new List<CheckPoint>();
         allZoneSwitchs = new List<Switch>();
-        GetAllZoneSwitches();
+        allZoneEnemies = new List<Enemy>();
+        GetAllZoneSwitchesAndEnemies();
         zoneLoadCountDown = 2;
+        GameManager.currentStoryStep = 0;
     }
 
     void Start()
@@ -109,17 +112,17 @@ public class LevelManager : MonoBehaviour
         BlackScreenManager.blackScreen.color = Color.clear;
     }
 
-    private void GetAllZoneSwitches()
+    private void GetAllZoneSwitchesAndEnemies()
     {
         GameObject[] sceneRootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
 
         for (int i = 0; i < sceneRootGameObjects.Length; i++)
         {
-            SearchSwitchesIn(sceneRootGameObjects[i].transform);
+            SearchSwitchesAndEnemiesIn(sceneRootGameObjects[i].transform);
         }
     }
 
-    private void SearchSwitchesIn(Transform parent)
+    private void SearchSwitchesAndEnemiesIn(Transform parent)
     {
         Switch potentialSwitch = parent.GetComponent<Switch>();
         if(potentialSwitch != null)
@@ -127,9 +130,16 @@ public class LevelManager : MonoBehaviour
             allZoneSwitchs.Add(potentialSwitch);
         }
 
+        Enemy potentialEnemy = parent.GetComponent<Enemy>();
+        if (potentialEnemy != null)
+        {
+            allZoneEnemies.Add(potentialEnemy);
+            potentialEnemy.zoneIndex = allZoneEnemies.Count - 1;
+        }
+
         for (int i = 0; i < parent.childCount; i++)
         {
-            SearchSwitchesIn(parent.GetChild(i));
+            SearchSwitchesAndEnemiesIn(parent.GetChild(i));
         }
     }
 }
