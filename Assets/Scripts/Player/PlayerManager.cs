@@ -70,6 +70,8 @@ public class PlayerManager : MonoBehaviour
         {
             Die();
         }
+
+        GameData.playerSource.pitch = Time.timeScale;
     }
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)

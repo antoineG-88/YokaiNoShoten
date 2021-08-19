@@ -122,7 +122,7 @@ public class CameraHandler : MonoBehaviour
                 correctedCameraPos = new Vector2(correctedCameraPos.x, absoluteDownLimit + currentOrthographicSize);
             }
 
-            if(isOutUpEdge && isOutDownEdge)
+            if(currentZone.upLimit != 0 && currentZone.downLimit != 0 && currentZone.upLimit - currentZone.downLimit < currentOrthographicSize * 2)
             {
                 correctedCameraPos = new Vector2(correctedCameraPos.x, (absoluteUpLimit + absoluteDownLimit) / 2);
             }
@@ -144,7 +144,7 @@ public class CameraHandler : MonoBehaviour
                 correctedCameraPos = new Vector2(absoluteLeftLimit + currentOrthographicSize * mainCamera.aspect, correctedCameraPos.y);
             }
 
-            if (isOutRightEdge && isOutLeftEdge)
+            if (currentZone.rightLimit != 0 && currentZone.leftLimit != 0 && currentZone.rightLimit - currentZone.leftLimit < currentOrthographicSize * mainCamera.aspect * 2)
             {
                 correctedCameraPos = new Vector2((absoluteLeftLimit + absoluteRightLimit) / 2, correctedCameraPos.y);
             }

@@ -203,7 +203,7 @@ public class GrappleHandler : MonoBehaviour
                     ringHighLighterO.SetActive(false);
                 }
 
-                if (tractTriggerDown && timeBeforeNextShoot <= 0 && !isHooked)
+                if (tractTriggerDown && timeBeforeNextShoot <= 0 && !isHooked && !GameData.dashHandler.isDashing)
                 {
                     timeBeforeNextShoot = shootCooldown;
                     ReleaseHook();

@@ -14,10 +14,13 @@ public class CheckPoint : MonoBehaviour
     private float elapsedTimeNearCheckPoint;
     private bool saveFlag;
     private bool regenerateFlag;
+    private AudioSource source;
 
     private void Start()
     {
         LevelManager.allZoneCheckPoints.Add(this);
+
+        source = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -55,7 +58,8 @@ public class CheckPoint : MonoBehaviour
 
     private void SaveAsCurrentCheckPoint()
     {
-        GameData.playerSource.PlayOneShot(activationSound.clip, activationSound.volumeScale);
+        if(activationSound.clip != null)
+            source.PlayOneShot(activationSound.clip, activationSound.volumeScale);
         LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);
     }

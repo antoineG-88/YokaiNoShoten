@@ -113,6 +113,7 @@ public abstract class Enemy : Piercable
         recentlyHit = false;
         AvoidOtherEnemies();
         UpdateMovement();
+        source.pitch = Time.timeScale;
     }
 
     public void CalculatePath()
