@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6372233700066977956}
   - component: {fileID: 3629085323048550119}
+  - component: {fileID: 2555128204830798690}
   m_Layer: 9
   m_Name: Renderer_Niveau2
   m_TagString: Untagged
@@ -81,6 +82,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2555128204830798690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3591466929665490310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e191431ca9a2ead4babb8096727cc3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startAngle: 0
+  endAngle: 0
+  useSpeed: 1
+  speed: 300
+  timeToComplete: 0
+  isBackAndForth: 0
+  rotateClockWise: 0
+  connectedSwitch: {fileID: 0}
+  isActive: 0
 --- !u!1 &4431826951165896737
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +146,7 @@ GameObject:
   - component: {fileID: 4153996057119730291}
   - component: {fileID: 4431826951173719673}
   - component: {fileID: 7477492796232343283}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: Lame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +267,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4431826951344509400}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.09, y: -7.802015, z: 3.2757218}
+  m_LocalPosition: {x: -19.09, y: -7.802015, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4431826951173719669}
