@@ -74,9 +74,9 @@ public class Laser : MonoBehaviour
     {
         if(isBeamActive && isActive)
         {
-            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
+            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall","DashWall"));
 
-            playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
+            playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall", "DashWall"));
             if (playerHit && playerHit.collider.CompareTag("Player"))
             {
                 Vector2 knockbackDirection;
@@ -203,7 +203,7 @@ public class Laser : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"));
+        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"), LayerMask.GetMask("DashWall"));
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + GetDirectionFromAngle(transform.rotation.eulerAngles.z) * maxLaserRange);
     }
