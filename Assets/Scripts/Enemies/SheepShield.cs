@@ -13,6 +13,7 @@ public class SheepShield : MonoBehaviour
     private SpriteRenderer sr;
     [HideInInspector]
     public LineRenderer shieldConnection;
+    public float distanceToEndLine;
 
     private Vector3[] connectionPos;
     void Start()
@@ -23,13 +24,16 @@ public class SheepShield : MonoBehaviour
         connectionPos = new Vector3[2];
     }
 
+    Vector2 sheepDirection;
     void Update()
     {
         if(isActive)
         {
             shieldConnection.enabled = true;
             enemy.isProtected = true;
-            connectionPos[0] = transform.position;
+            sheepDirection = connectedSheep.transform.position - transform.position;
+            sheepDirection.Normalize();
+            connectionPos[0] = (Vector2)transform.position + sheepDirection * distanceToEndLine;
             connectionPos[1] = connectedSheep.transform.position;
             shieldConnection.SetPositions(connectionPos);
         }

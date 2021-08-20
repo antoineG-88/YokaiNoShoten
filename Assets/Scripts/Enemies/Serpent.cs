@@ -108,13 +108,7 @@ public class Serpent : Enemy
         wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
         targetSpeed = isInNoGravityZone ? noGravityZoneMaxSpeed : (wallAhead ? slowSpeed : (isSpikesActive ? maxSpeed : fleeMaxSpeed));
 
-        if (!inControl)
-        {
-            currentSpeed = rb.velocity.magnitude;
-            currentDirection = rb.velocity.normalized;
-        }
-
-        if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall", "EnemyProof")))
+        if (Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall", "EnemyProof")))
         {
             RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall", "EnemyProof"));
             if(wallHit)
@@ -301,6 +295,10 @@ public class Serpent : Enemy
         {
             bodiesAnimator[i].SetBool("Dead", true);
         }
+    }
+    protected override void OnActivate()
+    {
+        rb.WakeUp();
     }
 
     private void OnDestroy()

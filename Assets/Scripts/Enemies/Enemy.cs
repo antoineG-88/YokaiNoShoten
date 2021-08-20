@@ -48,7 +48,7 @@ public abstract class Enemy : Piercable
     [HideInInspector]
     public bool isProtected;
 
-    [HideInInspector] public bool provoked;
+    public bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool isDying;
@@ -415,6 +415,7 @@ public abstract class Enemy : Piercable
     public IEnumerator Activate()
     {
         prefabObject.SetActive(true);
+        OnActivate();
         inControl = false;
         float timer = 0;
         while (timer < apparitionTime)
@@ -425,6 +426,11 @@ public abstract class Enemy : Piercable
         }
         material.SetFloat("_dissolve", 1);
         inControl = true;
+    }
+
+    protected virtual void OnActivate()
+    {
+        
     }
 
     public void Deactivate()

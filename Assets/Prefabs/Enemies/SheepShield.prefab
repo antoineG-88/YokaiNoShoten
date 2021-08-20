@@ -99,6 +99,7 @@ MonoBehaviour:
   enemy: {fileID: 0}
   isActive: 0
   shieldConnection: {fileID: 0}
+  distanceToEndLine: 0.88
 --- !u!120 &7866181816854982886
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ LineRenderer:
   m_SortingLayer: 5
   m_SortingOrder: -6
   m_Positions:
-  - {x: 0, y: 0, z: 0}
+  - {x: 0.88, y: 0, z: 0}
   - {x: 2.72, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
