@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dashParticle
-  m_Shader: {fileID: -6465566751694194690, guid: 9b3b36b1a2c5dc84aa9ff7dd0c6d2e3a,
+  m_Name: Glow-Assets-WHITE 1
+  m_Shader: {fileID: -6465566751694194690, guid: 1845633796d02d143b9aa4fbdc9f4440,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -36,10 +36,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_C7A201E3_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_160321DB: 0.1
     - _EnableExternalAlpha: 0
+    - _deadOrAlive: 1
+    - _dissolve: 1
     m_Colors:
-    - Color_8B758406: {r: 1, g: 0, b: 0, a: 0}
+    - Color_5E632E4D: {r: 0.9433962, g: 0.81434673, b: 0.88522583, a: 1}
+    - Color_F38D8F37: {r: 0.9999998, g: 0, b: 0.55828846, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
