@@ -253,7 +253,7 @@ public class Balayer : Enemy
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall", "DashWall"));
 
-            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall"));
+            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall", "DashWall"));
             if(playerHit && playerHit.collider.CompareTag("Player"))
             {
                 GameData.playerManager.TakeDamage(beamDamage, DirectionFromAngle(shootAngle) * beamKnockback);

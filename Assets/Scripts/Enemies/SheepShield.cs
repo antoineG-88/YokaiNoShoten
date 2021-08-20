@@ -29,6 +29,7 @@ public class SheepShield : MonoBehaviour
     {
         if(isActive)
         {
+            enemy.isProtected = true;
             shieldConnection.enabled = true;
             enemy.isProtected = true;
             sheepDirection = connectedSheep.transform.position - transform.position;

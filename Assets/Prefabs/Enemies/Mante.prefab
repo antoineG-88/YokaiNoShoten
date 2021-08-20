@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8193358007314346155}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.32, y: 8.44, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8193358008734632396}
@@ -95,6 +95,7 @@ MonoBehaviour:
   cytheAttackCooldown: 5
   cytheAttackTeleguidingTime: 2
   cytheTimeBeforeSpin: 0.3
+  doCytheImmobilizeBeforeSpin: 1
   cytheSpinRadius: 2
   cythe: {fileID: 8936422185107548796}
   cytheMaxSpeed: 15
@@ -484,7 +485,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8936422184179989825}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.7, y: 14.22, z: 0}
+  m_LocalPosition: {x: 3.91, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8936422183815680959}
@@ -712,7 +713,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8936422185778174433}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.53, y: 4.14, z: 0}
+  m_LocalPosition: {x: -3.97, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8936422184745238482}
