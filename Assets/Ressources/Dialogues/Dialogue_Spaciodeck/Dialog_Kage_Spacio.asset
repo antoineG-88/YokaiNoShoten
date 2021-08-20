@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialog_Kage_Spacio
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Spaciodeck/Dialogue_Spaciodeck_Kage
+    - Feuille 1.tsv
+  sentences:
+  - sentence: "N\u2019est pas peur Seiki, c\u2019est moi, Kage."
+    characterName: "Fant\xF4me"
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: "\xC7a me fait plaisir de te voir en vie. Surtout apr\xE8s t\u2019avoir
+      vu mourir sur le champ de bataille. Une chance que Dor\u012Bm\u0101 t\u2019ai
+      prot\xE9g\xE9 des Selvos."
+    characterName: Kage
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: "Tr\xEAve de bavardage. J'erre dans la tour depuis longtemps maintenant
+      et j\u2019en connais les moindres recoins. Je serais l\xE0 \xE0 t\u2019observer."
+    characterName: Kage
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: "J'apparaitrai quand je le pourrais. Fais attention Seiki, tu es le
+      dernier Yokai a avoir ressuscit\xE9 avant que l\u2019arbre ne soit corrompu
+      par les Selvos. Ne g\xE2che pas cette chance."
+    characterName: Kage
+    seikiReaction: 3
+    speakingSpeed: 1

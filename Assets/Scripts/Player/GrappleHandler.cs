@@ -203,7 +203,7 @@ public class GrappleHandler : MonoBehaviour
                     ringHighLighterO.SetActive(false);
                 }
 
-                if (tractTriggerDown && timeBeforeNextShoot <= 0 && !isHooked)
+                if (tractTriggerDown && timeBeforeNextShoot <= 0 && !isHooked && !GameData.dashHandler.isDashing)
                 {
                     timeBeforeNextShoot = shootCooldown;
                     ReleaseHook();
@@ -232,13 +232,11 @@ public class GrappleHandler : MonoBehaviour
                             BreakRope("AntigrabWall traversed");
                             antiGrabWallHit.collider.GetComponent<AntiGrappleWall>().PlayFeedBack();
                         }
-
-                        if (isSucked)
+                        else if (isSucked)
                         {
                             BreakRope("nope u suck");
                         }
-
-                        if(attachedObject.CompareTag("Enemy"))
+                        else if(attachedObject.CompareTag("Enemy"))
                         {
                             Enemy attachedEnemy = attachedObject.GetComponent<Enemy>();
                             if(attachedEnemy != null && attachedEnemy.isProtected)

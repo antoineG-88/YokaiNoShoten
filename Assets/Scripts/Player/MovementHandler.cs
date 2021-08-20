@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovementHandler : MonoBehaviour
 {
+    [Header("Movement settings")]
     public float walkingMaxSpeed;
     public float walkingMinSpeed;
     public float walkingAcceleration;
@@ -11,6 +12,7 @@ public class MovementHandler : MonoBehaviour
     public float slideAcceleration;
     public float groundSlowing;
     public float airSlowing;
+    public float maxFallingSpeed;
     public float slideSlowing;
     public float gravityForce;
     public float maxSlidingSpeed;
@@ -193,6 +195,14 @@ public class MovementHandler : MonoBehaviour
                     {
                         rb.velocity = rb.velocity.normalized * currentGravityZone.minSpeedInNGZone;
                     }
+                }
+            }
+
+            if (!isGrounded)
+            {
+                if(rb.velocity.y < -maxFallingSpeed && GameData.playerManager.inControl && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.playerManager.isBeingKnocked && !GameData.grappleHandler.isTracting)
+                {
+                    rb.velocity = rb.velocity * Mathf.Abs(maxFallingSpeed / -rb.velocity.y);
                 }
             }
         }
