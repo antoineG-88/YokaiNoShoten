@@ -226,6 +226,13 @@ public class Laser : MonoBehaviour
                     beamActivationState += beamChangeStateSpeed * Time.deltaTime;
                     beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
                     beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+
+                    if (activationsSequence[(currentSequenceIndex < activationsSequence.Count - 1) ? (currentSequenceIndex + 1) : 0] <= 1)
+                    {
+                        beamState -= beamChangeStateSpeed * Time.deltaTime;
+                        beamState = Mathf.Clamp(beamState, 0f, 1f);
+                        beamMaterial.SetFloat("_previsOrAttack", beamState);
+                    }
                 }
                 else
                 {
@@ -252,7 +259,7 @@ public class Laser : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"));
+        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"), LayerMask.GetMask("DashWall"));
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + GetDirectionFromAngle(transform.rotation.eulerAngles.z) * maxLaserRange);
     }
