@@ -115,7 +115,7 @@ public class Serpent : Enemy
 
         if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall")))
         {
-            RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall"));
+            RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall", "AntiGrabWall"));
             if(wallHit)
             {
                 currentDirection = Vector2.Reflect(currentDirection, wallHit.normal);
