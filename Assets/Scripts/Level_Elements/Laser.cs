@@ -226,6 +226,13 @@ public class Laser : MonoBehaviour
                     beamActivationState += beamChangeStateSpeed * Time.deltaTime;
                     beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
                     beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+
+                    if (activationsSequence[(currentSequenceIndex < activationsSequence.Count - 1) ? (currentSequenceIndex + 1) : 0] <= 1)
+                    {
+                        beamState -= beamChangeStateSpeed * Time.deltaTime;
+                        beamState = Mathf.Clamp(beamState, 0f, 1f);
+                        beamMaterial.SetFloat("_previsOrAttack", beamState);
+                    }
                 }
                 else
                 {

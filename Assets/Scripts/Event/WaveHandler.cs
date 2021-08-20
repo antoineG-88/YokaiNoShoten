@@ -7,6 +7,7 @@ public class WaveHandler : Switch
     public Switch switchToTriggerWaves;
     public List<Wave> waves;
     public float pauseTimeBetweenWaves;
+    public Door backDoorToClose;
 
     private bool wavesAreUnfolding;
     private int currentWaveIndex;
@@ -35,6 +36,7 @@ public class WaveHandler : Switch
                 waves[i].waveEnemies[y].Deactivate();
             }
         }
+        backDoorToClose.isOpened = true;
     }
 
     private void Update()
@@ -93,6 +95,7 @@ public class WaveHandler : Switch
                 else
                 {
                     wavesAreUnfolding = false;
+                    backDoorToClose.isOpened = true;
                     isOn = true;
                 }
             }
@@ -104,6 +107,7 @@ public class WaveHandler : Switch
         currentWaveIndex = 0;
         wavesAreUnfolding = true;
         waveSpawned = false;
+        backDoorToClose.isOpened = false;
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)

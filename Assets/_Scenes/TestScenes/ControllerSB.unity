@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1370,6 +1370,7 @@ MonoBehaviour:
     - {fileID: 179200319}
     - {fileID: 1561316588}
   pauseTimeBetweenWaves: 2
+  backDoorToClose: {fileID: 0}
 --- !u!4 &268850244
 Transform:
   m_ObjectHideFlags: 0
@@ -1427,7 +1428,6 @@ MonoBehaviour:
   eventParts:
   - {fileID: 268850247}
   switchToTriggerEvent: {fileID: 0}
-  neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 0
   storyStepProgressionAtTheEnd: 1
   previousCamera: {fileID: 0}
@@ -3853,7 +3853,6 @@ MonoBehaviour:
   eventParts:
   - {fileID: 711788806}
   switchToTriggerEvent: {fileID: 0}
-  neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 0
   storyStepProgressionAtTheEnd: 1
   previousCamera: {fileID: 0}
@@ -5850,7 +5849,7 @@ PrefabInstance:
     - target: {fileID: 5464473137033219862, guid: d2d6e553b5260a3428f87b61b052bcba,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5464473137033219863, guid: d2d6e553b5260a3428f87b61b052bcba,
         type: 3}
@@ -6122,12 +6121,12 @@ PrefabInstance:
     - target: {fileID: 3176369543897768580, guid: a1d3a288cfdb31c4ebf233757c8b7745,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.34
+      value: 24.73
       objectReference: {fileID: 0}
     - target: {fileID: 3176369543897768580, guid: a1d3a288cfdb31c4ebf233757c8b7745,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.03
+      value: -0.81
       objectReference: {fileID: 0}
     - target: {fileID: 3176369543897768580, guid: a1d3a288cfdb31c4ebf233757c8b7745,
         type: 3}
@@ -6923,7 +6922,6 @@ MonoBehaviour:
   eventParts:
   - {fileID: 1262379955}
   switchToTriggerEvent: {fileID: 0}
-  neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 0
   storyStepProgressionAtTheEnd: 0
   previousCamera: {fileID: 0}
@@ -7931,7 +7929,6 @@ MonoBehaviour:
   - {fileID: 1561527819}
   - {fileID: 1561527822}
   switchToTriggerEvent: {fileID: 0}
-  neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 0
   storyStepProgressionAtTheEnd: 1
   previousCamera: {fileID: 0}
@@ -12264,7 +12261,7 @@ PrefabInstance:
     - target: {fileID: 3222167889513680256, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6473909163359906720, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}
@@ -12412,7 +12409,7 @@ PrefabInstance:
     - target: {fileID: 5878177530266848650, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5878177530266848660, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}
@@ -12471,9 +12468,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}
+      propertyPath: activationsSequence.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
       propertyPath: connectedSwitch
       value: 
       objectReference: {fileID: 1368409997}
+    - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: activationsSequence.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: activationsSequence.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: activationsSequence.Array.data[3]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: activationsSequence.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 698a0aa5a35be174eb1c03d526046f78, type: 3}
 --- !u!1001 &5968018509158042033
