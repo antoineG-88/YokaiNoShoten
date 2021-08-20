@@ -9,31 +9,38 @@ public class Spikes : MonoBehaviour
     [Tooltip("Determine la direction et la force du knockback peu importe la position du joueur, si Auto Knockback Direction est activé il est utilisé pour determiner seulement la force")]
     public Vector2 knockback;
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private Vector2 knockbackDirection;
+
+    private void Start()
     {
-        Vector2 direction = collider.transform.position - transform.position;
+        knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90).normalized;
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
         if (collider.CompareTag("Player"))
         {
-            GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? direction * knockback.magnitude : knockback);
+            GameData.dashHandler.isDashing = false;
+            GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? knockbackDirection * knockback.magnitude : knockback);
         }
-        else if (collider.CompareTag("Enemy"))
-        {
-            /*
-            Enemy hitEnemy = collider.GetComponent<Enemy>();
-            if (hitEnemy.currentSheepShield != null)
-            {
-                hitEnemy.currentSheepShield.Disabling();
-                hitEnemy.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback);
-                StartCoroutine(hitEnemy.NoControl(0.3f));
-            }*/
-        }
+    }
 
-        //GameData.movementHandler.Propel(autoKnockbackDirection ? direction * knockback.magnitude : knockback, true);
+    private Vector2 GetDirectionFromAngle(float angle)
+    {
+        return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, (Vector2)transform.position + knockback);
+        if(autoKnockbackDirection)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(transform.position, (Vector2)transform.position + GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90).normalized * knockback.magnitude);
+        }
+        else
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(transform.position, (Vector2)transform.position + knockback);
+        }
     }
 }

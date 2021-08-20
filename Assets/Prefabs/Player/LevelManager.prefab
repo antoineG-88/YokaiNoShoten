@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5735401736421732534}
   - component: {fileID: 6212043412841279488}
   - component: {fileID: 1191131659}
+  - component: {fileID: 8679734692064152272}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -82,7 +83,7 @@ MonoBehaviour:
   transitionTime: 1
   decoSceneIndex: 0
   decoScenePath: 
-  zoneName: FirstSandBox
+  zoneName: default
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
   decoScene:
@@ -119,7 +120,7 @@ MonoBehaviour:
     face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
   - characterName: Dorima
     face: {fileID: 21300000, guid: 7106ce99c0c86424aabeb799bb232232, type: 3}
-  - characterName: Raido
+  - characterName: "Ra\xEFdo"
     face: {fileID: 21300000, guid: beabb2d06acbbb34685381c300fdc1d2, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
 --- !u!82 &1191131659
@@ -133,9 +134,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 49239355547644364, guid: 9c6544e17c2017044b68bf43d09eda2d,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 2ac8fd94999069048923b0f6a40da727, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c11e8c834dd417e4695dcb2995093245, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.162
+  m_Volume: 0.084
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -219,3 +220,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8679734692064152272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267245876046976401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb7f1ac387b15af48bc3c4a65f3eafdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
+  pauseButton: {fileID: 0}

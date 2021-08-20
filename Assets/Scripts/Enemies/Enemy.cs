@@ -13,6 +13,10 @@ public abstract class Enemy : Piercable
     public AnimationClip deathAnimClip;
     public List<SpriteRenderer> enemySprites;
     public float dissolveTime;
+    public float apparitionTime;
+    [Header("Sounds")]
+    public Sound deathSound;
+    public Sound provokedSound;
 
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -51,9 +55,13 @@ public abstract class Enemy : Piercable
     [HideInInspector] public SheepShield currentSheepShield;
     protected Animator animator;
     [HideInInspector] public Material material;
+    [HideInInspector] public AudioSource source;
+    private bool provokeFlag;
+
     public ParticleSystem deathParticle;
     float shapeAngle;
 
+    [HideInInspector] public int zoneIndex;
 
     protected void Start()
     {
@@ -61,15 +69,16 @@ public abstract class Enemy : Piercable
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
+        source = GetComponent<AudioSource>();
         currentHealthPoint = maxHealthPoint;
         pathEndReached = false;
         provoked = false;
+        provokeFlag = true;
         initialPos = transform.position;
         targetPathfindingPosition = transform.position;
         inControl = true;
         pathPositions = new List<Vector3>();
         isProtected = false;
-        provoked = false;
         if(deathParticle != null)
         {
             ParticleSystem.ShapeModule shape = deathParticle.shape;
@@ -104,6 +113,7 @@ public abstract class Enemy : Piercable
         recentlyHit = false;
         AvoidOtherEnemies();
         UpdateMovement();
+        source.pitch = Time.timeScale;
     }
 
     public void CalculatePath()
@@ -207,6 +217,17 @@ public abstract class Enemy : Piercable
         if(wallCollider != null)
         {
             Die();
+        }
+
+        if(provokeFlag && provoked)
+        {
+            provokeFlag = false;
+            if(provokedSound.clip != null)
+                source.PlayOneShot(provokedSound.clip, provokedSound.volumeScale);
+        }
+        if (!provokeFlag && !provoked)
+        {
+            provokeFlag = true;
         }
     }
 
@@ -362,6 +383,10 @@ public abstract class Enemy : Piercable
         }
         material.SetFloat("_deadOrAlive", 0);
         OnDie();
+
+        if (deathSound.clip != null)
+            source.PlayOneShot(deathSound.clip, deathSound.volumeScale);
+
         yield return new WaitForSeconds(deathAnimClip != null ? deathAnimClip.length : 0.2f);
         if (deathParticle != null)
             deathParticle.Stop();
@@ -387,15 +412,23 @@ public abstract class Enemy : Piercable
         inControl = true;
     }
 
-    public void Activate()
+    public IEnumerator Activate()
     {
-        //effet d'activation
         prefabObject.SetActive(true);
+        inControl = false;
+        float timer = 0;
+        while (timer < apparitionTime)
+        {
+            timer += Time.deltaTime;
+            material.SetFloat("_dissolve", timer / apparitionTime);
+            yield return new WaitForEndOfFrame();
+        }
+        material.SetFloat("_dissolve", 1);
+        inControl = true;
     }
 
     public void Deactivate()
     {
-        //effet d'activation
         prefabObject.SetActive(false);
     }
 
