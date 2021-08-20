@@ -252,7 +252,7 @@ public class Laser : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"));
+        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"), LayerMask.GetMask("DashWall"));
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + GetDirectionFromAngle(transform.rotation.eulerAngles.z) * maxLaserRange);
     }
