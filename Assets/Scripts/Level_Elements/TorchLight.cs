@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class TorchLight : Switch
 {
-    public float maxLitTime;
-
     [HideInInspector] public TorchSystem torchSystem;
     [HideInInspector] public bool isLit;
     private Animator animator;
-    private float timeLitElapsed;
 
     public override void Start()
     {
@@ -20,14 +17,14 @@ public class TorchLight : Switch
     private void Update()
     {
         isOn = isLit;
-        if(isLit && ((!torchSystem.IsON() && torchSystem.stayOn) || !torchSystem.stayOn))
+        if(isLit && !torchSystem.isTorchGrabbed && !torchSystem.isOn)
         {
-            if(timeLitElapsed > maxLitTime)
-            {
-                isLit = false;
-                animator.SetBool("isLit", false);
-            }
-            timeLitElapsed += Time.deltaTime;
+            isLit = false;
+            animator.SetBool("isLit", false);
+        }
+        if(torchSystem.isOn)
+        {
+            Lit();
         }
     }
 
@@ -39,7 +36,6 @@ public class TorchLight : Switch
     public void Lit()
     {
         isLit = true;
-        timeLitElapsed = 0;
         animator.SetBool("isLit", true);
     }
 }

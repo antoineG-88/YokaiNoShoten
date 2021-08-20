@@ -10,9 +10,11 @@ public class Laser : MonoBehaviour
     public float knockbackDistance;
     public bool oddIndexActive;
     public List<float> activationsSequence;
-
+    public float beamWarningTime;
+    public float beamChangeStateSpeed;
     public Switch connectedSwitch;
     [Header("Technical settings")]
+    public bool usePixelBeam;
     public GameObject beamStartPrefab;
     public GameObject beamPartPrefab;
     public GameObject beamImpactPrefab;
@@ -35,6 +37,10 @@ public class Laser : MonoBehaviour
     private bool isBeamActive;
     private float elapsedSequenceTime;
     private int currentSequenceIndex;
+    private LineRenderer beamLine;
+    private float beamState;
+    private float beamActivationState;
+    private Material beamMaterial;
 
     void Start()
     {
@@ -47,8 +53,9 @@ public class Laser : MonoBehaviour
         {
             isBeamActive = true;
         }
-
-
+        beamLine = GetComponent<LineRenderer>();
+        beamMaterial = Instantiate(beamLine.sharedMaterial);
+        beamLine.sharedMaterial = beamMaterial;
     }
 
     void Update()
@@ -72,10 +79,13 @@ public class Laser : MonoBehaviour
 
     private void UpdateLaserBeam()
     {
-        if(isBeamActive && isActive)
-        {
-            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
+        hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
+        beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
+        beamLine.SetPosition(0, (Vector2)transform.position + currentDirection * beamDisplayStartOffset);
+        beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
 
+        if (isBeamActive && isActive)
+        {
             playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
             if (playerHit && playerHit.collider.CompareTag("Player"))
             {
@@ -92,80 +102,97 @@ public class Laser : MonoBehaviour
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
 
-            /*
-            enemyHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Enemy", "Wall", "NoInteraction"));
-            if (enemyHit && enemyHit.collider.CompareTag("Enemy"))
+
+
+            if(usePixelBeam)
             {
-                Enemy hitEnemy = enemyHit.collider.GetComponent<Enemy>();
-                if(hitEnemy.currentSheepShield != null)
+                beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
+                if (beamFxs.Count < beamFxNumber)
                 {
-                    Vector2 knockbackDirection;
-                    if (Vector2.SignedAngle(currentDirection, hitEnemy.transform.position - transform.position) > 0)
+                    for (int i = beamFxs.Count; i < beamFxNumber; i++)
                     {
-                        knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90);
+                        beamFxs.Add(Instantiate(i == 0 ? beamStartPrefab : beamPartPrefab, (Vector2)transform.position + Vector2.right * ((spaceBetweenBeamFx * i) + beamDisplayStartOffset), Quaternion.identity, beamParent));
                     }
-                    else
-                    {
-                        knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z - 90);
-                    }
-                    hitEnemy.Propel(knockbackDirection * knockbackDistance * 2);
-                    StartCoroutine(hitEnemy.NoControl(0.3f));
-                    hitEnemy.currentSheepShield.Disabling();
                 }
-            }*/
+                else if (beamFxs.Count > beamFxNumber)
+                {
+                    for (int i = beamFxs.Count - 1; i > beamFxNumber - 1; i--)
+                    {
+                        if (i >= 0)
+                        {
+                            Destroy(beamFxs[i]);
+                            beamFxs.RemoveAt(i);
+                        }
+                    }
+                }
 
+                if (beamEnd == null)
+                {
+                    beamEnd = Instantiate(beamImpactPrefab, transform.position, Quaternion.identity);
+                }
+                beamEnd.transform.position = hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength;
+            }
+            else
+            {
 
-            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
-            beamFxNumber = Mathf.CeilToInt(beamLength / spaceBetweenBeamFx);
+                beamState += beamChangeStateSpeed * Time.fixedDeltaTime;
+                beamState = Mathf.Clamp(beamState, 0f, 1f);
+                beamMaterial.SetFloat("_previsOrAttack", beamState);
+
+                /*beamActivationState += beamChangeStateSpeed + Time.fixedDeltaTime;
+                beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
+                beamMaterial.SetFloat("_laserSwitch", beamActivationState);*/
+                //beamMaterial.SetFloat("_laserSwitch", 1);
+            }
 
 
             boxCollider.enabled = true;
             boxCollider.offset = new Vector2(beamStartOffset + (beamLength / 2), 0);
             boxCollider.size = new Vector2(beamLength, beamWallWidth);
 
-            beamParent.rotation = Quaternion.identity;
-
-            if (beamFxs.Count < beamFxNumber)
-            {
-                for (int i = beamFxs.Count; i < beamFxNumber; i++)
-                {
-                    beamFxs.Add(Instantiate(i == 0 ? beamStartPrefab : beamPartPrefab, (Vector2)transform.position + Vector2.right * ((spaceBetweenBeamFx * i) + beamDisplayStartOffset), Quaternion.identity, beamParent));
-                }
-            }
-            else if (beamFxs.Count > beamFxNumber)
-            {
-                for (int i = beamFxs.Count - 1; i > beamFxNumber - 1; i--)
-                {
-                    if(i >= 0)
-                    {
-                        Destroy(beamFxs[i]);
-                        beamFxs.RemoveAt(i);
-                    }
-                }
-            }
 
             beamParent.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, currentDirection));
 
-            if (beamEnd == null)
-            {
-                beamEnd = Instantiate(beamImpactPrefab, transform.position, Quaternion.identity);
-            }
-            beamEnd.transform.position = hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength;
+
+
         }
         else
         {
-            for (int i = beamFxs.Count - 1; i >= 0; i--)
+            if(usePixelBeam)
             {
-                Destroy(beamFxs[i]);
-                beamFxs.RemoveAt(i);
-            }
+                for (int i = beamFxs.Count - 1; i >= 0; i--)
+                {
+                    Destroy(beamFxs[i]);
+                    beamFxs.RemoveAt(i);
+                }
 
-            if(beamEnd != null)
+                if (beamEnd != null)
+                {
+                    Destroy(beamEnd);
+                    beamEnd = null;
+                }
+            }
+            else
             {
-                Destroy(beamEnd);
-                beamEnd = null;
             }
             boxCollider.enabled = false;
+        }
+
+        if (isActive)
+        {
+            if(activationsSequence.Count == 0)
+            {
+                beamActivationState += beamChangeStateSpeed * Time.deltaTime;
+                beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
+                beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+                beamMaterial.SetFloat("_previsOrAttack", 1);
+            }
+        }
+        else
+        {
+            beamActivationState -= beamChangeStateSpeed * Time.deltaTime;
+            beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
+            beamMaterial.SetFloat("_laserSwitch", beamActivationState);
         }
     }
 
@@ -173,22 +200,44 @@ public class Laser : MonoBehaviour
     {
         if(isActive)
         {
-            if(elapsedSequenceTime > activationsSequence[currentSequenceIndex])
+            if (elapsedSequenceTime > activationsSequence[currentSequenceIndex])
             {
                 elapsedSequenceTime = 0;
                 currentSequenceIndex++;
-                if(currentSequenceIndex >= activationsSequence.Count)
+                if (currentSequenceIndex >= activationsSequence.Count)
                 {
                     currentSequenceIndex = 0;
                 }
 
-                if(oddIndexActive ? currentSequenceIndex % 2 != 0 : currentSequenceIndex % 2 == 0)
+                if (oddIndexActive ? currentSequenceIndex % 2 != 0 : currentSequenceIndex % 2 == 0)
                 {
                     isBeamActive = true;
                 }
                 else
                 {
                     isBeamActive = false;
+                }
+            }
+
+            if(!isBeamActive)
+            {
+                if (elapsedSequenceTime > activationsSequence[currentSequenceIndex] - beamWarningTime)
+                {
+                    beamActivationState += beamChangeStateSpeed * Time.deltaTime;
+                    beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
+                    beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+                }
+                else
+                {
+                    beamActivationState -= beamChangeStateSpeed * Time.deltaTime;
+                    beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
+                    beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+                }
+
+                if (beamActivationState == 0)
+                {
+                    beamState = 0;
+                    beamMaterial.SetFloat("_previsOrAttack", beamState);
                 }
             }
 

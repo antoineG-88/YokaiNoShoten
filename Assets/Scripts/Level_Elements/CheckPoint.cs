@@ -7,21 +7,20 @@ public class CheckPoint : MonoBehaviour
     public int checkPointNumber;
     public float timeToRegenerate;
     public Animator animator;
-    /*[Header("Temporary")]
-    public float regenFBStartSize;
-    public float regenFBMaxSize;
-    public GameObject regenerationFeedback;
-    public GameObject checkPointActivationDisplay;*/
+    public Sound activationSound;
 
     private bool isPlayerInRange;
     [HideInInspector] public bool isActivated;
     private float elapsedTimeNearCheckPoint;
     private bool saveFlag;
     private bool regenerateFlag;
+    private AudioSource source;
 
     private void Start()
     {
         LevelManager.allZoneCheckPoints.Add(this);
+
+        source = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -53,11 +52,14 @@ public class CheckPoint : MonoBehaviour
             regenerateFlag = true;
             saveFlag = true;
         }
+        if(animator.transform.parent.gameObject.activeSelf)
+            animator.SetBool("Activated", isActivated);
     }
 
     private void SaveAsCurrentCheckPoint()
     {
-        animator.SetBool("Activated", true);
+        if(activationSound.clip != null)
+            source.PlayOneShot(activationSound.clip, activationSound.volumeScale);
         LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);
     }
