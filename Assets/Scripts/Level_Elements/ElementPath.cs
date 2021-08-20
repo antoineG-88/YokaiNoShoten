@@ -130,7 +130,23 @@ public class ElementPath : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             if(inactiveResetToStartPos)
-                transform.position = GetPosProgressionInPath(startProgression);
+            {
+                if (startProgression != 0 && startProgression != 100)
+                {
+                    transform.position = GetPosProgressionInPath(startProgression / 100);
+                }
+                else
+                {
+                    if(startProgression == 0 || (!endLoopByTp && !isBackAndForth))
+                    {
+                        transform.position = pathPositions[0].position;
+                    }
+                    else
+                    {
+                        transform.position = pathPositions[pathPositions.Length - 1].position;
+                    }
+                }
+            }
         }
     }
 
