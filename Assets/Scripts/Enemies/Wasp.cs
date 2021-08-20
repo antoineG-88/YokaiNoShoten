@@ -26,6 +26,9 @@ public class Wasp : Enemy
     [Header("Visuals")]
     public SpriteRenderer sprite;
     public GameObject stuckImpactParticle;
+    [Header("Wasp specific Sounds")]
+    public Sound rushSound;
+    public Sound warningSound;
 
     //Fx de prévisualitation
     public GameObject previsFX;
@@ -182,91 +185,94 @@ public class Wasp : Enemy
         {
             GameObject previsClone = Instantiate(previsFX, (Vector2)transform.position + rushDirection * i * (rushLength / numberOfPrevisFx), Quaternion.identity);
             previsClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, rushDirection));
-            //previsClone.transform.localScale = new Vector3(1, rushDirection.x < 0 ? 1 : -1, 1);
         }
+        source.PlayOneShot(warningSound.clip, warningSound.volumeScale);
 
         yield return new WaitForSeconds(rushDelay);
-        shouldNotFlipSprite = true;
-        isProtected = true;
-
-        Vector2 rushStartPos = transform.position;
-        Vector2 dashEndPos = (Vector2)transform.position + rushDirection * rushLength;
-        Vector2 rushPos = transform.position;
-        Vector2 previousRushPos = transform.position;
-        float currentRushSpeed;
-        bool hasHit = false;
-        bool hitWall = false;
-        //transform.rotation = Quaternion.Euler(0, 0, rushDirection.x < 0 ? Vector2.SignedAngle(new Vector2(-1, -1), rushDirection) : Vector2.SignedAngle(new Vector2(1, -1), rushDirection));
-
-
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, rushDirection));
-
-        float dashTimeElapsed = 0;
-        while (dashTimeElapsed < rushTime && !isStuckInWall && !isDying)
+        if(!isDying)
         {
-            animator.SetInteger("RushStep", 2);
-            dashTimeElapsed += Time.fixedDeltaTime;
-            rushPos = Vector2.LerpUnclamped(rushStartPos, dashEndPos, rushCurve.Evaluate(dashTimeElapsed / rushTime));
-            currentRushSpeed = (rushPos - previousRushPos).magnitude;
-            previousRushPos = rushPos;
-            rb.velocity = rushDirection * currentRushSpeed * (1 / Time.fixedDeltaTime);
+            shouldNotFlipSprite = true;
+            isProtected = true;
 
-            if (!hasHit)
+            Vector2 rushStartPos = transform.position;
+            Vector2 dashEndPos = (Vector2)transform.position + rushDirection * rushLength;
+            Vector2 rushPos = transform.position;
+            Vector2 previousRushPos = transform.position;
+            float currentRushSpeed;
+            bool hasHit = false;
+            bool hitWall = false;
+
+            source.PlayOneShot(rushSound.clip, rushSound.volumeScale);
+
+            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, rushDirection));
+
+            float dashTimeElapsed = 0;
+            while (dashTimeElapsed < rushTime && !isStuckInWall && !isDying)
             {
-                hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
-                if (hasHit)
+                animator.SetInteger("RushStep", 2);
+                dashTimeElapsed += Time.fixedDeltaTime;
+                rushPos = Vector2.LerpUnclamped(rushStartPos, dashEndPos, rushCurve.Evaluate(dashTimeElapsed / rushTime));
+                currentRushSpeed = (rushPos - previousRushPos).magnitude;
+                previousRushPos = rushPos;
+                rb.velocity = rushDirection * currentRushSpeed * (1 / Time.fixedDeltaTime);
+
+                if (!hasHit)
                 {
-                    GameData.playerManager.TakeDamage(1, rushDirection * rushKnockbackForce);
-                }
-                else
-                {
-                    hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall", "DashWall"));
-                    if (hitWall)
+                    hasHit = Physics2D.OverlapCircle(transform.position, rushRadius, LayerMask.GetMask("Player"));
+                    if (hasHit)
                     {
-                        RaycastHit2D impactHit = Physics2D.CircleCast(transform.position, rushWallRadius, rushDirection, 2, LayerMask.GetMask("Wall", "DashWall"));
-                        if(Vector2.Angle(-impactHit.normal, rushDirection) < 50)
+                        GameData.playerManager.TakeDamage(1, rushDirection * rushKnockbackForce);
+                    }
+                    else
+                    {
+                        hitWall = Physics2D.OverlapCircle(transform.position, rushWallRadius, LayerMask.GetMask("Wall", "DashWall"));
+                        if (hitWall)
                         {
-                            isStuckInWall = true;
-                            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-                            isProtected = false;
-                            stuckDirection = impactHit.normal;
-                            if (animator != null)
+                            RaycastHit2D impactHit = Physics2D.CircleCast(transform.position, rushWallRadius, rushDirection, 2, LayerMask.GetMask("Wall", "DashWall"));
+                            if (Vector2.Angle(-impactHit.normal, rushDirection) < 50)
                             {
-                                animator.SetBool("IsStuck", true);
+                                isStuckInWall = true;
+                                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                                isProtected = false;
+                                stuckDirection = impactHit.normal;
+                                if (animator != null)
+                                {
+                                    animator.SetBool("IsStuck", true);
+                                }
+                                Instantiate(stuckImpactParticle, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, impactHit.normal)));
+                                transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, -stuckDirection));
                             }
-                            Instantiate(stuckImpactParticle, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, impactHit.normal)));
-                            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, -stuckDirection));
                         }
                     }
                 }
+
+                yield return new WaitForFixedUpdate();
+            }
+            if ((currentSheepShield != null && !currentSheepShield.isActive) || currentSheepShield == null)
+            {
+                isProtected = false;
             }
 
-            yield return new WaitForFixedUpdate();
-        }
-        if ((currentSheepShield != null && !currentSheepShield.isActive) || currentSheepShield == null)
-        {
-            isProtected = false;
-        }
-
-        animator.SetInteger("RushStep", 0);
-        rb.velocity = Vector2.zero;
-        if (isStuckInWall != true)
-        {
-            transform.rotation = Quaternion.identity;
-            yield return new WaitForSeconds(rushStunTime);
-            inControl = true;
-        }
-        else
-        {
-            yield return new WaitForSeconds(wallStunTime);
-            rb.constraints = RigidbodyConstraints2D.None;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            transform.rotation = Quaternion.identity;
-            inControl = true;
-            isStuckInWall = false;
-            if (animator != null)
+            animator.SetInteger("RushStep", 0);
+            rb.velocity = Vector2.zero;
+            if (isStuckInWall != true)
             {
-                animator.SetBool("IsStuck", false);
+                transform.rotation = Quaternion.identity;
+                yield return new WaitForSeconds(rushStunTime);
+                inControl = true;
+            }
+            else
+            {
+                yield return new WaitForSeconds(wallStunTime);
+                rb.constraints = RigidbodyConstraints2D.None;
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                transform.rotation = Quaternion.identity;
+                inControl = true;
+                isStuckInWall = false;
+                if (animator != null)
+                {
+                    animator.SetBool("IsStuck", false);
+                }
             }
         }
         isRushing = false;

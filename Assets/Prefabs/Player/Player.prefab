@@ -462,8 +462,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 657174447
+  m_SortingLayer: 6
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 1e824e9ddd68a2d4fa6b39a28b270a56, type: 3}
   m_Color: {r: 0.9622642, g: 0.06808472, b: 0.6619107, a: 1}
@@ -548,6 +548,7 @@ MonoBehaviour:
   slideAcceleration: 5
   groundSlowing: 50
   airSlowing: 0.1
+  maxFallingSpeed: 23
   slideSlowing: 0
   gravityForce: 20
   maxSlidingSpeed: 10
@@ -586,10 +587,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   knockAwayTime: 0.4
   slopeMaxSpeed: 5
-  godModeSpeed: 10
+  godModeSpeed: 20
   footstepSound:
-    clip: {fileID: 8300000, guid: fef35b6d5a277ab46bba34ccb4516c00, type: 3}
-    volumeScale: 3
+    clip: {fileID: 8300000, guid: 19b3b81605ee55049b68fc8fc307bf34, type: 3}
+    volumeScale: 0.6
   baseTimeBtwFootStep: 0.2
   windSource: {fileID: 405305188}
   windVolumeBySpeed: 0.01
@@ -622,7 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxGrappleRange: 8
   grappleAttachLengthDifference: 4
-  shootCooldown: 0.2
+  shootCooldown: 0.1
   releasingHookDist: 0.5
   minAttachDistance: 2
   keepAim: 1
@@ -780,8 +781,8 @@ MonoBehaviour:
   dashWithRightTrigger: 0
   aimWithRightJoystick: 0
   dashSound:
-    clip: {fileID: 8300000, guid: 82c7fcb8169117742816aeda32aae99c, type: 3}
-    volumeScale: 2
+    clip: {fileID: 8300000, guid: 8619258f474f81a49a8ae0eba11af1a2, type: 3}
+    volumeScale: 1
   canDash: 0
   isDashing: 0
   isReaiming: 0

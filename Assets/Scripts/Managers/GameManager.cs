@@ -50,14 +50,19 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(3);
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             SceneManager.LoadScene(5);
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(6);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SceneManager.LoadScene(7);
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))

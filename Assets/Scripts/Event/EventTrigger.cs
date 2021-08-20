@@ -29,7 +29,8 @@ public class EventTrigger : Switch
     {
         if (isInEvent)
         {
-            if(currentEventPartIndex < eventParts.Count)
+            GameData.playerManager.inControl = false;
+            if (currentEventPartIndex < eventParts.Count)
             {
                 if (!eventParts[currentEventPartIndex].eventStarted)
                 {

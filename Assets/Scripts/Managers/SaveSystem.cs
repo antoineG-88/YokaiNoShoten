@@ -142,12 +142,18 @@ public static class SaveSystem
     {
         //string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
         string path = Path.Combine(savePath, zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension);
+        
+        if(File.Exists(path))
+        {
+            Debug.Log("deleted at : " + path);
+            File.Delete(path);
+        }
 
-        Debug.Log("deleted at : " + path);
-        File.Delete(path);
         path = Path.Combine(savePath, progressionDataSaveFileName + progressionSaveFileExtension);
-        Debug.Log("deleted at : " + path);
-        File.Delete(path);
-
+        if (File.Exists(path))
+        {
+            Debug.Log("deleted at : " + path);
+            File.Delete(path);
+        }
     }
 }
