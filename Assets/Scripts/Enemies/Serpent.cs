@@ -227,6 +227,7 @@ public class Serpent : Enemy
             Physics2D.OverlapCollider(headSpikesCollider, playerFilter, colliders);
             if (colliders.Count > 0)
             {
+                GameData.pierceHandler.isPiercing = false;
                 GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
                 currentSpeed = 0;
             }
@@ -304,6 +305,15 @@ public class Serpent : Enemy
     private void OnDestroy()
     {
         Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    public override bool PierceEffect(int damage, Vector2 directedForce)
+    {
+        if (!isProtected)
+        {
+            TakeDamage(damage, 0.5f);
+        }
+        return isProtected;
     }
 
     private void UpdateVisuals()

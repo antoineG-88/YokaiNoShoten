@@ -14,6 +14,8 @@ public abstract class Enemy : Piercable
     public List<SpriteRenderer> enemySprites;
     public float dissolveTime;
     public float apparitionTime;
+    public bool doGoFantomWhenProtected;
+    public int enemyFantomLayerNumber;
     [Header("Sounds")]
     public Sound deathSound;
     public Sound provokedSound;
@@ -57,6 +59,7 @@ public abstract class Enemy : Piercable
     [HideInInspector] public Material material;
     [HideInInspector] public AudioSource source;
     private bool provokeFlag;
+    private int initialLayer;
 
     public ParticleSystem deathParticle;
     float shapeAngle;
@@ -90,7 +93,7 @@ public abstract class Enemy : Piercable
             enemySprites[i].sharedMaterial = material;
         }
 
-
+        initialLayer = gameObject.layer;
     }
     protected void Update()
     {
@@ -228,6 +231,18 @@ public abstract class Enemy : Piercable
         if (!provokeFlag && !provoked)
         {
             provokeFlag = true;
+        }
+
+        if(doGoFantomWhenProtected)
+        {
+            if (isProtected)
+            {
+                gameObject.layer = enemyFantomLayerNumber;
+            }
+            else
+            {
+                gameObject.layer = initialLayer;
+            }
         }
     }
 
@@ -373,6 +388,7 @@ public abstract class Enemy : Piercable
         if (animator != null)
             animator.SetBool("Dead",true);
         isDying = true;
+        gameObject.layer = enemyFantomLayerNumber;
         doNotReableCollider = true;
         shapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
         if (deathParticle != null)
@@ -450,11 +466,6 @@ public abstract class Enemy : Piercable
         {
             TakeDamage(damage, 0.5f);
         }
-        else
-        {
-            //Propel(directedForce);
-            //StartCoroutine(NoControl(0.3f));
-        }
-        return isProtected;
+        return false;
     }
 }
