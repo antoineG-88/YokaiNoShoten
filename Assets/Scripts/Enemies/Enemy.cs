@@ -59,7 +59,7 @@ public abstract class Enemy : Piercable
     [HideInInspector] public Material material;
     [HideInInspector] public AudioSource source;
     private bool provokeFlag;
-    private int initialLayer;
+    private int startLayer;
 
     public ParticleSystem deathParticle;
     float shapeAngle;
@@ -93,7 +93,7 @@ public abstract class Enemy : Piercable
             enemySprites[i].sharedMaterial = material;
         }
 
-        initialLayer = gameObject.layer;
+        startLayer = gameObject.layer;
     }
     protected void Update()
     {
@@ -241,7 +241,7 @@ public abstract class Enemy : Piercable
             }
             else
             {
-                gameObject.layer = initialLayer;
+                gameObject.layer = startLayer;
             }
         }
     }

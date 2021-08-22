@@ -17,25 +17,17 @@ public class TorchLight : Switch
     private void Update()
     {
         isOn = isLit;
-        if(isLit && !torchSystem.isTorchGrabbed && !torchSystem.isOn)
-        {
-            isLit = false;
-            animator.SetBool("isLit", false);
-        }
+
         if(torchSystem.isOn)
         {
-            Lit();
+            isLit = true;
         }
+
+        animator.SetBool("isLit", isLit);
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)
     {
         return false;
-    }
-
-    public void Lit()
-    {
-        isLit = true;
-        animator.SetBool("isLit", true);
     }
 }
