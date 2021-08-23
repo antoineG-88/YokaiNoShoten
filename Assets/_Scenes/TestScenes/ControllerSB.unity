@@ -8859,6 +8859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80bdb7453ae4ef14f9ea2de8d0466cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashSprite: {fileID: 0}
   disableTime: 0.2
 --- !u!1 &1698384695
 GameObject:
@@ -12770,7 +12771,7 @@ PrefabInstance:
     - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}
       propertyPath: activationsSequence.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5878177530266848661, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}

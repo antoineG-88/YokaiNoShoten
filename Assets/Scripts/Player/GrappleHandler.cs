@@ -238,14 +238,17 @@ public class GrappleHandler : MonoBehaviour
                             AttachHook(selectedObject);
                         }
 
+                        bool isAttachCanceled = false;
                         RaycastHit2D antiGrabWallHit = Physics2D.Raycast(transform.position, selectedObjectDirection, Vector2.Distance(selectedObject.transform.position, transform.position), LayerMask.GetMask("AntiGrabWall"));
                         if (antiGrabWallHit)
                         {
+                            isAttachCanceled = true;
                             BreakRope("AntigrabWall traversed");
                             antiGrabWallHit.collider.GetComponent<AntiGrappleWall>().PlayFeedBack();
                         }
                         else if (isSucked)
                         {
+                            isAttachCanceled = true;
                             BreakRope("nope u suck");
                         }
                         else if(attachedObject.CompareTag("Enemy"))
@@ -253,8 +256,14 @@ public class GrappleHandler : MonoBehaviour
                             Enemy attachedEnemy = attachedObject.GetComponent<Enemy>();
                             if(attachedEnemy != null && attachedEnemy.isProtected)
                             {
+                                isAttachCanceled = true;
                                 BreakRope("enemy is protected");
                             }
+                        }
+
+                        if(!isAttachCanceled)
+                        {
+                            GameData.dashHandler.canDash = true;
                         }
                     }
                 }
@@ -420,10 +429,6 @@ public class GrappleHandler : MonoBehaviour
             grappleLoopSource.Play();
         }
 
-        if (isSucked == false)
-        {
-            GameData.dashHandler.canDash = true;
-        }
         GameData.pierceHandler.canPierce = true;
     }
 

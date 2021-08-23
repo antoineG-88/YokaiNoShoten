@@ -24,6 +24,7 @@ public class Laser : MonoBehaviour
     public float beamDisplayStartOffset;
     public BoxCollider2D boxCollider;
     public Transform beamParent;
+    public Material sequenceMat;
 
     private Vector2 currentDirection;
     private float beamLength;
@@ -55,7 +56,14 @@ public class Laser : MonoBehaviour
             isBeamActive = true;
         }
         beamLine = GetComponent<LineRenderer>();
-        beamMaterial = Instantiate(beamLine.sharedMaterial);
+        if(activationsSequence.Count > 0)
+        {
+            beamMaterial = Instantiate(sequenceMat);
+        }
+        else
+        {
+            beamMaterial = Instantiate(beamLine.sharedMaterial);
+        }
         beamLine.sharedMaterial = beamMaterial;
     }
 

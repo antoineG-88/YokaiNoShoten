@@ -84,7 +84,7 @@ public class PlayerManager : MonoBehaviour
             currentHealthPoint -= damage;
             if (currentHealthPoint <= 0)
             {
-                //Die(); ----------------------------------------------------------------------------- remettre
+                Die();
             }
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.animator.SetTrigger("Hurt");
