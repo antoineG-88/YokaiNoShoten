@@ -9,7 +9,7 @@ public class Door : MonoBehaviour
     public Sound openingSound;
     public Sound closingSound;
 
-    private bool isOpened;
+    [HideInInspector] public bool isOpened;
     private Collider2D doorCollider;
     private Animator animator;
     private AudioSource source;

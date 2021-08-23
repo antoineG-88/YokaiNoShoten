@@ -9,6 +9,7 @@ public class EventTrigger : Switch
     [Header("Optionnal, put a switch if the event is triggered by a switch")]
     public Switch switchToTriggerEvent;
 
+
     public int neededStoryStepToTrigger;
     public int maxStoryStepToTrigger;
     public int storyStepProgressionAtTheEnd;

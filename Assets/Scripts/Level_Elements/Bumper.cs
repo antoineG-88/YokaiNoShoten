@@ -8,9 +8,9 @@ public class Bumper : MonoBehaviour
     public float surge;
     public float centerSurge;
     public Transform bumperDirection;
-    public bool canPush;
-    public bool isEntered;
-    public Vector2 centerForce;
+    private bool canPush;
+    private bool isEntered;
+    private Vector2 centerForce;
 
     void Start()
     {

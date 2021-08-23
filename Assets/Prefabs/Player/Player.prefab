@@ -349,7 +349,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0.06566486, y: -0.39801458}
+  m_Offset: {x: 0, y: -0.39801458}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -551,7 +551,7 @@ MonoBehaviour:
   maxFallingSpeed: 23
   slideSlowing: 0
   gravityForce: 20
-  maxSlidingSpeed: 10
+  maxSlidingSpeed: 12
   knockAwayMovement:
     serializedVersion: 2
     m_Curve:
@@ -627,10 +627,10 @@ MonoBehaviour:
   releasingHookDist: 0.5
   minAttachDistance: 2
   keepAim: 1
+  canAttachProtectedEnnemies: 0
   tractionForce: 60
   slowingForce: 50
   maxTractionSpeed: 15
-  noGravityMaxTractionSpeed: 10
   startTractionPropulsion: 5
   minDistanceToAccelerate: 100
   velocityKeptReleasingHook: 63
@@ -660,6 +660,7 @@ MonoBehaviour:
   aimDirection: {x: 0, y: 0}
   isAiming: 0
   timeBeforeNextShoot: 0
+  noGravityMaxTractionSpeed: 14
   isHooked: 0
   attachedObject: {fileID: 0}
   tractionDirection: {x: 0, y: 0}
@@ -734,6 +735,7 @@ MonoBehaviour:
   triggerSlowMo: 1
   useLeftTriggerInput: 1
   cancelPierceKADistance: 3
+  doCancelPierce: 1
   useAutoAim: 0
   pierceAimAssistAngle: 90
   pierceAimAssistRaycastNumber: 20
@@ -867,7 +869,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06813982, y: 0.042821586}
+  m_Offset: {x: 0, y: 0.042821586}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1422,7 +1424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3737249136632389048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.06, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3737249135459656034}
@@ -1825,8 +1827,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 657174447
-  m_SortingLayer: 6
+  m_SortingLayerID: -686706029
+  m_SortingLayer: 5
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: c892d5d8749a57f4ab500e343133937d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -19,6 +19,7 @@ public class Mante : Enemy
     public float cytheAttackCooldown;
     public float cytheAttackTeleguidingTime;
     public float cytheTimeBeforeSpin;
+    public bool doCytheImmobilizeBeforeSpin;
     public float cytheSpinRadius;
     public GameObject cythe;
     public float cytheMaxSpeed;
@@ -120,17 +121,36 @@ public class Mante : Enemy
     {
         if(inControl && !isDying)
         {
+            cythe.transform.localScale = Vector2.one * Mathf.Lerp(cythe.transform.localScale.x, targetCytheScale, cytheScaleLerpRatio * Time.fixedDeltaTime);
             if (isTeleguidingCythe)
             {
                 if (teleguidingTimeElapsed > cytheAttackTeleguidingTime)
                 {
-                    StartCoroutine(SpinCythe());
+                    if (!isCytheSpinning)
+                        StartCoroutine(SpinCythe());
+
+                    if(!doCytheImmobilizeBeforeSpin)
+                    {
+                        cytheTargetPos = (Vector2)GameData.player.transform.position + GameData.movementHandler.rb.velocity.normalized * cytheTargetPlayerOffsetDistance;
+
+                        cytheTargetDirection = cytheTargetPos - (Vector2)cythe.transform.position;
+                        cytheTargetDirection.Normalize();
+
+                        cytheCurrentMaxSpeed = Mathf.Clamp(Vector2.Distance(cythe.transform.position, cytheTargetPos) * cytheDistanceSpeedDampeningRatio, 0, cytheMaxSpeed);
+                        cytheCurrentSpeed += Time.fixedDeltaTime * cytheAccelerationForce;
+                        cytheCurrentSpeed = Mathf.Clamp(cytheCurrentSpeed, 0, cytheCurrentMaxSpeed);
+
+                        if (Vector2.Distance(cythe.transform.position, cytheTargetPos) > cytheCurrentSpeed * Time.fixedDeltaTime + 0.1f)
+                        {
+                            cythe.transform.position = (Vector2)cythe.transform.position + cytheTargetDirection * (cytheCurrentSpeed * Time.fixedDeltaTime);
+                        }
+                    }
                 }
                 else
                 {
                     teleguidingTimeElapsed += Time.fixedDeltaTime;
-                    targetCytheScale = Mathf.Lerp(baseCytheScale, anticipationCytheScale, teleguidingTimeElapsed / cytheAttackTeleguidingTime);
-                    cythe.transform.localScale = Vector2.one * Mathf.Lerp(cythe.transform.localScale.x, targetCytheScale, cytheScaleLerpRatio * Time.fixedDeltaTime);
+                    if(!isCytheSpinning)
+                        targetCytheScale = Mathf.Lerp(baseCytheScale, anticipationCytheScale, teleguidingTimeElapsed / cytheAttackTeleguidingTime);
 
 
                     cytheTargetPos = (Vector2)GameData.player.transform.position + GameData.movementHandler.rb.velocity.normalized * cytheTargetPlayerOffsetDistance;
@@ -150,8 +170,6 @@ public class Mante : Enemy
             }
             else
             {
-                cythe.transform.localScale = Vector2.one * Mathf.Lerp(cythe.transform.localScale.x, targetCytheScale, cytheScaleLerpRatio * Time.fixedDeltaTime);
-
                 if (isCytheInRecall)
                 {
                     cytheTargetPos = transform.position;
@@ -210,7 +228,10 @@ public class Mante : Enemy
         targetCytheScale = baseCytheScale;
         cytheCDElapsed = 0;
         isCytheSpinning = true;
-        isTeleguidingCythe = false;
+        if(doCytheImmobilizeBeforeSpin)
+        {
+            isTeleguidingCythe = false;
+        }
         yield return new WaitForSeconds(cytheTimeBeforeSpin);
         targetCytheScale = cytheSpinRadius;
         List<Collider2D> colliders = new List<Collider2D>();
@@ -221,6 +242,10 @@ public class Mante : Enemy
             cytheTargetDirection.Normalize();
 
             GameData.playerManager.TakeDamage(1, cytheTargetDirection * cytheKnockbackDistance);
+        }
+        if (!doCytheImmobilizeBeforeSpin)
+        {
+            isTeleguidingCythe = false;
         }
         yield return new WaitForSeconds(0.3f);
         targetCytheScale = baseCytheScale;

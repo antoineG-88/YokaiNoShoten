@@ -327,9 +327,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: InTheAir
     m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: VerticalSpeed
-    m_EventTreshold: 5
   - m_ConditionMode: 3
     m_ConditionEvent: VerticalSpeed
     m_EventTreshold: -5
@@ -561,9 +558,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: InTheAir
     m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: VerticalSpeed
-    m_EventTreshold: 5
   - m_ConditionMode: 3
     m_ConditionEvent: VerticalSpeed
     m_EventTreshold: -5
@@ -1272,9 +1266,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: InTheAir
     m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: VerticalSpeed
-    m_EventTreshold: 5
   - m_ConditionMode: 3
     m_ConditionEvent: VerticalSpeed
     m_EventTreshold: -5

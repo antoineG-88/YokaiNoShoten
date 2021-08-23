@@ -6,9 +6,12 @@ public class ProvocationZone : MonoBehaviour
 {
     public List<Enemy> connectedEnnemies;
     public bool provokeAllWhenOneIsprovoked;
+    public bool enemiesCanLoseAggro;
 
     private bool shouldProvokeAll;
     private bool[] previousProvocation;
+    private bool hasBeenTriggered;
+    private bool enemiesDied;
 
     private void Start()
     {
@@ -21,7 +24,7 @@ public class ProvocationZone : MonoBehaviour
 
     private void Update()
     {
-        if(provokeAllWhenOneIsprovoked)
+        if(provokeAllWhenOneIsprovoked && !enemiesDied)
         {
             shouldProvokeAll = false;
             for (int i = 0; i < connectedEnnemies.Count; i++)
@@ -42,6 +45,11 @@ public class ProvocationZone : MonoBehaviour
                 ProvokeAllGroup();
             }
         }
+
+        if(hasBeenTriggered && !enemiesCanLoseAggro && !enemiesDied)
+        {
+            ProvokeAllGroup();
+        }
     }
 
 
@@ -49,12 +57,19 @@ public class ProvocationZone : MonoBehaviour
     {
         for (int i = 0; i < connectedEnnemies.Count; i++)
         {
-            connectedEnnemies[i].provoked = true;
+            enemiesDied = true;
+            if(connectedEnnemies[i] != null)
+            {
+                connectedEnnemies[i].provoked = true;
+                enemiesDied = false;
+            }
         }
+        hasBeenTriggered = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ProvokeAllGroup();
+        if(!enemiesDied)
+            ProvokeAllGroup();
     }
 }

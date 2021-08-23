@@ -33,10 +33,10 @@ public class DashWall : MonoBehaviour
             }
 
 
-            if (GameData.grappleHandler.isTracting)
+            /*if (GameData.grappleHandler.isTracting)
             {
                 GameData.grappleHandler.BreakRope("Touched a dashWall");
-            }
+            }*/
         }
     }
 
