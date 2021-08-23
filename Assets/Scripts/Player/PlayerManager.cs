@@ -68,7 +68,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsPlayerInWall() && !isInGodMode)
         {
-            Debug.Log("Inwalldetected");
             //Die();
         }
 

@@ -233,15 +233,18 @@ public abstract class Enemy : Piercable
             provokeFlag = true;
         }
 
-        if(doGoFantomWhenProtected)
+        if(!intargetable)
         {
-            if (isProtected || intargetable)
+            if (doGoFantomWhenProtected)
             {
-                gameObject.layer = enemyFantomLayerNumber;
-            }
-            else if(gameObject.layer != startLayer)
-            {
-                gameObject.layer = startLayer;
+                if (isProtected)
+                {
+                    gameObject.layer = enemyFantomLayerNumber;
+                }
+                else if (gameObject.layer != startLayer)
+                {
+                    gameObject.layer = startLayer;
+                }
             }
         }
     }
@@ -255,8 +258,6 @@ public abstract class Enemy : Piercable
             if (!isProtected)
             {
                 currentHealthPoint -= damage;
-                if(animator != null)
-                    animator.SetTrigger("Hurt");
                 StartCoroutine(NoControl(noControlTime));
                 if (currentHealthPoint <= 0)
                 {

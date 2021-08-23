@@ -621,7 +621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d95fff7a5c00942b02942384bc949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGrappleRange: 8
+  maxGrappleRange: 8.5
   grappleAttachLengthDifference: 4
   shootCooldown: 0.1
   releasingHookDist: 0.5
@@ -721,7 +721,7 @@ MonoBehaviour:
   pierceKnockbackForce: 10
   enemyMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 526336
   pierceShadowFx: {fileID: 1368177033577197783, guid: d21d83d996c6a81499510a66d86088ca,
     type: 3}
   pierceMarkFx: {fileID: 4198612265735637209, guid: 589f34dfa09249e4dbb4d377ef372ab7,
@@ -2111,6 +2111,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3737249135459656034}
     m_Modifications:
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 657174447
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997120, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: m_Name
@@ -2200,21 +2215,6 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeBySpeedModule.y.minScalar
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}

@@ -231,6 +231,7 @@ public class Serpent : Enemy
                 GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
                 currentSpeed = 0;
             }
+            isProtected = true;
         }
         else
         {
@@ -241,8 +242,16 @@ public class Serpent : Enemy
             }
             inactiveSpikeTimeElapsed += Time.fixedDeltaTime;
             spikeDisplay.SetActive(false);
+
+            if(currentSheepShield != null && currentSheepShield.isActive)
+            {
+                isProtected = true;
+            }
+            else
+            {
+                isProtected = false;
+            }
         }
-        isProtected = isSpikesActive;
     }
 
     public void DisableSpikes()
@@ -313,7 +322,7 @@ public class Serpent : Enemy
         {
             TakeDamage(damage, 0.5f);
         }
-        return isProtected;
+        return isSpikesActive;
     }
 
     private void UpdateVisuals()
