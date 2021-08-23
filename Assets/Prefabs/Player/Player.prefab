@@ -525,7 +525,7 @@ Transform:
   - {fileID: 471252641}
   - {fileID: 4208649470404408855}
   - {fileID: 2132150249773689154}
-  - {fileID: 4778979432530998439}
+  - {fileID: 4995943709356636178}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -551,7 +551,7 @@ MonoBehaviour:
   maxFallingSpeed: 23
   slideSlowing: 0
   gravityForce: 20
-  maxSlidingSpeed: 12
+  maxSlidingSpeed: 10
   knockAwayMovement:
     serializedVersion: 2
     m_Curve:
@@ -1923,7 +1923,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &959252966554442709
+--- !u!1001 &740986524427048800
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1990,13 +1990,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: lifeParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 5975167095477575411, guid: c7bf5d565bea3b8468351ec367cbfc29,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7bf5d565bea3b8468351ec367cbfc29, type: 3}
---- !u!4 &4778979432530998439 stripped
+--- !u!4 &4995943709356636178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5700900740912902002, guid: c7bf5d565bea3b8468351ec367cbfc29,
     type: 3}
-  m_PrefabInstance: {fileID: 959252966554442709}
+  m_PrefabInstance: {fileID: 740986524427048800}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6819854849693524950
 PrefabInstance:
@@ -2111,6 +2116,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3737249135459656034}
     m_Modifications:
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 657174447
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997120, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: m_Name
@@ -2200,21 +2220,6 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeBySpeedModule.y.minScalar
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}
