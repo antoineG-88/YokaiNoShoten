@@ -65,7 +65,6 @@ MonoBehaviour:
   trappedTime: 0.5
   formerDisablingHoleTimer: 5
   kbForce: 5
-  startColor: {r: 1, g: 0, b: 0, a: 1}
   suckingRadius: 3.2
   suckingForceByDistance:
     serializedVersion: 2
@@ -150,7 +149,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0bf977752d46ef54bb416f9b5ba6dffb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -168,11 +167,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -407621029
-  m_SortingLayer: 4
+  m_SortingLayerID: -1307146141
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8f4680ddb51c20f4a8e8927886e31438, type: 3}
-  m_Color: {r: 1, g: 0.4292453, b: 0.67321503, a: 0.20784314}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
