@@ -8,6 +8,7 @@ public class Laser : MonoBehaviour
     public float beamWidth;
     public float beamWallWidth;
     public float knockbackDistance;
+    public bool doKnockbackThroughLaser;
     public bool oddIndexActive;
     public List<float> activationsSequence;
     public float beamWarningTime;
@@ -92,11 +93,11 @@ public class Laser : MonoBehaviour
                 Vector2 knockbackDirection;
                 if(Vector2.SignedAngle(currentDirection, GameData.player.transform.position - transform.position) > 0)
                 {
-                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90);
+                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + (doKnockbackThroughLaser ? -90 : 90));
                 }
                 else
                 {
-                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z - 90);
+                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + (doKnockbackThroughLaser ? 90 : -90));
                 }
                 GameData.dashHandler.isDashing = false;
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
@@ -145,10 +146,12 @@ public class Laser : MonoBehaviour
                 //beamMaterial.SetFloat("_laserSwitch", 1);
             }
 
-
-            boxCollider.enabled = true;
-            boxCollider.offset = new Vector2(beamStartOffset + (beamLength / 2), 0);
-            boxCollider.size = new Vector2(beamLength, beamWallWidth);
+            if(!doKnockbackThroughLaser)
+            {
+                boxCollider.enabled = true;
+                boxCollider.offset = new Vector2(beamStartOffset + (beamLength / 2), 0);
+                boxCollider.size = new Vector2(beamLength, beamWallWidth);
+            }
 
 
             beamParent.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, currentDirection));
