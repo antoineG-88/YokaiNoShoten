@@ -235,11 +235,11 @@ public abstract class Enemy : Piercable
 
         if(doGoFantomWhenProtected)
         {
-            if (isProtected)
+            if (isProtected || intargetable)
             {
                 gameObject.layer = enemyFantomLayerNumber;
             }
-            else
+            else if(gameObject.layer != startLayer)
             {
                 gameObject.layer = startLayer;
             }

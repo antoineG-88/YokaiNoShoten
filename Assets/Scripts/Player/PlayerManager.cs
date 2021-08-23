@@ -68,7 +68,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsPlayerInWall() && !isInGodMode)
         {
-            Die();
+            Debug.Log("Inwalldetected");
+            //Die();
         }
 
         GameData.playerSource.pitch = Time.timeScale;
@@ -83,7 +84,7 @@ public class PlayerManager : MonoBehaviour
             currentHealthPoint -= damage;
             if (currentHealthPoint <= 0)
             {
-                Die();
+                //Die(); ----------------------------------------------------------------------------- remettre
             }
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.animator.SetTrigger("Hurt");
