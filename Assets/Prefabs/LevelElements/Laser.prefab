@@ -210,6 +210,8 @@ MonoBehaviour:
   boxCollider: {fileID: 5878177530126879612}
   beamParent: {fileID: 5878177530126879613}
   sequenceMat: {fileID: 2100000, guid: 9b2a94f09aa4c434fa5b2a4722ddfb02, type: 2}
+  disablingDistance: 50
+  doNotUseDistanceDisabling: 0
 --- !u!120 &1953348216
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -111,6 +111,14 @@ public class TorchSystem : Switch
                 }
             }
 
+            float s = 0;
+            do
+            {
+                s++;
+            }
+            while (s < torchLightStepsSprites.Count - 1 && s / torchLightStepsSprites.Count < timeElapsedSinceGrab / torchMaxTime);
+
+            torchSprite.sprite = torchLightStepsSprites[(int)s];
 
         }
         else

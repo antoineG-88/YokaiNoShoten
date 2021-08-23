@@ -25,6 +25,8 @@ public class Laser : MonoBehaviour
     public BoxCollider2D boxCollider;
     public Transform beamParent;
     public Material sequenceMat;
+    public float disablingDistance;
+    public bool doNotUseDistanceDisabling;
 
     private Vector2 currentDirection;
     private float beamLength;
@@ -43,6 +45,7 @@ public class Laser : MonoBehaviour
     private float beamState;
     private float beamActivationState;
     private Material beamMaterial;
+    private Vector2 distToPlayer;
 
     void Start()
     {
@@ -75,24 +78,32 @@ public class Laser : MonoBehaviour
             isActive = connectedSwitch.IsON();
         }
 
-        if(activationsSequence.Count > 0)
+        if (activationsSequence.Count > 0)
         {
             UpdateSequence();
+        }
+
+
+        if (distToPlayer.magnitude < disablingDistance || doNotUseDistanceDisabling)
+        {
+            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
+            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
+            beamLine.SetPosition(0, (Vector2)transform.position + currentDirection * beamDisplayStartOffset);
+            beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
         }
     }
 
     private void FixedUpdate()
     {
-        UpdateLaserBeam();
+        distToPlayer = (Vector2)GameData.player.transform.position - (Vector2)transform.position;
+        if (distToPlayer.magnitude < disablingDistance || doNotUseDistanceDisabling)
+        {
+            UpdateLaserBeam();
+        }
     }
 
     private void UpdateLaserBeam()
     {
-        hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
-        beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
-        beamLine.SetPosition(0, (Vector2)transform.position + currentDirection * beamDisplayStartOffset);
-        beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
-
         if (isBeamActive && isActive)
         {
             playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
