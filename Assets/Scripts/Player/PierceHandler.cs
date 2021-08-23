@@ -24,6 +24,7 @@ public class PierceHandler : MonoBehaviour
     public bool triggerSlowMo;
     public bool useLeftTriggerInput;
     public float cancelPierceKADistance;
+    public bool doCancelPierce;
     [Header("Pierce Aim settings")]
     public bool useAutoAim;
     public float pierceAimAssistAngle;
@@ -298,7 +299,10 @@ public class PierceHandler : MonoBehaviour
                 isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                 StartCoroutine(piercable.DisablePiercable());
 
-
+                if (!doCancelPierce)
+                {
+                    isPierceCancelled = false;
+                }
 
                 //Instantiate (pierceMarkFx, piercable.transform.position + fxOffset, Quaternion.identity).transform.localScale = new Vector3 (1,1,1);
                 GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercableDirection.x > 0 ? piercable.transform.position - fxOffset : piercable.transform.position + fxOffset, Quaternion.identity);
@@ -318,6 +322,11 @@ public class PierceHandler : MonoBehaviour
                 {
                     isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
                     StartCoroutine(piercable.DisablePiercable());
+
+                    if (!doCancelPierce)
+                    {
+                        isPierceCancelled = false;
+                    }
 
                     //Instantiate(pierceMarkFx, piercable.transform.position + fxOffset, Quaternion.identity).transform.localScale = new Vector3(0.3f, 0.3f, 1);
                     GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercableDirection.x > 0 ? piercable.transform.position - fxOffset : piercable.transform.position + fxOffset, Quaternion.identity);

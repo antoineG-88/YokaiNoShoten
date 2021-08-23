@@ -11,12 +11,12 @@ public class GrappleHandler : MonoBehaviour
     public float releasingHookDist;
     public float minAttachDistance;
     public bool keepAim;
+    public bool canAttachProtectedEnnemies;
     [Space]
     [Header("Momentum settings")]
     public float tractionForce;
     public float slowingForce;
     public float maxTractionSpeed;
-    public float noGravityMaxTractionSpeed;
     public float startTractionPropulsion;
     public float minDistanceToAccelerate;
     [Space]
@@ -58,6 +58,7 @@ public class GrappleHandler : MonoBehaviour
     private float aimAssistFirstAngle;
     private Vector2 shootDirection;
     private List<GameObject> allPossibleRings;
+    [HideInInspector] public float noGravityMaxTractionSpeed;
     [HideInInspector] public bool isHooked;
     [HideInInspector] public GameObject attachedObject;
     [HideInInspector] public Vector2 tractionDirection;

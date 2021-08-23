@@ -8,6 +8,7 @@ public class NoGravityZone : MonoBehaviour
     public float momentumSlowingForce;
     public float maxSpeedInNGZone;
     public float aboveMaxMomentumSlowingForce;
+    public float maxTractingSpeedInNGZone;
     [Header("Display settinngs")]
     public LineRenderer edgeLine;
     public List<Transform> corners;
@@ -35,6 +36,7 @@ public class NoGravityZone : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             GameData.movementHandler.currentGravityZone = this;
+            GameData.grappleHandler.noGravityMaxTractionSpeed = maxTractingSpeedInNGZone;
         }
 
         potentialSerpent = collision.gameObject.GetComponent<Serpent>();

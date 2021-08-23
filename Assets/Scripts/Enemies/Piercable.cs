@@ -4,12 +4,12 @@ using UnityEngine;
 
 public abstract class Piercable : MonoBehaviour
 {
-    private int initialLayer;
+    private int startingLayer;
     protected bool doNotReableCollider;
 
     private void Awake()
     {
-        initialLayer = gameObject.layer;
+        startingLayer = gameObject.layer;
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public abstract class Piercable : MonoBehaviour
         if(!doNotReableCollider)
         {
             yield return new WaitForSeconds(0.5f);
-            gameObject.layer = initialLayer;
+            gameObject.layer = startingLayer;
         }
     }
 }

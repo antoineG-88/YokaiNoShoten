@@ -187,7 +187,7 @@ public class Balayer : Enemy
         beamLine.enabled = true;
         Vector3[] linePos = new Vector3[2];
         linePos[0] = (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamStartOffset; ;
-        RaycastHit2D previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
+        RaycastHit2D previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall", "DashWall"));
         linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
         beamLine.SetPositions(linePos);
         beamState = 0;
@@ -197,7 +197,7 @@ public class Balayer : Enemy
         {
             linePos = new Vector3[2];
             linePos[0] = (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamStartOffset;
-            previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
+            previewHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall", "DashWall"));
             linePos[1] = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
             beamLine.SetPositions(linePos);
             chargeTimer += Time.deltaTime;
@@ -251,9 +251,9 @@ public class Balayer : Enemy
             isFacingRight = DirectionFromAngle(shootAngle).x > 0;
             transform.rotation = Quaternion.Euler(0, 0, DirectionFromAngle(shootAngle).x < 0 ? Vector2.SignedAngle(new Vector2(-1, 0), DirectionFromAngle(shootAngle)) : Vector2.SignedAngle(new Vector2(1, 0), DirectionFromAngle(shootAngle)));
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Wall", "DashWall"));
 
-            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall"));
+            RaycastHit2D playerHit = Physics2D.Raycast(transform.position, DirectionFromAngle(shootAngle), maxBeamRange, LayerMask.GetMask("Player","Wall", "DashWall"));
             if(playerHit && playerHit.collider.CompareTag("Player"))
             {
                 GameData.playerManager.TakeDamage(beamDamage, DirectionFromAngle(shootAngle) * beamKnockback);

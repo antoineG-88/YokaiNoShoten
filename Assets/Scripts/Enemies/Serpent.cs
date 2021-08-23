@@ -108,13 +108,7 @@ public class Serpent : Enemy
         wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
         targetSpeed = isInNoGravityZone ? noGravityZoneMaxSpeed : (wallAhead ? slowSpeed : (isSpikesActive ? maxSpeed : fleeMaxSpeed));
 
-        if (!inControl)
-        {
-            currentSpeed = rb.velocity.magnitude;
-            currentDirection = rb.velocity.normalized;
-        }
-
-        if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall", "EnemyProof")))
+        if (Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall", "EnemyProof")))
         {
             RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall", "EnemyProof"));
             if(wallHit)
@@ -233,6 +227,7 @@ public class Serpent : Enemy
             Physics2D.OverlapCollider(headSpikesCollider, playerFilter, colliders);
             if (colliders.Count > 0)
             {
+                GameData.pierceHandler.isPiercing = false;
                 GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
                 currentSpeed = 0;
             }
@@ -302,10 +297,23 @@ public class Serpent : Enemy
             bodiesAnimator[i].SetBool("Dead", true);
         }
     }
+    protected override void OnActivate()
+    {
+        rb.WakeUp();
+    }
 
     private void OnDestroy()
     {
         Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    public override bool PierceEffect(int damage, Vector2 directedForce)
+    {
+        if (!isProtected)
+        {
+            TakeDamage(damage, 0.5f);
+        }
+        return isProtected;
     }
 
     private void UpdateVisuals()

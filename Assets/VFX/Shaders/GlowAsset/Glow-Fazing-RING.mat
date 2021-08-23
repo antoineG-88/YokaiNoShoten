@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glow-Assets-WHITE
-  m_Shader: {fileID: -6465566751694194690, guid: 1845633796d02d143b9aa4fbdc9f4440,
+  m_Name: Glow-Fazing-RING
+  m_Shader: {fileID: -6465566751694194690, guid: c9384528c8262fc408a5559ab6eb74cd,
     type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
@@ -46,8 +46,9 @@ Material:
     - _deadOrAlive: 1
     - _dissolve: 1
     m_Colors:
-    - Color_5E632E4D: {r: 0.9433962, g: 0.81434673, b: 0.88522583, a: 1}
-    - Color_F38D8F37: {r: 0.9999998, g: 0, b: 0.55828846, a: 1}
+    - Color_3C55BAAB: {r: 1.4980392, g: 0, b: 1.0086774, a: 1}
+    - Color_5E632E4D: {r: 0.8078432, g: 0.07058824, b: 0.3764706, a: 1}
+    - Color_F38D8F37: {r: 1.498039, g: 0.01568628, b: 0.2901961, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

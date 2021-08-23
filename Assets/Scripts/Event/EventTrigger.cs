@@ -10,6 +10,7 @@ public class EventTrigger : Switch
     public Switch switchToTriggerEvent;
 
 
+    public int neededStoryStepToTrigger;
     public int maxStoryStepToTrigger;
     public int storyStepProgressionAtTheEnd;
 
@@ -61,7 +62,7 @@ public class EventTrigger : Switch
 
     private void StartEvent()
     {
-        if(!eventTriggered && GameManager.currentStoryStep <= maxStoryStepToTrigger && !isOn)
+        if(!eventTriggered && GameManager.currentStoryStep >= neededStoryStepToTrigger && GameManager.currentStoryStep <= maxStoryStepToTrigger && !isOn)
         {
             for (int i = 0; i < eventParts.Count; i++)
             {
