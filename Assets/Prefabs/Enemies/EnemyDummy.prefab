@@ -50,8 +50,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoint: 10000
   movementZoneRadius: 0
-  hurtAnimClip: {fileID: 0}
+  provocationRange: 0
+  prefabObject: {fileID: 0}
   deathAnimClip: {fileID: 0}
+  enemySprites: []
+  dissolveTime: 0
+  apparitionTime: 0
+  doGoFantomWhenProtected: 0
+  enemyFantomLayerNumber: 19
+  deathSound:
+    clip: {fileID: 0}
+    volumeScale: 1
+  provokedSound:
+    clip: {fileID: 0}
+    volumeScale: 1
   nextWaypointDistance: 2
   waypointAhead: 1
   pathUpdatingFrequency: 0.1
@@ -62,8 +74,15 @@ MonoBehaviour:
   maximalAvoidForce: 15
   avoidDistanceInfluence: 1
   recentlyHit: 0
+  isProtected: 0
+  provoked: 0
   inControl: 0
   isDying: 0
+  currentSheepShield: {fileID: 0}
+  material: {fileID: 0}
+  source: {fileID: 0}
+  deathParticle: {fileID: 0}
+  zoneIndex: 0
   acceleration: 15
   maxSpeed: 4
   slowingForce: 5

@@ -7,7 +7,6 @@ public class BlackHole : Piercable
     public float trappedTime;
     public float formerDisablingHoleTimer;
     public float kbForce;
-    public Color startColor;
     public float suckingRadius;
     public AnimationCurve suckingForceByDistance;
     public float maxSuckingForce;
@@ -20,10 +19,12 @@ public class BlackHole : Piercable
     private Vector2 suckedPosition;
     private bool isDesactivated;
     private bool isInCenter;
+
+
+
     void Start()
     {
         disablingHoleTimer = formerDisablingHoleTimer;
-        startColor = GetComponent<SpriteRenderer>().color;
     }
     void Update()
     {
@@ -59,7 +60,6 @@ public class BlackHole : Piercable
             disablingHoleTimer -= Time.deltaTime;
             if (disablingHoleTimer <= 0)
             {
-                GetComponent<SpriteRenderer>().color = startColor;
                 disablingHoleTimer = formerDisablingHoleTimer;
                 isDesactivated = false;
             }
@@ -108,9 +108,10 @@ public class BlackHole : Piercable
             }
         }
     }
+
     private void SetFree()
     {
-        GetComponent<SpriteRenderer>().color = Color.red;
+        //GetComponent<SpriteRenderer>().color = Color.red;
         isDesactivated = true;
         GameData.movementHandler.levitateSourceNumber--;
     }

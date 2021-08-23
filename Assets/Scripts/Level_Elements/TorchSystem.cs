@@ -81,6 +81,7 @@ public class TorchSystem : Switch
             else
             {
                 timeElapsedSinceGrab = 0;
+                UnlitAllLights();
             }
         }
     }
@@ -103,7 +104,7 @@ public class TorchSystem : Switch
             {
                 if (Vector2.Distance(GameData.player.transform.position, allLights[i].transform.position) < lightTriggerRange)
                 {
-                    allLights[i].Lit();
+                    allLights[i].isLit = true;
                 }
             }
         }
@@ -121,6 +122,7 @@ public class TorchSystem : Switch
         isTorchGrabbed = true;
         timeElapsedSinceGrab = 0;
         GameData.playerManager.isGrabbingTorch++;
+        UnlitAllLights();
         //feedback
     }
 
@@ -129,6 +131,14 @@ public class TorchSystem : Switch
         isTorchGrabbed = false;
         GameData.playerManager.isGrabbingTorch--;
         //feedbck
+    }
+
+    private void UnlitAllLights()
+    {
+        for (int i = 0; i < allLights.Count; i++)
+        {
+            allLights[i].isLit = false;
+        }
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)

@@ -227,7 +227,7 @@ public class Laser : MonoBehaviour
                     beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
                     beamMaterial.SetFloat("_laserSwitch", beamActivationState);
 
-                    if (activationsSequence[(currentSequenceIndex < activationsSequence.Count - 1) ? (currentSequenceIndex + 1) : 0] <= 1)
+                    if (activationsSequence[currentSequenceIndex] <= 1)
                     {
                         beamState -= beamChangeStateSpeed * Time.deltaTime;
                         beamState = Mathf.Clamp(beamState, 0f, 1f);
