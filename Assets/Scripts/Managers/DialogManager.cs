@@ -9,6 +9,7 @@ public class DialogManager : MonoBehaviour
     public float baseSpeakingSpeed;
     public float baseSpeakPauseTime;
     public float minTimeToPass;
+    public bool manualSeikiReaction;
     [Header("References")]
     public Text dialogText;
     public Image seikiFaceImage;
@@ -114,7 +115,7 @@ public class DialogManager : MonoBehaviour
                 {
                     dialogText.text = currentDialog.sentences[currentDialogSentenceIndex].sentence.Replace("_", string.Empty);
                     //petite flêche qui vloup vloup
-                    if (Input.GetButtonDown("AButton"))
+                    if (Input.GetButtonDown("AButton") || !manualSeikiReaction)
                     {
                         isWaitingNext = false;
                         seikiReacting = true;
