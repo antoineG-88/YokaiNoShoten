@@ -223,7 +223,7 @@ public class MovementHandler : MonoBehaviour
     private float timeSinceLastStep;
     private void UpdateSounds()
     {
-        if(isGrounded && horizontalTargetSpeed != 0)
+        if(isGrounded && horizontalTargetSpeed != 0 && !isOnSlidingSlope)
         {
             if(timeSinceLastStep > baseTimeBtwFootStep/* / Mathf.Abs(horizontalTargetSpeed)*/)
             {
