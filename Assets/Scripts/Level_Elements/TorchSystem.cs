@@ -13,11 +13,13 @@ public class TorchSystem : Switch
     public float lightTriggerRange;
     public LayerMask playerLayerMask;
     public float torchLerpRatio;
+    public List<Sprite> torchLightStepsSprites;
     public Animator animator;
 
     private ContactFilter2D playerFilter;
     [HideInInspector] public bool isTorchGrabbed;
     private float timeElapsedSinceGrab;
+    private SpriteRenderer torchSprite;
 
     public override void Start()
     {
@@ -26,6 +28,7 @@ public class TorchSystem : Switch
         playerFilter.useTriggers = true;
         playerFilter.SetLayerMask(playerLayerMask);
         isTorchGrabbed = false;
+        torchSprite = torch.GetComponent<SpriteRenderer>();
         foreach (TorchLight light in allLights)
         {
             light.torchSystem = this;
@@ -107,10 +110,21 @@ public class TorchSystem : Switch
                     allLights[i].isLit = true;
                 }
             }
+
+            float s = 0;
+            do
+            {
+                s++;
+            }
+            while (s < torchLightStepsSprites.Count - 1 && s / torchLightStepsSprites.Count < timeElapsedSinceGrab / torchMaxTime);
+
+            torchSprite.sprite = torchLightStepsSprites[(int)s];
+
         }
         else
         {
             torchTargetPos = transform.position;
+            torchSprite.sprite = torchLightStepsSprites[0];
         }
 
         torch.transform.position = Vector2.Lerp(torch.transform.position, torchTargetPos, torchLerpRatio * Time.fixedDeltaTime);

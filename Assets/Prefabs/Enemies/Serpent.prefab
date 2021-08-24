@@ -83,14 +83,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814712743}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.047, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.17364816, w: 0.9848078}
+  m_LocalPosition: {x: -0.013338809, y: -0.03664808, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2468558564217912210}
   - {fileID: 158170622837764305}
-  m_Father: {fileID: 5202223809458673485}
-  m_RootOrder: 2
+  m_Father: {fileID: 5202223807556047669}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1503222098
 GameObject:
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1503222099}
   - component: {fileID: 7573234603249832197}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: SpikesCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1307,7 +1307,7 @@ ParticleSystem:
       speed:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 2
+        scalar: 1.8
         minScalar: 1
         maxCurve:
           serializedVersion: 2
@@ -5916,7 +5916,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.17364816, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 0.086, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 814712744}
   m_Father: {fileID: 5202223809458673485}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
@@ -6320,7 +6321,6 @@ Transform:
   m_Children:
   - {fileID: 5202223807556047669}
   - {fileID: 1503222099}
-  - {fileID: 814712744}
   m_Father: {fileID: 6473909163359906720}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

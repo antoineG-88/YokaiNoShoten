@@ -68,7 +68,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsPlayerInWall() && !isInGodMode)
         {
-            Die();
+            //Die();
         }
 
         GameData.playerSource.pitch = Time.timeScale;

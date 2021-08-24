@@ -10,6 +10,9 @@ public class WaveHandler : Switch
     public Door backDoorToClose;
     public Sound nextWaveSound;
 
+    [Header("Testing options")]
+    public int skipToWave;
+
     private bool wavesAreUnfolding;
     private int currentWaveIndex;
     private bool waveSpawned;
@@ -38,7 +41,7 @@ public class WaveHandler : Switch
             }
         }
         if(backDoorToClose != null)
-            backDoorToClose.isOpened = true;
+            backDoorToClose.Open();
     }
 
     private void Update()
@@ -123,8 +126,8 @@ public class WaveHandler : Switch
                 else
                 {
                     wavesAreUnfolding = false;
-                    if (backDoorToClose != null)
-                        backDoorToClose.isOpened = true;
+                    if (backDoorToClose != null && !backDoorToClose.isOpened)
+                        backDoorToClose.Open();
                     isOn = true;
                 }
             }
@@ -133,11 +136,18 @@ public class WaveHandler : Switch
 
     private void StartWaves()
     {
-        currentWaveIndex = 0;
+        if(skipToWave - 1 > 0)
+        {
+            currentWaveIndex = skipToWave - 1;
+        }
+        else
+        {
+            currentWaveIndex = 0;
+        }
         wavesAreUnfolding = true;
         waveSpawned = false;
         if (backDoorToClose != null)
-            backDoorToClose.isOpened = false;
+            backDoorToClose.Close();
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)

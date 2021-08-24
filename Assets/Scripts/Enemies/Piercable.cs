@@ -6,6 +6,7 @@ public abstract class Piercable : MonoBehaviour
 {
     private int startingLayer;
     protected bool doNotReableCollider;
+    protected bool intargetable;
 
     private void Awake()
     {
@@ -23,10 +24,12 @@ public abstract class Piercable : MonoBehaviour
     public IEnumerator DisablePiercable()
     {
         gameObject.layer = GameData.noPiercableLayer;
+        intargetable = true;
         if(!doNotReableCollider)
         {
             yield return new WaitForSeconds(0.5f);
             gameObject.layer = startingLayer;
+            intargetable = false;
         }
     }
 }
