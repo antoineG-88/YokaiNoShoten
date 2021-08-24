@@ -91,6 +91,7 @@ public class PierceHandler : MonoBehaviour
         {
             canPierce = true;
         }
+        canPierce = true;
     }
 
     private GameObject nearestObject;
@@ -202,7 +203,7 @@ public class PierceHandler : MonoBehaviour
 
                 //Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
 
-                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy", "Piercable"));
+                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy", "EnemyFantom", "Piercable"));
                 if (hit)
                 {
                     if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
@@ -415,7 +416,7 @@ public class PierceHandler : MonoBehaviour
 
                             Debug.DrawRay(raycastOrigin, direction * comboPierceRange, Color.cyan);
 
-                            hit = Physics2D.Raycast(raycastOrigin, direction, comboPierceRange, LayerMask.GetMask("Wall", "Enemy"));
+                            hit = Physics2D.Raycast(raycastOrigin, direction, comboPierceRange, LayerMask.GetMask("Wall", "Enemy", "EnemyFantom"));
                             if (hit)
                             {
                                 if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(comboPierceAimDirection.x, comboPierceAimDirection.y)) < minAngleFound)
