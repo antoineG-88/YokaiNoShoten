@@ -10,6 +10,7 @@ public class ElementPath : MonoBehaviour
     public float timeToCompleteFullLoop;
     public bool isBackAndForth;
     public bool endLoopByTp;
+    public bool inactiveResetToStartPos;
     [Range(0.0f, 100.0f)] public float startProgression;
     public Switch connectedSwitch;
 
@@ -128,6 +129,24 @@ public class ElementPath : MonoBehaviour
         else
         {
             rb.velocity = Vector2.zero;
+            if(inactiveResetToStartPos)
+            {
+                if (startProgression != 0 && startProgression != 100)
+                {
+                    transform.position = GetPosProgressionInPath(startProgression / 100);
+                }
+                else
+                {
+                    if(startProgression == 0 || (!endLoopByTp && !isBackAndForth))
+                    {
+                        transform.position = pathPositions[0].position;
+                    }
+                    else
+                    {
+                        transform.position = pathPositions[pathPositions.Length - 1].position;
+                    }
+                }
+            }
         }
     }
 

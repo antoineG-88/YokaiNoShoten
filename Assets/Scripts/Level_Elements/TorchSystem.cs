@@ -13,11 +13,13 @@ public class TorchSystem : Switch
     public float lightTriggerRange;
     public LayerMask playerLayerMask;
     public float torchLerpRatio;
+    public List<Sprite> torchLightStepsSprites;
     public Animator animator;
 
     private ContactFilter2D playerFilter;
     [HideInInspector] public bool isTorchGrabbed;
     private float timeElapsedSinceGrab;
+    private SpriteRenderer torchSprite;
 
     public override void Start()
     {
@@ -26,6 +28,7 @@ public class TorchSystem : Switch
         playerFilter.useTriggers = true;
         playerFilter.SetLayerMask(playerLayerMask);
         isTorchGrabbed = false;
+        torchSprite = torch.GetComponent<SpriteRenderer>();
         foreach (TorchLight light in allLights)
         {
             light.torchSystem = this;
@@ -81,6 +84,7 @@ public class TorchSystem : Switch
             else
             {
                 timeElapsedSinceGrab = 0;
+                UnlitAllLights();
             }
         }
     }
@@ -103,13 +107,24 @@ public class TorchSystem : Switch
             {
                 if (Vector2.Distance(GameData.player.transform.position, allLights[i].transform.position) < lightTriggerRange)
                 {
-                    allLights[i].Lit();
+                    allLights[i].isLit = true;
                 }
             }
+
+            float s = 0;
+            do
+            {
+                s++;
+            }
+            while (s < torchLightStepsSprites.Count - 1 && s / torchLightStepsSprites.Count < timeElapsedSinceGrab / torchMaxTime);
+
+            torchSprite.sprite = torchLightStepsSprites[(int)s];
+
         }
         else
         {
             torchTargetPos = transform.position;
+            torchSprite.sprite = torchLightStepsSprites[0];
         }
 
         torch.transform.position = Vector2.Lerp(torch.transform.position, torchTargetPos, torchLerpRatio * Time.fixedDeltaTime);
@@ -121,6 +136,7 @@ public class TorchSystem : Switch
         isTorchGrabbed = true;
         timeElapsedSinceGrab = 0;
         GameData.playerManager.isGrabbingTorch++;
+        UnlitAllLights();
         //feedback
     }
 
@@ -129,6 +145,14 @@ public class TorchSystem : Switch
         isTorchGrabbed = false;
         GameData.playerManager.isGrabbingTorch--;
         //feedbck
+    }
+
+    private void UnlitAllLights()
+    {
+        for (int i = 0; i < allLights.Count; i++)
+        {
+            allLights[i].isLit = false;
+        }
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce)
