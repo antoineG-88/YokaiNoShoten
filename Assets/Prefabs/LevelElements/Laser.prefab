@@ -189,6 +189,7 @@ MonoBehaviour:
   beamWidth: 0.4
   beamWallWidth: 0.3
   knockbackDistance: 3
+  doKnockbackThroughLaser: 0
   oddIndexActive: 0
   activationsSequence:
   - 2
@@ -208,6 +209,9 @@ MonoBehaviour:
   beamDisplayStartOffset: 0.25
   boxCollider: {fileID: 5878177530126879612}
   beamParent: {fileID: 5878177530126879613}
+  sequenceMat: {fileID: 2100000, guid: 9b2a94f09aa4c434fa5b2a4722ddfb02, type: 2}
+  disablingDistance: 50
+  doNotUseDistanceDisabling: 0
 --- !u!120 &1953348216
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -226,7 +230,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b2a94f09aa4c434fa5b2a4722ddfb02, type: 2}
+  - {fileID: 2100000, guid: 8fce2e6ca0fba5448bd14a78fe0f1b0c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

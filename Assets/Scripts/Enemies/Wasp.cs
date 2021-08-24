@@ -40,6 +40,7 @@ public class Wasp : Enemy
     private bool isApproaching;
     private bool pathNeedUpdate;
     private bool isRushing;
+    private bool isAttacking;
     private float rushCoolDownRemaining;
     private float rushTriggerTimeElapsed;
     private bool isFacingRight;
@@ -193,8 +194,9 @@ public class Wasp : Enemy
         {
             shouldNotFlipSprite = true;
             isProtected = true;
+            isAttacking = true;
 
-            Vector2 rushStartPos = transform.position;
+             Vector2 rushStartPos = transform.position;
             Vector2 dashEndPos = (Vector2)transform.position + rushDirection * rushLength;
             Vector2 rushPos = transform.position;
             Vector2 previousRushPos = transform.position;
@@ -234,6 +236,7 @@ public class Wasp : Enemy
                                 isStuckInWall = true;
                                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
                                 isProtected = false;
+                                isAttacking = false;
                                 stuckDirection = impactHit.normal;
                                 if (animator != null)
                                 {
@@ -277,6 +280,7 @@ public class Wasp : Enemy
         }
         isRushing = false;
         shouldNotFlipSprite = false;
+        isAttacking = false;
     }
 
     private void UpdateVisuals()
@@ -297,6 +301,16 @@ public class Wasp : Enemy
     {
         rb.velocity = Vector2.zero;
     }
+
+    public override bool PierceEffect(int damage, Vector2 directedForce)
+    {
+        if (!isProtected)
+        {
+            TakeDamage(damage, 0.5f);
+        }
+        return isAttacking;
+    }
+
     public override void DamageEffect()
     {
 

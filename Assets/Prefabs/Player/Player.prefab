@@ -349,7 +349,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0.06566486, y: -0.39801458}
+  m_Offset: {x: 0, y: -0.39801458}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -525,7 +525,7 @@ Transform:
   - {fileID: 471252641}
   - {fileID: 4208649470404408855}
   - {fileID: 2132150249773689154}
-  - {fileID: 4778979432530998439}
+  - {fileID: 4995943709356636178}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -621,12 +621,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d95fff7a5c00942b02942384bc949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGrappleRange: 8
+  maxGrappleRange: 8.5
   grappleAttachLengthDifference: 4
   shootCooldown: 0.1
   releasingHookDist: 0.5
   minAttachDistance: 2
   keepAim: 1
+  canAttachProtectedEnnemies: 0
   tractionForce: 60
   slowingForce: 50
   maxTractionSpeed: 15
@@ -720,7 +721,7 @@ MonoBehaviour:
   pierceKnockbackForce: 10
   enemyMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 526336
   pierceShadowFx: {fileID: 1368177033577197783, guid: d21d83d996c6a81499510a66d86088ca,
     type: 3}
   pierceMarkFx: {fileID: 4198612265735637209, guid: 589f34dfa09249e4dbb4d377ef372ab7,
@@ -868,7 +869,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06813982, y: 0.042821586}
+  m_Offset: {x: 0, y: 0.042821586}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1423,7 +1424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3737249136632389048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.06, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3737249135459656034}
@@ -1922,7 +1923,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &959252966554442709
+--- !u!1001 &740986524427048800
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1989,13 +1990,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: lifeParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 5975167095477575411, guid: c7bf5d565bea3b8468351ec367cbfc29,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7bf5d565bea3b8468351ec367cbfc29, type: 3}
---- !u!4 &4778979432530998439 stripped
+--- !u!4 &4995943709356636178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5700900740912902002, guid: c7bf5d565bea3b8468351ec367cbfc29,
     type: 3}
-  m_PrefabInstance: {fileID: 959252966554442709}
+  m_PrefabInstance: {fileID: 740986524427048800}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6819854849693524950
 PrefabInstance:

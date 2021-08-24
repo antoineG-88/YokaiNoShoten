@@ -83,24 +83,31 @@ public class Balayer : Enemy
             isFacingRight = pathDirection.x > 0;
         }
 
-        if (path != null && !pathEndReached && !shootDestinationReached && inControl && canBeInSight && !isShooting && !isAiming)
+        if(!isDying)
         {
-            Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
-
-            rb.velocity += force * Time.fixedDeltaTime;
-
-            if (rb.velocity.magnitude > maxSpeed)
+            if (path != null && !pathEndReached && !shootDestinationReached && inControl && canBeInSight && !isShooting && !isAiming)
             {
-                rb.velocity = rb.velocity.normalized * maxSpeed;
+                Vector2 force = new Vector2(pathDirection.x * accelerationForce, pathDirection.y * accelerationForce);
+
+                rb.velocity += force * Time.fixedDeltaTime;
+
+                if (rb.velocity.magnitude > maxSpeed)
+                {
+                    rb.velocity = rb.velocity.normalized * maxSpeed;
+                }
+            }
+            else
+            {
+                rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
+                if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
+                {
+                    rb.velocity = Vector2.zero;
+                }
             }
         }
         else
         {
-            rb.velocity -= rb.velocity.normalized * accelerationForce * Time.fixedDeltaTime;
-            if (rb.velocity.magnitude <= accelerationForce * Time.fixedDeltaTime)
-            {
-                rb.velocity = Vector2.zero;
-            }
+            rb.velocity = Vector2.zero;
         }
     }
 

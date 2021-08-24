@@ -64,18 +64,31 @@ public class Door : MonoBehaviour
                 openFlag = isOpened;
                 if(isOpened)
                 {
-                    if(openingSound.clip != null)
-                        source.PlayOneShot(openingSound.clip, openingSound.volumeScale);
+                    Open();
                 }
                 else
                 {
-                    if (closingSound.clip != null)
-                        source.PlayOneShot(closingSound.clip, closingSound.volumeScale);
+                    Close();
                 }
             }
         }
         animator.SetBool("Opened", isOpened);
         doorCollider.enabled = !isOpened;
+    }
+
+
+    public void Open()
+    {
+        isOpened = true;
+        if (openingSound.clip != null)
+            source.PlayOneShot(openingSound.clip, openingSound.volumeScale);
+    }
+
+    public void Close()
+    {
+        isOpened = false;
+        if (closingSound.clip != null)
+            source.PlayOneShot(closingSound.clip, closingSound.volumeScale);
     }
 
     private void FixedUpdate()
