@@ -1139,6 +1139,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3267245876046976404, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: volume
+      value: 
+      objectReference: {fileID: 848887296}
     - target: {fileID: 3267245876046976406, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: playerO
@@ -1217,12 +1222,12 @@ PrefabInstance:
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: decoScenePath
-      value: 
+      value: Assets/_Scenes/DecoScenes/Deco_FinalCombat.unity
       objectReference: {fileID: 0}
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: decoSceneIndex
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6212043412841279488, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
@@ -29804,6 +29809,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bde5b0bdd8efa564582949c8a8c581e9, type: 3}
+--- !u!114 &848887296 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2605334686500873131, guid: bde5b0bdd8efa564582949c8a8c581e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 848887295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &858231574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32916,63 +32933,13 @@ GameObject:
   - component: {fileID: 1553300624}
   - component: {fileID: 1553300623}
   - component: {fileID: 1553300622}
-  - component: {fileID: 1553300621}
-  - component: {fileID: 1553300620}
   m_Layer: 15
   m_Name: ZoneTransition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1553300620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553300619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56642bf106554e748ae9cbcb50c0076d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraBaseOffset: {x: 0, y: 0}
-  useAsCameraFocusPoint: 0
-  cameraSize: 5
-  limitRelativeToZonePos: 0
-  upLimit: 0
-  downLimit: 0
-  leftLimit: 0
-  rightLimit: 0
-  cameraPreviewColor: {r: 0, g: 0, b: 0, a: 0}
-  isTriggeredExternaly: 0
---- !u!61 &1553300621
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553300619}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_IsActive: 1
 --- !u!114 &1553300622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32985,12 +32952,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7ee7797b8eb76498533f96882eac38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraConstraintDuringEventPart: {fileID: 1553300620}
+  cameraConstraintDuringEventPart: {fileID: 0}
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  nextZoneBuildIndex: 3
-  seikiWalkingSpeed: 3
+  nextZoneBuildIndex: 7
+  seikiWalkingSpeed: 0
   seikiWalkingRight: 1
   timeToTriggerLoad: 1
 --- !u!114 &1553300623
@@ -33009,7 +32976,7 @@ MonoBehaviour:
   isOn: 0
   eventParts:
   - {fileID: 1553300622}
-  switchToTriggerEvent: {fileID: 0}
+  switchToTriggerEvent: {fileID: 1626901074}
   neededStoryStepToTrigger: 9
   maxStoryStepToTrigger: 9
   storyStepProgressionAtTheEnd: 10
@@ -33022,8 +32989,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553300619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 133.47, y: 94.06, z: 0}
-  m_LocalScale: {x: 6.063, y: 6.063, z: 6.063}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -33313,8 +33280,8 @@ MonoBehaviour:
   eventParts: []
   switchToTriggerEvent: {fileID: 0}
   neededStoryStepToTrigger: 0
-  maxStoryStepToTrigger: 0
-  storyStepProgressionAtTheEnd: 0
+  maxStoryStepToTrigger: 20
+  storyStepProgressionAtTheEnd: 21
   previousCamera: {fileID: 0}
 --- !u!114 &1626901074
 MonoBehaviour:

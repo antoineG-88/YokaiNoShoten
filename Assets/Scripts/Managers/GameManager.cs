@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(9);
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SceneManager.LoadScene(11);
+        }
+
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             SaveSystem.DeleteSaveFile(currentZoneName);
