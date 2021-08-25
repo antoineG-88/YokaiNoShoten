@@ -93,7 +93,7 @@ public class Mante : Enemy
         isFacingRight = playerDirection.x > 0;
         if (provoked)
         {
-            if (inControl)
+            if (inControl && !isDying)
             {
                 if (isFleeing)
                 {
