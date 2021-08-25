@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1399,6 +1399,7 @@ MonoBehaviour:
   nextWaveSound:
     clip: {fileID: 0}
     volumeScale: 1
+  skipToWave: 0
 --- !u!4 &268850244
 Transform:
   m_ObjectHideFlags: 0
@@ -12396,6 +12397,63 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 492383674, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -756.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 492383674, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 79
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070497734, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -207
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070497734, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 157
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305896131, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 24.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305896131, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305896131, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1164.7399
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305896131, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 146.78354
+      objectReference: {fileID: 0}
+    - target: {fileID: 1584110036, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 799
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910167153, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1893.4401
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910167153, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 246.84985
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910167153, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910167154, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51542600fac78ef49b4beeeedb01ce0e,
+        type: 3}
+    - target: {fileID: 1969258981, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3060182425013935791, guid: 06f07e53a9763bc4dbce6cb61276b09e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
