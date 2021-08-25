@@ -15,11 +15,14 @@ public class TorchSystem : Switch
     public float torchLerpRatio;
     public List<Sprite> torchLightStepsSprites;
     public Animator animator;
+    public Material torchTrailMaterial;
+    public TrailRenderer torchTrail;
 
     private ContactFilter2D playerFilter;
     [HideInInspector] public bool isTorchGrabbed;
     private float timeElapsedSinceGrab;
     private SpriteRenderer torchSprite;
+    private float torchTrailFullWidth;
 
     public override void Start()
     {
@@ -34,6 +37,9 @@ public class TorchSystem : Switch
             light.torchSystem = this;
         }
         colliders = new List<Collider2D>();
+        torchTrailFullWidth = torchTrailMaterial.GetFloat("Vector1_EF31C1E9");
+        torchTrailMaterial = Instantiate(torchTrailMaterial);
+        torchTrail.sharedMaterial = torchTrailMaterial;
     }
 
     private void Update()
@@ -120,11 +126,15 @@ public class TorchSystem : Switch
 
             torchSprite.sprite = torchLightStepsSprites[(int)s];
 
+            torchTrailMaterial.SetFloat("Vector1_EF31C1E9", Mathf.Lerp(torchTrailFullWidth, -0.18f, timeElapsedSinceGrab / torchMaxTime));
+            torchTrail.sharedMaterial = torchTrailMaterial;
         }
         else
         {
             torchTargetPos = transform.position;
             torchSprite.sprite = torchLightStepsSprites[0];
+            torchTrailMaterial.SetFloat("Vector1_EF31C1E9", torchTrailFullWidth);
+            torchTrail.sharedMaterial = torchTrailMaterial;
         }
 
         torch.transform.position = Vector2.Lerp(torch.transform.position, torchTargetPos, torchLerpRatio * Time.fixedDeltaTime);
