@@ -777,7 +777,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dashEndVelocityForceAdded: 0
-  useVelocity: 1
   shadowFx: {fileID: 8647430776645223448, guid: 694ec26c4e7684248a8b0cd5cc8572aa,
     type: 3}
   dashWithRightTrigger: 0
@@ -939,9 +938,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -686706029
-  m_SortingLayer: 5
-  m_SortingOrder: 0
+  m_SortingLayerID: -407621029
+  m_SortingLayer: 4
+  m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -2116,21 +2115,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3737249135459656034}
     m_Modifications:
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997120, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: m_Name
@@ -2220,6 +2204,21 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeBySpeedModule.y.minScalar
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 657174447
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}

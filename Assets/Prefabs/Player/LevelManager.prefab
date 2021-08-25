@@ -103,6 +103,7 @@ MonoBehaviour:
   baseSpeakingSpeed: 30
   baseSpeakPauseTime: 0.3
   minTimeToPass: 0.1
+  manualSeikiReaction: 0
   dialogText: {fileID: 0}
   seikiFaceImage: {fileID: 0}
   dialogBox: {fileID: 0}
@@ -110,9 +111,12 @@ MonoBehaviour:
   nameText: {fileID: 0}
   characterFace: {fileID: 0}
   neutralFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
-  happyFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
-  sadFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
-  angryFace: {fileID: 21300000, guid: 9df00edcab046f6439f2c7bb41877206, type: 3}
+  happyFace: {fileID: 21300000, guid: 570647f5a84aff443ac7eea586e6cf5b, type: 3}
+  sadFace: {fileID: 21300000, guid: d317d0974496b1843825f59d4de3005d, type: 3}
+  angryFace: {fileID: 21300000, guid: f594735a71216104eae934b064f6f33d, type: 3}
+  okFace: {fileID: 21300000, guid: 3a0a595aaef5fdb45abfb905ed62c91f, type: 3}
+  questionFace: {fileID: 21300000, guid: 60b44c59cbc624d428e285ca6a4faae6, type: 3}
+  shockedFace: {fileID: 21300000, guid: 9df00edcab046f6439f2c7bb41877206, type: 3}
   characterFaces:
   - characterName: Dash
     face: {fileID: 21300000, guid: 861cfc88ec9dc104f88bbf21c5149010, type: 3}
@@ -122,6 +126,8 @@ MonoBehaviour:
     face: {fileID: 21300000, guid: 7106ce99c0c86424aabeb799bb232232, type: 3}
   - characterName: "Ra\xEFdo"
     face: {fileID: 21300000, guid: beabb2d06acbbb34685381c300fdc1d2, type: 3}
+  - characterName: Kage
+    face: {fileID: 21300000, guid: de9299e34f495cb49b142033a01560d6, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
 --- !u!82 &1191131659
 AudioSource:

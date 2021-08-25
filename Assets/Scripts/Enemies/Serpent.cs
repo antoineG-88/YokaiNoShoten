@@ -165,12 +165,15 @@ public class Serpent : Enemy
             movementTrailPos.Add(Vector2.Lerp(previousHeadPos, transform.position, (float)(i + 1)/10));
         }
 
-        previousHeadPos = transform.position;
+        if(!isDying)
+        {
+            previousHeadPos = transform.position;
 
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
-        isFacingLeft = currentDirection.x < 0;
+            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
+            isFacingLeft = currentDirection.x < 0;
 
-        UpdateBodyPos();
+            UpdateBodyPos();
+        }
     }
 
     protected override void UpdateBehavior()
@@ -285,11 +288,6 @@ public class Serpent : Enemy
                     currentBodyTrailPosIndex[y]--;
                 }
             }
-        }
-        
-        for (int i = 0; i < movementTrailPos.Count; i++)
-        {
-            //Debug.DrawRay(movementTrailPos[i], Vector3.up * 0.1f, Color.blue);
         }
     }
 
