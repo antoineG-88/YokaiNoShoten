@@ -67,7 +67,7 @@ MonoBehaviour:
   slowMoInitialRatio: 0.15
   smoothTime: 0.05
   baseProfile: {fileID: 11400000, guid: 87199316fa05e02479b56eb01a7223ad, type: 2}
-  slowMoStartProfile: {fileID: 11400000, guid: c68fe2122f44824439eb14b68f98a2f8, type: 2}
+  slowMoStartProfile: {fileID: 11400000, guid: 0e3622192699b3446a9a58df5ee792a3, type: 2}
   volume: {fileID: 0}
   slowMoEffectLerpRatio: 10
   inSlowMo: 0
@@ -85,9 +85,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
   transitionTime: 1
-  decoSceneIndex: 0
-  decoScenePath: 
-  zoneName: default
+  decoSceneIndex: 8
+  decoScenePath: Assets/_Scenes/DecoScenes/Deco_Niveau3.unity
+  zoneName: Village
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
   decoScene:
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3267245876046976401}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70fad56d1d41ece42b6996de04942ef4, type: 3}
   m_Name: 
@@ -149,9 +149,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 49239355547644364, guid: 9c6544e17c2017044b68bf43d09eda2d,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: c11e8c834dd417e4695dcb2995093245, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4eb0bcac80467b74c8e3754eb36a5047, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.084
+  m_Volume: 0.299
   m_Pitch: 1
   Loop: 1
   Mute: 0
