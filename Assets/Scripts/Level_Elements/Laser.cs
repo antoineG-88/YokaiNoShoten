@@ -130,7 +130,7 @@ public class Laser : MonoBehaviour
             }
 
             endBeamParticle.transform.position = hit.point;
-            endBeamParticle.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, hit.normal));
+            endBeamParticle.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, hit.normal));
 
             if(usePixelBeam)
             {
