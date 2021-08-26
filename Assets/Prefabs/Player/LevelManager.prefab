@@ -90,6 +90,7 @@ MonoBehaviour:
   zoneName: Village
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
+  doNotSaveEnnemiesDeath: 0
   decoScene:
     m_Handle: 43
 --- !u!114 &6212043412841279488
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3267245876046976401}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70fad56d1d41ece42b6996de04942ef4, type: 3}
   m_Name: 

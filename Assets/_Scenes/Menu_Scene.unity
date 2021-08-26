@@ -980,13 +980,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5285c517b4a0d46a20e0a0c11d96c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneNames:
-  - Tuto
-  - SpacioDeck
-  - Labo
-  - Village
-  - QG
-  playButton: {fileID: 1879999546}
+  zones:
+  - zoneName: Tuto
+    zoneBuildIndex: 1
+    zoneMaxStoryStep: 2
+  - zoneName: SpacioDeck
+    zoneBuildIndex: 3
+    zoneMaxStoryStep: 6
+  - zoneName: QG
+    zoneBuildIndex: 5
+    zoneMaxStoryStep: 8
+  - zoneName: Labo
+    zoneBuildIndex: 6
+    zoneMaxStoryStep: 19
+  - zoneName: CombatLabo
+    zoneBuildIndex: 11
+    zoneMaxStoryStep: 24
+  - zoneName: Village
+    zoneBuildIndex: 7
+    zoneMaxStoryStep: 29
+  - zoneName: Boss
+    zoneBuildIndex: 9
+    zoneMaxStoryStep: 34
+  continueButton: {fileID: 1879999546}
+  startNewGameButton: {fileID: 245311700}
   scrollBar: {fileID: 247213953}
 --- !u!4 &607793423
 Transform:
@@ -1187,110 +1204,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630745215}
   m_CullTransparentMesh: 0
---- !u!1 &607793421
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 607793423}
-  - component: {fileID: 607793422}
-  m_Layer: 0
-  m_Name: Menu Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &607793422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 607793421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5285c517b4a0d46a20e0a0c11d96c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zones:
-  - zoneName: Tuto
-    zoneBuildIndex: 1
-    zoneMaxStoryStep: 2
-  - zoneName: SpacioDeck
-    zoneBuildIndex: 3
-    zoneMaxStoryStep: 6
-  - zoneName: QG
-    zoneBuildIndex: 5
-    zoneMaxStoryStep: 8
-  - zoneName: Labo
-    zoneBuildIndex: 6
-    zoneMaxStoryStep: 19
-  - zoneName: CombatLabo
-    zoneBuildIndex: 11
-    zoneMaxStoryStep: 24
-  - zoneName: Village
-    zoneBuildIndex: 7
-    zoneMaxStoryStep: 29
-  - zoneName: Boss
-    zoneBuildIndex: 9
-    zoneMaxStoryStep: 34
-  continueButton: {fileID: 1879999546}
-  startNewGameButton: {fileID: 560738094}
-  scrollBar: {fileID: 247213953}
---- !u!4 &607793423
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 607793421}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &626320167
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 626320168}
-  m_Layer: 0
-  m_Name: Fill Area
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &626320168
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626320167}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1857683005}
-  m_Father: {fileID: 247213954}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &681428302
 GameObject:
   m_ObjectHideFlags: 0

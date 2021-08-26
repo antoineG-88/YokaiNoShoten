@@ -66,6 +66,7 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool canUseTraction;
     [HideInInspector] public bool canShoot;
     [HideInInspector] public bool isSucked;
+    [HideInInspector] public int hideAimArrow;
 
     private Material ropeMaterial;
     private float ropeAppearState;
@@ -276,7 +277,7 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             ringHighLighterO.SetActive(false);
-            if(!alwaysDisplayAim)
+            if(!alwaysDisplayAim || hideAimArrow > 0)
                 aimArrow.SetActive(false);
             isAiming = false;
         }

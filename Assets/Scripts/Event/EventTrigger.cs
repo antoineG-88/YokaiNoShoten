@@ -73,6 +73,7 @@ public class EventTrigger : Switch
             eventTriggered = true;
             currentEventPartIndex = 0;
             GameData.playerManager.inControl = false;
+            GameData.grappleHandler.hideAimArrow++;
             previousCamera = null;
         }
     }
@@ -88,6 +89,8 @@ public class EventTrigger : Switch
         isOn = true;
         if(storyStepProgressionAtTheEnd != 0)
             GameManager.currentStoryStep = storyStepProgressionAtTheEnd;
+
+        GameData.grappleHandler.hideAimArrow--;
     }
 
 
