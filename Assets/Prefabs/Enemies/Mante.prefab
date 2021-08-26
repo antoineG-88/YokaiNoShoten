@@ -235,7 +235,7 @@ MonoBehaviour:
   cytheAttackTeleguidingTime: 2
   cytheTimeBeforeSpin: 0.3
   doCytheImmobilizeBeforeSpin: 1
-  cytheSpinRadius: 2
+  cytheSpinRadius: 4
   cythe: {fileID: 8936422185107548796}
   cytheMaxSpeed: 15
   cytheMaxRecallSpeed: 8
@@ -250,11 +250,8 @@ MonoBehaviour:
   sprite: {fileID: 8193358008734632398}
   disparitionFXPrefab: {fileID: 7807796807176625397, guid: 8ff48cf8fc395534f895ede46b805d7a,
     type: 3}
-  baseCytheScale: 1
-  anticipationCytheScale: 1
-  cytheScaleLerpRatio: 30
-  portalBaseColor: {r: 0.5019608, g: 0.44705886, b: 0.9058824, a: 1}
-  portalSabotagedColor: {r: 1, g: 0.20549601, b: 0, a: 1}
+  cytheAttackSprite: {fileID: 4326288840915143003}
+  attackTransitionTime: 0.5
 --- !u!114 &8193358007314346135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,7 +760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8936422185107548794
 Transform:
   m_ObjectHideFlags: 0
@@ -772,8 +769,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8936422185107548796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.636, y: 9.548, z: 0}
-  m_LocalScale: {x: 0.31343, y: 0.31343, z: 0.31343}
+  m_LocalPosition: {x: -4.08, y: 2.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8601161701412257767}
   - {fileID: 6461014356521034648}
@@ -906,7 +903,7 @@ Transform:
   m_GameObject: {fileID: 9034510698022184440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 8936422185107548794}
   m_RootOrder: 1
@@ -947,9 +944,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -686706029
+  m_SortingLayer: 5
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b6186ce8c7f15cf4e8e60fc44adf0f74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
