@@ -35,6 +35,7 @@ public class Mante : Enemy
     public GameObject disparitionFXPrefab;
     public SpriteRenderer cytheAttackSprite;
     public float attackTransitionTime;
+    public float previsState;
     [Header("Temporary")]
     //public float baseCytheScale;
     //public float anticipationCytheScale;
@@ -239,7 +240,7 @@ public class Mante : Enemy
     private IEnumerator SpinCythe()
     {
         //targetCytheScale = baseCytheScale;
-        cytheAttackMaterial.SetFloat("_switchONOFF", 1);
+        cytheAttackMaterial.SetFloat("_switchONOFF", previsState);
 
         cytheCDElapsed = 0;
         isCytheSpinning = true;
