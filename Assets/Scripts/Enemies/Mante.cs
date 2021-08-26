@@ -101,6 +101,10 @@ public class Mante : Enemy
                     {
                         targetPathfindingPosition = (Vector2)transform.position - playerDirection;
                     }
+                    else if(Vector2.Distance(GameData.player.transform.position, initialPos) < movementZoneRadius)
+                    {
+                        targetPathfindingPosition = GameData.player.transform.position;
+                    }
                 }
                 else
                 {

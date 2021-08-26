@@ -314,11 +314,16 @@ public class Serpent : Enemy
         Destroy(gameObject.transform.parent.gameObject);
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         if (!isProtected)
         {
+            triggerSlowMo = true;
             TakeDamage(damage, 0.5f);
+        }
+        else
+        {
+            triggerSlowMo = false;
         }
         return isSpikesActive;
     }
