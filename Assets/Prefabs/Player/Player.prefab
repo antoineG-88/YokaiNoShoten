@@ -634,7 +634,7 @@ MonoBehaviour:
   startTractionPropulsion: 5
   minDistanceToAccelerate: 100
   velocityKeptReleasingHook: 63
-  ropeBreakParticleByUnit: 2
+  ropeBreakParticleByUnit: 1
   breakRopeParticle: {fileID: 5035376017846975941, guid: 4def74ed2e84b2749bc4dec167138593,
     type: 3}
   aimAssistAngle: 40
@@ -2115,6 +2115,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3737249135459656034}
     m_Modifications:
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 657174447
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997120, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: m_Name
@@ -2204,21 +2219,6 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeBySpeedModule.y.minScalar
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}
