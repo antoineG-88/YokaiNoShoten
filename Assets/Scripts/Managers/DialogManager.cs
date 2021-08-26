@@ -25,11 +25,12 @@ public class DialogManager : MonoBehaviour
     public Sprite okFace;
     public Sprite questionFace;
     public Sprite shockedFace;
+    public Sprite cryFace;
     public List<CharacterFace> characterFaces;
 
     public Dialog testDialog;
 
-    public enum SeikiEmote { Neutral, Happy, Sad, Angry, Ok, Question, Shocked}
+    public enum SeikiEmote { Neutral, Happy, Sad, Angry, Ok, Question, Shocked, Cry}
 
     private bool isInDialogue;
     private Dialog currentDialog;
@@ -216,6 +217,10 @@ public class DialogManager : MonoBehaviour
 
             case SeikiEmote.Question:
                 faceSprite = questionFace;
+                break;
+
+            case SeikiEmote.Cry:
+                faceSprite = cryFace;
                 break;
 
             default:
