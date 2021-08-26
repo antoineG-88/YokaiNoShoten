@@ -16,7 +16,10 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         eventSystem = EventSystem.current;
-        GameManager.LoadProgression();
+
+        if(SaveSystem.LoadProgression() != null)
+            GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+
         if(GameManager.currentStoryStep == 0)
         {
             continueButton.SetActive(false);
@@ -40,13 +43,12 @@ public class MenuManager : MonoBehaviour
     public void ContinueGame()
     {
         Time.timeScale = 1f;
-        GameManager.LoadProgression();
-        Debug.Log("current storyStep : " + GameManager.currentStoryStep);
-        for (int i = zones.Count - 1; i >= 0; i--)
+        if (SaveSystem.LoadProgression() != null)
+            GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+        for (int i = 0; i < zones.Count; i++)
         {
-            if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep && (((i - 1) > 0 && GameManager.currentStoryStep > zones[i - 1].zoneMaxStoryStep) || (i - 1) == 0))
+            if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep)
             {
-                Debug.Log("load scene : " + zones[i].zoneBuildIndex);
                 SceneManager.LoadScene(zones[i].zoneBuildIndex);
                 break;
             }
@@ -56,7 +58,7 @@ public class MenuManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-        Debug.Log("Salut");
+        Debug.Log("Quit");
     }
     public void SelectButtonWithController(GameObject objectToSelect)
     {
