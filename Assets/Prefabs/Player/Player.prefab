@@ -525,7 +525,7 @@ Transform:
   - {fileID: 471252641}
   - {fileID: 4208649470404408855}
   - {fileID: 2132150249773689154}
-  - {fileID: 4995943709356636178}
+  - {fileID: 8968388433304716942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -845,6 +845,7 @@ MonoBehaviour:
   healthPointsDisplay: {fileID: 3737249136681705716}
   stunTime: 0.3
   damageInvulnerableTime: 0.6
+  healParticle: {fileID: 3945966056220161316}
   enableGodMode: 1
   godModeLayer: 15
   hurtSound:
@@ -1922,13 +1923,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &740986524427048800
+--- !u!1001 &3705256086925109756
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 3737249135459656034}
     m_Modifications:
+    - target: {fileID: 407951795693165784, guid: c7bf5d565bea3b8468351ec367cbfc29,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 407951795693165784, guid: c7bf5d565bea3b8468351ec367cbfc29,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 800227337600748731, guid: c7bf5d565bea3b8468351ec367cbfc29,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 800227337600748731, guid: c7bf5d565bea3b8468351ec367cbfc29,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5700900740912902002, guid: c7bf5d565bea3b8468351ec367cbfc29,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1987,20 +2008,21 @@ PrefabInstance:
     - target: {fileID: 5975167095477575411, guid: c7bf5d565bea3b8468351ec367cbfc29,
         type: 3}
       propertyPath: m_Name
-      value: lifeParticle
-      objectReference: {fileID: 0}
-    - target: {fileID: 5975167095477575411, guid: c7bf5d565bea3b8468351ec367cbfc29,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      value: recoverySystem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7bf5d565bea3b8468351ec367cbfc29, type: 3}
---- !u!4 &4995943709356636178 stripped
+--- !u!4 &8968388433304716942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5700900740912902002, guid: c7bf5d565bea3b8468351ec367cbfc29,
     type: 3}
-  m_PrefabInstance: {fileID: 740986524427048800}
+  m_PrefabInstance: {fileID: 3705256086925109756}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3945966056220161316 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 407951795693165784, guid: c7bf5d565bea3b8468351ec367cbfc29,
+    type: 3}
+  m_PrefabInstance: {fileID: 3705256086925109756}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6819854849693524950
 PrefabInstance:
@@ -2219,6 +2241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeBySpeedModule.y.minScalar
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: e9e334d4664b4ae4ab437291ab618a3a,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}
