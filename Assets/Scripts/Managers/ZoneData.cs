@@ -26,7 +26,14 @@ public class ZoneData
         enemyStates = new List<bool>();
         for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)
         {
-            enemyStates.Add(LevelManager.allZoneEnemies[i] != null);
+            if(!GameData.levelManager.doNotSaveEnnemiesDeath)
+            {
+                enemyStates.Add(LevelManager.allZoneEnemies[i] != null);
+            }
+            else
+            {
+                enemyStates.Add(true);
+            }
         }
     }
 }

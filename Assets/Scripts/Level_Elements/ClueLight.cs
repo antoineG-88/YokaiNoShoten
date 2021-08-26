@@ -35,7 +35,7 @@ public class ClueLight : Piercable
         }
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         StartCoroutine(SwitchOff());
         return false;

@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
     public static void SaveProgression(CheckPoint checkPoint)
     {
         LevelManager.lastCheckPoint = checkPoint;
+        Debug.Log("saved with story step : " + currentStoryStep);
         SaveSystem.SaveProgression(currentZoneName);
     }
 

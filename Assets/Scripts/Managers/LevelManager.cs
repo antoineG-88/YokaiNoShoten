@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     public string zoneName;
     public bool loadSaveOnlyOnRespawn;
     public int specificCheckpointStart;
+    public bool doNotSaveEnnemiesDeath;
 
     public static List<CheckPoint> allZoneCheckPoints;
     public static CheckPoint lastCheckPoint;

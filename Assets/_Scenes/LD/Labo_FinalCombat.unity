@@ -1229,6 +1229,11 @@ PrefabInstance:
       propertyPath: decoSceneIndex
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: doNotSaveEnnemiesDeath
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6212043412841279488, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: dialogText
@@ -30596,6 +30601,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae2cf94ee176ac4183916a25739bbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &980197647
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1652758802}
+    m_Modifications:
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -16.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869490, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: m_Name
+      value: CheckPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 666047525666869503, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+        type: 3}
+      propertyPath: checkPointNumber
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ce0ae755cbe073045ade13fe23a3d0d1, type: 3}
 --- !u!4 &982788528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3194303884743550000, guid: 0e9d83fa8c7f33549bfac179c2fef548,
@@ -32548,6 +32627,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6a40328eab9304f91368ab1c82c175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1479053763 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 666047525666869488, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 980197647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1479053766 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 666047525666869503, guid: ce0ae755cbe073045ade13fe23a3d0d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 980197647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfcbee09dc0a8746899d0b01eeae46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1483259924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33280,8 +33377,8 @@ MonoBehaviour:
   eventParts: []
   switchToTriggerEvent: {fileID: 0}
   neededStoryStepToTrigger: 0
-  maxStoryStepToTrigger: 20
-  storyStepProgressionAtTheEnd: 21
+  maxStoryStepToTrigger: 25
+  storyStepProgressionAtTheEnd: 0
   previousCamera: {fileID: 0}
 --- !u!114 &1626901074
 MonoBehaviour:
@@ -33314,6 +33411,7 @@ MonoBehaviour:
     - {fileID: 1942740639}
     - {fileID: 1207528223}
     hpRestored: 5
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -33325,6 +33423,7 @@ MonoBehaviour:
     - {fileID: 1483960380}
     - {fileID: 2031251461}
     hpRestored: 5
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -33337,6 +33436,7 @@ MonoBehaviour:
     - {fileID: 452446280}
     - {fileID: 1361900884}
     hpRestored: 5
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -33347,6 +33447,7 @@ MonoBehaviour:
     - {fileID: 1600197150}
     - {fileID: 967977872}
     hpRestored: 5
+    maxStoryStepToSkipWave: 23
     objectToEnable: []
     objectToDisable: []
     switchesToEnable:
@@ -33364,12 +33465,14 @@ MonoBehaviour:
     - {fileID: 342897198}
     - {fileID: 2020887933}
     hpRestored: 5
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
     switchesToDisable: []
   pauseTimeBetweenWaves: 2
   backDoorToClose: {fileID: 824690465}
+  checkPointToRespawn: {fileID: 1479053766}
   nextWaveSound:
     clip: {fileID: 8300000, guid: 0e1e4e00924a1fb44bdcf0bcd226df31, type: 3}
     volumeScale: 1
@@ -33560,6 +33663,7 @@ Transform:
   - {fileID: 352794766}
   - {fileID: 618317251}
   - {fileID: 824690466}
+  - {fileID: 1479053763}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
