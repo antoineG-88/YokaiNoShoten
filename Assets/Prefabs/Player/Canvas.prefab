@@ -1727,7 +1727,7 @@ GameObject:
   - component: {fileID: 7712978368098025216}
   - component: {fileID: 4827831176152419079}
   m_Layer: 5
-  m_Name: Panel Menu
+  m_Name: Pause Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1774,7 +1774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7f1ac387b15af48bc3c4a65f3eafdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 7585830714040990952}
   pauseButton: {fileID: 8340502225235521661}
   musicSlider: {fileID: 4495233473657097006}
   optionMenu: {fileID: 4495233473702641489}
