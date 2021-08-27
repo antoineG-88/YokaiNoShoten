@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
     public ParticleSystem healParticle;
     public float deathTimeBeforeRespawn;
     public float deathFadeTime;
+    public Material playerMaterial;
+    public ParticleSystem deathParticle;
     [Tooltip("Press start in game to activate")]
     public bool enableGodMode;
     public int godModeLayer;
@@ -39,6 +41,7 @@ public class PlayerManager : MonoBehaviour
         invulnerable = false;
         basePlayerLayer = gameObject.layer;
         invulnerableTimeRemaining = 0;
+        playerMaterial.SetFloat("_deadOrAlive", 1);
     }
 
     void Update()
@@ -140,9 +143,16 @@ public class PlayerManager : MonoBehaviour
         GameData.grappleHandler.hideAimArrow++;
         GameData.playerVisuals.animator.SetBool("IsDying", true);
         isDying = true;
-        yield return new WaitForSeconds(deathTimeBeforeRespawn);
-
         float timer = 0;
+        deathParticle.Play();
+        while (timer < deathTimeBeforeRespawn)
+        {
+            playerMaterial.SetFloat("_deadOrAlive", Mathf.Lerp(1, 0, timer / deathTimeBeforeRespawn));
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+
+        timer = 0;
         BlackScreenManager.blackScreen.color = Color.clear;
         while (timer < deathFadeTime)
         {

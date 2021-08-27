@@ -24,6 +24,8 @@ public class Balayer : Enemy
     public float beamEndSlowingTime;
     public float beamLineTransitionSpeedBetweenWarningAndShooting;
     public float beamLineActivationSpeed;
+    public ParticleSystem beamEndParticle;
+    public ParticleSystem previsEndParticle;
     public bool usePixelBeam;
     public GameObject beamStartPrefab;
     public GameObject beamPartPrefab;
@@ -200,6 +202,7 @@ public class Balayer : Enemy
         beamState = 0;
         beamMat.SetFloat("_previsOrAttack", beamState);
         float chargeTimer = 0;
+        previsEndParticle.Play();
         while(chargeTimer < chargeTime && !isDying)
         {
             linePos = new Vector3[2];
@@ -209,6 +212,7 @@ public class Balayer : Enemy
             beamLine.SetPositions(linePos);
             chargeTimer += Time.deltaTime;
 
+            previsEndParticle.transform.position = previewHit ? previewHit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
 
             beamActiveState += Time.deltaTime * beamLineActivationSpeed;
             beamActiveState = Mathf.Clamp(beamActiveState, 0, 1);
@@ -217,7 +221,7 @@ public class Balayer : Enemy
 
             yield return new WaitForEndOfFrame();
         }
-
+        previsEndParticle.Stop();
         yield return new WaitForSeconds(chargeTime);
 
         if (usePixelBeam)
@@ -230,6 +234,7 @@ public class Balayer : Enemy
         float beamLength;
         int beamFxNumber;
 
+        beamEndParticle.Play();
         while (elapsedBeamTime < beamTime && !isDying)
         {
             animator.SetInteger("BeamStep", 2);
@@ -305,6 +310,7 @@ public class Balayer : Enemy
                 linePos[1] = hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
                 beamLine.SetPositions(linePos);
 
+                beamEndParticle.transform.position = hit ? hit.point : (Vector2)transform.position + DirectionFromAngle(shootAngle) * maxBeamRange;
 
                 beamState += Time.fixedDeltaTime * beamLineTransitionSpeedBetweenWarningAndShooting;
                 beamState = Mathf.Clamp(beamState, 0, 1);
@@ -315,6 +321,7 @@ public class Balayer : Enemy
             yield return new WaitForFixedUpdate();
             elapsedBeamTime += Time.fixedDeltaTime;
         }
+        beamEndParticle.Stop();
         isShooting = false;
         animator.SetInteger("BeamStep", 0);
         transform.rotation = Quaternion.identity;
