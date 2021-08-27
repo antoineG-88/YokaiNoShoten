@@ -9,6 +9,7 @@ public class EventTrigger : Switch
     [Header("Optionnal, put a switch if the event is triggered by a switch")]
     public Switch switchToTriggerEvent;
 
+
     public int neededStoryStepToTrigger;
     public int maxStoryStepToTrigger;
     public int storyStepProgressionAtTheEnd;
@@ -72,6 +73,7 @@ public class EventTrigger : Switch
             eventTriggered = true;
             currentEventPartIndex = 0;
             GameData.playerManager.inControl = false;
+            GameData.grappleHandler.hideAimArrow++;
             previousCamera = null;
         }
     }
@@ -85,7 +87,10 @@ public class EventTrigger : Switch
         GameData.playerManager.inControl = true;
         isInEvent = false;
         isOn = true;
-        GameManager.currentStoryStep = storyStepProgressionAtTheEnd;
+        if(storyStepProgressionAtTheEnd != 0)
+            GameManager.currentStoryStep = storyStepProgressionAtTheEnd;
+
+        GameData.grappleHandler.hideAimArrow--;
     }
 
 
@@ -114,7 +119,7 @@ public class EventTrigger : Switch
         }
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
     }

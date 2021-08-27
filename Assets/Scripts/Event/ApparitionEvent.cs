@@ -8,10 +8,7 @@ public class ApparitionEvent : EventPart
     public float apparitionDelay;
     public float postDelay;
     public bool disappear;
-    [Header("Replace by animator when kage apparition is decided")]
-    public SpriteRenderer characterToAppear;
-    public float appearTime;
-
+    public Animator animatorToAppear;
 
     private float timeElasped;
     private int currentStep;
@@ -31,18 +28,12 @@ public class ApparitionEvent : EventPart
                 {
                     case 0:
                         currentStep++;
-                        if(disappear)
-                        {
-                            StartCoroutine(DisparitionAnim());
-                        }
-                        else
-                        {
-                            StartCoroutine(ApparitionAnim());
-                        }
                         break;
 
                     case 1:
                         currentStep++;
+                        animatorToAppear.gameObject.SetActive(true);
+                        animatorToAppear.SetBool("Appear", disappear ? false : true);
                         break;
 
                     case 2:
@@ -58,14 +49,13 @@ public class ApparitionEvent : EventPart
         base.StartEventPart();
         currentStep = 0;
         timeElasped = 0;
-        characterToAppear.gameObject.SetActive(disappear);
-        characterToAppear.color = disappear ? Color.white : Color.clear;
+        //animatorToAppear.gameObject.SetActive(disappear);
     }
     public override void EndEventPart()
     {
         base.EndEventPart();
     }
-
+    /*
     private IEnumerator ApparitionAnim()
     {
         float timer = 0;
@@ -92,5 +82,5 @@ public class ApparitionEvent : EventPart
         }
         characterToAppear.color = Color.clear;
         characterToAppear.gameObject.SetActive(false);
-    }
+    }*/
 }

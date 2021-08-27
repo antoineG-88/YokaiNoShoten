@@ -193,7 +193,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.17
+  m_Radius: 0.71
 --- !u!114 &7029462398786524766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,9 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5732df2f5a164947909b2387144809e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOnON: 1
   inverseOutput: 0
   isOn: 0
+  pierceTriggerSlowMo: 1
   animator: {fileID: 3627050463241111812}
 --- !u!95 &3627050463241111812
 Animator:

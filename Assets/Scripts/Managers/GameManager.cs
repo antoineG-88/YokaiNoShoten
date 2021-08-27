@@ -65,6 +65,16 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(7);
         }
 
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SceneManager.LoadScene(9);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SceneManager.LoadScene(11);
+        }
+
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             SaveSystem.DeleteSaveFile(currentZoneName);
@@ -87,6 +97,7 @@ public class GameManager : MonoBehaviour
     public static void Respawn()
     {
         isRespawning = true;
+        GameData.slowMoManager.StopSlowMo();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

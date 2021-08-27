@@ -6,47 +6,78 @@ using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
-    public List<string> SceneNames;
+    public List<Zone> zones;
     private EventSystem eventSystem;
-    public GameObject playButton;
+    public GameObject continueButton;
+    public GameObject startNewGameButton;
     public GameObject scrollBar;
     // Start is called before the first frame update
 
     private void Start()
     {
         eventSystem = EventSystem.current;
-        SelectButtonWithController();
+
+        if(SaveSystem.LoadProgression() != null)
+        {
+            GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+        }
+
+        if(GameManager.currentStoryStep == 0)
+        {
+            continueButton.SetActive(false);
+            SelectButtonWithController(startNewGameButton);
+        }
+        else
+        {
+            SelectButtonWithController(continueButton);
+        }
     }
     public void StartNewGame()
     {
         Time.timeScale = 1f;
-        for (int i = 0; i < SceneNames.Count; i++)
+        for (int i = 0; i < zones.Count; i++)
         {
-            SaveSystem.DeleteSaveFile(SceneNames[i]);
+            SaveSystem.DeleteSaveFile(zones[i].zoneName);
         }
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(zones[0].zoneBuildIndex);
     }
 
     public void ContinueGame()
     {
         Time.timeScale = 1f;
-        SaveSystem.LoadProgression();
-        //insérer le code pour continuer le jeu
+        if (SaveSystem.LoadProgression() != null)
+            GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+        for (int i = 0; i < zones.Count; i++)
+        {
+            if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep)
+            {
+                SceneManager.LoadScene(zones[i].zoneBuildIndex);
+                break;
+            }
+        }
     }
 
     public void QuitGame()
     {
         Application.Quit();
-        Debug.Log("Salut");
+        Debug.Log("Quit");
     }
-    public void SelectButtonWithController()
+    public void SelectButtonWithController(GameObject objectToSelect)
     {
-        eventSystem.firstSelectedGameObject = playButton;
-        eventSystem.SetSelectedGameObject(playButton);
+        eventSystem.firstSelectedGameObject = objectToSelect;
+        eventSystem.SetSelectedGameObject(objectToSelect);
     }
     public void SelectScrollBarWithController()
     {
         eventSystem.firstSelectedGameObject = scrollBar;
         eventSystem.SetSelectedGameObject(scrollBar);
+    }
+
+    [System.Serializable]
+    public class Zone
+    {
+        public string zoneName;
+        public int zoneBuildIndex;
+        public int zoneMaxStoryStep;
     }
 }

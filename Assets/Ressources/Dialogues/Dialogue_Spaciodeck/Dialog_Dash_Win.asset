@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialog_Dash_Win
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Spaciodeck/Dialogue_Spaciodeck_DashWin
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Spaciodeck/Dialogue_Spaciodeck_2_Win
     - Feuille 1.tsv
   sentences:
   - sentence: "Je vois que tu te d\xE9brouilles tr\xE8s bien tout seul."
     characterName: Yokai
-    seikiReaction: 3
+    seikiReaction: 5
     speakingSpeed: 1
   - sentence: "Je m'appelle Dash. Je fais partie des Yokai \xE9vad\xE9s de la prison
       qui se battent pour reprendre le contr\xF4le de la tour."
     characterName: Yokai
-    seikiReaction: 3
+    seikiReaction: 6
     speakingSpeed: 1
   - sentence: "On fera plus ample connaissance plus tard. D\u2019autres Selvos ne
       vont pas tarder \xE0 rappliquer. Je dois finir une missions pour notre chef,
-      je te laisse te diriger vers notre QG. Suis les marques que nous avons laiss\xE9s
+      je te laisse te diriger vers notre QG. _Suis les marques que nous avons laiss\xE9s
       sur les murs, elles te guideront. Et soit prudent."
     characterName: Dash
-    seikiReaction: 3
+    seikiReaction: 4
     speakingSpeed: 1

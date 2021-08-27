@@ -8,7 +8,6 @@ public class DashHandler : MonoBehaviour
     public float dashTime;
     public AnimationCurve dashCurveSetDashRotation;
     public float dashEndVelocityForceAdded;
-    public bool useVelocity;
     public GameObject shadowFx;
     public bool dashWithRightTrigger;
     public bool aimWithRightJoystick;
@@ -111,24 +110,24 @@ public class DashHandler : MonoBehaviour
             dashPos = Vector2.LerpUnclamped(dashStartPos, dashEndPos, dashCurve.Evaluate(dashTimeElapsed / dashTime));
             currentDashSpeed = (dashPos - previousDashPos).magnitude;
             previousDashPos = dashPos;
-            if(useVelocity)
-            {
-                rb.velocity = startDashDirection * currentDashSpeed * (1 / Time.fixedDeltaTime);
-            }
-            else
-            {
-                transform.position = dashPos;
-            }
+
+            rb.velocity = startDashDirection * currentDashSpeed * (1 / Time.fixedDeltaTime);
 
             yield return new WaitForFixedUpdate();
         }
-        //transform.position = dashEndPos;  Test de raycast à faire si utilisé
+
+        if(!GameData.playerManager.inControl || !isDashing)
+        {
+            dashPos = dashEndPos;
+            previousDashPos = Vector2.LerpUnclamped(dashStartPos, dashEndPos, 1 - Time.fixedDeltaTime);
+            currentDashSpeed = (dashPos - previousDashPos).magnitude;
+            rb.velocity = startDashDirection * currentDashSpeed * (1 / Time.fixedDeltaTime);
+        }
 
         rb.velocity += rb.velocity.normalized * dashEndVelocityForceAdded;
         GameData.playerVisuals.dashParticle.Stop();
 
         GameData.movementHandler.canMove = true;
-        //GameData.movementHandler.isAffectedbyGravity = true;
         isDashing = false;
     }
 

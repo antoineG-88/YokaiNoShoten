@@ -8,6 +8,7 @@ public class Laser : MonoBehaviour
     public float beamWidth;
     public float beamWallWidth;
     public float knockbackDistance;
+    public bool doKnockbackThroughLaser;
     public bool oddIndexActive;
     public List<float> activationsSequence;
     public float beamWarningTime;
@@ -23,6 +24,11 @@ public class Laser : MonoBehaviour
     public float beamDisplayStartOffset;
     public BoxCollider2D boxCollider;
     public Transform beamParent;
+    public Material sequenceMat;
+    public float disablingDistance;
+    public bool doNotUseDistanceDisabling;
+
+    public ParticleSystem endBeamParticle;
 
     private Vector2 currentDirection;
     private float beamLength;
@@ -41,6 +47,7 @@ public class Laser : MonoBehaviour
     private float beamState;
     private float beamActivationState;
     private Material beamMaterial;
+    private Vector2 distToPlayer;
 
     void Start()
     {
@@ -54,7 +61,14 @@ public class Laser : MonoBehaviour
             isBeamActive = true;
         }
         beamLine = GetComponent<LineRenderer>();
-        beamMaterial = Instantiate(beamLine.sharedMaterial);
+        if(activationsSequence.Count > 0)
+        {
+            beamMaterial = Instantiate(sequenceMat);
+        }
+        else
+        {
+            beamMaterial = Instantiate(beamLine.sharedMaterial);
+        }
         beamLine.sharedMaterial = beamMaterial;
     }
 
@@ -66,24 +80,32 @@ public class Laser : MonoBehaviour
             isActive = connectedSwitch.IsON();
         }
 
-        if(activationsSequence.Count > 0)
+        if (activationsSequence.Count > 0)
         {
             UpdateSequence();
+        }
+
+
+        if (distToPlayer.magnitude < disablingDistance || doNotUseDistanceDisabling)
+        {
+            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
+            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
+            beamLine.SetPosition(0, (Vector2)transform.position + currentDirection * beamDisplayStartOffset);
+            beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
         }
     }
 
     private void FixedUpdate()
     {
-        UpdateLaserBeam();
+        distToPlayer = (Vector2)GameData.player.transform.position - (Vector2)transform.position;
+        if (distToPlayer.magnitude < disablingDistance || doNotUseDistanceDisabling)
+        {
+            UpdateLaserBeam();
+        }
     }
 
     private void UpdateLaserBeam()
     {
-        hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
-        beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
-        beamLine.SetPosition(0, (Vector2)transform.position + currentDirection * beamDisplayStartOffset);
-        beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
-
         if (isBeamActive && isActive)
         {
             playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
@@ -92,17 +114,23 @@ public class Laser : MonoBehaviour
                 Vector2 knockbackDirection;
                 if(Vector2.SignedAngle(currentDirection, GameData.player.transform.position - transform.position) > 0)
                 {
-                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + 90);
+                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + (doKnockbackThroughLaser ? -90 : 90));
                 }
                 else
                 {
-                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z - 90);
+                    knockbackDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z + (doKnockbackThroughLaser ? 90 : -90));
                 }
                 GameData.dashHandler.isDashing = false;
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
 
+            if(!endBeamParticle.isPlaying)
+            {
+                endBeamParticle.Play();
+            }
 
+            endBeamParticle.transform.position = hit.point;
+            endBeamParticle.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, hit.normal));
 
             if(usePixelBeam)
             {
@@ -145,10 +173,12 @@ public class Laser : MonoBehaviour
                 //beamMaterial.SetFloat("_laserSwitch", 1);
             }
 
-
-            boxCollider.enabled = true;
-            boxCollider.offset = new Vector2(beamStartOffset + (beamLength / 2), 0);
-            boxCollider.size = new Vector2(beamLength, beamWallWidth);
+            if(!doKnockbackThroughLaser)
+            {
+                boxCollider.enabled = true;
+                boxCollider.offset = new Vector2(beamStartOffset + (beamLength / 2), 0);
+                boxCollider.size = new Vector2(beamLength, beamWallWidth);
+            }
 
 
             beamParent.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, currentDirection));
@@ -176,6 +206,11 @@ public class Laser : MonoBehaviour
             {
             }
             boxCollider.enabled = false;
+
+            if (endBeamParticle.isPlaying)
+            {
+                endBeamParticle.Stop();
+            }
         }
 
         if (isActive)
@@ -226,6 +261,13 @@ public class Laser : MonoBehaviour
                     beamActivationState += beamChangeStateSpeed * Time.deltaTime;
                     beamActivationState = Mathf.Clamp(beamActivationState, 0f, 1f);
                     beamMaterial.SetFloat("_laserSwitch", beamActivationState);
+
+                    if (activationsSequence[currentSequenceIndex] <= 1)
+                    {
+                        beamState -= beamChangeStateSpeed * Time.deltaTime;
+                        beamState = Mathf.Clamp(beamState, 0f, 1f);
+                        beamMaterial.SetFloat("_previsOrAttack", beamState);
+                    }
                 }
                 else
                 {
@@ -252,7 +294,7 @@ public class Laser : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"));
+        hit = Physics2D.Raycast(transform.position, GetDirectionFromAngle(transform.rotation.eulerAngles.z), maxLaserRange, LayerMask.GetMask("Wall"), LayerMask.GetMask("DashWall"));
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, hit ? hit.point : (Vector2)transform.position + GetDirectionFromAngle(transform.rotation.eulerAngles.z) * maxLaserRange);
     }

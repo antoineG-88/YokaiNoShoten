@@ -73,12 +73,7 @@ public class CameraHandler : MonoBehaviour
             currentLerpSpeed = baseLerpSpeed;
         }
     }
-
-
-    bool isOutUpEdge = false;
-    bool isOutDownEdge = false;
-    bool isOutRightEdge = false;
-    bool isOutLeftEdge = false;
+    
     CameraConstraintZone currentZone;
     Vector2 correctedCameraPos;
     Vector2 upEdgePos;
@@ -107,18 +102,14 @@ public class CameraHandler : MonoBehaviour
             float absoluteDownLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.y + currentZone.downLimit : currentZone.downLimit) - edgeMargin;
             float absoluteRightLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.x + currentZone.rightLimit : currentZone.rightLimit) + edgeMargin;
             float absoluteLeftLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.x + currentZone.leftLimit : currentZone.leftLimit) - edgeMargin;
-
-            isOutUpEdge = false;
+            
             if (upEdgePos.y > absoluteUpLimit && currentZone.upLimit != 0)
             {
-                isOutUpEdge = true;
                 correctedCameraPos = new Vector2(correctedCameraPos.x, absoluteUpLimit - currentOrthographicSize);
             }
-
-            isOutDownEdge = false;
+            
             if (downEdgePos.y < absoluteDownLimit && currentZone.downLimit != 0)
             {
-                isOutDownEdge = true;
                 correctedCameraPos = new Vector2(correctedCameraPos.x, absoluteDownLimit + currentOrthographicSize);
             }
 
@@ -126,21 +117,14 @@ public class CameraHandler : MonoBehaviour
             {
                 correctedCameraPos = new Vector2(correctedCameraPos.x, (absoluteUpLimit + absoluteDownLimit) / 2);
             }
-
-
-
-
-            isOutRightEdge = false;
+            
             if (rightEdgePos.x > absoluteRightLimit && currentZone.rightLimit != 0)
             {
-                isOutRightEdge = true;
                 correctedCameraPos = new Vector2(absoluteRightLimit - currentOrthographicSize * mainCamera.aspect, correctedCameraPos.y);
             }
-
-            isOutLeftEdge = false;
+            
             if (leftEdgePos.x < absoluteLeftLimit && currentZone.leftLimit != 0)
             {
-                isOutLeftEdge = true;
                 correctedCameraPos = new Vector2(absoluteLeftLimit + currentOrthographicSize * mainCamera.aspect, correctedCameraPos.y);
             }
 

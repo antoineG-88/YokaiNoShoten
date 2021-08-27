@@ -19,6 +19,7 @@ public class Mante : Enemy
     public float cytheAttackCooldown;
     public float cytheAttackTeleguidingTime;
     public float cytheTimeBeforeSpin;
+    public bool doCytheImmobilizeBeforeSpin;
     public float cytheSpinRadius;
     public GameObject cythe;
     public float cytheMaxSpeed;
@@ -32,12 +33,15 @@ public class Mante : Enemy
     [Header("Visuals")]
     public SpriteRenderer sprite;
     public GameObject disparitionFXPrefab;
+    public SpriteRenderer cytheAttackSprite;
+    public float attackTransitionTime;
+    public float previsState;
     [Header("Temporary")]
-    public float baseCytheScale;
-    public float anticipationCytheScale;
-    public float cytheScaleLerpRatio;
-    public Color portalBaseColor;
-    public Color portalSabotagedColor;
+    //public float baseCytheScale;
+    //public float anticipationCytheScale;
+    //public float cytheScaleLerpRatio;
+    //public Color portalBaseColor;
+    //public Color portalSabotagedColor;
 
     private bool isFleeing;
     private float playerDistToFirstPortal;
@@ -57,6 +61,7 @@ public class Mante : Enemy
     private bool isCytheSpinning;
 
     private float targetCytheScale;
+    private Material cytheAttackMaterial;
 
     private SpriteRenderer firstPortalRenderer;
     private SpriteRenderer secondPortalRenderer;
@@ -70,6 +75,10 @@ public class Mante : Enemy
         firstPortalRenderer = firstPortal.transform.GetChild(0).GetComponent<SpriteRenderer>();
         secondPortalRenderer = secondPortal.transform.GetChild(0).GetComponent<SpriteRenderer>();
         cytheCDElapsed = cytheAttackCooldown - timeBeforeFirstCytheThrow;
+        cytheAttackMaterial = Instantiate(cytheAttackSprite.sharedMaterial);
+        cytheAttackSprite.sharedMaterial = cytheAttackMaterial;
+        cytheAttackSprite.gameObject.transform.localScale = Vector2.one * cytheSpinRadius;
+        cytheAttackMaterial.SetFloat("_switchONOFF", 0);
     }
 
     protected new void Update()
@@ -92,13 +101,17 @@ public class Mante : Enemy
         isFacingRight = playerDirection.x > 0;
         if (provoked)
         {
-            if (inControl)
+            if (inControl && !isDying)
             {
                 if (isFleeing)
                 {
                     if (Vector2.Distance((Vector2)transform.position - playerDirection, initialPos) < movementZoneRadius)
                     {
                         targetPathfindingPosition = (Vector2)transform.position - playerDirection;
+                    }
+                    else if(Vector2.Distance(GameData.player.transform.position, initialPos) < movementZoneRadius)
+                    {
+                        targetPathfindingPosition = GameData.player.transform.position;
                     }
                 }
                 else
@@ -120,18 +133,38 @@ public class Mante : Enemy
     {
         if(inControl && !isDying)
         {
+            //cythe.transform.localScale = Vector2.one * Mathf.Lerp(cythe.transform.localScale.x, targetCytheScale, cytheScaleLerpRatio * Time.fixedDeltaTime);
             if (isTeleguidingCythe)
             {
                 if (teleguidingTimeElapsed > cytheAttackTeleguidingTime)
                 {
-                    StartCoroutine(SpinCythe());
+                    if (!isCytheSpinning)
+                        StartCoroutine(SpinCythe());
+
+                    if(!doCytheImmobilizeBeforeSpin)
+                    {
+                        cytheTargetPos = (Vector2)GameData.player.transform.position + GameData.movementHandler.rb.velocity.normalized * cytheTargetPlayerOffsetDistance;
+
+                        cytheTargetDirection = cytheTargetPos - (Vector2)cythe.transform.position;
+                        cytheTargetDirection.Normalize();
+
+                        cytheCurrentMaxSpeed = Mathf.Clamp(Vector2.Distance(cythe.transform.position, cytheTargetPos) * cytheDistanceSpeedDampeningRatio, 0, cytheMaxSpeed);
+                        cytheCurrentSpeed += Time.fixedDeltaTime * cytheAccelerationForce;
+                        cytheCurrentSpeed = Mathf.Clamp(cytheCurrentSpeed, 0, cytheCurrentMaxSpeed);
+
+                        if (Vector2.Distance(cythe.transform.position, cytheTargetPos) > cytheCurrentSpeed * Time.fixedDeltaTime + 0.1f)
+                        {
+                            cythe.transform.position = (Vector2)cythe.transform.position + cytheTargetDirection * (cytheCurrentSpeed * Time.fixedDeltaTime);
+                        }
+                    }
                 }
                 else
                 {
                     teleguidingTimeElapsed += Time.fixedDeltaTime;
-                    targetCytheScale = Mathf.Lerp(baseCytheScale, anticipationCytheScale, teleguidingTimeElapsed / cytheAttackTeleguidingTime);
-                    cythe.transform.localScale = Vector2.one * Mathf.Lerp(cythe.transform.localScale.x, targetCytheScale, cytheScaleLerpRatio * Time.fixedDeltaTime);
-
+                    /*
+                    if(!isCytheSpinning)
+                        targetCytheScale = Mathf.Lerp(baseCytheScale, anticipationCytheScale, teleguidingTimeElapsed / cytheAttackTeleguidingTime);*/
+                        
 
                     cytheTargetPos = (Vector2)GameData.player.transform.position + GameData.movementHandler.rb.velocity.normalized * cytheTargetPlayerOffsetDistance;
 
@@ -150,8 +183,6 @@ public class Mante : Enemy
             }
             else
             {
-                cythe.transform.localScale = Vector2.one * Mathf.Lerp(cythe.transform.localScale.x, targetCytheScale, cytheScaleLerpRatio * Time.fixedDeltaTime);
-
                 if (isCytheInRecall)
                 {
                     cytheTargetPos = transform.position;
@@ -202,16 +233,24 @@ public class Mante : Enemy
         teleguidingTimeElapsed = 0;
         cytheCurrentSpeed = 0;
         cythe.transform.position = transform.position;
-        cythe.transform.localScale = Vector2.one * baseCytheScale;
+        cytheAttackMaterial.SetFloat("_switchONOFF", 0);
+        //cythe.transform.localScale = Vector2.one * baseCytheScale;
     }
 
     private IEnumerator SpinCythe()
     {
-        targetCytheScale = baseCytheScale;
+        //targetCytheScale = baseCytheScale;
+        cytheAttackMaterial.SetFloat("_switchONOFF", previsState);
+
         cytheCDElapsed = 0;
         isCytheSpinning = true;
-        isTeleguidingCythe = false;
+        if(doCytheImmobilizeBeforeSpin)
+        {
+            isTeleguidingCythe = false;
+        }
         yield return new WaitForSeconds(cytheTimeBeforeSpin);
+
+
         targetCytheScale = cytheSpinRadius;
         List<Collider2D> colliders = new List<Collider2D>();
         Physics2D.OverlapCircle(cythe.transform.position, cytheSpinRadius, playerFilter, colliders);
@@ -222,10 +261,23 @@ public class Mante : Enemy
 
             GameData.playerManager.TakeDamage(1, cytheTargetDirection * cytheKnockbackDistance);
         }
-        yield return new WaitForSeconds(0.3f);
-        targetCytheScale = baseCytheScale;
+        if (!doCytheImmobilizeBeforeSpin)
+        {
+            isTeleguidingCythe = false;
+        }
+
+        cytheAttackMaterial.SetFloat("_switchONOFF", 0);
+        float timer = 0;
+        while(timer < attackTransitionTime)
+        {
+            cytheAttackMaterial.SetFloat("_switchONOFF", timer / attackTransitionTime);
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        //targetCytheScale = baseCytheScale;
         isCytheInRecall = true;
         isCytheSpinning = false;
+        cytheAttackMaterial.SetFloat("_switchONOFF", 0);
     }
 
     private void CheckRetreat()
@@ -323,24 +375,24 @@ public class Mante : Enemy
         if(portalIndex == 1)
         {
             firstPortalSabotaged = true;
-            firstPortalRenderer.color = portalSabotagedColor;
+            //firstPortalRenderer.color = portalSabotagedColor;
         }
         else
         {
             secondPortalSabotaged = true;
-            secondPortalRenderer.color = portalSabotagedColor;
+            //secondPortalRenderer.color = portalSabotagedColor;
         }
         yield return new WaitForSeconds(portalSabotageTime);
 
         if (portalIndex == 1)
         {
             firstPortalSabotaged = false;
-            firstPortalRenderer.color = portalBaseColor;
+            //firstPortalRenderer.color = portalBaseColor;
         }
         else
         {
             secondPortalSabotaged = false;
-            secondPortalRenderer.color = portalBaseColor;
+            //secondPortalRenderer.color = portalBaseColor;
         }
     }
 

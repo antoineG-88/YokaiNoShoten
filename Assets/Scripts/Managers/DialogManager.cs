@@ -9,6 +9,7 @@ public class DialogManager : MonoBehaviour
     public float baseSpeakingSpeed;
     public float baseSpeakPauseTime;
     public float minTimeToPass;
+    public bool manualSeikiReaction;
     [Header("References")]
     public Text dialogText;
     public Image seikiFaceImage;
@@ -16,16 +17,21 @@ public class DialogManager : MonoBehaviour
     public GameObject dialogPanel;
     public Text nameText;
     public Image characterFace;
+    public Image nextImage;
     [Space]
     public Sprite neutralFace;
     public Sprite happyFace;
     public Sprite sadFace;
     public Sprite angryFace;
+    public Sprite okFace;
+    public Sprite questionFace;
+    public Sprite shockedFace;
+    public Sprite cryFace;
     public List<CharacterFace> characterFaces;
 
     public Dialog testDialog;
 
-    public enum SeikiEmote { Neutral, Happy, Sad, Angry }
+    public enum SeikiEmote { Neutral, Happy, Sad, Angry, Ok, Question, Shocked, Cry}
 
     private bool isInDialogue;
     private Dialog currentDialog;
@@ -71,6 +77,7 @@ public class DialogManager : MonoBehaviour
                 seikiFaceImage.sprite = neutralFace;
                 nameText.text = string.Empty;
                 endDialCallback = endDial;
+                nextImage.gameObject.SetActive(false);
             }
         }
         else
@@ -98,6 +105,7 @@ public class DialogManager : MonoBehaviour
                 timeElapsedOnSentence = 0;
                 if(seikiReacting)
                 {
+                    nextImage.gameObject.SetActive(true);
                     if (Input.GetButtonDown("AButton"))
                     {
                         currentDialogSentenceIndex++;
@@ -114,7 +122,7 @@ public class DialogManager : MonoBehaviour
                 {
                     dialogText.text = currentDialog.sentences[currentDialogSentenceIndex].sentence.Replace("_", string.Empty);
                     //petite flêche qui vloup vloup
-                    if (Input.GetButtonDown("AButton"))
+                    if (Input.GetButtonDown("AButton") || !manualSeikiReaction)
                     {
                         isWaitingNext = false;
                         seikiReacting = true;
@@ -123,7 +131,8 @@ public class DialogManager : MonoBehaviour
             }
             else
             {
-                if(seikiReacting)
+                nextImage.gameObject.SetActive(false);
+                if (seikiReacting)
                 {
                     seikiFaceImage.sprite = GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction);
 
@@ -200,6 +209,22 @@ public class DialogManager : MonoBehaviour
 
             case SeikiEmote.Sad:
                 faceSprite = sadFace;
+                break;
+
+            case SeikiEmote.Ok:
+                faceSprite = okFace;
+                break;
+
+            case SeikiEmote.Shocked:
+                faceSprite = shockedFace;
+                break;
+
+            case SeikiEmote.Question:
+                faceSprite = questionFace;
+                break;
+
+            case SeikiEmote.Cry:
+                faceSprite = cryFace;
                 break;
 
             default:

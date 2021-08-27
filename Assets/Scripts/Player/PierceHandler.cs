@@ -24,6 +24,7 @@ public class PierceHandler : MonoBehaviour
     public bool triggerSlowMo;
     public bool useLeftTriggerInput;
     public float cancelPierceKADistance;
+    public bool doCancelPierce;
     [Header("Pierce Aim settings")]
     public bool useAutoAim;
     public float pierceAimAssistAngle;
@@ -90,6 +91,7 @@ public class PierceHandler : MonoBehaviour
         {
             canPierce = true;
         }
+        canPierce = true;
     }
 
     private GameObject nearestObject;
@@ -171,9 +173,11 @@ public class PierceHandler : MonoBehaviour
     }
 
     [HideInInspector] public GameObject selectedEnemy;
+    RaycastHit2D hit;
+    Vector2 aimDirection;
     private void UpdatePierceAim() //Affiche la visée du pierce et sélectionne un ennemi visée et attque si appuie dur l'attaque
     {
-        Vector2 aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+        aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
         if (aimDirection.magnitude > 0.1f && canPierce && GameData.playerManager.inControl)
         {
             isAimingPierce = true;
@@ -190,7 +194,6 @@ public class PierceHandler : MonoBehaviour
             pierceArrowPreview.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
             selectedEnemy = null;
 
-            RaycastHit2D hit;
             float minAngleFound = pierceAimAssistAngle;
             for (int i = 0; i < pierceAimAssistRaycastNumber; i++)
             {
@@ -201,10 +204,10 @@ public class PierceHandler : MonoBehaviour
 
                 //Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
 
-                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "Enemy", "Piercable"));
+                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "DashWall", "Enemy", "EnemyFantom", "Piercable"));
                 if (hit)
                 {
-                    if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall" && LayerMask.LayerToName(hit.collider.gameObject.layer) != "DashWall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
                     {
                         selectedEnemy = hit.collider.gameObject;
                         minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
@@ -254,6 +257,7 @@ public class PierceHandler : MonoBehaviour
     }
 
     bool isPierceCancelled;
+    bool isSlowMoTriggered;
     private IEnumerator Pierce(GameObject markedPiercable)
     {
         currentComboPierceStep = 0;
@@ -290,15 +294,22 @@ public class PierceHandler : MonoBehaviour
         Piercable piercable = markedPiercable.GetComponent<Piercable>();
 
         isPierceCancelled = false;
-
         if (damageDelay <= 0)
         {
             if (piercable != null && !hasPierced)
             {
-                isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
+                isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce, ref isSlowMoTriggered);
                 StartCoroutine(piercable.DisablePiercable());
 
+                if(!isSlowMoTriggered)
+                {
+                    StopPhasingTime();
+                }
 
+                if (!doCancelPierce)
+                {
+                    isPierceCancelled = false;
+                }
 
                 //Instantiate (pierceMarkFx, piercable.transform.position + fxOffset, Quaternion.identity).transform.localScale = new Vector3 (1,1,1);
                 GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercableDirection.x > 0 ? piercable.transform.position - fxOffset : piercable.transform.position + fxOffset, Quaternion.identity);
@@ -316,8 +327,18 @@ public class PierceHandler : MonoBehaviour
             {
                 if (piercable != null)
                 {
-                    isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce);
+                    isPierceCancelled = piercable.PierceEffect(1, piercableDirection * pierceKnockbackForce, ref isSlowMoTriggered);
                     StartCoroutine(piercable.DisablePiercable());
+
+                    if (!isSlowMoTriggered)
+                    {
+                        StopPhasingTime();
+                    }
+
+                    if (!doCancelPierce)
+                    {
+                        isPierceCancelled = false;
+                    }
 
                     //Instantiate(pierceMarkFx, piercable.transform.position + fxOffset, Quaternion.identity).transform.localScale = new Vector3(0.3f, 0.3f, 1);
                     GameObject pierceMarkClone = Instantiate(pierceMarkFx, piercableDirection.x > 0 ? piercable.transform.position - fxOffset : piercable.transform.position + fxOffset, Quaternion.identity);
@@ -406,7 +427,7 @@ public class PierceHandler : MonoBehaviour
 
                             Debug.DrawRay(raycastOrigin, direction * comboPierceRange, Color.cyan);
 
-                            hit = Physics2D.Raycast(raycastOrigin, direction, comboPierceRange, LayerMask.GetMask("Wall", "Enemy"));
+                            hit = Physics2D.Raycast(raycastOrigin, direction, comboPierceRange, LayerMask.GetMask("Wall", "Enemy", "EnemyFantom"));
                             if (hit)
                             {
                                 if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(comboPierceAimDirection.x, comboPierceAimDirection.y)) < minAngleFound)

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialog_TekunoBeforeCombat
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_7 - Feuille
+    1.tsv
+  sentences:
+  - sentence: "J\u2019ai failli t\u2019attendre \u2026"
+    characterName: Tekuno
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: "Seiki, je vais avoir besoin que tu me prot\xE8ge pour que je puisse
+      mettre en place le dispositif."
+    characterName: Tekuno
+    seikiReaction: 4
+    speakingSpeed: 1

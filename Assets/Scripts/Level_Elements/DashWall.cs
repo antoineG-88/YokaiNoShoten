@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class DashWall : MonoBehaviour
 {
+    public Sprite flashSprite;
     [SerializeField] private float disableTime = 0;
 
     float playerDistance;
     Collider2D wallCollider;
     SpriteRenderer sprite;
-    Color initialColor;
+    Sprite initialSprite;
 
     void Start()
     {
         wallCollider = GetComponent<Collider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        initialColor = sprite.color;
+        initialSprite = sprite.sprite;
     }
 
     void Update()
@@ -33,22 +34,22 @@ public class DashWall : MonoBehaviour
             }
 
 
-            if (GameData.grappleHandler.isTracting)
+            /*if (GameData.grappleHandler.isTracting)
             {
                 GameData.grappleHandler.BreakRope("Touched a dashWall");
-            }
+            }*/
         }
     }
 
     private IEnumerator PassEffect()
     {
-        sprite.color = Color.white;
+        sprite.sprite = flashSprite;
         yield return new WaitForSeconds(0.1f);
-        sprite.color = initialColor;
+        sprite.sprite = initialSprite;
         yield return new WaitForSeconds(0.1f);
-        sprite.color = Color.white;
+        sprite.sprite = flashSprite;
         yield return new WaitForSeconds(0.1f);
-        sprite.color = initialColor;
+        sprite.sprite = initialSprite;
     }
 
     private IEnumerator DisableCollisionTemporary(Collider2D collider)

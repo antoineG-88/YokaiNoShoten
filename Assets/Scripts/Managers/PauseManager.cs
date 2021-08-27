@@ -6,10 +6,12 @@ using UnityEngine.EventSystems;
 
 public class PauseManager : MonoBehaviour
 {
-    public GameObject pauseMenu;
     private bool isPaused;
     private EventSystem eventSystem;
     public GameObject pauseButton;
+    public GameObject musicSlider;
+    public GameObject optionMenu;
+    public GameObject buttons;
 
     void Start()
     {
@@ -31,17 +33,19 @@ public class PauseManager : MonoBehaviour
     }
     public void Pause()
     {
-        pauseMenu.SetActive(true);
+        buttons.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        eventSystem.firstSelectedGameObject = pauseButton;
+        eventSystem.SetSelectedGameObject(pauseButton);
         Time.timeScale = 0;
         isPaused = true;
         GameData.playerManager.inControl = false;
-        eventSystem.firstSelectedGameObject = pauseButton;
-        eventSystem.SetSelectedGameObject(pauseButton);
     }
 
     public void Resume()
     {
-        pauseMenu.SetActive(false);
+        optionMenu.SetActive(false);
+        buttons.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;
         GameData.playerManager.inControl = true;
@@ -49,7 +53,13 @@ public class PauseManager : MonoBehaviour
 
     public void ReturntoMenu()
     {
+        Time.timeScale = 1;
         isPaused = false;
         SceneManager.LoadScene(0);
+    }
+    public void SelectScrollBarWithController()
+    {
+        eventSystem.firstSelectedGameObject = musicSlider;
+        eventSystem.SetSelectedGameObject(musicSlider);
     }
 }

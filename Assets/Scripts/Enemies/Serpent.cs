@@ -13,6 +13,7 @@ public class Serpent : Enemy
     public float slowSpeed;
     public float rangeGoalToPlayer;
     public float steeringRatio;
+    public float noGravitySteeringRatio;
     public float minAngleDiffToTurn;
     public Transform patrolPos1;
     public Transform patrolPos2;
@@ -107,15 +108,9 @@ public class Serpent : Enemy
         wallAhead = Physics2D.Raycast(transform.position, currentDirection, wallDetectionDistance, LayerMask.GetMask("Wall"));
         targetSpeed = isInNoGravityZone ? noGravityZoneMaxSpeed : (wallAhead ? slowSpeed : (isSpikesActive ? maxSpeed : fleeMaxSpeed));
 
-        if (!inControl)
+        if (Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall", "EnemyProof")))
         {
-            currentSpeed = rb.velocity.magnitude;
-            currentDirection = rb.velocity.normalized;
-        }
-
-        if(Physics2D.OverlapCircle(transform.position, bounceCircleRadiusTest, LayerMask.GetMask("Wall", "DashWall")))
-        {
-            RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall"));
+            RaycastHit2D wallHit = Physics2D.CircleCast(transform.position, bounceCircleRadiusTest, currentDirection, bounceCircleRadiusTest * 2, LayerMask.GetMask("Wall", "DashWall", "EnemyProof"));
             if(wallHit)
             {
                 currentDirection = Vector2.Reflect(currentDirection, wallHit.normal);
@@ -136,30 +131,27 @@ public class Serpent : Enemy
             currentSpeed -= accelerationForce * Time.fixedDeltaTime;
         }
 
-        if(!isInNoGravityZone)
+        currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
+        if (targetPathfindingPosition != (Vector2)transform.position)
         {
-            currentAngle = Vector2.SignedAngle(Vector2.right, currentDirection);
-            if (targetPathfindingPosition != (Vector2)transform.position)
+            Vector2 targetDirection = targetPathfindingPosition - (Vector2)transform.position;
+            angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, IsLineOfViewClearBetween(transform.position, targetPathfindingPosition) ? targetDirection : (GetPathNextPosition(2) - (Vector2)transform.position));
+            if (Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
             {
-                Vector2 targetDirection = targetPathfindingPosition - (Vector2)transform.position;
-                angleDifferenceToTarget = Vector2.SignedAngle(currentDirection, IsLineOfViewClearBetween(transform.position, targetPathfindingPosition) ? targetDirection : (GetPathNextPosition(2) - (Vector2)transform.position));
-                if (Mathf.Abs(angleDifferenceToTarget) > minAngleDiffToTurn)
-                {
-                    currentAngle += Mathf.Sign(angleDifferenceToTarget) * steeringRatio * currentSpeed * Time.fixedDeltaTime;
-                    currentDirection = DirectionFromAngle(currentAngle);
-                }
-            }
-            else if (wallAhead)
-            {
-                RaycastHit2D leftHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle + 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
-                RaycastHit2D rightHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle - 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
-                float addedSteerAngle = steeringRatio * 7 * Time.fixedDeltaTime;
-                currentAngle += leftHit ? rightHit ? leftHit.distance > rightHit.distance ? addedSteerAngle : -addedSteerAngle : -addedSteerAngle : rightHit ? addedSteerAngle : -addedSteerAngle;
+                currentAngle += Mathf.Sign(angleDifferenceToTarget) * (isInNoGravityZone ? noGravitySteeringRatio : steeringRatio) * currentSpeed * Time.fixedDeltaTime;
                 currentDirection = DirectionFromAngle(currentAngle);
             }
         }
+        else if (wallAhead)
+        {
+            RaycastHit2D leftHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle + 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
+            RaycastHit2D rightHit = Physics2D.Raycast(transform.position, DirectionFromAngle(currentAngle - 20), wallDetectionDistance + 1, LayerMask.GetMask("Wall"));
+            float addedSteerAngle = (isInNoGravityZone ? noGravitySteeringRatio : steeringRatio) * 7 * Time.fixedDeltaTime;
+            currentAngle += leftHit ? rightHit ? leftHit.distance > rightHit.distance ? addedSteerAngle : -addedSteerAngle : -addedSteerAngle : rightHit ? addedSteerAngle : -addedSteerAngle;
+            currentDirection = DirectionFromAngle(currentAngle);
+        }
 
-        if(!isDying)
+        if (!isDying)
         {
             rb.velocity = currentDirection * currentSpeed;
         }
@@ -173,12 +165,15 @@ public class Serpent : Enemy
             movementTrailPos.Add(Vector2.Lerp(previousHeadPos, transform.position, (float)(i + 1)/10));
         }
 
-        previousHeadPos = transform.position;
+        if(!isDying)
+        {
+            previousHeadPos = transform.position;
 
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
-        isFacingLeft = currentDirection.x < 0;
+            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rb.velocity));
+            isFacingLeft = currentDirection.x < 0;
 
-        UpdateBodyPos();
+            UpdateBodyPos();
+        }
     }
 
     protected override void UpdateBehavior()
@@ -235,9 +230,11 @@ public class Serpent : Enemy
             Physics2D.OverlapCollider(headSpikesCollider, playerFilter, colliders);
             if (colliders.Count > 0)
             {
+                GameData.pierceHandler.isPiercing = false;
                 GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
                 currentSpeed = 0;
             }
+            isProtected = true;
         }
         else
         {
@@ -248,8 +245,16 @@ public class Serpent : Enemy
             }
             inactiveSpikeTimeElapsed += Time.fixedDeltaTime;
             spikeDisplay.SetActive(false);
+
+            if(currentSheepShield != null && currentSheepShield.isActive)
+            {
+                isProtected = true;
+            }
+            else
+            {
+                isProtected = false;
+            }
         }
-        isProtected = isSpikesActive;
     }
 
     public void DisableSpikes()
@@ -284,11 +289,6 @@ public class Serpent : Enemy
                 }
             }
         }
-        
-        for (int i = 0; i < movementTrailPos.Count; i++)
-        {
-            //Debug.DrawRay(movementTrailPos[i], Vector3.up * 0.1f, Color.blue);
-        }
     }
 
     public override void DamageEffect()
@@ -304,10 +304,28 @@ public class Serpent : Enemy
             bodiesAnimator[i].SetBool("Dead", true);
         }
     }
+    protected override void OnActivate()
+    {
+        rb.WakeUp();
+    }
 
     private void OnDestroy()
     {
         Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
+    {
+        if (!isProtected)
+        {
+            triggerSlowMo = true;
+            TakeDamage(damage, 0.5f);
+        }
+        else
+        {
+            triggerSlowMo = false;
+        }
+        return isSpikesActive;
     }
 
     private void UpdateVisuals()

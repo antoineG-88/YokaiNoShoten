@@ -12,6 +12,11 @@ public class PlayerManager : MonoBehaviour
     public SpriteRenderer healthPointsDisplay;
     public float stunTime;
     public float damageInvulnerableTime;
+    public ParticleSystem healParticle;
+    public float deathTimeBeforeRespawn;
+    public float deathFadeTime;
+    public Material playerMaterial;
+    public ParticleSystem deathParticle;
     [Tooltip("Press start in game to activate")]
     public bool enableGodMode;
     public int godModeLayer;
@@ -24,6 +29,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public int isGrabbingTorch;
     [HideInInspector] public bool isInGodMode;
     [HideInInspector] public bool isBeingKnocked;
+    [HideInInspector] public bool isDying;
 
     private float invulnerableTimeRemaining;
     private int basePlayerLayer;
@@ -35,6 +41,7 @@ public class PlayerManager : MonoBehaviour
         invulnerable = false;
         basePlayerLayer = gameObject.layer;
         invulnerableTimeRemaining = 0;
+        playerMaterial.SetFloat("_deadOrAlive", 1);
     }
 
     void Update()
@@ -58,7 +65,7 @@ public class PlayerManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) && enableGodMode)
         {
-            Die();
+            StartCoroutine(Die());
         }
 
         RefreshHealthPointDisplay();
@@ -68,7 +75,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsPlayerInWall() && !isInGodMode)
         {
-            Die();
+            //Die();
         }
 
         GameData.playerSource.pitch = Time.timeScale;
@@ -83,7 +90,11 @@ public class PlayerManager : MonoBehaviour
             currentHealthPoint -= damage;
             if (currentHealthPoint <= 0)
             {
-                Die();
+                StartCoroutine(Die());
+            }
+            else
+            {
+
             }
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.animator.SetTrigger("Hurt");
@@ -101,6 +112,7 @@ public class PlayerManager : MonoBehaviour
     {
         currentHealthPoint += healAmount;
         currentHealthPoint = Mathf.Clamp(currentHealthPoint, 0, maxHealthPoint);
+        healParticle.Play();
     }
 
     private void RefreshHealthPointDisplay()
@@ -125,9 +137,32 @@ public class PlayerManager : MonoBehaviour
         }*/
     }
 
-    public void Die()
+    public IEnumerator Die()
     {
-        Debug.Log("You died");
+        inControl = false;
+        GameData.grappleHandler.hideAimArrow++;
+        GameData.playerVisuals.animator.SetBool("IsDying", true);
+        isDying = true;
+        float timer = 0;
+        deathParticle.Play();
+        while (timer < deathTimeBeforeRespawn)
+        {
+            playerMaterial.SetFloat("_deadOrAlive", Mathf.Lerp(1, 0, timer / deathTimeBeforeRespawn));
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+
+        timer = 0;
+        BlackScreenManager.blackScreen.color = Color.clear;
+        while (timer < deathFadeTime)
+        {
+            BlackScreenManager.blackScreen.color = Color.Lerp(Color.clear, GameData.levelManager.transitionScreenColor, timer / deathFadeTime);
+
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+        BlackScreenManager.blackScreen.color = GameData.levelManager.transitionScreenColor;
+
         GameManager.Respawn();
     }
 
@@ -135,14 +170,18 @@ public class PlayerManager : MonoBehaviour
     {
         inControl = false;
         yield return new WaitForSeconds(time);
-        inControl = true;
+        if(!isDying)
+        {
+            inControl = true;
+        }
     }
 
     public IEnumerator KnockawayTime(float time)
     {
         isBeingKnocked = true;
         yield return new WaitForSeconds(time);
-        isBeingKnocked = false;
+        if(!isDying)
+            isBeingKnocked = false;
     }
 
     private bool IsPlayerInWall()

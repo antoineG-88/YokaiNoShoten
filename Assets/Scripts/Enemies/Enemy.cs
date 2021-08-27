@@ -14,6 +14,8 @@ public abstract class Enemy : Piercable
     public List<SpriteRenderer> enemySprites;
     public float dissolveTime;
     public float apparitionTime;
+    public bool doGoFantomWhenProtected;
+    public int enemyFantomLayerNumber;
     [Header("Sounds")]
     public Sound deathSound;
     public Sound provokedSound;
@@ -48,7 +50,7 @@ public abstract class Enemy : Piercable
     [HideInInspector]
     public bool isProtected;
 
-    [HideInInspector] public bool provoked;
+    public bool provoked;
     protected Vector2 initialPos;
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool isDying;
@@ -57,6 +59,7 @@ public abstract class Enemy : Piercable
     [HideInInspector] public Material material;
     [HideInInspector] public AudioSource source;
     private bool provokeFlag;
+    private int startLayer;
 
     public ParticleSystem deathParticle;
     float shapeAngle;
@@ -90,7 +93,7 @@ public abstract class Enemy : Piercable
             enemySprites[i].sharedMaterial = material;
         }
 
-
+        startLayer = gameObject.layer;
     }
     protected void Update()
     {
@@ -229,6 +232,21 @@ public abstract class Enemy : Piercable
         {
             provokeFlag = true;
         }
+
+        if(!intargetable)
+        {
+            if (doGoFantomWhenProtected)
+            {
+                if (isProtected)
+                {
+                    gameObject.layer = enemyFantomLayerNumber;
+                }
+                else if (gameObject.layer != startLayer)
+                {
+                    gameObject.layer = startLayer;
+                }
+            }
+        }
     }
 
     public void TakeDamage(int damage, float noControlTime)
@@ -240,8 +258,6 @@ public abstract class Enemy : Piercable
             if (!isProtected)
             {
                 currentHealthPoint -= damage;
-                if(animator != null)
-                    animator.SetTrigger("Hurt");
                 StartCoroutine(NoControl(noControlTime));
                 if (currentHealthPoint <= 0)
                 {
@@ -373,6 +389,7 @@ public abstract class Enemy : Piercable
         if (animator != null)
             animator.SetBool("Dead",true);
         isDying = true;
+        gameObject.layer = enemyFantomLayerNumber;
         doNotReableCollider = true;
         shapeAngle = Vector2.SignedAngle(Vector2.right, GameData.pierceHandler.piercableDirection);
         if (deathParticle != null)
@@ -415,6 +432,7 @@ public abstract class Enemy : Piercable
     public IEnumerator Activate()
     {
         prefabObject.SetActive(true);
+        OnActivate();
         inControl = false;
         float timer = 0;
         while (timer < apparitionTime)
@@ -425,6 +443,11 @@ public abstract class Enemy : Piercable
         }
         material.SetFloat("_dissolve", 1);
         inControl = true;
+    }
+
+    protected virtual void OnActivate()
+    {
+        
     }
 
     public void Deactivate()
@@ -438,17 +461,17 @@ public abstract class Enemy : Piercable
         Gizmos.DrawWireSphere(transform.position, movementZoneRadius);
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         if (!isProtected)
         {
+            triggerSlowMo = true;
             TakeDamage(damage, 0.5f);
         }
         else
         {
-            //Propel(directedForce);
-            //StartCoroutine(NoControl(0.3f));
+            triggerSlowMo = false;
         }
-        return isProtected;
+        return false;
     }
 }

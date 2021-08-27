@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5735401736421732534}
   - component: {fileID: 6212043412841279488}
   - component: {fileID: 1191131659}
-  - component: {fileID: 8679734692064152272}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -66,6 +65,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowMoInitialRatio: 0.15
   smoothTime: 0.05
+  baseProfile: {fileID: 11400000, guid: 87199316fa05e02479b56eb01a7223ad, type: 2}
+  slowMoStartProfile: {fileID: 11400000, guid: 0e3622192699b3446a9a58df5ee792a3, type: 2}
+  volume: {fileID: 0}
+  slowMoEffectLerpRatio: 10
   inSlowMo: 0
 --- !u!114 &5735401736421732534
 MonoBehaviour:
@@ -81,11 +84,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
   transitionTime: 1
-  decoSceneIndex: 0
-  decoScenePath: 
-  zoneName: default
+  decoSceneIndex: 8
+  decoScenePath: Assets/_Scenes/DecoScenes/Deco_Niveau3.unity
+  zoneName: Village
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
+  doNotSaveEnnemiesDeath: 0
   decoScene:
     m_Handle: 43
 --- !u!114 &6212043412841279488
@@ -100,28 +104,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fad56d1d41ece42b6996de04942ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeakingSpeed: 30
+  baseSpeakingSpeed: 60
   baseSpeakPauseTime: 0.3
   minTimeToPass: 0.1
+  manualSeikiReaction: 0
   dialogText: {fileID: 0}
   seikiFaceImage: {fileID: 0}
   dialogBox: {fileID: 0}
   dialogPanel: {fileID: 0}
   nameText: {fileID: 0}
   characterFace: {fileID: 0}
+  nextImage: {fileID: 0}
   neutralFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
-  happyFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
-  sadFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
-  angryFace: {fileID: 21300000, guid: 9df00edcab046f6439f2c7bb41877206, type: 3}
+  happyFace: {fileID: 21300000, guid: 570647f5a84aff443ac7eea586e6cf5b, type: 3}
+  sadFace: {fileID: 21300000, guid: d317d0974496b1843825f59d4de3005d, type: 3}
+  angryFace: {fileID: 21300000, guid: f594735a71216104eae934b064f6f33d, type: 3}
+  okFace: {fileID: 21300000, guid: 3a0a595aaef5fdb45abfb905ed62c91f, type: 3}
+  questionFace: {fileID: 21300000, guid: 60b44c59cbc624d428e285ca6a4faae6, type: 3}
+  shockedFace: {fileID: 21300000, guid: 9df00edcab046f6439f2c7bb41877206, type: 3}
+  cryFace: {fileID: 21300000, guid: 4d1b82a3175845f458087a533d68c920, type: 3}
   characterFaces:
   - characterName: Dash
     face: {fileID: 21300000, guid: 861cfc88ec9dc104f88bbf21c5149010, type: 3}
   - characterName: Tekuno
     face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
-  - characterName: Dorima
+  - characterName: "Dor\u012Bm\u0101"
     face: {fileID: 21300000, guid: 7106ce99c0c86424aabeb799bb232232, type: 3}
   - characterName: "Ra\xEFdo"
     face: {fileID: 21300000, guid: beabb2d06acbbb34685381c300fdc1d2, type: 3}
+  - characterName: Kage
+    face: {fileID: 21300000, guid: de9299e34f495cb49b142033a01560d6, type: 3}
+  - characterName: Jeune Yokai
+    face: {fileID: 21300000, guid: 3a40942629a4e94448be2e6b6fa899e8, type: 3}
+  - characterName: Sentinel
+    face: {fileID: 21300000, guid: 30d87d1fc65e7b34a981f034c0b385c9, type: 3}
+  - characterName: Voix inconnu
+    face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
 --- !u!82 &1191131659
 AudioSource:
@@ -134,9 +152,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 49239355547644364, guid: 9c6544e17c2017044b68bf43d09eda2d,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: c11e8c834dd417e4695dcb2995093245, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4eb0bcac80467b74c8e3754eb36a5047, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.084
+  m_Volume: 0.299
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -220,17 +238,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8679734692064152272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3267245876046976401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb7f1ac387b15af48bc3c4a65f3eafdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 0}
-  pauseButton: {fileID: 0}

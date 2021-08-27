@@ -118,91 +118,98 @@ public class MovementHandler : MonoBehaviour
         }
         else
         {
-            if (groundRb != null)
+            if(GameData.playerManager.isDying)
             {
-                relativeVelocity = rb.velocity - groundRb.velocity;
+
             }
             else
             {
-                relativeVelocity = rb.velocity;
-            }
-
-            if (horizontalTargetSpeed != relativeVelocity.x)
-            {
-                currentAcceleration = (currentGravityZone != null || levitateSourceNumber > 0) ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
-                currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
-
-                forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
-                if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
+                if (groundRb != null)
                 {
-                    horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
+                    relativeVelocity = rb.velocity - groundRb.velocity;
                 }
                 else
                 {
-                    horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
+                    relativeVelocity = rb.velocity;
                 }
 
-
-                if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
+                if (horizontalTargetSpeed != relativeVelocity.x)
                 {
-                    rb.velocity = new Vector2((groundRb != null ? groundRb.velocity.x : 0) + horizontalTargetSpeed, rb.velocity.y);
-                }
-                else
-                {
-                    rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
-                }
-            }
-            else if (groundRb != null)
-            {
-                rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
-            }
+                    currentAcceleration = (currentGravityZone != null || levitateSourceNumber > 0) ? 0 : (isGrounded ? (isOnSlidingSlope ? slideAcceleration : walkingAcceleration) : airAcceleration);
+                    currentSlowing = isGrounded ? isOnSlidingSlope ? slideSlowing : groundSlowing : airSlowing;
 
-            if (isGrounded && isOnSlidingSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
-            }
-
-            isAffectedbyGravity = !GameData.pierceHandler.isPiercing
-                && !GameData.dashHandler.isDashing
-                && !GameData.grappleHandler.isTracting
-                && currentGravityZone == null
-                && levitateSourceNumber <= 0
-                && !(IsOnSlope() && isInSlidingZone == 0 && horizontalTargetSpeed == 0 && isGrounded);
-
-            levitateSourceNumber = Mathf.Clamp(levitateSourceNumber, 0, 100);
-            if (isAffectedbyGravity)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
-            }
-
-            if (currentGravityZone != null)
-            {
-                if (!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
-                {
-                    if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone + (currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime))
+                    forceSign = Mathf.Sign(horizontalTargetSpeed - relativeVelocity.x);
+                    if (horizontalTargetSpeed > 0 && relativeVelocity.x < horizontalTargetSpeed || horizontalTargetSpeed < 0 && relativeVelocity.x > horizontalTargetSpeed && canMove && GameData.playerManager.inControl)
                     {
-                        rb.velocity -= rb.velocity.normalized * currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime;
+                        horizontalForce = forceSign * currentAcceleration * Time.fixedDeltaTime;
                     }
-                    else if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone)
+                    else
                     {
-                        rb.velocity = rb.velocity.normalized * currentGravityZone.maxSpeedInNGZone;
+                        horizontalForce = forceSign * currentSlowing * Time.fixedDeltaTime;
                     }
-                    else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone + (currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime))
+
+
+                    if (horizontalTargetSpeed > relativeVelocity.x && horizontalTargetSpeed < relativeVelocity.x + horizontalForce || horizontalTargetSpeed < relativeVelocity.x && horizontalTargetSpeed > relativeVelocity.x + horizontalForce)
                     {
-                        rb.velocity -= rb.velocity.normalized * currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime;
+                        rb.velocity = new Vector2((groundRb != null ? groundRb.velocity.x : 0) + horizontalTargetSpeed, rb.velocity.y);
                     }
-                    else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone)
+                    else
                     {
-                        rb.velocity = rb.velocity.normalized * currentGravityZone.minSpeedInNGZone;
+                        rb.velocity = new Vector2(rb.velocity.x + horizontalForce, rb.velocity.y);
                     }
                 }
-            }
-
-            if (!isGrounded)
-            {
-                if(rb.velocity.y < -maxFallingSpeed && GameData.playerManager.inControl && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.playerManager.isBeingKnocked && !GameData.grappleHandler.isTracting)
+                else if (groundRb != null)
                 {
-                    rb.velocity = rb.velocity * Mathf.Abs(maxFallingSpeed / -rb.velocity.y);
+                    rb.velocity = new Vector2(groundRb.velocity.x + horizontalTargetSpeed, rb.velocity.y);
+                }
+
+                if (isGrounded && isOnSlidingSlope && !GameData.dashHandler.isDashing && rb.velocity.magnitude > maxSlidingSpeed)
+                {
+                    rb.velocity = rb.velocity.normalized * maxSlidingSpeed;
+                }
+
+                isAffectedbyGravity = !GameData.pierceHandler.isPiercing
+                    && !GameData.dashHandler.isDashing
+                    && !GameData.grappleHandler.isTracting
+                    && currentGravityZone == null
+                    && levitateSourceNumber <= 0
+                    && !(IsOnSlope() && isInSlidingZone == 0 && horizontalTargetSpeed == 0 && isGrounded);
+
+                levitateSourceNumber = Mathf.Clamp(levitateSourceNumber, 0, 100);
+                if (isAffectedbyGravity)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityForce * Time.fixedDeltaTime);
+                }
+
+                if (currentGravityZone != null)
+                {
+                    if (!GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.grappleHandler.isTracting && !isKnockedAway)
+                    {
+                        if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone + (currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime))
+                        {
+                            rb.velocity -= rb.velocity.normalized * currentGravityZone.aboveMaxMomentumSlowingForce * Time.fixedDeltaTime;
+                        }
+                        else if (rb.velocity.magnitude > currentGravityZone.maxSpeedInNGZone)
+                        {
+                            rb.velocity = rb.velocity.normalized * currentGravityZone.maxSpeedInNGZone;
+                        }
+                        else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone + (currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime))
+                        {
+                            rb.velocity -= rb.velocity.normalized * currentGravityZone.momentumSlowingForce * Time.fixedDeltaTime;
+                        }
+                        else if (rb.velocity.magnitude > currentGravityZone.minSpeedInNGZone)
+                        {
+                            rb.velocity = rb.velocity.normalized * currentGravityZone.minSpeedInNGZone;
+                        }
+                    }
+                }
+
+                if (!isGrounded)
+                {
+                    if (rb.velocity.y < -maxFallingSpeed && GameData.playerManager.inControl && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.playerManager.isBeingKnocked && !GameData.grappleHandler.isTracting)
+                    {
+                        rb.velocity = rb.velocity * Mathf.Abs(maxFallingSpeed / -rb.velocity.y);
+                    }
                 }
             }
         }
@@ -223,7 +230,7 @@ public class MovementHandler : MonoBehaviour
     private float timeSinceLastStep;
     private void UpdateSounds()
     {
-        if(isGrounded && horizontalTargetSpeed != 0)
+        if(isGrounded && horizontalTargetSpeed != 0 && !isOnSlidingSlope)
         {
             if(timeSinceLastStep > baseTimeBtwFootStep/* / Mathf.Abs(horizontalTargetSpeed)*/)
             {
@@ -300,7 +307,18 @@ public class MovementHandler : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        canMove = true;
-        isKnockedAway = false;
+        if(!GameData.playerManager.isDying)
+        {
+            canMove = true;
+            isKnockedAway = false;
+        }
+        else
+        {
+            /*while(true)
+            {
+                rb.velocity = Vector2.zero;
+                yield return new WaitForFixedUpdate();
+            }*/
+        }
     }
 }

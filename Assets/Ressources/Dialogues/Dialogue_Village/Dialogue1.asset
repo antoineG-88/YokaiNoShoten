@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialogue1
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Village/Dialogue_Village_1
+    - Feuille 1.tsv
+  sentences:
+  - sentence: "Depuis que ce Selvos t\u2019as parl\xE9, je te sens tiraill\xE9."
+    characterName: Kage
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: Je pense que nous te devons des explications.
+    characterName: Kage
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: "Comme tu le sais, je suis le premier Yokai a \xEAtre n\xE9. J\u2019ai
+      v\xE9cu plusieurs vies au fur et \xE0 mesure de mes r\xE9surrections. "
+    characterName: Kage
+    seikiReaction: 1
+    speakingSpeed: 1
+  - sentence: "Un beau jour, l\u2019arbre Zenchi m\u2019a choisi pour devenir sa
+      voix. _ J\u2019ai acquis des connaissances inimaginables et atteint un statut
+      au fronti\xE8re de la vie et la mort. "
+    characterName: Kage
+    seikiReaction: 1
+    speakingSpeed: 1
+  - sentence: "C'est \xE0 partir de ce moment l\xE0 que j\u2019ai commenc\xE9 \xE0 
+      guider les Yokai dans leur \xE9volution."
+    characterName: Kage
+    seikiReaction: 1
+    speakingSpeed: 1
+  - sentence: "Ce que tu ne sais pas c\u2019est que je suis li\xE9 \xE0 l\u2019arbre.
+      Je connais toute son histoire et il conna\xEEt toute la mienne. C\u2019est
+      gr\xE2ce \xE0 ce lien que je sais d\u2019o\xF9 viennent ces Selvos."
+    characterName: Kage
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: "On vous a toujours dis que les racines de l\u2019arbre Zenchi vont
+      tr\xE8s loin dans la terre et grandissent jour apr\xE8s jour. "
+    characterName: Kage
+    seikiReaction: 4
+    speakingSpeed: 1
+  - sentence: "Cependant, un jour semblable aux autres, l\u2019une de ces racines
+      a rencontr\xE9 une \xE9trange esp\xE8ce vivante. Elle \xE9tait faible, voire
+      m\xEAme \xE0 l\u2019agonie. "
+    characterName: Kage
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: "L\u2019arbre les a observ\xE9 un moment, puis, pris de piti\xE9, il
+      leur a offert un fragment d\u2019\xE9nergie afin de les faire vivre et prosp\xE9rer."
+    characterName: Kage
+    seikiReaction: 6
+    speakingSpeed: 1
+  - sentence: "Comme pr\xE9vu, les Selvos se sont mis \xE0 prosp\xE9rer peu \xE0
+      peu. Ils ont b\xE2ti une petite civilisation qui a continu\xE9 \xE0 se d\xE9velopper
+      gr\xE2ce \xE0 l\u2019\xE9nergie de l\u2019arbre. "
+    characterName: Kage
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: "Malgr\xE9 \xE7a, comme toute civilisation grandissante, le d\xE9sir
+      d\u2019avoir plus de pouvoir est n\xE9 chez certains. Des clans se sont form\xE9s,
+      et des affrontements ont eu lieu. "
+    characterName: Kage
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: "Ces affrontements se sont transform\xE9s en guerres qui ont d\xE9truit
+      les Selvos \xE0 petit feu."
+    characterName: Kage
+    seikiReaction: 6
+    speakingSpeed: 1
+  - sentence: "L\u2019arbre Zenchi, devant ce spectacle, a eu le c\u0153ur bris\xE9.
+      Il a d\xE9cid\xE9 de se retirer, les laissant livr\xE9s \xE0 eux m\xEAme dans
+      leur guerre destructrice."
+    characterName: Kage
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: "On n\u2019a plus jamais entendu parler des Selvos avant qu\u2019ils
+      sortent de terre, escaladent l\u2019arbre et attaquent notre village."
+    characterName: Kage
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: "L\u2019arbre Zenchi, aussi sage soit-il, ne pensait pas que cette
+      erreur se r\xE9percuterait sur vous."
+    characterName: Kage
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: "Depuis cette attaque, _ il a cess\xE9 de me parler. _"
+    characterName: Kage
+    seikiReaction: 6
+    speakingSpeed: 1
+  - sentence: "Tu connais maintenant la cause de tous ces \xE9v\xE9nements."
+    characterName: Kage
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: Je te laisse continuer ta route.
+    characterName: Kage
+    seikiReaction: 4
+    speakingSpeed: 1

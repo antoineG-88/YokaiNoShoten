@@ -11,12 +11,12 @@ public class GrappleHandler : MonoBehaviour
     public float releasingHookDist;
     public float minAttachDistance;
     public bool keepAim;
+    public bool canAttachProtectedEnnemies;
     [Space]
     [Header("Momentum settings")]
     public float tractionForce;
     public float slowingForce;
     public float maxTractionSpeed;
-    public float noGravityMaxTractionSpeed;
     public float startTractionPropulsion;
     public float minDistanceToAccelerate;
     [Space]
@@ -58,6 +58,7 @@ public class GrappleHandler : MonoBehaviour
     private float aimAssistFirstAngle;
     private Vector2 shootDirection;
     private List<GameObject> allPossibleRings;
+    [HideInInspector] public float noGravityMaxTractionSpeed;
     [HideInInspector] public bool isHooked;
     [HideInInspector] public GameObject attachedObject;
     [HideInInspector] public Vector2 tractionDirection;
@@ -65,6 +66,7 @@ public class GrappleHandler : MonoBehaviour
     [HideInInspector] public bool canUseTraction;
     [HideInInspector] public bool canShoot;
     [HideInInspector] public bool isSucked;
+    [HideInInspector] public int hideAimArrow;
 
     private Material ropeMaterial;
     private float ropeAppearState;
@@ -109,6 +111,9 @@ public class GrappleHandler : MonoBehaviour
         HookManager();
     }
 
+    RaycastHit2D hit;
+    RaycastHit2D directHit;
+    Vector2 directDirection;
     void AimManager()
     {
         if (timeBeforeNextShoot > 0)
@@ -145,9 +150,9 @@ public class GrappleHandler : MonoBehaviour
 
                 selectedObject = null;
 
-                RaycastHit2D hit;
                 float minAngleFound = aimAssistAngle;
                 allPossibleRings.Clear();
+
                 for (int i = 0; i < aimAssistRaycastNumber; i++)
                 {
                     float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
@@ -167,12 +172,20 @@ public class GrappleHandler : MonoBehaviour
                     {
                         if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall" && LayerMask.LayerToName(hit.collider.gameObject.layer) != "DashWall") && selectedObject != hit.collider.gameObject && GameData.cameraHandler.IsPointInCameraView(hit.collider.transform.position, 1.0f))
                         {
-                            allPossibleRings.Add(hit.collider.gameObject);
+                            directDirection = hit.collider.transform.position - transform.position;
+                            directDirection.Normalize();
+                            directHit = Physics2D.Raycast(transform.position, directDirection, maxGrappleRange, LayerMask.GetMask("Ring", "Wall", "Enemy", "DashWall"));
 
-                            if(Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+
+                            if(directHit && (LayerMask.LayerToName(directHit.collider.gameObject.layer) != "Wall" && LayerMask.LayerToName(directHit.collider.gameObject.layer) != "DashWall"))
                             {
-                                selectedObject = hit.collider.gameObject;
-                                minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                                allPossibleRings.Add(hit.collider.gameObject);
+
+                                if (Vector2.Angle(direction, aimDirection) < minAngleFound)
+                                {
+                                    selectedObject = hit.collider.gameObject;
+                                    minAngleFound = Vector2.Angle(direction, aimDirection);
+                                }
                             }
                         }
                     }
@@ -226,14 +239,17 @@ public class GrappleHandler : MonoBehaviour
                             AttachHook(selectedObject);
                         }
 
+                        bool isAttachCanceled = false;
                         RaycastHit2D antiGrabWallHit = Physics2D.Raycast(transform.position, selectedObjectDirection, Vector2.Distance(selectedObject.transform.position, transform.position), LayerMask.GetMask("AntiGrabWall"));
                         if (antiGrabWallHit)
                         {
+                            isAttachCanceled = true;
                             BreakRope("AntigrabWall traversed");
                             antiGrabWallHit.collider.GetComponent<AntiGrappleWall>().PlayFeedBack();
                         }
                         else if (isSucked)
                         {
+                            isAttachCanceled = true;
                             BreakRope("nope u suck");
                         }
                         else if(attachedObject.CompareTag("Enemy"))
@@ -241,8 +257,14 @@ public class GrappleHandler : MonoBehaviour
                             Enemy attachedEnemy = attachedObject.GetComponent<Enemy>();
                             if(attachedEnemy != null && attachedEnemy.isProtected)
                             {
+                                isAttachCanceled = true;
                                 BreakRope("enemy is protected");
                             }
+                        }
+
+                        if(!isAttachCanceled)
+                        {
+                            GameData.dashHandler.canDash = true;
                         }
                     }
                 }
@@ -255,7 +277,7 @@ public class GrappleHandler : MonoBehaviour
         else
         {
             ringHighLighterO.SetActive(false);
-            if(!alwaysDisplayAim)
+            if(!alwaysDisplayAim || hideAimArrow > 0)
                 aimArrow.SetActive(false);
             isAiming = false;
         }
@@ -408,10 +430,6 @@ public class GrappleHandler : MonoBehaviour
             grappleLoopSource.Play();
         }
 
-        if (isSucked == false)
-        {
-            GameData.dashHandler.canDash = true;
-        }
         GameData.pierceHandler.canPierce = true;
     }
 

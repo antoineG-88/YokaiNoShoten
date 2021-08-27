@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialog_Sentinel_After_BreakingMachine
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/BossFinal/Dialogue_Extraction_3 - Feuille
+    1.tsv
+  sentences:
+  - sentence: "Tu savais ce que tu faisais... _ Et pourtant tu n'as pas recul\xE9...
+      _ Notre m\xE9thode \xE9tait peut-\xEAtre violente, mais nous ne pouvions plus
+      vivre comme \xE7a. "
+    characterName: Sentinel
+    seikiReaction: 7
+    speakingSpeed: 1
+  - sentence: "J'ai d\xFB prendre des d\xE9cisions pour sauver les miens, _ au d\xE9triment
+      des tiens..."
+    characterName: Sentinel
+    seikiReaction: 7
+    speakingSpeed: 1
