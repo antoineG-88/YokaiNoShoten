@@ -33,9 +33,10 @@ public class PauseManager : MonoBehaviour
     }
     public void Pause()
     {
+        buttons.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
         eventSystem.firstSelectedGameObject = pauseButton;
         eventSystem.SetSelectedGameObject(pauseButton);
-        buttons.SetActive(true);
         Time.timeScale = 0;
         isPaused = true;
         GameData.playerManager.inControl = false;
