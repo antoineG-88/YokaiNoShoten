@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialogue5_Labo
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_4 - Feuille
+    1 (1).tsv
+  sentences:
+  - sentence: "Je suis le mod\xE8le Sentinel. J'ai \xE9t\xE9 \xE9lu pour diriger
+      la tour."
+    characterName: Sentinel
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: Je sais que tu viens pour prendre le coeur. Je te demande de ne pas
+      le faire.
+    characterName: Sentinel
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: 'Il nous est vital. '
+    characterName: Sentinel
+    seikiReaction: 5
+    speakingSpeed: 1
