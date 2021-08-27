@@ -10,6 +10,7 @@ public class WaveHandler : Switch
     public Door backDoorToClose;
     public CheckPoint checkPointToRespawn;
     public Sound nextWaveSound;
+    public Transform posToRespawn;
 
     [Header("Testing options")]
     public int skipToWave;
@@ -161,7 +162,8 @@ public class WaveHandler : Switch
         if (skipToWave> 0)
         {
             currentWaveIndex = skipToWave;
-        }
+            GameData.player.transform.position = posToRespawn.position;
+}
         else
         {
             currentWaveIndex = 0;

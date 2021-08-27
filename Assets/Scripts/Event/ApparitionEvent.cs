@@ -49,7 +49,7 @@ public class ApparitionEvent : EventPart
         base.StartEventPart();
         currentStep = 0;
         timeElasped = 0;
-        animatorToAppear.gameObject.SetActive(disappear);
+        //animatorToAppear.gameObject.SetActive(disappear);
     }
     public override void EndEventPart()
     {
