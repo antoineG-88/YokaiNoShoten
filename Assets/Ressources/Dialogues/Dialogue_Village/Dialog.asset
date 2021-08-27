@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialog
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Village/Dialogue_Village_3
+    - Feuille 1.tsv
+  sentences:
+  - sentence: "F\xE9licitations Seiki ! Tu arrives maintenant \xE0 l\u2019\xE9tape
+      finale de ta mission."
+    characterName: Kage
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: "L\xE0-haut, _ un choix difficile t\u2019attend."
+    characterName: Kage
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: "Ce que tu vas faire permettra de relancer le cycle de la vie et corrigera
+      toutes les erreurs qui ont \xE9t\xE9 commises. _ Mais en contrepartie, il faudra
+      repartir de z\xE9ro."
+    characterName: Kage
+    seikiReaction: 6
+    speakingSpeed: 1
+  - sentence: "Maintenant va Seiki, je ne te retiens pas plus longtemps. _ Il est
+      temps de les arr\xEAter."
+    characterName: Kage
+    seikiReaction: 4
+    speakingSpeed: 1
+  - sentence: "Puissiez-vous vivre en paix apr\xE8s tout \xE7a."
+    characterName: Kage
+    seikiReaction: 1
+    speakingSpeed: 1
