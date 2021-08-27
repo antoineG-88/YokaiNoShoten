@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class PauseManager : MonoBehaviour
 {
-    public GameObject pauseMenu;
     private bool isPaused;
     private EventSystem eventSystem;
     public GameObject pauseButton;
@@ -34,26 +33,26 @@ public class PauseManager : MonoBehaviour
     }
     public void Pause()
     {
-        pauseMenu.SetActive(true);
+        eventSystem.firstSelectedGameObject = pauseButton;
+        eventSystem.SetSelectedGameObject(pauseButton);
+        buttons.SetActive(true);
         Time.timeScale = 0;
         isPaused = true;
         GameData.playerManager.inControl = false;
-        eventSystem.firstSelectedGameObject = pauseButton;
-        eventSystem.SetSelectedGameObject(pauseButton);
     }
 
     public void Resume()
     {
+        optionMenu.SetActive(false);
+        buttons.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;
         GameData.playerManager.inControl = true;
-        optionMenu.SetActive(false);
-        buttons.SetActive(true);
-        pauseMenu.SetActive(false);
     }
 
     public void ReturntoMenu()
     {
+        Time.timeScale = 1;
         isPaused = false;
         SceneManager.LoadScene(0);
     }
