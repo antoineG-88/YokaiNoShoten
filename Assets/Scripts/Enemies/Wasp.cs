@@ -302,11 +302,16 @@ public class Wasp : Enemy
         rb.velocity = Vector2.zero;
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         if (!isProtected)
         {
+            triggerSlowMo = true;
             TakeDamage(damage, 0.5f);
+        }
+        else
+        {
+            triggerSlowMo = false;
         }
         return isAttacking;
     }

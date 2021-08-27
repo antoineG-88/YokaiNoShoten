@@ -117,7 +117,7 @@ public class BlackHole : Piercable
     }
 
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         SetFree();
         return false;

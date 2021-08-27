@@ -15,6 +15,8 @@ public class TorchSystem : Switch
     public float torchLerpRatio;
     public List<Sprite> torchLightStepsSprites;
     public Animator animator;
+    public Material torchTrailMaterial;
+    public TrailRenderer torchTrail;
 
     private ContactFilter2D playerFilter;
     [HideInInspector] public bool isTorchGrabbed;
@@ -34,6 +36,8 @@ public class TorchSystem : Switch
             light.torchSystem = this;
         }
         colliders = new List<Collider2D>();
+        torchTrailMaterial = Instantiate(torchTrailMaterial);
+        torchTrail.sharedMaterial = torchTrailMaterial;
     }
 
     private void Update()
@@ -120,11 +124,15 @@ public class TorchSystem : Switch
 
             torchSprite.sprite = torchLightStepsSprites[(int)s];
 
+            torchTrailMaterial.SetFloat("_mainThickness", Mathf.Lerp(1, 0.7f, timeElapsedSinceGrab / torchMaxTime));
+            torchTrail.sharedMaterial = torchTrailMaterial;
         }
         else
         {
             torchTargetPos = transform.position;
             torchSprite.sprite = torchLightStepsSprites[0];
+            torchTrailMaterial.SetFloat("_mainThickness", 1);
+            torchTrail.sharedMaterial = torchTrailMaterial;
         }
 
         torch.transform.position = Vector2.Lerp(torch.transform.position, torchTargetPos, torchLerpRatio * Time.fixedDeltaTime);
@@ -155,7 +163,7 @@ public class TorchSystem : Switch
         }
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
     }

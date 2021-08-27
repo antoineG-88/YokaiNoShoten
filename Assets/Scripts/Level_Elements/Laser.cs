@@ -28,6 +28,8 @@ public class Laser : MonoBehaviour
     public float disablingDistance;
     public bool doNotUseDistanceDisabling;
 
+    public ParticleSystem endBeamParticle;
+
     private Vector2 currentDirection;
     private float beamLength;
     private int beamFxNumber;
@@ -122,7 +124,13 @@ public class Laser : MonoBehaviour
                 GameData.playerManager.TakeDamage(1, knockbackDirection * knockbackDistance);
             }
 
+            if(!endBeamParticle.isPlaying)
+            {
+                endBeamParticle.Play();
+            }
 
+            endBeamParticle.transform.position = hit.point;
+            endBeamParticle.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, hit.normal));
 
             if(usePixelBeam)
             {
@@ -198,6 +206,11 @@ public class Laser : MonoBehaviour
             {
             }
             boxCollider.enabled = false;
+
+            if (endBeamParticle.isPlaying)
+            {
+                endBeamParticle.Stop();
+            }
         }
 
         if (isActive)

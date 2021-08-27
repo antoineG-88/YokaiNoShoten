@@ -17,6 +17,7 @@ public class DialogManager : MonoBehaviour
     public GameObject dialogPanel;
     public Text nameText;
     public Image characterFace;
+    public Image nextImage;
     [Space]
     public Sprite neutralFace;
     public Sprite happyFace;
@@ -25,11 +26,12 @@ public class DialogManager : MonoBehaviour
     public Sprite okFace;
     public Sprite questionFace;
     public Sprite shockedFace;
+    public Sprite cryFace;
     public List<CharacterFace> characterFaces;
 
     public Dialog testDialog;
 
-    public enum SeikiEmote { Neutral, Happy, Sad, Angry, Ok, Question, Shocked}
+    public enum SeikiEmote { Neutral, Happy, Sad, Angry, Ok, Question, Shocked, Cry}
 
     private bool isInDialogue;
     private Dialog currentDialog;
@@ -75,6 +77,7 @@ public class DialogManager : MonoBehaviour
                 seikiFaceImage.sprite = neutralFace;
                 nameText.text = string.Empty;
                 endDialCallback = endDial;
+                nextImage.gameObject.SetActive(false);
             }
         }
         else
@@ -102,6 +105,7 @@ public class DialogManager : MonoBehaviour
                 timeElapsedOnSentence = 0;
                 if(seikiReacting)
                 {
+                    nextImage.gameObject.SetActive(true);
                     if (Input.GetButtonDown("AButton"))
                     {
                         currentDialogSentenceIndex++;
@@ -127,7 +131,8 @@ public class DialogManager : MonoBehaviour
             }
             else
             {
-                if(seikiReacting)
+                nextImage.gameObject.SetActive(false);
+                if (seikiReacting)
                 {
                     seikiFaceImage.sprite = GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction);
 
@@ -216,6 +221,10 @@ public class DialogManager : MonoBehaviour
 
             case SeikiEmote.Question:
                 faceSprite = questionFace;
+                break;
+
+            case SeikiEmote.Cry:
+                faceSprite = cryFace;
                 break;
 
             default:
