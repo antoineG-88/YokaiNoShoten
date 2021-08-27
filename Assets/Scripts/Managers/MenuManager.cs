@@ -18,7 +18,9 @@ public class MenuManager : MonoBehaviour
         eventSystem = EventSystem.current;
 
         if(SaveSystem.LoadProgression() != null)
+        {
             GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+        }
 
         if(GameManager.currentStoryStep == 0)
         {
