@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LinkSwitch : Switch
 {
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         throw new System.NotImplementedException();
     }

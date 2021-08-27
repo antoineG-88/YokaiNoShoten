@@ -26,7 +26,7 @@ public class TorchLight : Switch
         animator.SetBool("isLit", isLit);
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
     }

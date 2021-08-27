@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PierceSwitch : Switch
 {
+    public bool pierceTriggerSlowMo;
     public Animator animator;
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
+        triggerSlowMo = pierceTriggerSlowMo;
         isOn = true;
         return false;
     }

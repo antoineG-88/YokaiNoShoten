@@ -34,7 +34,7 @@ public class MultipleSwitchConnector : Switch
         }
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
     }

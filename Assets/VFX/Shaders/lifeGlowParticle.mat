@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: fireParticle
-  m_Shader: {fileID: -6465566751694194690, guid: e4304d7484374904badea71baa941000,
+  m_Name: lifeGlowParticle
+  m_Shader: {fileID: -6465566751694194690, guid: 9b3b36b1a2c5dc84aa9ff7dd0c6d2e3a,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -39,6 +39,8 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     m_Colors:
+    - Color_64F48B17: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 1}
+    - Color_8B758406: {r: 1, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

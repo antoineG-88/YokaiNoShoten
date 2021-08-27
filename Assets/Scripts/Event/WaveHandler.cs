@@ -8,6 +8,7 @@ public class WaveHandler : Switch
     public List<Wave> waves;
     public float pauseTimeBetweenWaves;
     public Door backDoorToClose;
+    public CheckPoint checkPointToRespawn;
     public Sound nextWaveSound;
 
     [Header("Testing options")]
@@ -20,6 +21,7 @@ public class WaveHandler : Switch
 
     private bool allEnnemiesKilled;
     private bool lateStartFlag;
+    private bool saveFlag;
 
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class WaveHandler : Switch
         }
         if(backDoorToClose != null)
             backDoorToClose.Open();
+
     }
 
     private void Update()
@@ -64,6 +67,7 @@ public class WaveHandler : Switch
                 {
                     if (!waveSpawned)
                     {
+                        saveFlag = true;
                         waveSpawned = true;
                         for (int i = 0; i < waves[currentWaveIndex].waveEnemies.Count; i++)
                         {
@@ -111,6 +115,16 @@ public class WaveHandler : Switch
 
                         if (allEnnemiesKilled)
                         {
+                            if(currentWaveIndex + 1< waves.Count && saveFlag)
+                            {
+                                saveFlag = false;
+                                if(waves[currentWaveIndex + 1].maxStoryStepToSkipWave > 0)
+                                {
+                                    GameManager.currentStoryStep = waves[currentWaveIndex + 1].maxStoryStepToSkipWave;
+                                    GameManager.SaveProgression(checkPointToRespawn);
+                                }
+                            }
+
                             if (pauseTimeElapsed < pauseTimeBetweenWaves)
                             {
                                 pauseTimeElapsed += Time.deltaTime;
@@ -136,9 +150,17 @@ public class WaveHandler : Switch
 
     private void StartWaves()
     {
-        if(skipToWave - 1 > 0)
+        for (int i = 0; i < waves.Count; i++)
         {
-            currentWaveIndex = skipToWave - 1;
+            if (waves[i].maxStoryStepToSkipWave != 0 && GameManager.currentStoryStep >= waves[i].maxStoryStepToSkipWave)
+            {
+                skipToWave = i;
+            }
+        }
+
+        if (skipToWave> 0)
+        {
+            currentWaveIndex = skipToWave;
         }
         else
         {
@@ -150,7 +172,7 @@ public class WaveHandler : Switch
             backDoorToClose.Close();
     }
 
-    public override bool PierceEffect(int damage, Vector2 directedForce)
+    public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
     }
@@ -160,6 +182,7 @@ public class WaveHandler : Switch
     {
         public List<Enemy> waveEnemies;
         public int hpRestored;
+        public int maxStoryStepToSkipWave;
         public List<GameObject> objectToEnable;
         public List<GameObject> objectToDisable;
         public List<LinkSwitch> switchesToEnable;
