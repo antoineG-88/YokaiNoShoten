@@ -10,6 +10,9 @@ public class PauseManager : MonoBehaviour
     private bool isPaused;
     private EventSystem eventSystem;
     public GameObject pauseButton;
+    public GameObject musicSlider;
+    public GameObject optionMenu;
+    public GameObject buttons;
 
     void Start()
     {
@@ -41,15 +44,22 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
-        pauseMenu.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;
         GameData.playerManager.inControl = true;
+        optionMenu.SetActive(false);
+        buttons.SetActive(true);
+        pauseMenu.SetActive(false);
     }
 
     public void ReturntoMenu()
     {
         isPaused = false;
         SceneManager.LoadScene(0);
+    }
+    public void SelectScrollBarWithController()
+    {
+        eventSystem.firstSelectedGameObject = musicSlider;
+        eventSystem.SetSelectedGameObject(musicSlider);
     }
 }
