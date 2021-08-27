@@ -115,6 +115,7 @@ MonoBehaviour:
   dialogPanel: {fileID: 0}
   nameText: {fileID: 0}
   characterFace: {fileID: 0}
+  nextImage: {fileID: 0}
   neutralFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
   happyFace: {fileID: 21300000, guid: 570647f5a84aff443ac7eea586e6cf5b, type: 3}
   sadFace: {fileID: 21300000, guid: d317d0974496b1843825f59d4de3005d, type: 3}
@@ -128,7 +129,7 @@ MonoBehaviour:
     face: {fileID: 21300000, guid: 861cfc88ec9dc104f88bbf21c5149010, type: 3}
   - characterName: Tekuno
     face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
-  - characterName: Dorima
+  - characterName: "Dor\u012Bm\u0101"
     face: {fileID: 21300000, guid: 7106ce99c0c86424aabeb799bb232232, type: 3}
   - characterName: "Ra\xEFdo"
     face: {fileID: 21300000, guid: beabb2d06acbbb34685381c300fdc1d2, type: 3}
@@ -138,6 +139,8 @@ MonoBehaviour:
     face: {fileID: 21300000, guid: 3a40942629a4e94448be2e6b6fa899e8, type: 3}
   - characterName: Sentinel
     face: {fileID: 21300000, guid: 30d87d1fc65e7b34a981f034c0b385c9, type: 3}
+  - characterName: Voix inconnu
+    face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
 --- !u!82 &1191131659
 AudioSource:
