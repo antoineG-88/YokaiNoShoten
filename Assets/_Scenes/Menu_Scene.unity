@@ -980,13 +980,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5285c517b4a0d46a20e0a0c11d96c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneNames:
-  - Tuto
-  - SpacioDeck
-  - Labo
-  - Village
-  - QG
-  playButton: {fileID: 1879999546}
+  zones:
+  - zoneName: Tuto
+    zoneBuildIndex: 1
+    zoneMaxStoryStep: 2
+  - zoneName: SpacioDeck
+    zoneBuildIndex: 3
+    zoneMaxStoryStep: 6
+  - zoneName: QG
+    zoneBuildIndex: 5
+    zoneMaxStoryStep: 8
+  - zoneName: Labo
+    zoneBuildIndex: 6
+    zoneMaxStoryStep: 19
+  - zoneName: CombatLabo
+    zoneBuildIndex: 11
+    zoneMaxStoryStep: 24
+  - zoneName: Village
+    zoneBuildIndex: 7
+    zoneMaxStoryStep: 29
+  - zoneName: Boss
+    zoneBuildIndex: 9
+    zoneMaxStoryStep: 34
+  continueButton: {fileID: 1879999546}
+  startNewGameButton: {fileID: 245311700}
   scrollBar: {fileID: 247213953}
 --- !u!4 &607793423
 Transform:

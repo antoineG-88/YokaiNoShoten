@@ -213,6 +213,7 @@ MonoBehaviour:
   sequenceMat: {fileID: 2100000, guid: 9b2a94f09aa4c434fa5b2a4722ddfb02, type: 2}
   disablingDistance: 50
   doNotUseDistanceDisabling: 0
+  endBeamParticle: {fileID: 8971434075520807119}
 --- !u!120 &1953348216
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -398,11 +399,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5878177529482355366}
     m_Modifications:
-    - target: {fileID: 1872390592710806400, guid: c5894286eb3267f47aead555bdcad7f5,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1bb5ecfdf0ea94440a869d0626057504, type: 2}
     - target: {fileID: 1872390592710806401, guid: c5894286eb3267f47aead555bdcad7f5,
         type: 3}
       propertyPath: m_Name
@@ -411,7 +407,7 @@ PrefabInstance:
     - target: {fileID: 1872390592710806401, guid: c5894286eb3267f47aead555bdcad7f5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1872390592710806402, guid: c5894286eb3267f47aead555bdcad7f5,
         type: 3}
@@ -468,26 +464,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1872390592710806403, guid: c5894286eb3267f47aead555bdcad7f5,
-        type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1872390592710806403, guid: c5894286eb3267f47aead555bdcad7f5,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.06844187
-      objectReference: {fileID: 0}
-    - target: {fileID: 1872390592710806403, guid: c5894286eb3267f47aead555bdcad7f5,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5894286eb3267f47aead555bdcad7f5, type: 3}
 --- !u!4 &8971434075520807118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1872390592710806402, guid: c5894286eb3267f47aead555bdcad7f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7312999791822060364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8971434075520807119 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1872390592710806403, guid: c5894286eb3267f47aead555bdcad7f5,
     type: 3}
   m_PrefabInstance: {fileID: 7312999791822060364}
   m_PrefabAsset: {fileID: 0}

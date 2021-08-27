@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public SpriteRenderer healthPointsDisplay;
     public float stunTime;
     public float damageInvulnerableTime;
+    public ParticleSystem healParticle;
     [Tooltip("Press start in game to activate")]
     public bool enableGodMode;
     public int godModeLayer;
@@ -101,6 +102,7 @@ public class PlayerManager : MonoBehaviour
     {
         currentHealthPoint += healAmount;
         currentHealthPoint = Mathf.Clamp(currentHealthPoint, 0, maxHealthPoint);
+        healParticle.Play();
     }
 
     private void RefreshHealthPointDisplay()
