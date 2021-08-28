@@ -55,7 +55,8 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1;
         isPaused = false;
-        SceneManager.LoadScene(0);
+
+        GameManager.I.StartCoroutine(GameManager.LoadWithProgress(0));
     }
     public void SelectScrollBarWithController()
     {

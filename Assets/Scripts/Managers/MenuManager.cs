@@ -11,6 +11,10 @@ public class MenuManager : MonoBehaviour
     public GameObject continueButton;
     public GameObject startNewGameButton;
     public GameObject scrollBar;
+    [Header("Transition Options")]
+    public float transitionFadeTime;
+    public Animator seikiMenu;
+    public float timeBeforeFade;
     // Start is called before the first frame update
 
     private void Start()
@@ -32,6 +36,26 @@ public class MenuManager : MonoBehaviour
             SelectButtonWithController(continueButton);
         }
     }
+
+    private void Update()
+    {
+        if(eventSystem.currentSelectedGameObject == null)
+        {
+            if(Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            {
+                if (GameManager.currentStoryStep == 0)
+                {
+                    continueButton.SetActive(false);
+                    SelectButtonWithController(startNewGameButton);
+                }
+                else
+                {
+                    SelectButtonWithController(continueButton);
+                }
+            }
+        }
+    }
+
     public void StartNewGame()
     {
         Time.timeScale = 1f;
@@ -39,7 +63,7 @@ public class MenuManager : MonoBehaviour
         {
             SaveSystem.DeleteSaveFile(zones[i].zoneName);
         }
-        SceneManager.LoadScene(zones[0].zoneBuildIndex);
+        StartCoroutine(StartTransition(0));
     }
 
     public void ContinueGame()
@@ -51,10 +75,27 @@ public class MenuManager : MonoBehaviour
         {
             if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep)
             {
-                SceneManager.LoadScene(zones[i].zoneBuildIndex);
+                StartCoroutine(StartTransition(i));
                 break;
             }
         }
+    }
+
+    private IEnumerator StartTransition(int zoneIndexToLoad)
+    {
+        seikiMenu.SetTrigger("Jump");
+        yield return new WaitForSeconds(timeBeforeFade);
+        float timer = 0;
+        while (timer < transitionFadeTime)
+        {
+            BlackScreenManager.SetAlpha(timer / transitionFadeTime);
+
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+        BlackScreenManager.SetAlpha(1);
+
+        StartCoroutine(GameManager.LoadWithProgress(zones[zoneIndexToLoad].zoneBuildIndex));
     }
 
     public void QuitGame()

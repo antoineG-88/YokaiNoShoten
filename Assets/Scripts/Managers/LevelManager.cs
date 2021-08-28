@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
         allZoneEnemies = new List<Enemy>();
         GetAllZoneSwitchesAndEnemies();
         zoneLoadCountDown = 2;
-        GameManager.currentStoryStep = 0;
+        //GameManager.currentStoryStep = 0;
     }
 
     void Start()
@@ -89,14 +89,15 @@ public class LevelManager : MonoBehaviour
         float timer = 0;
         while (timer < transitionTime)
         {
-            BlackScreenManager.blackScreen.color = Color.Lerp(Color.clear, transitionScreenColor, timer / transitionTime);
+            BlackScreenManager.SetAlpha(timer / transitionTime);
 
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
         }
-        BlackScreenManager.blackScreen.color = transitionScreenColor;
+        BlackScreenManager.SetAlpha(1);
 
-        GameManager.LoadNewZone(zoneBuildIndex);
+        //GameManager.LoadNewZone(zoneBuildIndex);
+        StartCoroutine(GameManager.LoadWithProgress(zoneBuildIndex));
     }
 
     private IEnumerator StartBlackScreenFade()
@@ -105,12 +106,12 @@ public class LevelManager : MonoBehaviour
         BlackScreenManager.blackScreen.color = transitionScreenColor;
         while (timer < transitionTime)
         {
-            BlackScreenManager.blackScreen.color = Color.Lerp(transitionScreenColor, Color.clear, timer / transitionTime);
+            BlackScreenManager.SetAlpha(1 - (timer / transitionTime));
 
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
         }
-        BlackScreenManager.blackScreen.color = Color.clear;
+        BlackScreenManager.SetAlpha(0);
     }
 
     private void GetAllZoneSwitchesAndEnemies()

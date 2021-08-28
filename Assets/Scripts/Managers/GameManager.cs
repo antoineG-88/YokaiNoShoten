@@ -42,37 +42,37 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SceneManager.LoadScene(1);
+            StartCoroutine(LoadWithProgress(1));
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SceneManager.LoadScene(3);
+            StartCoroutine(LoadWithProgress(3));
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SceneManager.LoadScene(5);
+            StartCoroutine(LoadWithProgress(5));
         }
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            SceneManager.LoadScene(6);
+            StartCoroutine(LoadWithProgress(6));
         }
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            SceneManager.LoadScene(7);
+            StartCoroutine(LoadWithProgress(7));
         }
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            SceneManager.LoadScene(9);
+            StartCoroutine(LoadWithProgress(9));
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            SceneManager.LoadScene(11);
+            StartCoroutine(LoadWithProgress(11));
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
     {
         isRespawning = true;
         GameData.slowMoManager.StopSlowMo();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        I.StartCoroutine(LoadWithProgress(SceneManager.GetActiveScene().buildIndex));
     }
 
     public static void SaveProgression(CheckPoint checkPoint)
@@ -168,6 +168,17 @@ public class GameManager : MonoBehaviour
     public static void LoadNewZone(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
-        //SaveProgression(LevelManager.lastCheckPoint);
+    }
+
+    public static IEnumerator LoadWithProgress(int sceneIndex)
+    {
+        BlackScreenManager.SetLoadActive(true);
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneIndex);
+
+        while(!loadOperation.isDone)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        BlackScreenManager.SetLoadActive(false);
     }
 }

@@ -153,15 +153,14 @@ public class PlayerManager : MonoBehaviour
         }
 
         timer = 0;
-        BlackScreenManager.blackScreen.color = Color.clear;
         while (timer < deathFadeTime)
         {
-            BlackScreenManager.blackScreen.color = Color.Lerp(Color.clear, GameData.levelManager.transitionScreenColor, timer / deathFadeTime);
+            BlackScreenManager.SetAlpha(timer / deathFadeTime);
 
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
         }
-        BlackScreenManager.blackScreen.color = GameData.levelManager.transitionScreenColor;
+        BlackScreenManager.SetAlpha(1);
 
         GameManager.Respawn();
     }

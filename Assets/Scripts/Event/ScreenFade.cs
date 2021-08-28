@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScreenFade : EventPart
 {
-    public Color screenColor; 
+    //public Color screenColor; 
     public float fadeTime;
     public float minSceenTime;
     [Header("Optionnal")]
@@ -74,12 +74,12 @@ public class ScreenFade : EventPart
                 {
                     if (fadeTimeElapsed < fadeTime)
                     {
-                        BlackScreenManager.blackScreen.color = Color.Lerp(Color.clear, screenColor, fadeTimeElapsed / fadeTime);
+                        BlackScreenManager.SetAlpha(fadeTimeElapsed / fadeTime);
                         fadeTimeElapsed += Time.deltaTime;
                     }
                     else
                     {
-                        BlackScreenManager.blackScreen.color = screenColor;
+                        BlackScreenManager.SetAlpha(1);
                         screenTimeElasped = 0;
                         isScreenActive = true;
                     }
@@ -88,12 +88,12 @@ public class ScreenFade : EventPart
                 {
                     if (fadeTimeElapsed < fadeTime)
                     {
-                        BlackScreenManager.blackScreen.color = Color.Lerp(screenColor, Color.clear, fadeTimeElapsed / fadeTime);
+                        BlackScreenManager.SetAlpha(1 - (fadeTimeElapsed / fadeTime));
                         fadeTimeElapsed += Time.deltaTime;
                     }
                     else
                     {
-                        BlackScreenManager.blackScreen.color = Color.clear;
+                        BlackScreenManager.SetAlpha(0);
                         EndEventPart();
                     }
                 }
@@ -108,11 +108,11 @@ public class ScreenFade : EventPart
         blackScreenStartFlag = true;
         isUnfading = false;
 
-        BlackScreenManager.blackScreen.color = Color.clear;
+        BlackScreenManager.SetAlpha(0);
     }
     public override void EndEventPart()
     {
         base.EndEventPart();
-        BlackScreenManager.blackScreen.color = Color.clear;
+        BlackScreenManager.SetAlpha(0);
     }
 }
