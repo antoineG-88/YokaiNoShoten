@@ -61,7 +61,9 @@ public class PlayerManager : MonoBehaviour
         {
             isInGodMode = !isInGodMode;
         }
-        gameObject.layer = isInGodMode ? godModeLayer : basePlayerLayer;
+
+        if(!isDying)
+            gameObject.layer = isInGodMode ? godModeLayer : basePlayerLayer;
 
         if (Input.GetKeyDown(KeyCode.R) && enableGodMode)
         {
@@ -83,7 +85,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode && !isDying)
         {
             invulnerable = true;
             invulnerableTimeRemaining = damageInvulnerableTime;

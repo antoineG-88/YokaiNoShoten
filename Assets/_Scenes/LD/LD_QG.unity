@@ -347,10 +347,6 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 4eb0bcac80467b74c8e3754eb36a5047, type: 3}
-    - target: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c, type: 3}
-      propertyPath: m_Volume
-      value: 0.084
-      objectReference: {fileID: 0}
     - target: {fileID: 3267245876046976401, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: m_Name
@@ -24648,7 +24644,6 @@ MonoBehaviour:
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  screenColor: {r: 0, g: 0, b: 0, a: 1}
   fadeTime: 1
   minSceenTime: 2
   soundToPlayDuringBlackScreen: {fileID: 0}

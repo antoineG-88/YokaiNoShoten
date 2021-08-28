@@ -84,9 +84,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
   transitionTime: 1
-  decoSceneIndex: 8
-  decoScenePath: Assets/_Scenes/DecoScenes/Deco_Niveau3.unity
-  zoneName: Village
+  decoSceneIndex: 0
+  decoScenePath: 
+  zoneName: default
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
   doNotSaveEnnemiesDeath: 0
@@ -154,7 +154,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 4eb0bcac80467b74c8e3754eb36a5047, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.299
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0

@@ -314,11 +314,11 @@ public class MovementHandler : MonoBehaviour
         }
         else
         {
-            /*while(true)
+            while(true)
             {
-                rb.velocity = Vector2.zero;
+                rb.velocity = rb.velocity.normalized * 0.5f;
                 yield return new WaitForFixedUpdate();
-            }*/
+            }
         }
     }
 }
