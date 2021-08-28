@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -733,18 +733,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3267245875446101874}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &178954596 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8679734692064152272, guid: 5f29cc1d763ece94f9a875215743de6c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3267245875446101874}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 178954594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb7f1ac387b15af48bc3c4a65f3eafdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &179200319 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
@@ -1358,6 +1346,7 @@ MonoBehaviour:
   - waveEnemies:
     - {fileID: 1550670180}
     hpRestored: 0
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -1365,6 +1354,7 @@ MonoBehaviour:
   - waveEnemies:
     - {fileID: 1471701170}
     hpRestored: 0
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -1373,6 +1363,7 @@ MonoBehaviour:
     - {fileID: 889811021}
     - {fileID: 183678754}
     hpRestored: 0
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -1382,6 +1373,7 @@ MonoBehaviour:
     - {fileID: 1585774223}
     - {fileID: 1991011045}
     hpRestored: 0
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
@@ -1390,15 +1382,18 @@ MonoBehaviour:
     - {fileID: 179200319}
     - {fileID: 1561316588}
     hpRestored: 0
+    maxStoryStepToSkipWave: 0
     objectToEnable: []
     objectToDisable: []
     switchesToEnable: []
     switchesToDisable: []
   pauseTimeBetweenWaves: 2
   backDoorToClose: {fileID: 0}
+  checkPointToRespawn: {fileID: 0}
   nextWaveSound:
     clip: {fileID: 0}
     volumeScale: 1
+  posToRespawn: {fileID: 0}
   skipToWave: 0
 --- !u!4 &268850244
 Transform:
@@ -1477,7 +1472,6 @@ MonoBehaviour:
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  screenColor: {r: 0, g: 0, b: 0, a: 1}
   fadeTime: 0.5
   minSceenTime: 0.1
   soundToPlayDuringBlackScreen: {fileID: 0}
@@ -7101,7 +7095,6 @@ MonoBehaviour:
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  screenColor: {r: 0, g: 0, b: 0, a: 1}
   fadeTime: 0.5
   minSceenTime: 0.5
   soundToPlayDuringBlackScreen: {fileID: 0}
@@ -8243,8 +8236,7 @@ MonoBehaviour:
   apparitionDelay: 0.5
   postDelay: 1
   disappear: 1
-  characterToAppear: {fileID: 1537526317}
-  appearTime: 0.5
+  animatorToAppear: {fileID: 0}
 --- !u!114 &1561527820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8261,7 +8253,6 @@ MonoBehaviour:
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  screenColor: {r: 1, g: 1, b: 1, a: 1}
   fadeTime: 0.1
   minSceenTime: 0.1
   soundToPlayDuringBlackScreen: {fileID: 0}
@@ -12475,7 +12466,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 178954596}
+      objectReference: {fileID: 0}
     - target: {fileID: 3060182425013935791, guid: 06f07e53a9763bc4dbce6cb61276b09e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -12485,7 +12476,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 178954596}
+      objectReference: {fileID: 0}
     - target: {fileID: 4338822138526390958, guid: 06f07e53a9763bc4dbce6cb61276b09e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -13344,41 +13335,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 863802084}
     m_Modifications:
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: cytheTimeBeforeSpin
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: cytheSpinRadius
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: cytheTargetPlayerOffsetDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: cytheDistanceSpeedDampeningRatio
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: cytheAccelerationForce
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: cytheMaxSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
-        type: 3}
-      propertyPath: doCytheImmobilizeBeforeSpin
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.y

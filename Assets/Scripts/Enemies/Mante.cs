@@ -23,6 +23,7 @@ public class Mante : Enemy
     public float cytheSpinRadius;
     public GameObject cythe;
     public float cytheMaxSpeed;
+    public float cytheBeforeSpinMaxSpeed;
     public float cytheMaxRecallSpeed;
     public float cytheAccelerationForce;
     public float cytheDistanceSpeedDampeningRatio;
@@ -36,6 +37,7 @@ public class Mante : Enemy
     public SpriteRenderer cytheAttackSprite;
     public float attackTransitionTime;
     public float previsState;
+    public float cytheAttackCorrectedRadius;
     [Header("Temporary")]
     //public float baseCytheScale;
     //public float anticipationCytheScale;
@@ -77,7 +79,7 @@ public class Mante : Enemy
         cytheCDElapsed = cytheAttackCooldown - timeBeforeFirstCytheThrow;
         cytheAttackMaterial = Instantiate(cytheAttackSprite.sharedMaterial);
         cytheAttackSprite.sharedMaterial = cytheAttackMaterial;
-        cytheAttackSprite.gameObject.transform.localScale = Vector2.one * cytheSpinRadius;
+        cytheAttackSprite.gameObject.transform.localScale = Vector2.one * cytheAttackCorrectedRadius * 2 * cytheSpinRadius;
         cytheAttackMaterial.SetFloat("_switchONOFF", 0);
     }
 
@@ -148,7 +150,7 @@ public class Mante : Enemy
                         cytheTargetDirection = cytheTargetPos - (Vector2)cythe.transform.position;
                         cytheTargetDirection.Normalize();
 
-                        cytheCurrentMaxSpeed = Mathf.Clamp(Vector2.Distance(cythe.transform.position, cytheTargetPos) * cytheDistanceSpeedDampeningRatio, 0, cytheMaxSpeed);
+                        cytheCurrentMaxSpeed = Mathf.Clamp(Vector2.Distance(cythe.transform.position, cytheTargetPos) * cytheDistanceSpeedDampeningRatio, 0, cytheBeforeSpinMaxSpeed);
                         cytheCurrentSpeed += Time.fixedDeltaTime * cytheAccelerationForce;
                         cytheCurrentSpeed = Mathf.Clamp(cytheCurrentSpeed, 0, cytheCurrentMaxSpeed);
 
