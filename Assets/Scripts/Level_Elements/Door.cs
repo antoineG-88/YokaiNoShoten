@@ -18,6 +18,15 @@ public class Door : MonoBehaviour
     private void Start()
     {
         doorCollider = GetComponent<Collider2D>();
+
+        for (int i = 0; i < animators.Count; i++)
+        {
+            if (animators[i].gameObject.activeSelf)
+            {
+                animator = animators[i];
+            }
+        }
+
         for (int i = 0; i < animators.Count; i++)
         {
             animators[i].gameObject.SetActive(false);
@@ -46,8 +55,7 @@ public class Door : MonoBehaviour
                 break;
 
             default:
-                animator = animators[0];
-                animators[0].gameObject.SetActive(true);
+                animator.gameObject.SetActive(true);
                 break;
         }
 
