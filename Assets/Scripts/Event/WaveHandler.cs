@@ -159,7 +159,7 @@ public class WaveHandler : Switch
             }
         }
 
-        if (skipToWave> 0)
+        if (skipToWave > 0)
         {
             currentWaveIndex = skipToWave;
             GameData.player.transform.position = posToRespawn.position;

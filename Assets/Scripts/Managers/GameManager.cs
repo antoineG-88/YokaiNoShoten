@@ -134,6 +134,10 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            currentStoryStep = 0;
+        }
 
         ProgressionData progressionData = SaveSystem.LoadProgression();
         if(progressionData != null)
