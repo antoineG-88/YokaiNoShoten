@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowMoInitialRatio: 0.15
   smoothTime: 0.05
-  baseProfile: {fileID: 11400000, guid: 87199316fa05e02479b56eb01a7223ad, type: 2}
+  baseProfile: {fileID: 11400000, guid: ae46b93cf3f17b544a31849e9bd2c44f, type: 2}
   slowMoStartProfile: {fileID: 11400000, guid: 0e3622192699b3446a9a58df5ee792a3, type: 2}
   volume: {fileID: 0}
   slowMoEffectLerpRatio: 10
@@ -84,9 +84,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
   transitionTime: 1
-  decoSceneIndex: 0
-  decoScenePath: 
-  zoneName: default
+  decoSceneIndex: 10
+  decoScenePath: Assets/_Scenes/DecoScenes/Deco_Labo.unity
+  zoneName: Labo
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
   doNotSaveEnnemiesDeath: 0
@@ -152,7 +152,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 49239355547644364, guid: 9c6544e17c2017044b68bf43d09eda2d,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4eb0bcac80467b74c8e3754eb36a5047, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e17bff7b4c1363a4ea6def274736a99a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.4
   m_Pitch: 1
