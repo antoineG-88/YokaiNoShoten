@@ -143,7 +143,7 @@ MonoBehaviour:
   doGoFantomWhenProtected: 1
   enemyFantomLayerNumber: 19
   deathSound:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6e9a23124c797fa489ae145b0ca4892c, type: 3}
     volumeScale: 1
   provokedSound:
     clip: {fileID: 0}
@@ -210,11 +210,14 @@ MonoBehaviour:
   stuckImpactParticle: {fileID: 3696424741153445526, guid: 926d8a8058c84a442bf3ef7f0e848a37,
     type: 3}
   rushSound:
-    clip: {fileID: 8300000, guid: d522ece7937a313438288b97c6be5d94, type: 3}
+    clip: {fileID: 8300000, guid: df5820ffe54d185438953a9d944be282, type: 3}
     volumeScale: 1
   warningSound:
-    clip: {fileID: 8300000, guid: 01d05aa211107b4468ff4141f693a678, type: 3}
+    clip: {fileID: 8300000, guid: ff88d4a903fbfeb4da1ed661f14bbc0b, type: 3}
     volumeScale: 1
+  stuckInWallSound:
+    clip: {fileID: 8300000, guid: e48f3b2d2ebb32d42b5f0064cb45313d, type: 3}
+    volumeScale: 0.5
   previsFX: {fileID: 5270052241577888343, guid: 5996c384a7e508941bf15da290a6293e,
     type: 3}
   numberOfPrevisFx: 10

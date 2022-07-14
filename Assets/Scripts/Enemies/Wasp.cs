@@ -29,6 +29,7 @@ public class Wasp : Enemy
     [Header("Wasp specific Sounds")]
     public Sound rushSound;
     public Sound warningSound;
+    public Sound stuckInWallSound;
 
     //Fx de prévisualitation
     public GameObject previsFX;
@@ -242,8 +243,12 @@ public class Wasp : Enemy
                                 {
                                     animator.SetBool("IsStuck", true);
                                 }
+
+                                source.PlayOneShot(stuckInWallSound.clip, stuckInWallSound.volumeScale);
+
                                 Instantiate(stuckImpactParticle, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, impactHit.normal)));
                                 transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.left + Vector2.down, -stuckDirection));
+
                             }
                         }
                     }
