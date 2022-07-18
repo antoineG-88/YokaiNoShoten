@@ -36,6 +36,9 @@ public class Balayer : Enemy
     public float spaceBetweenBeamFx;
     public float beamStartOffset;
     public Transform beamParent;
+    [Header("Cameneon specific Sounds")]
+    public Sound beamChargeSound;
+    public Sound beamBalayingSound;
 
     private bool isShooting;
     private bool isAiming;
@@ -203,7 +206,8 @@ public class Balayer : Enemy
         beamMat.SetFloat("_previsOrAttack", beamState);
         float chargeTimer = 0;
         previsEndParticle.Play();
-        while(chargeTimer < chargeTime && !isDying)
+        source.PlayOneShot(beamChargeSound.clip, beamChargeSound.volumeScale);
+        while (chargeTimer < chargeTime && !isDying)
         {
             linePos = new Vector3[2];
             linePos[0] = (Vector2)transform.position + DirectionFromAngle(shootAngle) * beamStartOffset;
@@ -235,6 +239,7 @@ public class Balayer : Enemy
         int beamFxNumber;
 
         beamEndParticle.Play();
+        source.PlayOneShot(beamBalayingSound.clip, beamBalayingSound.volumeScale);
         while (elapsedBeamTime < beamTime && !isDying)
         {
             animator.SetInteger("BeamStep", 2);

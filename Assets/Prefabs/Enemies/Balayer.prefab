@@ -64,7 +64,7 @@ MonoBehaviour:
   doGoFantomWhenProtected: 1
   enemyFantomLayerNumber: 19
   deathSound:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6c87b86accfcec74998d1a5b5597c6bb, type: 3}
     volumeScale: 1
   provokedSound:
     clip: {fileID: 0}
@@ -120,6 +120,12 @@ MonoBehaviour:
   spaceBetweenBeamFx: 1
   beamStartOffset: 0.5
   beamParent: {fileID: 8102267296796794378}
+  beamChargeSound:
+    clip: {fileID: 8300000, guid: 99ff842b3ec74c94489130afb0e05911, type: 3}
+    volumeScale: 0.5
+  beamBalayingSound:
+    clip: {fileID: 8300000, guid: d7cccd4980b2a714a968e02783da614c, type: 3}
+    volumeScale: 0.5
 --- !u!58 &8663906068143856704
 CircleCollider2D:
   m_ObjectHideFlags: 0
