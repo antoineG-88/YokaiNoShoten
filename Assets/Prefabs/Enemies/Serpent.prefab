@@ -6356,7 +6356,7 @@ MonoBehaviour:
   doGoFantomWhenProtected: 1
   enemyFantomLayerNumber: 19
   deathSound:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bf706e6c8e61a35488dbfae84302ebeb, type: 3}
     volumeScale: 1
   provokedSound:
     clip: {fileID: 0}
@@ -6416,6 +6416,15 @@ MonoBehaviour:
   angleCorrection: 20
   headHeightCorrection: 0.086
   trailSubdivision: 3
+  tailBrokeSound:
+    clip: {fileID: 8300000, guid: 4a9c30f68fab6ad48ac008ca3d44779d, type: 3}
+    volumeScale: 1
+  tailReformSound:
+    clip: {fileID: 8300000, guid: 17b03a0eddd243442997486e3ddea450, type: 3}
+    volumeScale: 2
+  headAttackSound:
+    clip: {fileID: 8300000, guid: 403f5d0c991673d49b99f585bcf00847, type: 3}
+    volumeScale: 0.7
   isInNoGravityZone: 0
 --- !u!50 &5202223809458673484
 Rigidbody2D:

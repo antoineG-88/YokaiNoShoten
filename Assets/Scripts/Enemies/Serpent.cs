@@ -31,6 +31,10 @@ public class Serpent : Enemy
     public float angleCorrection;
     public float headHeightCorrection;
     public int trailSubdivision;
+    [Header("Serpent specific sounds")]
+    public Sound tailBrokeSound;
+    public Sound tailReformSound;
+    public Sound headAttackSound;
 
     private bool isTooFarFromPlayer;
     private float currentSpeed;
@@ -100,7 +104,10 @@ public class Serpent : Enemy
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        UpdateSpikes();
+        if(!isDying)
+        {
+            UpdateSpikes();
+        }
     }
 
     public override void UpdateMovement()
@@ -232,6 +239,7 @@ public class Serpent : Enemy
             {
                 GameData.pierceHandler.isPiercing = false;
                 GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
+                source.PlayOneShot(headAttackSound.clip, headAttackSound.volumeScale);
                 currentSpeed = 0;
             }
             isProtected = true;
@@ -242,6 +250,7 @@ public class Serpent : Enemy
             {
                 isSpikesActive = true;
                 bodiesAnimator[bodiesAnimator.Count - 1].SetBool("IsTailBroken", false);
+                source.PlayOneShot(tailReformSound.clip, tailReformSound.volumeScale);
             }
             inactiveSpikeTimeElapsed += Time.fixedDeltaTime;
             spikeDisplay.SetActive(false);
@@ -262,6 +271,8 @@ public class Serpent : Enemy
         isSpikesActive = false;
         inactiveSpikeTimeElapsed = 0;
         bodiesAnimator[bodiesAnimator.Count - 1].SetBool("IsTailBroken", true);
+
+        source.PlayOneShot(tailBrokeSound.clip, tailBrokeSound.volumeScale);
         //ajouter anim et effet
     }
 

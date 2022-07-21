@@ -261,11 +261,20 @@ MonoBehaviour:
   cytheAttackCorrectedRadius: 0.8
   portalVisualDeactivationLerpSpeed: 3
   cytheFlyingSoundSource: {fileID: 8070157127934450717}
+  cytheFlyingSound:
+    clip: {fileID: 8300000, guid: ced13e82c54a1bb4b9307e935b64bdcf, type: 3}
+    volumeScale: 1
+  cytheFlyingBackSound:
+    clip: {fileID: 8300000, guid: f83c9b10a55d71443b428f64636ea1cf, type: 3}
+    volumeScale: 1
   cytheSpinSound:
     clip: {fileID: 8300000, guid: 014ad9b4d49bc3745a2852e3abe1fb6e, type: 3}
     volumeScale: 1
   teleportSound:
     clip: {fileID: 8300000, guid: 1adbfd2d13b19e1469ab69b7688a02c5, type: 3}
+    volumeScale: 1
+  cytheThrowSound:
+    clip: {fileID: 8300000, guid: fff0caf4791e809469e50ec210b1911a, type: 3}
     volumeScale: 1
 --- !u!114 &8193358007314346135
 MonoBehaviour:

@@ -48,8 +48,11 @@ public class Mante : Enemy
     //public Color portalSabotagedColor;
     [Header("Mante specific Sounds")]
     public AudioSource cytheFlyingSoundSource;
+    public Sound cytheFlyingSound;
+    public Sound cytheFlyingBackSound;
     public Sound cytheSpinSound;
     public Sound teleportSound;
+    public Sound cytheThrowSound;
 
     private bool isFleeing;
     private float playerDistToFirstPortal;
@@ -222,6 +225,7 @@ public class Mante : Enemy
                     {
                         isCytheInRecall = false;
                         cythe.SetActive(false);
+                        cytheFlyingSoundSource.Stop();
                     }
                 }
                 else
@@ -256,7 +260,10 @@ public class Mante : Enemy
         cytheCurrentSpeed = 0;
         cythe.transform.position = transform.position;
         cytheAttackMaterial.SetFloat("_switchONOFF", 0);
+        cytheFlyingSoundSource.clip = cytheFlyingSound.clip;
+        cytheFlyingSoundSource.volume = cytheFlyingSound.volumeScale;
         cytheFlyingSoundSource.Play();
+        source.PlayOneShot(cytheThrowSound.clip, cytheThrowSound.volumeScale);
         //cythe.transform.localScale = Vector2.one * baseCytheScale;
     }
 
@@ -301,6 +308,11 @@ public class Mante : Enemy
         }
         //targetCytheScale = baseCytheScale;
         isCytheInRecall = true;
+
+        cytheFlyingSoundSource.clip = cytheFlyingBackSound.clip;
+        cytheFlyingSoundSource.volume = cytheFlyingBackSound.volumeScale;
+        cytheFlyingSoundSource.Play();
+
         isCytheSpinning = false;
         cytheAttackMaterial.SetFloat("_switchONOFF", 0);
     }
