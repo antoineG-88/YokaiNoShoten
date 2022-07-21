@@ -324,6 +324,10 @@ public class Serpent : Enemy
         else
         {
             triggerSlowMo = false;
+            if (currentSheepShield != null && currentSheepShield.isActive)
+            {
+                source.PlayOneShot(shieldHitSound.clip, shieldHitSound.volumeScale);
+            }
         }
         return isSpikesActive;
     }

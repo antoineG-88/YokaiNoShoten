@@ -38,7 +38,6 @@ public class SheepShield : MonoBehaviour
         {
             enemy.isProtected = true;
             shieldConnection.enabled = true;
-            enemy.isProtected = true;
             sheepDirection = connectedSheep.transform.position - transform.position;
             sheepDirection.Normalize();
             connectionPos[0] = (Vector2)transform.position + sheepDirection * distanceToStartLine;

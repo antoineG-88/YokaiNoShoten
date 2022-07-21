@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     public bool enableGodMode;
     public int godModeLayer;
     public Sound hurtSound;
+    public Sound hurtImpactSound;
 
     private int currentHealthPoint;
 
@@ -105,6 +106,8 @@ public class PlayerManager : MonoBehaviour
             GameData.pierceHandler.StopPierce();
             if(hurtSound != null)
                 GameData.playerSource.PlayOneShot(hurtSound.clip, hurtSound.volumeScale);
+            if (hurtImpactSound != null)
+                GameData.playerSource.PlayOneShot(hurtImpactSound.clip, hurtImpactSound.volumeScale);
             StartCoroutine(NoControl(stunTime));
             StartCoroutine(KnockawayTime(stunTime));
         }

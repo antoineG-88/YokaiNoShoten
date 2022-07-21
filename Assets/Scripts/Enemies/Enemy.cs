@@ -19,6 +19,7 @@ public abstract class Enemy : Piercable
     [Header("Sounds")]
     public Sound deathSound;
     public Sound provokedSound;
+    public Sound shieldHitSound;
 
     [Header("Pathfinding settings")]
     public float nextWaypointDistance;
@@ -219,7 +220,7 @@ public abstract class Enemy : Piercable
 
         if(wallCollider != null)
         {
-            Die();
+            StartCoroutine(Die());
         }
 
         if(provokeFlag && provoked)
@@ -253,9 +254,9 @@ public abstract class Enemy : Piercable
     {
         if(!recentlyHit)
         {
-            bool isProtected = false;
+            bool uselessIsProtected = false;
 
-            if (!isProtected)
+            if (!uselessIsProtected)
             {
                 currentHealthPoint -= damage;
                 StartCoroutine(NoControl(noControlTime));
@@ -471,6 +472,10 @@ public abstract class Enemy : Piercable
         else
         {
             triggerSlowMo = false;
+            if (currentSheepShield != null && currentSheepShield.isActive)
+            {
+                source.PlayOneShot(shieldHitSound.clip, shieldHitSound.volumeScale);
+            }
         }
         return false;
     }

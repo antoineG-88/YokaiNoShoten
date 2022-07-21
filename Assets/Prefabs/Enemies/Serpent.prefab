@@ -6361,6 +6361,9 @@ MonoBehaviour:
   provokedSound:
     clip: {fileID: 0}
     volumeScale: 1
+  shieldHitSound:
+    clip: {fileID: 8300000, guid: 18efcfd9eac471a41bcf5100722dda94, type: 3}
+    volumeScale: 1.5
   nextWaypointDistance: 2
   waypointAhead: 0
   pathUpdatingFrequency: 0.1

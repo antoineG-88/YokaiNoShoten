@@ -369,6 +369,6 @@ public class Balayer : Enemy
 
     public override void DamageEffect()
     {
-
+        beamLine.enabled = false;
     }
 }

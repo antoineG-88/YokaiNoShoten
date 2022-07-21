@@ -38,12 +38,18 @@ public class Mante : Enemy
     public float attackTransitionTime;
     public float previsState;
     public float cytheAttackCorrectedRadius;
+    [Space]
+    public float portalVisualDeactivationLerpSpeed;
     [Header("Temporary")]
     //public float baseCytheScale;
     //public float anticipationCytheScale;
     //public float cytheScaleLerpRatio;
     //public Color portalBaseColor;
     //public Color portalSabotagedColor;
+    [Header("Mante specific Sounds")]
+    public AudioSource cytheFlyingSoundSource;
+    public Sound cytheSpinSound;
+    public Sound teleportSound;
 
     private bool isFleeing;
     private float playerDistToFirstPortal;
@@ -61,12 +67,18 @@ public class Mante : Enemy
     private ContactFilter2D playerFilter;
     private bool isCytheInRecall;
     private bool isCytheSpinning;
+    private float firstPortalCurrentVisualActivationRatio;
+    private float secondPortalCurrentVisualActivationRatio;
+
 
     private float targetCytheScale;
     private Material cytheAttackMaterial;
 
     private SpriteRenderer firstPortalRenderer;
     private SpriteRenderer secondPortalRenderer;
+
+    private Material firstPortalMat;
+    private Material secondPortalMat;
     private bool isFacingRight;
 
     protected new void Start()
@@ -81,6 +93,12 @@ public class Mante : Enemy
         cytheAttackSprite.sharedMaterial = cytheAttackMaterial;
         cytheAttackSprite.gameObject.transform.localScale = Vector2.one * cytheAttackCorrectedRadius * 2 * cytheSpinRadius;
         cytheAttackMaterial.SetFloat("_switchONOFF", 0);
+
+        firstPortalMat = Instantiate(firstPortalRenderer.sharedMaterial);
+        firstPortalRenderer.sharedMaterial = firstPortalMat;
+
+        secondPortalMat = Instantiate(secondPortalRenderer.sharedMaterial);
+        secondPortalRenderer.sharedMaterial = secondPortalMat;
     }
 
     protected new void Update()
@@ -93,6 +111,8 @@ public class Mante : Enemy
     {
         base.FixedUpdate();
         UpdateCythe();
+
+        cytheFlyingSoundSource.pitch = Time.timeScale;
     }
 
     protected override void UpdateBehavior()
@@ -236,6 +256,7 @@ public class Mante : Enemy
         cytheCurrentSpeed = 0;
         cythe.transform.position = transform.position;
         cytheAttackMaterial.SetFloat("_switchONOFF", 0);
+        cytheFlyingSoundSource.Play();
         //cythe.transform.localScale = Vector2.one * baseCytheScale;
     }
 
@@ -252,6 +273,8 @@ public class Mante : Enemy
         }
         yield return new WaitForSeconds(cytheTimeBeforeSpin);
 
+        cytheFlyingSoundSource.Stop();
+        source.PlayOneShot(cytheSpinSound.clip, cytheSpinSound.volumeScale);
 
         targetCytheScale = cytheSpinRadius;
         List<Collider2D> colliders = new List<Collider2D>();
@@ -294,10 +317,12 @@ public class Mante : Enemy
 
                 if (playerDistToFirstPortal > playerDistToSecondPortal)
                 {
+                    firstPortalCurrentVisualActivationRatio = 2;
                     StartCoroutine(Retreat(firstPortal));
                 }
                 else
                 {
+                    secondPortalCurrentVisualActivationRatio = 2;
                     StartCoroutine(Retreat(secondPortal));
                 }
             }
@@ -318,6 +343,8 @@ public class Mante : Enemy
 
     private IEnumerator Retreat(GameObject portal)
     {
+        source.PlayOneShot(teleportSound.clip, teleportSound.volumeScale);
+
         if (GameData.grappleHandler.attachedObject == gameObject)
         {
             GameData.grappleHandler.BreakRope("Mante tp");
@@ -410,6 +437,12 @@ public class Mante : Enemy
         }
 
         animator.SetBool("IsTeleguiding", isTeleguidingCythe || isCytheSpinning || isCytheInRecall);
+
+        firstPortalCurrentVisualActivationRatio = Mathf.Lerp(firstPortalCurrentVisualActivationRatio, 0, portalVisualDeactivationLerpSpeed * Time.deltaTime);
+        secondPortalCurrentVisualActivationRatio = Mathf.Lerp(secondPortalCurrentVisualActivationRatio, 0, portalVisualDeactivationLerpSpeed * Time.deltaTime);
+
+        firstPortalMat.SetFloat("_idleOrActivated", Mathf.Clamp01(firstPortalCurrentVisualActivationRatio));
+        secondPortalMat.SetFloat("_idleOrActivated", Mathf.Clamp01(secondPortalCurrentVisualActivationRatio));
     }
 
     protected override void OnDie()
@@ -417,5 +450,6 @@ public class Mante : Enemy
         base.OnDie();
         firstPortal.SetActive(false);
         secondPortal.SetActive(false);
+        cytheFlyingSoundSource.Stop();
     }
 }
