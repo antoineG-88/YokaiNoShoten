@@ -22,13 +22,13 @@ public class CameraEvent : EventPart
             {
                 if(currentFocusStep == 1)
                 {
-                    EndEventPart();
                 }
                 else
                 {
                     timeElasped = 0;
                     currentFocusStep = 1;
                     eventTrigger.RemoveCurrentCamera();
+                    EndEventPart();
                 }
             }
         }

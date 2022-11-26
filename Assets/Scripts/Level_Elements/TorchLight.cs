@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TorchLight : Switch
 {
+    public ParticleSystem activatedParticle;
     [HideInInspector] public TorchSystem torchSystem;
     [HideInInspector] public bool isLit;
     private Animator animator;
@@ -29,5 +30,17 @@ public class TorchLight : Switch
     public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
+    }
+
+    public void Lit()
+    {
+        isLit = true;
+        activatedParticle.Play();
+    }
+
+    public void UnLit()
+    {
+        isLit = false;
+        activatedParticle.Stop();
     }
 }

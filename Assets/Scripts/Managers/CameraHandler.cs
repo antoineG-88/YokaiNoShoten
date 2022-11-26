@@ -16,6 +16,7 @@ public class CameraHandler : MonoBehaviour
     public float baseOrthographicSize = 5.625f;
     public float sizeLerpSpeed;
     public Camera mainCamera;
+    public GameObject camBackground;
 
     private Vector2 cameraTarget;
     private Vector2 cameraFinalPos;
@@ -52,6 +53,7 @@ public class CameraHandler : MonoBehaviour
         {
             mainCamera.orthographicSize = currentOrthographicSize;
         }
+        camBackground.transform.localScale = Vector3.one * currentOrthographicSize / baseOrthographicSize * mainCamera.pixelWidth / 1920f;
     }
 
     private void UpdateCameraTarget()

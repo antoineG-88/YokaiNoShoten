@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  activatedParticle: {fileID: 6620171041271569046}
   torchSystem: {fileID: 0}
   isLit: 0
 --- !u!212 &1950704550845370414
@@ -144,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 1084779110829121698, guid: a30d70d9f49d95d48a23eb1e475ccd02,
         type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3831269203619849189, guid: a30d70d9f49d95d48a23eb1e475ccd02,
         type: 3}
@@ -211,6 +212,12 @@ PrefabInstance:
 --- !u!4 &7059706517788662225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3831269203619849189, guid: a30d70d9f49d95d48a23eb1e475ccd02,
+    type: 3}
+  m_PrefabInstance: {fileID: 6112082498683550260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6620171041271569046 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1084779110829121698, guid: a30d70d9f49d95d48a23eb1e475ccd02,
     type: 3}
   m_PrefabInstance: {fileID: 6112082498683550260}
   m_PrefabAsset: {fileID: 0}

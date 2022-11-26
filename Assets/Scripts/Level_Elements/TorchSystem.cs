@@ -101,6 +101,7 @@ public class TorchSystem : Switch
             if(timeElapsedSinceGrab > torchMaxTime)
             {
                 DropTorch();
+                UnlitAllLights();
             }
 
             timeElapsedSinceGrab += Time.fixedDeltaTime;
@@ -111,7 +112,10 @@ public class TorchSystem : Switch
             {
                 if (Vector2.Distance(GameData.player.transform.position, allLights[i].transform.position) < lightTriggerRange)
                 {
-                    allLights[i].isLit = true;
+                    if(!allLights[i].isLit)
+                    {
+                        allLights[i].Lit();
+                    }
                 }
             }
 
