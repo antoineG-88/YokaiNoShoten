@@ -17,11 +17,17 @@ public class TorchSystem : Switch
     public Animator animator;
     public Material torchTrailMaterial;
     public TrailRenderer torchTrail;
+    public AudioSource source;
+    public AudioClip grabTorchSound;
+    public AudioSource torchIdleSource;
+    public AudioClip torchWarningSound;
+    public float timeBetweenWarnBySecondsRemaining;
 
     private ContactFilter2D playerFilter;
     [HideInInspector] public bool isTorchGrabbed;
     private float timeElapsedSinceGrab;
     private SpriteRenderer torchSprite;
+    private float timeBeforeNextWarn;
 
     public override void Start()
     {
@@ -106,6 +112,14 @@ public class TorchSystem : Switch
 
             timeElapsedSinceGrab += Time.fixedDeltaTime;
 
+            if(timeBeforeNextWarn <= 0)
+            {
+                timeBeforeNextWarn = Mathf.Clamp(timeBetweenWarnBySecondsRemaining * (torchMaxTime - timeElapsedSinceGrab), 0.1f, 2f);
+                torchIdleSource.PlayOneShot(torchWarningSound);
+            }
+
+            timeBeforeNextWarn -= Time.fixedDeltaTime;
+
             torchTargetPos = (Vector2)GameData.player.transform.position + torchPosPlayerOffset;
 
             for (int i = 0; i < allLights.Count; i++)
@@ -149,14 +163,17 @@ public class TorchSystem : Switch
         timeElapsedSinceGrab = 0;
         GameData.playerManager.isGrabbingTorch++;
         UnlitAllLights();
-        //feedback
+        source.PlayOneShot(grabTorchSound);
+        torchIdleSource.Play();
+        timeBeforeNextWarn = Mathf.Clamp(timeBetweenWarnBySecondsRemaining * (torchMaxTime - timeElapsedSinceGrab), 0.1f, 2f);
     }
 
     private void DropTorch()
     {
         isTorchGrabbed = false;
         GameData.playerManager.isGrabbingTorch--;
-        //feedbck
+
+        torchIdleSource.Stop();
     }
 
     private void UnlitAllLights()

@@ -8,6 +8,8 @@ public class TorchLight : Switch
     [HideInInspector] public TorchSystem torchSystem;
     [HideInInspector] public bool isLit;
     private Animator animator;
+    public AudioSource source;
+    public AudioClip litSound;
 
     public override void Start()
     {
@@ -36,6 +38,7 @@ public class TorchLight : Switch
     {
         isLit = true;
         activatedParticle.Play();
+        source.PlayOneShot(litSound);
     }
 
     public void UnLit()

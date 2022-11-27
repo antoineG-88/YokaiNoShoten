@@ -657,6 +657,9 @@ MonoBehaviour:
   releaseGrappleSound:
     clip: {fileID: 8300000, guid: 44db9038495c50e47bb54704d4fec0e2, type: 3}
     volumeScale: 0.6
+  breakRopeSound:
+    clip: {fileID: 8300000, guid: 5356c27f1328a0147b845b81324bd787, type: 3}
+    volumeScale: 0.3
   rb: {fileID: 0}
   aimDirection: {x: 0, y: 0}
   isAiming: 0
@@ -2213,21 +2216,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3737249135459656034}
     m_Modifications:
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 657174447
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7263424112995997120, guid: e9e334d4664b4ae4ab437291ab618a3a,
         type: 3}
       propertyPath: m_Name
@@ -2322,6 +2310,21 @@ PrefabInstance:
         type: 3}
       propertyPath: lengthInSec
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 657174447
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997122, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263424112995997123, guid: eeda45fe2a2947c4987e1466ef371b8d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9e334d4664b4ae4ab437291ab618a3a, type: 3}

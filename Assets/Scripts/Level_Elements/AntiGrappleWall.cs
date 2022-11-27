@@ -26,4 +26,14 @@ public class AntiGrappleWall : MonoBehaviour
     {
         //VK à ton tour !!!
     }
+
+    public void OnDrawGizmosSelected()
+    {
+        line = GetComponent<LineRenderer>();
+        linePos = new Vector3[2];
+        linePos[0] = firstPos.position;
+        linePos[1] = secondPos.position;
+        line.SetPositions(linePos);
+        lineMat = Instantiate(line.sharedMaterial);
+    }
 }

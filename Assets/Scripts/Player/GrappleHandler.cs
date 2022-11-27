@@ -42,9 +42,11 @@ public class GrappleHandler : MonoBehaviour
     public bool displayAutoAimRaycast;
     [Header("Graphics settings")]
     public float ropeAppearSpeed;
+    [Header("Sounds settings")]
     public Sound attachGrappleSound;
     public AudioSource grappleLoopSource;
     public Sound releaseGrappleSound;
+    public Sound breakRopeSound;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Vector2 aimDirection;
@@ -463,7 +465,13 @@ public class GrappleHandler : MonoBehaviour
             {
                 Instantiate(breakRopeParticle, Vector2.Lerp(transform.position, attachedObject.transform.position, lerpUnit * i), Quaternion.identity);
             }
+
+            if (message == "AntigrabWall traversed")
+            {
+                GameData.playerSource.PlayOneShot(breakRopeSound.clip, breakRopeSound.volumeScale);
+            }
         }
+
         //Debug.Log(message);
         ReleaseHook();
     }
