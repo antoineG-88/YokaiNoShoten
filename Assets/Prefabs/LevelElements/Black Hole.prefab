@@ -62,44 +62,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855b88aa674786e4b9a95928e1b8bba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trappedTime: 0.5
-  formerDisablingHoleTimer: 5
   kbForce: 5
   suckingRadius: 3.2
+  attackRadius: 0.6
   suckingForceByDistance:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.15510409
+      value: 1
       inSlope: Infinity
-      outSlope: -0.0000000325732
+      outSlope: -5.4382005
       tangentMode: 1
       weightedMode: 3
       inWeight: 0
-      outWeight: 0.41194966
-    - serializedVersion: 3
-      time: 0.37397075
-      value: 0.20382252
-      inSlope: 0.48359793
-      outSlope: 0.985759
-      tangentMode: 1
-      weightedMode: 3
-      inWeight: 0.30404136
-      outWeight: 0.24811912
+      outWeight: 0.14744802
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 1.3837862
-      outSlope: 1.3837862
+      value: 0
+      inSlope: -0.010765161
+      outSlope: -0.010765161
       tangentMode: 0
       weightedMode: 3
-      inWeight: 0.386509
+      inWeight: 0.51606804
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxSuckingForce: 30
+  maxSuckingForce: 250
+  deccelerationForce: 12
+  suckEffectLerpSpeed: 20
+  unsuckEffectLerpSpeed: 3
+  vortexSprite: {fileID: 6557232948351916568}
+  centerAnimator: {fileID: 8777014533777577314}
 --- !u!1 &1362117021300639213
 GameObject:
   m_ObjectHideFlags: 0

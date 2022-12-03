@@ -336,7 +336,9 @@ public class GrappleHandler : MonoBehaviour
                     startTractionVelocity += startTractionPropulsion;
                     rb.velocity = startTractionVelocity * tractionDirection;
                 }
-                rb.velocity = rb.velocity.magnitude * tractionDirection;
+                //rb.velocity = rb.velocity.magnitude * tractionDirection;
+
+
 
                 if (rb.velocity.magnitude > (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
@@ -349,10 +351,10 @@ public class GrappleHandler : MonoBehaviour
                         rb.velocity = tractionDirection * (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed);
                     }
                 }
-                else if ((rb.velocity.magnitude + 0.1f) < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))
+                /*else if ((rb.velocity.magnitude + 0.1f) < startTractionPropulsion && startTractionPropulsion < (GameData.movementHandler.currentGravityZone != null ? noGravityMaxTractionSpeed : maxTractionSpeed))
                 {
                     rb.velocity = tractionDirection * startTractionPropulsion;
-                }
+                }*/
                 else
                 {
                     if (Vector2.Distance(transform.position, attachedObject.transform.position) <= minDistanceToAccelerate)
