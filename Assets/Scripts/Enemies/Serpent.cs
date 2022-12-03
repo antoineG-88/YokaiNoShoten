@@ -31,6 +31,7 @@ public class Serpent : Enemy
     public float angleCorrection;
     public float headHeightCorrection;
     public int trailSubdivision;
+    public ParticleSystem noGravityEffect;
     [Header("Serpent specific sounds")]
     public Sound tailBrokeSound;
     public Sound tailReformSound;
@@ -371,6 +372,25 @@ public class Serpent : Enemy
             {
                 bodiesSprite[i].flipY = false;
                 bodiesSprite[i].transform.localRotation = Quaternion.Euler(0, 0, angleCorrection);
+            }
+        }
+        UpdateNoGravityEffect();
+    }
+
+    private void UpdateNoGravityEffect()
+    {
+        if(isInNoGravityZone)
+        {
+            if(noGravityEffect.isStopped)
+            {
+                noGravityEffect.Play();
+            }
+        }
+        else
+        {
+            if (noGravityEffect.isPlaying)
+            {
+                noGravityEffect.Stop();
             }
         }
     }

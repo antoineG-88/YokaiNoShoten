@@ -32,6 +32,7 @@ public class MovementHandler : MonoBehaviour
     [Space]
     [Header("References")]
     public Collider2D feetCollider;
+    public ParticleSystem noGravityEffect;
 
     [HideInInspector] public float horizontalTargetSpeed;
     private float currentAcceleration;
@@ -67,6 +68,7 @@ public class MovementHandler : MonoBehaviour
     {
         GetInputs();
         UpdateSounds();
+        UpdateNoGravityEffect();
     }
 
     private void FixedUpdate()
@@ -318,6 +320,24 @@ public class MovementHandler : MonoBehaviour
             {
                 rb.velocity = rb.velocity.normalized * 0.5f;
                 yield return new WaitForFixedUpdate();
+            }
+        }
+    }
+
+    private void UpdateNoGravityEffect()
+    {
+        if(currentGravityZone == null)
+        {
+            if(noGravityEffect.isPlaying)
+            {
+                noGravityEffect.Stop();
+            }
+        }
+        else
+        {
+            if (noGravityEffect.isStopped)
+            {
+                noGravityEffect.Play();
             }
         }
     }

@@ -9,9 +9,11 @@ public class NoGravityZone : MonoBehaviour
     public float maxSpeedInNGZone;
     public float aboveMaxMomentumSlowingForce;
     public float maxTractingSpeedInNGZone;
-    [Header("Display settinngs")]
+    [Header("Display settings")]
     public LineRenderer edgeLine;
     public List<Transform> corners;
+    public GameObject enterEffectPrefab;
+    public GameObject exitEffectPrefab;
 
     private Serpent potentialSerpent;
     private Material material;
@@ -37,12 +39,14 @@ public class NoGravityZone : MonoBehaviour
         {
             GameData.movementHandler.currentGravityZone = this;
             GameData.grappleHandler.noGravityMaxTractionSpeed = maxTractingSpeedInNGZone;
+            PlayEnterEffect(collision.transform.position);
         }
 
         potentialSerpent = collision.gameObject.GetComponent<Serpent>();
         if (potentialSerpent != null)
         {
             potentialSerpent.isInNoGravityZone = true;
+            PlayEnterEffect(collision.transform.position);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -50,6 +54,7 @@ public class NoGravityZone : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             GameData.movementHandler.currentGravityZone = null;
+            PlayExitEffect(collision.transform.position);
         }
 
 
@@ -57,6 +62,99 @@ public class NoGravityZone : MonoBehaviour
         if (potentialSerpent != null)
         {
             potentialSerpent.isInNoGravityZone = false;
+            PlayExitEffect(collision.transform.position);
+        }
+    }
+
+    private void PlayEnterEffect(Vector2 enterPos)
+    {
+        Vector2 direction = enterPos - (Vector2)transform.position;
+        float angle = Vector2.SignedAngle(Vector2.right, direction) - transform.rotation.eulerAngles.z;
+        direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * direction.magnitude;
+        Vector2 newDirection;
+        float newAngle;
+
+        if (direction.x > transform.localScale.x / 2f)
+        {
+            Debug.Log("right");
+            newDirection = new Vector2(transform.localScale.x / 2f, direction.y);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(enterEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, -90f + transform.rotation.eulerAngles.z));
+        }
+        else if(direction.x < -transform.localScale.x / 2f)
+        {
+            Debug.Log("left");
+            newDirection = new Vector2(-transform.localScale.x / 2f, direction.y);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(enterEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, 90f + transform.rotation.eulerAngles.z));
+        }
+        else if (direction.y > transform.localScale.y / 2f)
+        {
+            Debug.Log("up");
+            newDirection = new Vector2(direction.x, transform.localScale.y / 2f);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(enterEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, 0f + transform.rotation.eulerAngles.z));
+        }
+        else if (direction.y < -transform.localScale.y / 2f)
+        {
+            Debug.Log("down");
+            newDirection = new Vector2(direction.x, -transform.localScale.y / 2f);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(enterEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, 180f + transform.rotation.eulerAngles.z));
+        }
+    }
+
+    private void PlayExitEffect(Vector2 enterPos)
+    {
+        Vector2 direction = enterPos - (Vector2)transform.position;
+        float angle = Vector2.SignedAngle(Vector2.right, direction) - transform.rotation.eulerAngles.z;
+        direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * direction.magnitude;
+        Vector2 newDirection;
+        float newAngle;
+
+        if (direction.x > transform.localScale.x / 2f)
+        {
+            Debug.Log("right");
+            newDirection = new Vector2(transform.localScale.x / 2f, direction.y);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(exitEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, -90f + transform.rotation.eulerAngles.z));
+        }
+        else if (direction.x < -transform.localScale.x / 2f)
+        {
+            Debug.Log("left");
+            newDirection = new Vector2(-transform.localScale.x / 2f, direction.y);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(exitEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, 90f + transform.rotation.eulerAngles.z));
+        }
+        else if (direction.y > transform.localScale.y / 2f)
+        {
+            Debug.Log("up");
+            newDirection = new Vector2(direction.x, transform.localScale.y / 2f);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(exitEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, 0f + transform.rotation.eulerAngles.z));
+        }
+        else if (direction.y < -transform.localScale.y / 2f)
+        {
+            Debug.Log("down");
+            newDirection = new Vector2(direction.x, -transform.localScale.y / 2f);
+            newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
+            newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
+
+            Instantiate(exitEffectPrefab, new Vector3(transform.position.x + newDirection.x, transform.position.y + newDirection.y, 0.0f), Quaternion.Euler(0f, 0f, 180f + transform.rotation.eulerAngles.z));
         }
     }
 }
