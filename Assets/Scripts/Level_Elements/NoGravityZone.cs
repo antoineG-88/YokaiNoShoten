@@ -76,7 +76,6 @@ public class NoGravityZone : MonoBehaviour
 
         if (direction.x > transform.localScale.x / 2f)
         {
-            Debug.Log("right");
             newDirection = new Vector2(transform.localScale.x / 2f, direction.y);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -85,7 +84,6 @@ public class NoGravityZone : MonoBehaviour
         }
         else if(direction.x < -transform.localScale.x / 2f)
         {
-            Debug.Log("left");
             newDirection = new Vector2(-transform.localScale.x / 2f, direction.y);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -94,7 +92,6 @@ public class NoGravityZone : MonoBehaviour
         }
         else if (direction.y > transform.localScale.y / 2f)
         {
-            Debug.Log("up");
             newDirection = new Vector2(direction.x, transform.localScale.y / 2f);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -103,7 +100,6 @@ public class NoGravityZone : MonoBehaviour
         }
         else if (direction.y < -transform.localScale.y / 2f)
         {
-            Debug.Log("down");
             newDirection = new Vector2(direction.x, -transform.localScale.y / 2f);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -122,7 +118,6 @@ public class NoGravityZone : MonoBehaviour
 
         if (direction.x > transform.localScale.x / 2f)
         {
-            Debug.Log("right");
             newDirection = new Vector2(transform.localScale.x / 2f, direction.y);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -131,7 +126,6 @@ public class NoGravityZone : MonoBehaviour
         }
         else if (direction.x < -transform.localScale.x / 2f)
         {
-            Debug.Log("left");
             newDirection = new Vector2(-transform.localScale.x / 2f, direction.y);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -140,7 +134,6 @@ public class NoGravityZone : MonoBehaviour
         }
         else if (direction.y > transform.localScale.y / 2f)
         {
-            Debug.Log("up");
             newDirection = new Vector2(direction.x, transform.localScale.y / 2f);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;
@@ -149,7 +142,6 @@ public class NoGravityZone : MonoBehaviour
         }
         else if (direction.y < -transform.localScale.y / 2f)
         {
-            Debug.Log("down");
             newDirection = new Vector2(direction.x, -transform.localScale.y / 2f);
             newAngle = Vector2.SignedAngle(Vector2.right, newDirection) + transform.rotation.eulerAngles.z;
             newDirection = new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad)) * newDirection.magnitude;

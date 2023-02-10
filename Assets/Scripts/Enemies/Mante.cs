@@ -34,6 +34,7 @@ public class Mante : Enemy
     [Header("Visuals")]
     public SpriteRenderer sprite;
     public GameObject disparitionFXPrefab;
+    public GameObject retreatDirectionFXPrefab;
     public SpriteRenderer cytheAttackSprite;
     public float attackTransitionTime;
     public float previsState;
@@ -369,6 +370,8 @@ public class Mante : Enemy
 
         Transform newFx = Instantiate(disparitionFXPrefab, transform.position, Quaternion.identity).transform;
         newFx.localScale = new Vector3(isFacingRight ? -1 : 1, 1, 1);
+        Instantiate(retreatDirectionFXPrefab, transform.position, Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.right, portal.transform.position - transform.position)));
+
         transform.position = portal.transform.position;
 
         animator.SetTrigger("Teleport");

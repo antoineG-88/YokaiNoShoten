@@ -180,7 +180,7 @@ public class TorchSystem : Switch
     {
         for (int i = 0; i < allLights.Count; i++)
         {
-            allLights[i].isLit = false;
+            allLights[i].UnLit();
         }
     }
 
