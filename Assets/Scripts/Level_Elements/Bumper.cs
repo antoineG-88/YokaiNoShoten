@@ -22,9 +22,13 @@ public class Bumper : MonoBehaviour
     private float surgeTimeElapsed;
     private Vector2 perpendicularForce;
     private float perpendicularAngle;
+    public Sound bumperSurgeSound;
+    private AudioSource source;
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
+
         directedForce = bumperDirection.position - transform.position;
         directedForce.Normalize();
         directedForce *= surge * 0.2f;
@@ -115,6 +119,7 @@ public class Bumper : MonoBehaviour
             isSurging = true;
             GameData.grappleHandler.BreakRope("nope");
             GameData.dashHandler.isDashing = false;
+            source.PlayOneShot(bumperSurgeSound.clip, bumperSurgeSound.volumeScale);
             //GameData.movementHandler.Propel(Vector2.zero, true);
             surgeEffect.Play();
             //GameData.playerManager.NoControl(surgeTime);

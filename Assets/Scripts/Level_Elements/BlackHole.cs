@@ -14,6 +14,10 @@ public class BlackHole : Piercable
     public float unsuckEffectLerpSpeed;
     public SpriteRenderer vortexSprite;
     public Animator centerAnimator;
+    public Sound suckInSound;
+    public Sound suckOutSound;
+    public AudioSource suckLoopSource;
+    public AudioSource source;
 
     private float succionPower;
     private bool playerInRange;
@@ -26,7 +30,6 @@ public class BlackHole : Piercable
 
     void Start()
     {
-
         vortexMat = Instantiate(vortexSprite.sharedMaterial);
         vortexSprite.material = vortexMat;
         playerMask = LayerMask.GetMask("Player");
@@ -82,6 +85,8 @@ public class BlackHole : Piercable
             {
                 playerInRange = true;
                 GameData.movementHandler.levitateSourceNumber++;
+                suckLoopSource.Play();
+                source.PlayOneShot(suckInSound.clip, suckInSound.volumeScale);
                 //GameData.grappleHandler.isSucked = true;
             }
         }
@@ -91,6 +96,8 @@ public class BlackHole : Piercable
             {
                 playerInRange = false;
                 GameData.movementHandler.levitateSourceNumber--;
+                suckLoopSource.Stop();
+                //source.PlayOneShot(suckOutSound.clip, suckOutSound.volumeScale);
                 //GameData.grappleHandler.isSucked = false;
             }
         }
