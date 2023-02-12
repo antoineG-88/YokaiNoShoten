@@ -41,6 +41,9 @@ public class Bumper : MonoBehaviour
     {
         if (!useOldBump)
             UpdateSurging();
+
+
+        source.pitch = Time.timeScale;
     }
 
     void Update()

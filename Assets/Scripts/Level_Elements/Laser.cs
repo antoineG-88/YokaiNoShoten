@@ -27,6 +27,11 @@ public class Laser : MonoBehaviour
     public Material sequenceMat;
     public float disablingDistance;
     public bool doNotUseDistanceDisabling;
+    [Header("Sounds")]
+    public AudioSource laserLoopSource;
+    public AudioSource source;
+    public Sound startSound;
+    public Sound stopSound;
 
     public ParticleSystem endBeamParticle;
 
@@ -59,6 +64,7 @@ public class Laser : MonoBehaviour
         else
         {
             isBeamActive = true;
+            laserLoopSource.Play();
         }
         beamLine = GetComponent<LineRenderer>();
         if(activationsSequence.Count > 0)
@@ -77,7 +83,14 @@ public class Laser : MonoBehaviour
         currentDirection = GetDirectionFromAngle(transform.rotation.eulerAngles.z);
         if(connectedSwitch != null)
         {
-            isActive = connectedSwitch.IsON();
+            if(isActive != connectedSwitch.IsON())
+            {
+                isActive = connectedSwitch.IsON();
+                if(!isActive)
+                {
+                    laserLoopSource.Stop();
+                }
+            }
         }
 
         if (activationsSequence.Count > 0)
@@ -102,6 +115,9 @@ public class Laser : MonoBehaviour
         {
             UpdateLaserBeam();
         }
+
+        source.pitch = Time.timeScale;
+        laserLoopSource.pitch = Time.timeScale;
     }
 
     private void UpdateLaserBeam()
@@ -246,11 +262,21 @@ public class Laser : MonoBehaviour
 
                 if (oddIndexActive ? currentSequenceIndex % 2 != 0 : currentSequenceIndex % 2 == 0)
                 {
-                    isBeamActive = true;
+                    if(!isBeamActive)
+                    {
+                        isBeamActive = true;
+                        laserLoopSource.Play();
+                        source.PlayOneShot(startSound.clip, startSound.volumeScale);
+                    }
                 }
                 else
                 {
-                    isBeamActive = false;
+                    if (isBeamActive)
+                    {
+                        isBeamActive = false;
+                        laserLoopSource.Stop();
+                        //source.PlayOneShot(stopSound.clip, stopSound.volumeScale);
+                    }
                 }
             }
 

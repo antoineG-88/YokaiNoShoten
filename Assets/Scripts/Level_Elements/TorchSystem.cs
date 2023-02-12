@@ -18,9 +18,9 @@ public class TorchSystem : Switch
     public Material torchTrailMaterial;
     public TrailRenderer torchTrail;
     public AudioSource source;
-    public AudioClip grabTorchSound;
+    public Sound grabTorchSound;
     public AudioSource torchIdleSource;
-    public AudioClip torchWarningSound;
+    public Sound torchWarningSound;
     public float timeBetweenWarnBySecondsRemaining;
 
     private ContactFilter2D playerFilter;
@@ -77,6 +77,9 @@ public class TorchSystem : Switch
         {
             UpdateGrab();
         }
+
+        source.pitch = Time.timeScale;
+        torchIdleSource.pitch = Time.timeScale;
     }
 
     private List<Collider2D> colliders;
@@ -115,7 +118,7 @@ public class TorchSystem : Switch
             if(timeBeforeNextWarn <= 0)
             {
                 timeBeforeNextWarn = Mathf.Clamp(timeBetweenWarnBySecondsRemaining * (torchMaxTime - timeElapsedSinceGrab), 0.1f, 2f);
-                torchIdleSource.PlayOneShot(torchWarningSound);
+                torchIdleSource.PlayOneShot(torchWarningSound.clip, torchWarningSound.volumeScale);
             }
 
             timeBeforeNextWarn -= Time.fixedDeltaTime;
@@ -163,7 +166,7 @@ public class TorchSystem : Switch
         timeElapsedSinceGrab = 0;
         GameData.playerManager.isGrabbingTorch++;
         UnlitAllLights();
-        source.PlayOneShot(grabTorchSound);
+        source.PlayOneShot(grabTorchSound.clip, grabTorchSound.volumeScale);
         torchIdleSource.Play();
         timeBeforeNextWarn = Mathf.Clamp(timeBetweenWarnBySecondsRemaining * (torchMaxTime - timeElapsedSinceGrab), 0.1f, 2f);
     }

@@ -53,7 +53,9 @@ MonoBehaviour:
   torchSystem: {fileID: 0}
   isLit: 0
   source: {fileID: 4496032013761422291}
-  litSound: {fileID: 8300000, guid: 2a6b48db56792624ab192258bcf8d4c8, type: 3}
+  litSound:
+    clip: {fileID: 8300000, guid: 2a6b48db56792624ab192258bcf8d4c8, type: 3}
+    volumeScale: 0.6
 --- !u!212 &1950704550845370414
 SpriteRenderer:
   m_ObjectHideFlags: 0

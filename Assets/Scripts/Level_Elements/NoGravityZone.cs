@@ -14,9 +14,18 @@ public class NoGravityZone : MonoBehaviour
     public List<Transform> corners;
     public GameObject enterEffectPrefab;
     public GameObject exitEffectPrefab;
+    [Header("Sounds")]
+    public AudioSource ambientSource;
+    public Sound enterSound;
+    public Sound exitSound;
 
     private Serpent potentialSerpent;
     private Material material;
+
+    private void FixedUpdate()
+    {
+        ambientSource.pitch = Time.timeScale;
+    }
 
     private void Start()
     {
@@ -39,6 +48,9 @@ public class NoGravityZone : MonoBehaviour
         {
             GameData.movementHandler.currentGravityZone = this;
             GameData.grappleHandler.noGravityMaxTractionSpeed = maxTractingSpeedInNGZone;
+            GameData.audioManager.EnableNoGravityMixerEffects();
+            ambientSource.Play();
+            GameData.playerSource.PlayOneShot(enterSound.clip, enterSound.volumeScale);
             PlayEnterEffect(collision.transform.position);
         }
 
@@ -55,6 +67,9 @@ public class NoGravityZone : MonoBehaviour
         {
             GameData.movementHandler.currentGravityZone = null;
             PlayExitEffect(collision.transform.position);
+            GameData.audioManager.DisableNoGravityMixerEffects();
+            GameData.playerSource.PlayOneShot(exitSound.clip, exitSound.volumeScale);
+            ambientSource.Stop();
         }
 
 

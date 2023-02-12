@@ -26,6 +26,7 @@ public class GameData : MonoBehaviour
     public static DialogManager dialogManager;
     public static int noPiercableLayer;
     public static AudioSource playerSource;
+    public static AudioManager audioManager;
 
     private void Awake()
     {
@@ -44,6 +45,7 @@ public class GameData : MonoBehaviour
         dialogManager = levelManager.GetComponent<DialogManager>();
         slowMoManager = levelManager.GetComponent<SlowMoManager>();
         playerSource = player.GetComponent<AudioSource>();
+        audioManager = levelManager.GetComponent<AudioManager>();
     }
 
     private void Start()

@@ -9,7 +9,7 @@ public class TorchLight : Switch
     [HideInInspector] public bool isLit;
     private Animator animator;
     public AudioSource source;
-    public AudioClip litSound;
+    public Sound litSound;
 
     public override void Start()
     {
@@ -29,6 +29,11 @@ public class TorchLight : Switch
         animator.SetBool("isLit", isLit);
     }
 
+    private void FixedUpsate()
+    {
+        source.pitch = Time.timeScale;
+    }
+
     public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
     {
         return false;
@@ -38,7 +43,7 @@ public class TorchLight : Switch
     {
         isLit = true;
         activatedParticle.Play();
-        source.PlayOneShot(litSound);
+        source.PlayOneShot(litSound.clip, litSound.volumeScale);
     }
 
     public void UnLit()

@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour
             GameManager.currentZoneName = zoneName;
         }
         StartCoroutine(StartBlackScreenFade());
+        GameData.audioManager.DisableNoGravityMixerEffects();
     }
 
     private void Update()

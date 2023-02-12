@@ -75,6 +75,8 @@ public class BlackHole : Piercable
     void FixedUpdate()
     {
         CheckPlayerDistance();
+        source.pitch = Time.timeScale;
+        suckLoopSource.pitch = Time.timeScale;
     }
 
     void CheckPlayerDistance()
