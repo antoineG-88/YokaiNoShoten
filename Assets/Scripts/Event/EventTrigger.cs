@@ -14,12 +14,13 @@ public class EventTrigger : Switch
     public int maxStoryStepToTrigger;
     public int storyStepProgressionAtTheEnd;
 
-    private bool isInEvent;
+    [HideInInspector] public bool isInEvent;
     private bool eventTriggered;
 
     private int currentEventPartIndex;
     private bool eventPartStarted;
     [HideInInspector] public CameraConstraintZone previousCamera;
+    private bool eventShouldResetWhenEnded;
 
     private new void Start()
     {
@@ -91,8 +92,32 @@ public class EventTrigger : Switch
             GameManager.currentStoryStep = storyStepProgressionAtTheEnd;
 
         GameData.grappleHandler.hideAimArrow--;
+
+        if(eventShouldResetWhenEnded)
+        {
+            ResetEvent();
+        }
+    }
+    public void ResetEventWhenEnded()
+    {
+        if (isInEvent)
+        {
+            eventShouldResetWhenEnded = true;
+        }
+        else
+        {
+            ResetEvent();
+        }
     }
 
+    public void ResetEvent()
+    {
+        eventTriggered = false;
+        currentEventPartIndex = 0;
+        eventPartStarted = false;
+        previousCamera = null;
+        isOn = false;
+    }
 
     public void SetNewCameraConstraint()
     {

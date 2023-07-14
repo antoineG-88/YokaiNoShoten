@@ -31,6 +31,7 @@ public class DialogEvent : EventPart
                 {
                     isReachingDialoguePos = false;
                     GameData.dialogManager.StartDialogue(dialogToPlay, callback);
+                    GameData.playerVisuals.facingRight = seikiOrientationIsRight;
                 }
 
                 if (GameData.movementHandler.transform.position.x > seikiPositionDuringDialog.x)
