@@ -9,7 +9,7 @@ public class PauseManager : MonoBehaviour
     private bool isPaused;
     private EventSystem eventSystem;
     public GameObject pauseButton;
-    public GameObject musicSlider;
+    public GameObject mainVolumeSlider;
     public GameObject optionMenu;
     public GameObject buttons;
 
@@ -60,7 +60,7 @@ public class PauseManager : MonoBehaviour
     }
     public void SelectScrollBarWithController()
     {
-        eventSystem.firstSelectedGameObject = musicSlider;
-        eventSystem.SetSelectedGameObject(musicSlider);
+        eventSystem.firstSelectedGameObject = mainVolumeSlider;
+        eventSystem.SetSelectedGameObject(mainVolumeSlider);
     }
 }

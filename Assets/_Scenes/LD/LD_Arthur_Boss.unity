@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -48512,6 +48512,7 @@ MonoBehaviour:
   neededStoryStepToTrigger: 32
   maxStoryStepToTrigger: 32
   storyStepProgressionAtTheEnd: 33
+  isInEvent: 0
   previousCamera: {fileID: 0}
 --- !u!114 &812196228
 MonoBehaviour:
@@ -48902,8 +48903,41 @@ PrefabInstance:
       propertyPath: pauseButton
       value: 
       objectReference: {fileID: 1513515079}
+    - target: {fileID: 8990268379061952510, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: mainMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 9c6544e17c2017044b68bf43d09eda2d,
+        type: 2}
+    - target: {fileID: 8990268379061952510, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: masterVolumeSlider
+      value: 
+      objectReference: {fileID: 1482128028}
+    - target: {fileID: 8990268379061952510, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: musicVolumeSlider
+      value: 
+      objectReference: {fileID: 1482128029}
+    - target: {fileID: 8990268379061952510, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: effectVolumeSlider
+      value: 
+      objectReference: {fileID: 1482128030}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f29cc1d763ece94f9a875215743de6c, type: 3}
+--- !u!114 &855523089 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8990268379061952510, guid: 5f29cc1d763ece94f9a875215743de6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 855523088}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729ced57dbc47f14a8437dd55652f23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &855612086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53480,6 +53514,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4495233473657097004, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 855523089}
+    - target: {fileID: 4495233473657097004, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMusicVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 855523089}
+    - target: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetEffectVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5136852641411978792, guid: 06f07e53a9763bc4dbce6cb61276b09e,
         type: 3}
       propertyPath: m_Name
@@ -53590,8 +53664,54 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8579641987930660826, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 855523089}
+    - target: {fileID: 8579641987930660826, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMainVolume
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06f07e53a9763bc4dbce6cb61276b09e, type: 3}
+--- !u!114 &1482128028 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8579641987930660826, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1482128027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1482128029 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4495233473657097004, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1482128027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1482128030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4495233474447624421, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1482128027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1483967151
 GameObject:
   m_ObjectHideFlags: 0
@@ -55590,6 +55710,7 @@ MonoBehaviour:
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 34
   storyStepProgressionAtTheEnd: 0
+  isInEvent: 0
   previousCamera: {fileID: 0}
 --- !u!4 &1683384628
 Transform:
@@ -57846,6 +57967,7 @@ MonoBehaviour:
   neededStoryStepToTrigger: 33
   maxStoryStepToTrigger: 33
   storyStepProgressionAtTheEnd: 34
+  isInEvent: 0
   previousCamera: {fileID: 0}
 --- !u!1001 &1867419135
 PrefabInstance:

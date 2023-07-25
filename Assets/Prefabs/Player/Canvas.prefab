@@ -1687,7 +1687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseButton: {fileID: 8340502225235521661}
-  musicSlider: {fileID: 4495233473657097006}
+  mainVolumeSlider: {fileID: 8579641987930660824}
   optionMenu: {fileID: 4495233473702641489}
   buttons: {fileID: 766863061176787549}
 --- !u!1 &8340502225235521661
@@ -1957,11 +1957,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Options
       objectReference: {fileID: 0}
-    - target: {fileID: 5292650854177217292, guid: 43fa845ede21ea84e942a7a8d2d7b362,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5292650854177217293, guid: 43fa845ede21ea84e942a7a8d2d7b362,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2022,16 +2017,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 4827831176152419079}
-    - target: {fileID: 5292650854602429436, guid: 43fa845ede21ea84e942a7a8d2d7b362,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: Pause
-      objectReference: {fileID: 0}
-    - target: {fileID: 5292650854602429436, guid: 43fa845ede21ea84e942a7a8d2d7b362,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43fa845ede21ea84e942a7a8d2d7b362, type: 3}
 --- !u!1 &4495233473702641489 stripped
@@ -2046,9 +2031,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8579641986562860125}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4495233473657097006 stripped
+--- !u!1 &8579641987930660824 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5292650854235369331, guid: 43fa845ede21ea84e942a7a8d2d7b362,
+  m_CorrespondingSourceObject: {fileID: 1404648325, guid: 43fa845ede21ea84e942a7a8d2d7b362,
     type: 3}
   m_PrefabInstance: {fileID: 8579641986562860125}
   m_PrefabAsset: {fileID: 0}
