@@ -63,4 +63,10 @@ public class PauseManager : MonoBehaviour
         eventSystem.firstSelectedGameObject = mainVolumeSlider;
         eventSystem.SetSelectedGameObject(mainVolumeSlider);
     }
+
+    public void ManualRespawn()
+    {
+        Resume();
+        GameManager.Respawn();
+    }
 }

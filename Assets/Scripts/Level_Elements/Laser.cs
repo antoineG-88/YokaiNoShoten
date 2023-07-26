@@ -101,8 +101,8 @@ public class Laser : MonoBehaviour
 
         if (distToPlayer.magnitude < disablingDistance || doNotUseDistanceDisabling)
         {
-            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange, LayerMask.GetMask("Wall"));
-            beamLength = hit ? Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset : maxLaserRange;
+            hit = Physics2D.Raycast((Vector2)transform.position + currentDirection * beamStartOffset, currentDirection, maxLaserRange - beamStartOffset, LayerMask.GetMask("Wall"));
+            beamLength = hit ? (Vector2.Distance(transform.position, hit.point) - beamDisplayStartOffset) : maxLaserRange;
             beamLine.SetPosition(0, (Vector2)transform.position + currentDirection * beamDisplayStartOffset);
             beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
         }
@@ -124,7 +124,7 @@ public class Laser : MonoBehaviour
     {
         if (isBeamActive && isActive)
         {
-            playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * beamStartOffset + currentDirection * beamWidth / 2, beamWidth, currentDirection, maxLaserRange, LayerMask.GetMask("Player", "Wall"));
+            playerHit = Physics2D.CircleCast((Vector2)transform.position + currentDirection * (beamStartOffset + beamWidth / 2), beamWidth, currentDirection, maxLaserRange - (beamStartOffset + beamWidth), LayerMask.GetMask("Player", "Wall"));
             if (playerHit && playerHit.collider.CompareTag("Player"))
             {
                 Vector2 knockbackDirection;
