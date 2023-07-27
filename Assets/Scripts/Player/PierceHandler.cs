@@ -12,7 +12,7 @@ public class PierceHandler : MonoBehaviour
     public float pierceAttackKnockbackForce;
     public float maxPhasingTime;
     public float pierceKnockbackForce;
-    public LayerMask enemyMask;
+    public LayerMask piercableMask;
     public GameObject pierceShadowFx;
     public GameObject pierceMarkFx;
     public float timeBeforeFirstPierce;
@@ -42,7 +42,7 @@ public class PierceHandler : MonoBehaviour
 
     public Vector3 fxOffset;
 
-    private ContactFilter2D enemyFilter;
+    private ContactFilter2D piercableFilter;
     [HideInInspector] public Vector2 piercableDirection;
     [HideInInspector] public bool isPiercing;
     [HideInInspector] public bool isPhasing;
@@ -62,8 +62,8 @@ public class PierceHandler : MonoBehaviour
 
     private void Start()
     {
-        enemyFilter.SetLayerMask(enemyMask);
-        enemyFilter.useTriggers = true;
+        piercableFilter.SetLayerMask(piercableMask);
+        piercableFilter.useTriggers = true;
         rb = GetComponent<Rigidbody2D>();
         nearestObject = null;
         colliders = new List<Collider2D>();
@@ -77,14 +77,8 @@ public class PierceHandler : MonoBehaviour
 
     private void Update()
     {
-        if(useAutoAim)
-        {
-            //CheckFirstPierce();
-        }
-        else
-        {
-            UpdatePierceAim();
-        }
+        UpdatePierceAim();
+
         UpdatePhasingTime();
 
         if (GameData.movementHandler.isGrounded && !GameData.movementHandler.isOnSlidingSlope && !isPiercing)
@@ -96,10 +90,10 @@ public class PierceHandler : MonoBehaviour
 
     private GameObject nearestObject;
     List<Collider2D> colliders;
-    private void CheckFirstPierce() //Affiche la preview du pierce et lance l'attaque sur un ennemi à proximité
+    private void UpdateAutoAim() //Affiche la preview du pierce et lance l'attaque sur un ennemi à proximité
     {
         colliders.Clear();
-        Physics2D.OverlapCircle(transform.position, pierceRange, enemyFilter, colliders);
+        Physics2D.OverlapCircle(transform.position, pierceRange, piercableFilter, colliders);
         if (!isPhasing && colliders.Count > 0 && canPierce)
         {
             nearestObject = null;
@@ -108,66 +102,27 @@ public class PierceHandler : MonoBehaviour
             {
                 if (nearestObject == null || Vector2.Distance(colliders[i].transform.position, transform.position) < minDist)
                 {
-                    nearestObject = colliders[i].gameObject;
-                    minDist = Vector2.Distance(colliders[i].transform.position, transform.position);
-                }
-            }
+                    if(nearestObject == null)
+                    {
+                        hit = Physics2D.Raycast(transform.position, colliders[i].transform.position - transform.position, Vector2.Distance(colliders[i].transform.position, transform.position), LayerMask.GetMask("Wall", "DashWall", "Enemy", "EnemyFantom", "Piercable"));
 
-            Enemy potentialNearestEnemy = nearestObject.GetComponent<Enemy>();
-            if ((potentialNearestEnemy != null && !potentialNearestEnemy.isDying) || potentialNearestEnemy == null)
-            {
-                pierceArrowPreview.gameObject.SetActive(true);
-                pierceArrowPreview.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, nearestObject.transform.position - transform.position));
-
-                Vector2 objectDirection = nearestObject.transform.position - transform.position;
-                objectDirection.Normalize();
-                pierceEndPosPreview.gameObject.SetActive(true);
-                pierceEndPosPreview.position = (Vector2)nearestObject.transform.position + objectDirection * positionDistanceBehindEnemy;
-            }
-            else
-            {
-                nearestObject = null;
-                pierceArrowPreview.gameObject.SetActive(false);
-                pierceEndPosPreview.gameObject.SetActive(false);
-                comboPierceTimingHelper.gameObject.SetActive(false);
-            }
-
-        }
-        else
-        {
-            if(currentComboPierceStep == 0)
-            {
-                pierceArrowPreview.gameObject.SetActive(false);
-                pierceEndPosPreview.gameObject.SetActive(false);
-                comboPierceTimingHelper.gameObject.SetActive(false);
-            }
-            nearestObject = null;
-        }
-
-        if ((Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton")) && canPierce && !isPhasing)
-        {
-            canPierce = false;
-            StopPhasingTime();
-
-            List<Collider2D> colliders = new List<Collider2D>();
-            Physics2D.OverlapCircle(transform.position, pierceRange, enemyFilter, colliders);
-            if (colliders.Count > 0)
-            {
-                float minDist = 500;
-                for (int i = 0; i < colliders.Count; i++)
-                {
-                    if (nearestObject == null || Vector2.Distance(colliders[i].transform.position, transform.position) < minDist)
+                        if (hit.collider.gameObject == colliders[i].gameObject)
+                        {
+                            nearestObject = colliders[i].gameObject;
+                            minDist = Vector2.Distance(colliders[i].transform.position, transform.position);
+                        }
+                    }
+                    else
                     {
                         nearestObject = colliders[i].gameObject;
                         minDist = Vector2.Distance(colliders[i].transform.position, transform.position);
                     }
                 }
-                if ((nearestObject.GetComponent<Enemy>() != null && !nearestObject.GetComponent<Enemy>().isDying) || nearestObject.GetComponent<Enemy>() == null)
-                    StartCoroutine(Pierce(nearestObject));
             }
-            else
+
+            if(nearestObject != null)
             {
-                //feedback lancé attaque dans le vide
+                selectedEnemy = nearestObject;
             }
         }
     }
@@ -188,63 +143,40 @@ public class PierceHandler : MonoBehaviour
         }
         aimDirection.Normalize();
 
+        selectedEnemy = null;
+
+        if (useAutoAim)
+        {
+            UpdateAutoAim();
+        }
+
         if (isAimingPierce)
         {
             pierceArrowPreview.gameObject.SetActive(true);
             pierceArrowPreview.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
-            selectedEnemy = null;
 
-            float minAngleFound = pierceAimAssistAngle;
-            for (int i = 0; i < pierceAimAssistRaycastNumber; i++)
+            if (!useAutoAim)
             {
-                float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
-                float angledDirection = (Vector2.SignedAngle(Vector2.right, aimDirection)) + relativeAngle;
-                Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
-                Vector2 raycastOrigin = transform.position;
-
-                //Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
-
-                hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "DashWall", "Enemy", "EnemyFantom", "Piercable"));
-                if (hit)
+                float minAngleFound = pierceAimAssistAngle;
+                for (int i = 0; i < pierceAimAssistRaycastNumber; i++)
                 {
-                    if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall" && LayerMask.LayerToName(hit.collider.gameObject.layer) != "DashWall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                    float relativeAngle = aimAssistFirstAngle + aimAssistSubAngle * i;
+                    float angledDirection = (Vector2.SignedAngle(Vector2.right, aimDirection)) + relativeAngle;
+                    Vector2 direction = new Vector2(Mathf.Cos((angledDirection) * Mathf.PI / 180), Mathf.Sin((angledDirection) * Mathf.PI / 180));
+                    Vector2 raycastOrigin = transform.position;
+
+                    //Debug.DrawRay(raycastOrigin, direction * pierceRange, Color.cyan);
+
+                    hit = Physics2D.Raycast(raycastOrigin, direction, pierceRange, LayerMask.GetMask("Wall", "DashWall", "Enemy", "EnemyFantom", "Piercable"));
+                    if (hit)
                     {
-                        selectedEnemy = hit.collider.gameObject;
-                        minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                        if ((LayerMask.LayerToName(hit.collider.gameObject.layer) != "Wall" && LayerMask.LayerToName(hit.collider.gameObject.layer) != "DashWall") && selectedEnemy != hit.collider.gameObject && Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y)) < minAngleFound)
+                        {
+                            selectedEnemy = hit.collider.gameObject;
+                            minAngleFound = Vector2.Angle(direction, new Vector2(aimDirection.x, aimDirection.y));
+                        }
                     }
                 }
-            }
-
-            if (selectedEnemy != null)
-            {
-                pierceEndPosPreview.gameObject.SetActive(true);
-                Vector2 selectedEnemyDirection = selectedEnemy.transform.position - transform.position;
-                selectedEnemyDirection.Normalize();
-
-                pierceEndPosPreview.position = (Vector2)selectedEnemy.transform.position + selectedEnemyDirection * positionDistanceBehindEnemy;
-                pierceEndPosPreview.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, selectedEnemyDirection));
-                pierceSelector.gameObject.SetActive(true);
-                pierceSelector.position = selectedEnemy.transform.position;
-                pierceSelector.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, selectedEnemyDirection));
-
-            }
-            else
-            {
-                pierceSelector.gameObject.SetActive(false);
-                pierceEndPosPreview.gameObject.SetActive(false);
-                comboPierceTimingHelper.gameObject.SetActive(false);
-            }
-
-            if ((useLeftTriggerInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) && canPierce)
-            {
-                if (selectedEnemy != null)
-                {
-                    StopPhasingTime();
-                    if (currentPierce != null)
-                        StopCoroutine(currentPierce);
-                    currentPierce = StartCoroutine(Pierce(selectedEnemy));
-                }
-                //canPierce = false;
             }
         }
         else
@@ -252,8 +184,41 @@ public class PierceHandler : MonoBehaviour
             pierceSelector.gameObject.SetActive(false);
             pierceArrowPreview.gameObject.SetActive(false);
             pierceEndPosPreview.gameObject.SetActive(false);
-            selectedEnemy = null;
         }
+
+
+        if (selectedEnemy != null)
+        {
+            pierceEndPosPreview.gameObject.SetActive(true);
+            Vector2 selectedEnemyDirection = selectedEnemy.transform.position - transform.position;
+            selectedEnemyDirection.Normalize();
+
+            pierceEndPosPreview.position = (Vector2)selectedEnemy.transform.position + selectedEnemyDirection * positionDistanceBehindEnemy;
+            pierceEndPosPreview.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, selectedEnemyDirection));
+            pierceSelector.gameObject.SetActive(true);
+            pierceSelector.position = selectedEnemy.transform.position;
+            pierceSelector.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, selectedEnemyDirection));
+
+        }
+        else
+        {
+            pierceSelector.gameObject.SetActive(false);
+            pierceEndPosPreview.gameObject.SetActive(false);
+            comboPierceTimingHelper.gameObject.SetActive(false);
+        }
+
+        if ((useLeftTriggerInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) && canPierce)
+        {
+            if (selectedEnemy != null)
+            {
+                StopPhasingTime();
+                if (currentPierce != null)
+                    StopCoroutine(currentPierce);
+                currentPierce = StartCoroutine(Pierce(selectedEnemy));
+            }
+            //canPierce = false;
+        }
+
     }
 
     bool isPierceCancelled;

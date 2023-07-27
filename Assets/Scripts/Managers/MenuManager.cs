@@ -11,11 +11,14 @@ public class MenuManager : MonoBehaviour
     public GameObject continueButton;
     public GameObject startNewGameButton;
     public GameObject scrollBar;
+    public GameObject mainMenu;
+    public GameObject optionMenu;
+    public GameObject creditsMenu;
     [Header("Transition Options")]
     public float transitionFadeTime;
     public Animator seikiMenu;
     public float timeBeforeFade;
-    // Start is called before the first frame update
+
 
     private void Start()
     {
@@ -52,6 +55,23 @@ public class MenuManager : MonoBehaviour
                 {
                     SelectButtonWithController(continueButton);
                 }
+            }
+        }
+
+        if(Input.GetButtonDown("BButton"))
+        {
+            mainMenu.SetActive(true);
+            optionMenu.SetActive(false);
+            creditsMenu.SetActive(false);
+            
+            if (GameManager.currentStoryStep == 0)
+            {
+                continueButton.SetActive(false);
+                SelectButtonWithController(startNewGameButton);
+            }
+            else
+            {
+                SelectButtonWithController(continueButton);
             }
         }
     }
