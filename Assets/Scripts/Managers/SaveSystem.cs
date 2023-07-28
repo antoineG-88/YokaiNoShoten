@@ -117,7 +117,6 @@ public static class SaveSystem
     {
         //string path = savePath + progressionDataSaveFileName + progressionSaveFileExtension;
         string path = Path.Combine(savePath, progressionDataSaveFileName + progressionSaveFileExtension);
-
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();

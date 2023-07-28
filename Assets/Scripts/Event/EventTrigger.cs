@@ -18,7 +18,7 @@ public class EventTrigger : Switch
     private bool eventTriggered;
 
     private int currentEventPartIndex;
-    private bool eventPartStarted;
+    //private bool eventPartStarted;
     [HideInInspector] public CameraConstraintZone previousCamera;
     private bool eventShouldResetWhenEnded;
 
@@ -53,7 +53,7 @@ public class EventTrigger : Switch
         }
         else
         {
-            if(switchToTriggerEvent != null && switchToTriggerEvent.IsON() && !eventTriggered)
+            if(switchToTriggerEvent != null && switchToTriggerEvent.IsON() && !eventTriggered && switchToTriggerEvent.saveState != switchToTriggerEvent.isOn)
             {
                 StartEvent();
             }
@@ -74,6 +74,7 @@ public class EventTrigger : Switch
             eventTriggered = true;
             currentEventPartIndex = 0;
             GameData.playerManager.inControl = false;
+            GameData.playerManager.isInEvent = true;
             GameData.grappleHandler.hideAimArrow++;
             previousCamera = null;
         }
@@ -86,6 +87,7 @@ public class EventTrigger : Switch
             GameData.cameraHandler.constraintZones.Remove(previousCamera);
         }
         GameData.playerManager.inControl = true;
+        GameData.playerManager.isInEvent = false;
         isInEvent = false;
         isOn = true;
         if(storyStepProgressionAtTheEnd != 0)
@@ -114,7 +116,7 @@ public class EventTrigger : Switch
     {
         eventTriggered = false;
         currentEventPartIndex = 0;
-        eventPartStarted = false;
+        //eventPartStarted = false;
         previousCamera = null;
         isOn = false;
     }

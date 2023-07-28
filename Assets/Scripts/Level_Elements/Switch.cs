@@ -6,11 +6,12 @@ public abstract class Switch : Piercable
 {
     public bool inverseOutput;
     [HideInInspector] public bool isOn;
+    [HideInInspector] public bool saveState;
 
 
     public virtual void Start()
     {
-
+        saveState = isOn;
     }
 
     public void SwitchOnOff()

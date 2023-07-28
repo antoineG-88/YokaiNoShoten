@@ -13,13 +13,15 @@ public class PauseManager : MonoBehaviour
     public GameObject optionMenu;
     public GameObject buttons;
 
+    private GameObject lastObjectSelected;
+
     void Start()
     {
         eventSystem = EventSystem.current;
     }
     void Update()
     {
-        if (Input.GetButtonDown("StartButton"))
+        if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isPaused)
             {
@@ -28,6 +30,18 @@ public class PauseManager : MonoBehaviour
             else
             {
                 Resume();
+            }
+        }
+
+        if(eventSystem.currentSelectedGameObject != null)
+        {
+            lastObjectSelected = eventSystem.currentSelectedGameObject;
+        }
+        else
+        {
+            if (Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            {
+                EventSystem.current.SetSelectedGameObject(lastObjectSelected);
             }
         }
     }

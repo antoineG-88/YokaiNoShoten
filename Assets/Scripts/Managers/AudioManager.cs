@@ -9,9 +9,9 @@ public class AudioManager : MonoBehaviour
     public AudioMixerSnapshot defaultSnapshot;
     public AudioMixerSnapshot noGravityEffectSnapshot;
     public AudioMixer mainMixer;
-    [SerializeField] private Slider masterVolumeSlider;
-    [SerializeField] private Slider musicVolumeSlider;
-    [SerializeField] private Slider effectVolumeSlider;
+    public Slider masterVolumeSlider;
+    public Slider musicVolumeSlider;
+    public Slider effectVolumeSlider;
 
     private void Start()
     {

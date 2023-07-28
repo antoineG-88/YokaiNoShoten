@@ -126,7 +126,7 @@ public class GrappleHandler : MonoBehaviour
         if (canShoot && GameData.playerManager.inControl)
         {
             Vector2 aimStickMag = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
-            if (!isAiming && aimStickMag.magnitude > 0.1f && !isTracting)
+            if (!isAiming && (aimStickMag.magnitude > 0.1f || !GameData.playerManager.isUsingController) && !isTracting)
             {
                 isAiming = true;
                 aimArrow.SetActive(true);
@@ -142,13 +142,21 @@ public class GrappleHandler : MonoBehaviour
 
             if (isAiming || keepAim)
             {
-                if (isAiming)
+                if(GameData.playerManager.isUsingController)
                 {
-                    aimDirection = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+                    if (isAiming)
+                    {
+                        aimDirection = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
+                        aimDirection.Normalize();
+                        aimArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
+                    }
+                }
+                else
+                {
+                    aimDirection = GameData.cameraHandler.mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                     aimDirection.Normalize();
                     aimArrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));
                 }
-
 
                 selectedObject = null;
 
@@ -280,7 +288,9 @@ public class GrappleHandler : MonoBehaviour
         {
             ringHighLighterO.SetActive(false);
             if(!alwaysDisplayAim || hideAimArrow > 0)
+            {
                 aimArrow.SetActive(false);
+            }
             isAiming = false;
         }
     }
@@ -480,23 +490,31 @@ public class GrappleHandler : MonoBehaviour
 
     private void TractTriggerUpdate()
     {
-        if (!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
+        if(GameData.playerManager.isUsingController)
         {
-            tractTriggerDown = true;
-        }
-        else
-        {
-            tractTriggerDown = false;
-        }
+            if (!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
+            {
+                tractTriggerDown = true;
+            }
+            else
+            {
+                tractTriggerDown = false;
+            }
 
-        if (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1)
-        {
-            tractTriggerPressed = true;
+            if (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1)
+            {
+                tractTriggerPressed = true;
+            }
+            else
+            {
+                tractTriggerPressed = false;
+                tractTriggerDown = false;
+            }
         }
         else
         {
-            tractTriggerPressed = false;
-            tractTriggerDown = false;
+            tractTriggerPressed = Input.GetMouseButton(0);
+            tractTriggerDown = Input.GetMouseButtonDown(0);
         }
     }
 }

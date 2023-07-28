@@ -97,10 +97,17 @@ public class MovementHandler : MonoBehaviour
     {
         if(GameData.playerManager.inControl)
         {
-            horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? (moveWithRightJoystick ? Input.GetAxis("RightStickH") : Input.GetAxis("LeftStickH")) * (IsOnSlope() ? slopeMaxSpeed : walkingMaxSpeed) : 0;
-            if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
+            if(GameData.playerManager.isUsingController)
             {
-                horizontalTargetSpeed = 0;
+                horizontalTargetSpeed = canMove && GameData.playerManager.inControl ? (moveWithRightJoystick ? Input.GetAxis("RightStickH") : Input.GetAxis("LeftStickH")) * (IsOnSlope() ? slopeMaxSpeed : walkingMaxSpeed) : 0;
+                if (Mathf.Abs(horizontalTargetSpeed) <= walkingMinSpeed)
+                {
+                    horizontalTargetSpeed = 0;
+                }
+            }
+            else
+            {
+                horizontalTargetSpeed = canMove ? (Input.GetAxis("Horizontal") * (IsOnSlope() ? slopeMaxSpeed : walkingMaxSpeed)) : 0;
             }
         }
         else

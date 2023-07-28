@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -31,9 +32,13 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public bool isInGodMode;
     [HideInInspector] public bool isBeingKnocked;
     [HideInInspector] public bool isDying;
+    [HideInInspector] public bool isInEvent;
+    [HideInInspector] public bool isUsingController;
 
     private float invulnerableTimeRemaining;
     private int basePlayerLayer;
+
+    private Vector2 lastMousePos;
 
     void Start()
     {
@@ -72,6 +77,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         RefreshHealthPointDisplay();
+
+        CheckInputType();
     }
 
     private void FixedUpdate()
@@ -84,9 +91,32 @@ public class PlayerManager : MonoBehaviour
         GameData.playerSource.pitch = Time.timeScale;
     }
 
+    private void CheckInputType()
+    {
+        if(isUsingController)
+        {
+            if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+            {
+                isUsingController = false;
+                Cursor.visible = true;
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+        else
+        {
+            lastMousePos = Input.mousePosition;
+            if(Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetButtonDown("AButton") || Input.GetButtonDown("AButton")
+                || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            {
+                isUsingController = true;
+                Cursor.visible = false;
+            }
+        }
+    }
+
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
-        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode && !isDying)
+        if (!invulnerable && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.pierceHandler.isPhasing && !isInGodMode && !isDying && !isInEvent)
         {
             invulnerable = true;
             invulnerableTimeRemaining = damageInvulnerableTime;

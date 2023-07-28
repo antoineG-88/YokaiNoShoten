@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public string progressionSaveFileExtension;
     public string defaultSaveDirectoryName;
     public string defaultGameDirectoryName;
+    [Header("________")]
+    public bool enableZonesKeyShortcuts;
 
     [HideInInspector] public static string currentZoneName;
     [HideInInspector] public static int currentStoryStep;
@@ -31,48 +33,52 @@ public class GameManager : MonoBehaviour
             I = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        SetSavePath();
     }
 
     private void Start()
     {
-        SetSavePath();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if(enableZonesKeyShortcuts)
         {
-            StartCoroutine(LoadWithProgress(1));
-        }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                StartCoroutine(LoadWithProgress(1));
+            }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            StartCoroutine(LoadWithProgress(3));
-        }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                StartCoroutine(LoadWithProgress(3));
+            }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            StartCoroutine(LoadWithProgress(5));
-        }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                StartCoroutine(LoadWithProgress(5));
+            }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StartCoroutine(LoadWithProgress(6));
-        }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                StartCoroutine(LoadWithProgress(6));
+            }
 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            StartCoroutine(LoadWithProgress(7));
-        }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                StartCoroutine(LoadWithProgress(7));
+            }
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            StartCoroutine(LoadWithProgress(9));
-        }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                StartCoroutine(LoadWithProgress(9));
+            }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            StartCoroutine(LoadWithProgress(11));
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                StartCoroutine(LoadWithProgress(11));
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
@@ -115,6 +121,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
             {
                 LevelManager.allZoneSwitchs[i].isOn = zoneData.switchStates[i];
+                LevelManager.allZoneSwitchs[i].saveState = zoneData.switchStates[i];
             }
 
             for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)

@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     public Animator seikiMenu;
     public float timeBeforeFade;
 
+    private GameObject lastSelectedObject;
 
     private void Start()
     {
@@ -42,23 +43,20 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
+        
         if(eventSystem.currentSelectedGameObject == null)
         {
             if(Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
             {
-                if (GameManager.currentStoryStep == 0)
-                {
-                    continueButton.SetActive(false);
-                    SelectButtonWithController(startNewGameButton);
-                }
-                else
-                {
-                    SelectButtonWithController(continueButton);
-                }
+                SelectButtonWithController(lastSelectedObject);
             }
         }
+        else
+        {
+            lastSelectedObject = eventSystem.currentSelectedGameObject;
+        }
 
-        if(Input.GetButtonDown("BButton"))
+        if(Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
         {
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);

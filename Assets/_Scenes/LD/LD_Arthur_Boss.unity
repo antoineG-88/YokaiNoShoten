@@ -47362,6 +47362,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 730890435}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &739692725 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 855523088}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &751844238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47749,6 +47755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
 --- !u!114 &766356369 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1133783526514271775, guid: 818fe825f5c695549ab4f1fd7b038272,
@@ -48474,6 +48481,7 @@ GameObject:
   - component: {fileID: 812196227}
   - component: {fileID: 812196229}
   - component: {fileID: 812196228}
+  - component: {fileID: 812196230}
   m_Layer: 0
   m_Name: EndEvent
   m_TagString: Untagged
@@ -48511,9 +48519,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   eventParts:
   - {fileID: 812196229}
   - {fileID: 812196228}
+  - {fileID: 812196230}
   switchToTriggerEvent: {fileID: 1093969420}
   neededStoryStepToTrigger: 32
   maxStoryStepToTrigger: 32
@@ -48568,6 +48578,30 @@ MonoBehaviour:
   - {fileID: 1613112523}
   objectToEnable:
   - {fileID: 2037144761}
+  seikiNewPos: {x: -3, y: 7.85}
+  cameraChangeDuringScreen: {fileID: 0}
+--- !u!114 &812196230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812196225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d84a30ccf9a5cc41a00c4a004d62352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384630}
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  fadeTime: 0
+  minSceenTime: 0
+  soundToPlayDuringBlackScreen: {fileID: 0}
+  objectToDisable: []
+  objectToEnable:
+  - {fileID: 1819000198}
   seikiNewPos: {x: -3, y: 7.85}
   cameraChangeDuringScreen: {fileID: 0}
 --- !u!1 &824098188
@@ -48754,6 +48788,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c2ca2c36bc606914ea36b3e40cec76cc, type: 3}
+    - target: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3267245876046976401, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: m_Name
@@ -49025,6 +49067,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LevierPierce
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029462398786524767, guid: e01768f9419378645b1fbfc2c4d057e3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e01768f9419378645b1fbfc2c4d057e3, type: 3}
@@ -49593,6 +49640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
 --- !u!1001 &943396334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50260,6 +50308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   switchToTriggerWaves: {fileID: 1683384627}
   waves:
   - waveEnemies:
@@ -50934,7 +50983,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 855612086}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1819000198}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5732df2f5a164947909b2387144809e, type: 3}
@@ -51799,6 +51848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
 --- !u!1 &1257080557
 GameObject:
   m_ObjectHideFlags: 0
@@ -55210,6 +55260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
 --- !u!1001 &1614273982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55778,6 +55829,7 @@ GameObject:
   - component: {fileID: 1683384634}
   - component: {fileID: 1683384633}
   - component: {fileID: 1683384632}
+  - component: {fileID: 1683384635}
   - component: {fileID: 1683384631}
   - component: {fileID: 1683384630}
   - component: {fileID: 1683384629}
@@ -55802,11 +55854,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   eventParts:
   - {fileID: 1683384634}
   - {fileID: 1683384633}
   - {fileID: 1683384632}
   - {fileID: 1683384631}
+  - {fileID: 1683384635}
   switchToTriggerEvent: {fileID: 0}
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 34
@@ -55967,6 +56021,24 @@ MonoBehaviour:
   objectToEnable: []
   seikiNewPos: {x: -3, y: 7.85}
   cameraChangeDuringScreen: {fileID: 0}
+--- !u!114 &1683384635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683384626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384630}
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 739692725}
+  newMusicToPlay: {fileID: 8300000, guid: c2ca2c36bc606914ea36b3e40cec76cc, type: 3}
 --- !u!1 &1702278674
 GameObject:
   m_ObjectHideFlags: 0
@@ -57467,6 +57539,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1812990396}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1819000198 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7029462398786524767, guid: e01768f9419378645b1fbfc2c4d057e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 855612086}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1826193544 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
@@ -58042,7 +58120,8 @@ MonoBehaviour:
   fadeTime: 1
   minSceenTime: 0
   soundToPlayDuringBlackScreen: {fileID: 0}
-  objectToDisable: []
+  objectToDisable:
+  - {fileID: 1819000198}
   objectToEnable: []
   seikiNewPos: {x: -3, y: 7.85}
   cameraChangeDuringScreen: {fileID: 0}
@@ -58060,6 +58139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   eventParts:
   - {fileID: 1862037785}
   - {fileID: 1862037784}

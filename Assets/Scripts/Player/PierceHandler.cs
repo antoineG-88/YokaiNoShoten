@@ -132,7 +132,15 @@ public class PierceHandler : MonoBehaviour
     Vector2 aimDirection;
     private void UpdatePierceAim() //Affiche la visée du pierce et sélectionne un ennemi visée et attque si appuie dur l'attaque
     {
-        aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+        if(GameData.playerManager.isUsingController)
+        {
+            aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+        }
+        else
+        {
+            aimDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        }
+
         if (aimDirection.magnitude > 0.1f && canPierce && GameData.playerManager.inControl)
         {
             isAimingPierce = true;
@@ -145,12 +153,12 @@ public class PierceHandler : MonoBehaviour
 
         selectedEnemy = null;
 
-        if (useAutoAim)
+        if (useAutoAim || !GameData.playerManager.isUsingController)
         {
             UpdateAutoAim();
         }
 
-        if (isAimingPierce)
+        if (isAimingPierce && GameData.playerManager.isUsingController)
         {
             pierceArrowPreview.gameObject.SetActive(true);
             pierceArrowPreview.transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, aimDirection));

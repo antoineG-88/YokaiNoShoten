@@ -64,7 +64,14 @@ public class DashHandler : MonoBehaviour
             defaultDashDirection = GameData.grappleHandler.aimDirection;
         }
 
-        dashDirection = aimWithRightJoystick ? new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV")) : new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+        if(GameData.playerManager.isUsingController)
+        {
+            dashDirection = aimWithRightJoystick ? new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV")) : new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+        }
+        else
+        {
+            dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        }
 
         if (dashDirection.magnitude <= 0.1f)
         {
@@ -133,23 +140,31 @@ public class DashHandler : MonoBehaviour
 
     private void DashTriggerUpdate()
     {
-        if (!dashTriggerPressed && (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1))
+        if (GameData.playerManager.isUsingController)
         {
-            dashTriggerDown = true;
-        }
-        else
-        {
-            dashTriggerDown = false;
-        }
+            if (!dashTriggerPressed && (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1))
+            {
+                dashTriggerDown = true;
+            }
+            else
+            {
+                dashTriggerDown = false;
+            }
 
-        if (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1)
-        {
-            dashTriggerPressed = true;
+            if (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1)
+            {
+                dashTriggerPressed = true;
+            }
+            else
+            {
+                dashTriggerPressed = false;
+                dashTriggerDown = false;
+            }
         }
         else
         {
-            dashTriggerPressed = false;
-            dashTriggerDown = false;
+            dashTriggerDown = Input.GetButtonDown("Dash");
+            dashTriggerPressed = Input.GetButton("Dash");
         }
     }
 }

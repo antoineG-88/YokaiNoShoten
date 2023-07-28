@@ -36,7 +36,7 @@ public class PlayerTriggerSwitch : Switch
 
     public void Update()
     {
-        if(playerCanInteract && Input.GetAxisRaw("LeftTrigger") == 1 && !eventToReset.isInEvent)
+        if(playerCanInteract && (Input.GetAxisRaw("LeftTrigger") == 1 || Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(1)) && !eventToReset.isInEvent)
         {
             StartCoroutine(TempSwithOn());
         }
