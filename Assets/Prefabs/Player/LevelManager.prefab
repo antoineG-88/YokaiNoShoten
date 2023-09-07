@@ -105,8 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fad56d1d41ece42b6996de04942ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeakingSpeed: 45
-  baseSpeakPauseTime: 0.3
+  baseSpeakingSpeed: 60
+  baseSpeakPauseTime: 0.2
   minTimeToPass: 0.1
   manualSeikiReaction: 0
   dialogText: {fileID: 0}
@@ -135,12 +135,12 @@ MonoBehaviour:
     face: {fileID: 21300000, guid: beabb2d06acbbb34685381c300fdc1d2, type: 3}
   - characterName: Kage
     face: {fileID: 21300000, guid: de9299e34f495cb49b142033a01560d6, type: 3}
-  - characterName: Jeune Yokai
+  - characterName: Young Yokai
     face: {fileID: 21300000, guid: 3a40942629a4e94448be2e6b6fa899e8, type: 3}
   - characterName: Sentinel
     face: {fileID: 21300000, guid: 30d87d1fc65e7b34a981f034c0b385c9, type: 3}
-  - characterName: Voix inconnu
-    face: {fileID: 21300000, guid: 9890f980bbc705b478a3773577f2c52b, type: 3}
+  - characterName: Unknown voice
+    face: {fileID: 21300000, guid: 3a40942629a4e94448be2e6b6fa899e8, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
 --- !u!82 &1191131659
 AudioSource:
@@ -255,3 +255,7 @@ MonoBehaviour:
     type: 2}
   noGravityEffectSnapshot: {fileID: 24500006, guid: 9c6544e17c2017044b68bf43d09eda2d,
     type: 2}
+  mainMixer: {fileID: 0}
+  masterVolumeSlider: {fileID: 0}
+  musicVolumeSlider: {fileID: 0}
+  effectVolumeSlider: {fileID: 0}

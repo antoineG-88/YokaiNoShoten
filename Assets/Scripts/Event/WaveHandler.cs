@@ -11,6 +11,7 @@ public class WaveHandler : Switch
     public CheckPoint checkPointToRespawn;
     public Sound nextWaveSound;
     public Transform posToRespawn;
+    public AudioSource musicSource;
 
     [Header("Testing options")]
     public int skipToWave;
@@ -98,6 +99,12 @@ public class WaveHandler : Switch
 
                         if(nextWaveSound.clip != null)
                             GameData.playerSource.PlayOneShot(nextWaveSound.clip, nextWaveSound.volumeScale);
+
+                        if(musicSource != null)
+                        {
+                            if(!musicSource.isPlaying)
+                                musicSource.Play();
+                        }
 
                         GameData.playerManager.Heal(waves[currentWaveIndex].hpRestored);
 

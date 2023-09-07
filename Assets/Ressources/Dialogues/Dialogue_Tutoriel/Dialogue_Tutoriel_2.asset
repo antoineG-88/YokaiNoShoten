@@ -12,29 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialogue_Tutoriel_2
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Tutoriel/Dialogue_Tutoriel_2
-    - Feuille 1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Tutoriel/Dialogue_EN_Tutoriel_2.tsv
   sentences:
-  - sentence: "Seiki... Ils \u2026 ont surgit de nul \u2026 On a rien pu faire\u2026"
-    characterName: Jeune Yokai
+  - sentence: "Seiki... __ You are finally back \u2026 _ The Selvos they \u2026 __
+      they appeared out of nowhere\u2026"
+    characterName: Young Yokai
     seikiReaction: 3
-    speakingSpeed: 1
-  - sentence: "Ils ont emmen\xE9 certains d\u2019entre nous dont ton ma\xEEtre Dor\u012Bm\u0101\u2026"
-    characterName: Jeune Yokai
+    speakingSpeed: 0.7
+  - sentence: "I don't understand how they found us\u2026 _ "
+    characterName: Young Yokai
+    seikiReaction: 2
+    speakingSpeed: 0.7
+  - sentence: "They absorb most of our friends energy\u2026 __ They disappeared \u2026__
+      I couldn't do anything\u2026 "
+    characterName: Young Yokai
+    seikiReaction: 7
+    speakingSpeed: 0.7
+  - sentence: "They captured some of the other Yokais... __ Including your master_
+      Dor\u012Bm\u0101\u2026"
+    characterName: Young Yokai
     seikiReaction: 3
-    speakingSpeed: 1
-  - sentence: "Pour les autres \u2026 Ils ont aspir\xE9s leurs \xE9nergies\u2026
-      Ils ont disparu \u2026 Je n\u2019ai pas pu les d\xE9fendre\u2026 "
-    characterName: Jeune Yokai
-    seikiReaction: 3
-    speakingSpeed: 1
-  - sentence: "Apr\xE8s si longtemps \xE0 survivre cach\xE9 \u2026 Comment ont-ils
-      pu nous retrouver"
-    characterName: Jeune Yokai
-    seikiReaction: 3
-    speakingSpeed: 1
-  - sentence: "Seiki \u2026 Les autres ont besoin de toi\u2026 Tu dois aller les
-      sauver \u2026"
-    characterName: Jeune Yokai
-    seikiReaction: 3
-    speakingSpeed: 1
+    speakingSpeed: 0.7
+  - sentence: '*Cough* '
+    characterName: Young Yokai
+    seikiReaction: 6
+    speakingSpeed: 0.7
+  - sentence: "I don't think I'll be able to help\u2026 ___ You'll have to Climb
+      the Selvos's tower floors and find them alone..."
+    characterName: Young Yokai
+    seikiReaction: 2
+    speakingSpeed: 0.7
+  - sentence: I __.__.__.
+    characterName: Young Yokai
+    seikiReaction: 7
+    speakingSpeed: 0.7

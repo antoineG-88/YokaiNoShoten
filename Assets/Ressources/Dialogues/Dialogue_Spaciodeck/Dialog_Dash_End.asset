@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialog_Dash_End
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Spaciodeck/Dialogue_Spaciodeck_3
-    - Feuille 1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Spaciodeck/Dialogue_EN_Spaciodeck_3.tsv
   sentences:
-  - sentence: "Et bien, je vois que tu t\u2019en es plut\xF4t bien sorti. _ Aller
-      monte, que je te pr\xE9sente \xE0 notre petite \xE9quipe."
+  - sentence: That was a quick ascent! You... __ quick __fox.. __hum,__ I'Il find
+      you a better nickname later.
+    characterName: Dash
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: Come on,__ get in,__ I'll introduce you to the fellas.
     characterName: Dash
     seikiReaction: 4
     speakingSpeed: 1

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialogue_QG_Optionnal_4
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_QG/Dialogue_EN_QG_Optionnal_4.tsv
+  sentences:
+  - sentence: You heard master, he puts a lot of hopes in you
+    characterName: Dash
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: Next floor won't be a peaceful stroll
+    characterName: Dash
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: I don't like it there, it's full of weird machines and dangerous Selvos.
+    characterName: Dash
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: I heard they make experiments with Yokai energy there. That's probably
+      why they captured our friends ...
+    characterName: Dash
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: I believe in you quick fox.Go save your master!
+    characterName: Dash
+    seikiReaction: 4
+    speakingSpeed: 1

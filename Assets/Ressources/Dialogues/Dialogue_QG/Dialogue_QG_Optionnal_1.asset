@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
+  m_Name: Dialogue_QG_Optionnal_1
+  m_EditorClassIdentifier: 
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_QG/Dialogue_EN_QG_Optionnal_2.tsv
+  sentences:
+  - sentence: I'm glad there is strong spirits to lead the resistance.
+    characterName: Yokai
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: "We will be forever grateful for what Dash and Ra\xEFdo have done."
+    characterName: Yokai
+    seikiReaction: 1
+    speakingSpeed: 1

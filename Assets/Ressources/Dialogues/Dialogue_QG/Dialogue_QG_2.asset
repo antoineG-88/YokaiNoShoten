@@ -12,20 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialogue_QG_2
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_QG/Dialogue_QG_2.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_QG/Dialogue_EN_QG_4.tsv
   sentences:
-  - sentence: Ton regard semble vouloir me faire comprendre que tu va nous aider.
-      Ai-je raison ?
+  - sentence: Dash seems to trully trust your abilities...
     characterName: "Ra\xEFdo"
-    seikiReaction: 3
+    seikiReaction: 0
     speakingSpeed: 1
-  - sentence: "Nous te sommes tous redevable d'accepter cette mission. Je te remercie
-      du fond du c\u0153ur. "
+  - sentence: 'Seiki, before you leave, I have something more to ask. '
     characterName: "Ra\xEFdo"
-    seikiReaction: 3
+    seikiReaction: 5
     speakingSpeed: 1
-  - sentence: "Bonne chance jeune renard, et puisse le grand arbre Zenchi \xEAtre
-      avec toi. "
+  - sentence: We drew up a plan to definitivly stop the Selvos. But I fear that our
+      technician, Tekuno, have been captured by the enemy.
     characterName: "Ra\xEFdo"
-    seikiReaction: 3
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: 'He was suppose to open the door to the tower''s heart. And use one
+      of the very explosive Selvos core to destroy it.  '
+    characterName: "Ra\xEFdo"
+    seikiReaction: 6
+    speakingSpeed: 1
+  - sentence: If you find and free him while searching your siblings, I will feel
+      beholden.
+    characterName: "Ra\xEFdo"
+    seikiReaction: 4
+    speakingSpeed: 1
+  - sentence: I wish you luck young fox, and may the great zenchi tree be with you.
+    characterName: "Ra\xEFdo"
+    seikiReaction: 4
     speakingSpeed: 1
