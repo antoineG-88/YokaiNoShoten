@@ -12,18 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialogue4_Labo
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_3 - Feuille
-    1 (2).tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_EN - KageWarning.tsv
   sentences:
-  - sentence: L'objet que tu recherche se trouve dans la salle du dessus
+  - sentence: The energy core is just above.
+    characterName: Kage
+    seikiReaction: 0
+    speakingSpeed: 1
+  - sentence: Destroy it and Tekuno should be able to open the door to the tree canopy.
     characterName: Kage
     seikiReaction: 4
     speakingSpeed: 1
-  - sentence: "Pour le r\xE9cup\xE9rer il te suffira de casser le r\xE9ceptable"
+  - sentence: I sense a unusual presence _._._._ be on your guard
     characterName: Kage
-    seikiReaction: 4
-    speakingSpeed: 1
-  - sentence: Je t'attendrais dans les hauteurs de l'arbre
-    characterName: Kage
-    seikiReaction: 4
-    speakingSpeed: 1
+    seikiReaction: 5
+    speakingSpeed: 0.8

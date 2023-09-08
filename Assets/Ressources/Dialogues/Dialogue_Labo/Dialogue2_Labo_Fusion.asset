@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialogue2_Labo_Fusion
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Labo_2 - Feuille
-    1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_EN_Labo_2.tsv
   sentences:
-  - sentence: "Ils ne sont plus tr\xE8s loin de r\xE9ussir \xE0 nous fusionner."
+  - sentence: Our _friends _._._.
     characterName: Kage
-    seikiReaction: 2
+    seikiReaction: 7
+    speakingSpeed: 0.5
+  - sentence: It's too late for them ...__ the Selvo almost finished the fusion
+    characterName: Kage
+    seikiReaction: 3
     speakingSpeed: 1
-  - sentence: "S' ils y arrivent, ils auront m\xEAme acc\xE8s \xE0 nos pouvoirs..."
+  - sentence: But we should be able to save the others
     characterName: Kage
-    seikiReaction: 6
+    seikiReaction: 0
     speakingSpeed: 1
-  - sentence: "Seiki, tu dois continuer. La seule fa\xE7on d\u2019arr\xEAter tout
-      \xE7a c\u2019est de d\xE9truire la machine."
+  - sentence: Your master shouldn't be too far__, keep going
     characterName: Kage
-    seikiReaction: 4
+    seikiReaction: 0
     speakingSpeed: 1

@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: DialogTekuno_EndToVillage
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_9 - Feuille
-    1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_EN - BossEnd.tsv
   sentences:
-  - sentence: "A toi de jouer, Seiki, sois prudent l\xE0-haut. Nous, on se charge
-      de pr\xE9parer l'assaut en bas."
+  - sentence: It's time for you to go up there,__ in the tree canopy,__ our home
+      _._._. it's probably filled with Selvos now
+    characterName: Tekuno
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: The tower's heart should be there, destroy it for us. We count on you.
     characterName: Tekuno
     seikiReaction: 4
     speakingSpeed: 1

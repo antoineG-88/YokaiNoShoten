@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialogue6_Labo
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_5 - Feuille
-    1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Labo/Dialogue_Prison_EN - SentinelFistAppearence.tsv
   sentences:
-  - sentence: Tu ne comprends pas ce que tu fais !
-    characterName: Sentinel
-    seikiReaction: 5
-    speakingSpeed: 1
-  - sentence: "Si tu nous retire cette \xE9nergie, ce sera la fin de notre esp\xE8ce.
-      Nous redeviendrons les \xEAtres mis\xE9rables que nous \xE9tions par le pass\xE9."
-    characterName: Sentinel
+  - sentence: 'What have you done!!_ We..._we needed this core '
+    characterName: Evolved Selvo
     seikiReaction: 6
     speakingSpeed: 1
-  - sentence: Nous pouvons chang...
-    characterName: Sentinel
-    seikiReaction: 2
+  - sentence: We cannot live without this energy ...
+    characterName: Evolved Selvo
+    seikiReaction: 5
+    speakingSpeed: 1
+  - sentence: You are lucky, my energy is too low to confront you right now
+    characterName: Evolved Selvo
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: If we meet again, I won't let you stop us.
+    characterName: Evolved Selvo
+    seikiReaction: 3
     speakingSpeed: 1

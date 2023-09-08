@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialogue2
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Village/Dialogue_Village_2
-    - Feuille 1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Village/Dialogue_Village_EN
+    - KageDoorLocked.tsv
   sentences:
-  - sentence: "La porte est verrouill\xE9e pour le moment. J\u2019ai pu \xE9couter
-      les conversations des Selvos et apparemment, deux loquets maintiennent le verrouillage."
+  - sentence: This is the gate of the tower's heart. The extractor is behind but
+      it is locked by 2 energy pillars.
     characterName: Kage
-    seikiReaction: 4
+    seikiReaction: 0
     speakingSpeed: 1
-  - sentence: "Tu va devoir les trouver et les d\xE9bloquer afin d\u2019ouvrir la
-      porte et de pouvoir entrer dans la machine d\u2019absorption. _ Je te laisse
-      les trouver."
+  - sentence: You should find them by following the path upward.
     characterName: Kage
     seikiReaction: 4
     speakingSpeed: 1
