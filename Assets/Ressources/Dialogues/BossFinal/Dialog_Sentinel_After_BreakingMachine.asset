@@ -12,17 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc17fa17361574ab41e4b1fae041c2, type: 3}
   m_Name: Dialog_Sentinel_After_BreakingMachine
   m_EditorClassIdentifier: 
-  tsvDialogPath: Assets/Ressources/Dialogues/BossFinal/Dialogue_Extraction_3 - Feuille
-    1.tsv
+  tsvDialogPath: Assets/Ressources/Dialogues/BossFinal/Dialogue_FinalBoss_EN - FinalBossEnd.tsv
   sentences:
-  - sentence: "Tu savais ce que tu faisais... _ Et pourtant tu n'as pas recul\xE9...
-      _ Notre m\xE9thode \xE9tait peut-\xEAtre violente, mais nous ne pouvions plus
-      vivre comme \xE7a. "
+  - sentence: The cruelty of this world _._._.
     characterName: Sentinel
-    seikiReaction: 7
-    speakingSpeed: 1
-  - sentence: "J'ai d\xFB prendre des d\xE9cisions pour sauver les miens, _ au d\xE9triment
-      des tiens..."
+    seikiReaction: 0
+    speakingSpeed: 0.7
+  - sentence: I guess it was inevitable, Selvos and Yokais weren't meant to live
+      as equals peacefully
     characterName: Sentinel
-    seikiReaction: 7
-    speakingSpeed: 1
+    seikiReaction: 2
+    speakingSpeed: 0.8
+  - sentence: I hope _we were wrong _and one day __both species _will find a way
+      _to live __together
+    characterName: Sentinel
+    seikiReaction: 4
+    speakingSpeed: 0.8

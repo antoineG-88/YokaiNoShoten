@@ -44371,6 +44371,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 24.28
+      objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -50515,7 +50520,7 @@ MonoBehaviour:
     volumeScale: 1
   posToRespawn: {fileID: 1920570868}
   musicSource: {fileID: 739692725}
-  skipToWave: 0
+  skipToWave: 5
 --- !u!4 &1093969421
 Transform:
   m_ObjectHideFlags: 0
@@ -55977,7 +55982,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.178051, y: 6.543671}
+  m_Offset: {x: -0.178051, y: 3.6818166}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -55988,7 +55993,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 40.544014, y: 1.8977938}
+  m_Size: {x: 40.544014, y: 7.621503}
   m_EdgeRadius: 0
 --- !u!114 &1683384630
 MonoBehaviour:
@@ -58563,7 +58568,12 @@ PrefabInstance:
     - target: {fileID: 8936422185778174432, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.66
+      value: -21.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936422185778174432, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c31b049bdedf5a944a4f9c11f590079e, type: 3}
