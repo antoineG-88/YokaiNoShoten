@@ -865,6 +865,12 @@ MonoBehaviour:
   hurtImpactSound:
     clip: {fileID: 8300000, guid: bfb3ae418af54d04880053e278ff7273, type: 3}
     volumeScale: 1
+  healSound:
+    clip: {fileID: 8300000, guid: 727e2cdcf034b6340ba20f2b0a6bef77, type: 3}
+    volumeScale: 1
+  deathSound:
+    clip: {fileID: 8300000, guid: 94f7ac74cda96a84d8aba37b1fbf69b1, type: 3}
+    volumeScale: 1
   inControl: 0
   invulnerable: 0
   isGrabbingTorch: 0

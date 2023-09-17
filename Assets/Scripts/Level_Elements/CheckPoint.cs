@@ -58,7 +58,7 @@ public class CheckPoint : MonoBehaviour
 
     private void SaveAsCurrentCheckPoint()
     {
-        if(activationSound.clip != null)
+        if(activationSound.clip != null && !isActivated)
             source.PlayOneShot(activationSound.clip, activationSound.volumeScale);
         LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);

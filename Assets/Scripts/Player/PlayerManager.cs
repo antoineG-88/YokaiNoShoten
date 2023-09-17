@@ -23,6 +23,8 @@ public class PlayerManager : MonoBehaviour
     public int godModeLayer;
     public Sound hurtSound;
     public Sound hurtImpactSound;
+    public Sound healSound;
+    public Sound deathSound;
 
     private int currentHealthPoint;
 
@@ -148,6 +150,7 @@ public class PlayerManager : MonoBehaviour
         currentHealthPoint += healAmount;
         currentHealthPoint = Mathf.Clamp(currentHealthPoint, 0, maxHealthPoint);
         healParticle.Play();
+        GameData.playerSource.PlayOneShot(healSound.clip, healSound.volumeScale);
     }
 
     private void RefreshHealthPointDisplay()
@@ -177,6 +180,7 @@ public class PlayerManager : MonoBehaviour
         inControl = false;
         GameData.grappleHandler.hideAimArrow++;
         GameData.playerVisuals.animator.SetBool("IsDying", true);
+        GameData.playerSource.PlayOneShot(deathSound.clip, deathSound.volumeScale);
         isDying = true;
         float timer = 0;
         deathParticle.Play();
