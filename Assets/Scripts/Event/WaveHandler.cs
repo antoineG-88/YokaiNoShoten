@@ -133,14 +133,22 @@ public class WaveHandler : Switch
                                 }
                             }
 
-                            if (pauseTimeElapsed < pauseTimeBetweenWaves)
-                            {
-                                pauseTimeElapsed += Time.deltaTime;
-                            }
-                            else
+                            if (currentWaveIndex + 1 == waves.Count)
                             {
                                 currentWaveIndex++;
                                 waveSpawned = false;
+                            }
+                            else
+                            {
+                                if (pauseTimeElapsed < pauseTimeBetweenWaves)
+                                {
+                                    pauseTimeElapsed += Time.deltaTime;
+                                }
+                                else
+                                {
+                                    currentWaveIndex++;
+                                    waveSpawned = false;
+                                }
                             }
                         }
                     }

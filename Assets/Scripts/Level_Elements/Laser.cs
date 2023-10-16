@@ -34,6 +34,7 @@ public class Laser : MonoBehaviour
     public Sound stopSound;
 
     public ParticleSystem endBeamParticle;
+    public Color sequencialColor;
 
     private Vector2 currentDirection;
     private float beamLength;
@@ -70,6 +71,8 @@ public class Laser : MonoBehaviour
         if(activationsSequence.Count > 0)
         {
             beamMaterial = Instantiate(sequenceMat);
+            ParticleSystem.MainModule beamEndParticleMain = endBeamParticle.main;
+            beamEndParticleMain.startColor = sequencialColor;
         }
         else
         {

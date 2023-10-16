@@ -45,37 +45,37 @@ public class GameManager : MonoBehaviour
     {
         if(enableZonesKeyShortcuts)
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 StartCoroutine(LoadWithProgress(1));
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 StartCoroutine(LoadWithProgress(3));
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 StartCoroutine(LoadWithProgress(5));
             }
 
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 StartCoroutine(LoadWithProgress(6));
             }
 
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.Alpha5))
             {
                 StartCoroutine(LoadWithProgress(7));
             }
 
-            if (Input.GetKeyDown(KeyCode.B))
+            if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 StartCoroutine(LoadWithProgress(9));
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.Alpha7))
             {
                 StartCoroutine(LoadWithProgress(11));
             }

@@ -224,6 +224,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 4e55a233fba89844cb885a4cb3c2862a, type: 3}
     volumeScale: 1
   endBeamParticle: {fileID: 8971434075520807119}
+  sequencialColor: {r: 1, g: 0.2509804, b: 0, a: 1}
 --- !u!120 &1953348216
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -667,6 +668,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872390592710806403, guid: c5894286eb3267f47aead555bdcad7f5,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872390592710806403, guid: c5894286eb3267f47aead555bdcad7f5,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.20392157
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5894286eb3267f47aead555bdcad7f5, type: 3}

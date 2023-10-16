@@ -42,6 +42,7 @@ public class ScreenFade : EventPart
                     if(seikiNewPos != Vector2.zero)
                     {
                         GameData.player.transform.position = seikiNewPos;
+                        GameData.movementHandler.Propel(Vector2.zero, true);
                     }
 
                     if(cameraChangeDuringScreen != null)
