@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Header("Save settings")]
-    public string progressionDataSaveFileName;
-    public string zoneDataSaveFileNamePrefixe;
-    public string zoneSaveFileExtension;
-    public string progressionSaveFileExtension;
+    public string progressionSaveFileName;
+    public string gameSaveFileName;
+    public string saveFileExtension;
     public string defaultSaveDirectoryName;
     public string defaultGameDirectoryName;
     [Header("________")]
@@ -17,6 +16,12 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public static string currentZoneName;
     [HideInInspector] public static int currentStoryStep;
+    [HideInInspector] public static float timeElapsedPlaying;
+    [HideInInspector] public static int numberOfDeath;
+
+    [HideInInspector] public static bool gameIsPaused;
+    [HideInInspector] public static bool levelIsLoading;
+    [HideInInspector] public static bool isInMainMenu;
 
     public static bool isRespawning;
     private static bool zoneLoaded;
@@ -85,6 +90,11 @@ public class GameManager : MonoBehaviour
         {
             SaveSystem.DeleteSaveFile(currentZoneName);
         }
+
+        if(!gameIsPaused && !levelIsLoading && !isInMainMenu)
+        {
+            timeElapsedPlaying += Time.deltaTime;
+        }
     }
 
     public static void LoadLevel(bool onlyOnRespawn, int specificStart)
@@ -92,7 +102,7 @@ public class GameManager : MonoBehaviour
         if(!onlyOnRespawn || (onlyOnRespawn && isRespawning))
         {
             isRespawning = false;
-            LoadProgression();
+            LoadZoneSave();
         }
         else if(specificStart >= 0)
         {
@@ -103,6 +113,7 @@ public class GameManager : MonoBehaviour
     public static void Respawn()
     {
         isRespawning = true;
+        numberOfDeath++;
         GameData.slowMoManager.StopSlowMo();
         I.StartCoroutine(LoadWithProgress(SceneManager.GetActiveScene().buildIndex));
     }
@@ -110,46 +121,54 @@ public class GameManager : MonoBehaviour
     public static void SaveProgression(CheckPoint checkPoint)
     {
         LevelManager.lastCheckPoint = checkPoint;
-        SaveSystem.SaveProgression(currentZoneName);
+        SaveSystem.SaveGameAndProgression(currentZoneName);
     }
 
-    public static void LoadProgression()
+    public static void LoadZoneSave()
     {
-        ZoneData zoneData = SaveSystem.LoadZone(currentZoneName);
-        if(zoneData != null)
+        GameSave gameSave = SaveSystem.LoadGameSave();
+
+        if(gameSave != null)
         {
-            for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
+            ZoneSave zoneSave = null;
+            if (gameSave.lastZoneData.zoneName == currentZoneName)
             {
-                LevelManager.allZoneSwitchs[i].isOn = zoneData.switchStates[i];
-                LevelManager.allZoneSwitchs[i].saveState = zoneData.switchStates[i];
+                zoneSave = gameSave.lastZoneData;
             }
 
-            for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)
+            if (zoneSave != null)
             {
-                if(!zoneData.enemyStates[i])
+                for (int i = 0; i < LevelManager.allZoneSwitchs.Count; i++)
                 {
-                    Destroy(LevelManager.allZoneEnemies[i].gameObject);
+                    LevelManager.allZoneSwitchs[i].isOn = zoneSave.switchStates[i];
+                    LevelManager.allZoneSwitchs[i].saveState = zoneSave.switchStates[i];
+                }
+
+                for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)
+                {
+                    if (!zoneSave.enemyStates[i])
+                    {
+                        Destroy(LevelManager.allZoneEnemies[i].gameObject);
+                    }
+                }
+
+                for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
+                {
+                    if (LevelManager.allZoneCheckPoints[i].checkPointNumber == zoneSave.lastCheckPointIndex)
+                    {
+                        GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                        GameData.mainCamera.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
+                    }
                 }
             }
 
-            for (int i = 0; i < LevelManager.allZoneCheckPoints.Count; i++)
-            {
-                if (LevelManager.allZoneCheckPoints[i].checkPointNumber == zoneData.lastCheckPointIndex)
-                {
-                    GameData.player.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                    GameData.mainCamera.transform.position = LevelManager.allZoneCheckPoints[i].transform.position;
-                }
-            }
+            currentStoryStep = gameSave.currentStoryStep;
         }
         else
         {
             currentStoryStep = 0;
-        }
-
-        ProgressionData progressionData = SaveSystem.LoadProgression();
-        if(progressionData != null)
-        {
-            currentStoryStep = progressionData.currentStoryStep;
+            timeElapsedPlaying = 0;
+            numberOfDeath = 0;
         }
     }
 
@@ -167,12 +186,11 @@ public class GameManager : MonoBehaviour
 
     private void SetSavePath()
     {
-        SaveSystem.progressionDataSaveFileName = progressionDataSaveFileName;
-        SaveSystem.zoneSaveFileExtension = zoneSaveFileExtension;
-        SaveSystem.progressionSaveFileExtension = progressionSaveFileExtension;
+        SaveSystem.progressionSaveFileName = progressionSaveFileName;
+        SaveSystem.saveFileExtension = saveFileExtension;
         SaveSystem.defaultGameDirectoryName = defaultGameDirectoryName;
         SaveSystem.defaultSaveDirectoryName = defaultSaveDirectoryName;
-        SaveSystem.zoneDataFileNamePrefixe = zoneDataSaveFileNamePrefixe;
+        SaveSystem.gameSaveFileName = gameSaveFileName;
         SaveSystem.SetSavePath(string.Empty);
     }
 
@@ -183,6 +201,7 @@ public class GameManager : MonoBehaviour
 
     public static IEnumerator LoadWithProgress(int sceneIndex)
     {
+        levelIsLoading = true;
         BlackScreenManager.SetLoadActive(true);
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneIndex);
 
@@ -190,6 +209,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
+
         BlackScreenManager.SetLoadActive(false);
     }
 }

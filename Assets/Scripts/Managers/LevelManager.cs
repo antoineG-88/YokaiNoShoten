@@ -47,6 +47,8 @@ public class LevelManager : MonoBehaviour
         }
         StartCoroutine(StartBlackScreenFade());
         GameData.audioManager.DisableNoGravityMixerEffects();
+
+        GameManager.isInMainMenu = false;
     }
 
     private void Update()
@@ -58,6 +60,8 @@ public class LevelManager : MonoBehaviour
         else if(zoneLoadCountDown == 0)
         {
             zoneLoadCountDown--;
+
+            GameManager.levelIsLoading = false;
             GameManager.LoadLevel(loadSaveOnlyOnRespawn, specificCheckpointStart);
         }
     }

@@ -1,23 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
-    private bool isPaused;
+    [HideInInspector] public bool isPaused;
     private EventSystem eventSystem;
     public GameObject pauseButton;
     public GameObject mainVolumeSlider;
     public GameObject optionMenu;
     public GameObject buttons;
+    public Text playTimeText;
+    public Text deathCountText;
 
     private GameObject lastObjectSelected;
 
     void Start()
     {
         eventSystem = EventSystem.current;
+
+        GameManager.gameIsPaused = false;
     }
     void Update()
     {
@@ -44,7 +48,22 @@ public class PauseManager : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(lastObjectSelected);
             }
         }
+
+        if(isPaused)
+        {
+            playTimeText.text = GameManager.timeElapsedPlaying.ToString();
+            deathCountText.text = GameManager.numberOfDeath.ToString();
+        }
     }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if(!hasFocus && !isPaused)
+        {
+            Pause();
+        }
+    }
+
     public void Pause()
     {
         buttons.SetActive(true);
@@ -54,6 +73,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 0;
         isPaused = true;
         GameData.playerManager.inControl = false;
+        GameManager.gameIsPaused = true;
     }
 
     public void Resume()
@@ -63,6 +83,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1;
         isPaused = false;
         GameData.playerManager.inControl = true;
+        GameManager.gameIsPaused = false;
     }
 
     public void ReturntoMenu()

@@ -24,21 +24,16 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         eventSystem = EventSystem.current;
+        GameManager.isInMainMenu = true;
 
-        if(SaveSystem.LoadProgression() != null)
+        if(SaveSystem.LoadGameSave() != null)
         {
-            GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+            GameManager.currentStoryStep = SaveSystem.LoadGameSave().currentStoryStep;
+            GameManager.numberOfDeath = SaveSystem.LoadGameSave().numberOfDeath;
+            GameManager.timeElapsedPlaying = SaveSystem.LoadGameSave().timeElapsed;
         }
 
-        if(GameManager.currentStoryStep == 0)
-        {
-            continueButton.SetActive(false);
-            SelectButtonWithController(startNewGameButton);
-        }
-        else
-        {
-            SelectButtonWithController(continueButton);
-        }
+        UpdateContinueButton();
     }
 
     private void Update()
@@ -61,16 +56,21 @@ public class MenuManager : MonoBehaviour
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);
             creditsMenu.SetActive(false);
-            
-            if (GameManager.currentStoryStep == 0)
-            {
-                continueButton.SetActive(false);
-                SelectButtonWithController(startNewGameButton);
-            }
-            else
-            {
-                SelectButtonWithController(continueButton);
-            }
+
+            UpdateContinueButton();
+        }
+    }
+
+    private void UpdateContinueButton()
+    {
+        if (SaveSystem.LoadGameSave() == null)
+        {
+            continueButton.SetActive(false);
+            SelectButtonWithController(startNewGameButton);
+        }
+        else
+        {
+            SelectButtonWithController(continueButton);
         }
     }
 
@@ -87,15 +87,22 @@ public class MenuManager : MonoBehaviour
     public void ContinueGame()
     {
         Time.timeScale = 1f;
-        if (SaveSystem.LoadProgression() != null)
-            GameManager.currentStoryStep = SaveSystem.LoadProgression().currentStoryStep;
+        GameSave loadedSave = SaveSystem.LoadGameSave();
+        if (loadedSave != null)
+            GameManager.currentStoryStep = loadedSave.currentStoryStep;
         for (int i = 0; i < zones.Count; i++)
         {
-            if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep)
+            if(zones[i].zoneName == loadedSave.lastZoneData.zoneName)
             {
                 StartCoroutine(StartTransition(i));
                 break;
             }
+            /*
+            if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep)
+            {
+                StartCoroutine(StartTransition(i));
+                break;
+            }*/
         }
     }
 
