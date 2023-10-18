@@ -40,6 +40,6 @@ public class LevelManagerEditor : Editor
 
     public void DeleteSave()
     {
-        SaveSystem.DeleteSaveFile(levelManager.zoneName);
+        SaveSystem.DeleteGameSaveFile();
     }
 }

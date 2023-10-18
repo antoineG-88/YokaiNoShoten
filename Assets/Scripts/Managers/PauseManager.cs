@@ -51,7 +51,11 @@ public class PauseManager : MonoBehaviour
 
         if(isPaused)
         {
-            playTimeText.text = GameManager.timeElapsedPlaying.ToString();
+            float playTime = GameManager.timeElapsedPlaying;
+            playTimeText.text = (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
+            + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
+            + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+
             deathCountText.text = GameManager.numberOfDeath.ToString();
         }
     }
@@ -102,6 +106,6 @@ public class PauseManager : MonoBehaviour
     public void ManualRespawn()
     {
         Resume();
-        GameManager.Respawn();
+        GameManager.Respawn(false);
     }
 }

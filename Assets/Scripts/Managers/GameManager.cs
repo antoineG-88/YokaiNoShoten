@@ -70,17 +70,17 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(LoadWithProgress(6));
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha5))
+            if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 StartCoroutine(LoadWithProgress(7));
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha6))
+            if (Input.GetKeyDown(KeyCode.Alpha7))
             {
                 StartCoroutine(LoadWithProgress(9));
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha7))
+            if (Input.GetKeyDown(KeyCode.Alpha5))
             {
                 StartCoroutine(LoadWithProgress(11));
             }
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            SaveSystem.DeleteSaveFile(currentZoneName);
+            SaveSystem.DeleteGameSaveFile();
         }
 
         if(!gameIsPaused && !levelIsLoading && !isInMainMenu)
@@ -110,10 +110,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void Respawn()
+    public static void Respawn(bool increaseDeathCount)
     {
         isRespawning = true;
-        numberOfDeath++;
+        if(increaseDeathCount)
+            numberOfDeath++;
         GameData.slowMoManager.StopSlowMo();
         I.StartCoroutine(LoadWithProgress(SceneManager.GetActiveScene().buildIndex));
     }
@@ -211,5 +212,27 @@ public class GameManager : MonoBehaviour
         }
 
         BlackScreenManager.SetLoadActive(false);
+    }
+
+
+
+    public static int GetHourFromSecondElapsed(float secondsToConvert)
+    {
+        return Mathf.FloorToInt(secondsToConvert) / 3600;
+    }
+
+    public static int GetMinutesFromSecondElapsed(float secondsToConvert)
+    {
+        return (Mathf.FloorToInt(secondsToConvert) % 3600) / 60;
+    }
+
+    public static int GetSecondsFromSecondElapsed(float secondsToConvert)
+    {
+        return Mathf.FloorToInt(secondsToConvert) % 3600 % 60;
+    }
+
+    public static float GetSubSecondFromSecondElapsed(float secondsToConvert)
+    {
+        return secondsToConvert - Mathf.FloorToInt(secondsToConvert);
     }
 }

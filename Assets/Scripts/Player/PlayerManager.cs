@@ -201,7 +201,7 @@ public class PlayerManager : MonoBehaviour
         }
         BlackScreenManager.SetAlpha(1);
 
-        GameManager.Respawn();
+        GameManager.Respawn(true);
     }
 
     public IEnumerator NoControl(float time)

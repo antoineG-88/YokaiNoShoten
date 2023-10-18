@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class MenuManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject optionMenu;
     public GameObject creditsMenu;
+    public Text continueInfo;
+    [Space]
+    public GameObject chaptersMenu;
+    public Button[] chaptersButtons;
     [Header("Transition Options")]
     public float transitionFadeTime;
     public Animator seikiMenu;
@@ -25,13 +30,18 @@ public class MenuManager : MonoBehaviour
     {
         eventSystem = EventSystem.current;
         GameManager.isInMainMenu = true;
-
-        if(SaveSystem.LoadGameSave() != null)
+        GameSave loadedSave = SaveSystem.LoadGameSave();
+        if (loadedSave != null)
         {
-            GameManager.currentStoryStep = SaveSystem.LoadGameSave().currentStoryStep;
-            GameManager.numberOfDeath = SaveSystem.LoadGameSave().numberOfDeath;
-            GameManager.timeElapsedPlaying = SaveSystem.LoadGameSave().timeElapsed;
+            GameManager.currentStoryStep = loadedSave.currentStoryStep;
+            GameManager.numberOfDeath = loadedSave.numberOfDeath;
+            GameManager.timeElapsedPlaying = loadedSave.timeElapsed;
         }
+
+        continueInfo.text = loadedSave.lastZoneData.zoneName + "\n"
+            + (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
+            + GameManager.GetMinutesFromSecondElapsed(loadedSave.timeElapsed) + "min - "
+            + GameManager.GetSecondsFromSecondElapsed(loadedSave.timeElapsed) + "seconds";
 
         UpdateContinueButton();
     }
@@ -56,6 +66,7 @@ public class MenuManager : MonoBehaviour
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);
             creditsMenu.SetActive(false);
+            chaptersMenu.SetActive(false);
 
             UpdateContinueButton();
         }
@@ -63,7 +74,7 @@ public class MenuManager : MonoBehaviour
 
     private void UpdateContinueButton()
     {
-        if (SaveSystem.LoadGameSave() == null)
+        if (SaveSystem.LoadGameSave() == null || SaveSystem.LoadGameSave().currentStoryStep >= zones[zones.Count - 1].zoneMaxStoryStep)
         {
             continueButton.SetActive(false);
             SelectButtonWithController(startNewGameButton);
@@ -77,10 +88,7 @@ public class MenuManager : MonoBehaviour
     public void StartNewGame()
     {
         Time.timeScale = 1f;
-        for (int i = 0; i < zones.Count; i++)
-        {
-            SaveSystem.DeleteSaveFile(zones[i].zoneName);
-        }
+        SaveSystem.DeleteGameSaveFile();
         StartCoroutine(StartTransition(0));
     }
 
@@ -138,6 +146,37 @@ public class MenuManager : MonoBehaviour
         eventSystem.firstSelectedGameObject = scrollBar;
         eventSystem.SetSelectedGameObject(scrollBar);
     }
+
+    public void UpdateChaptersAvailable()
+    {
+        ProgressionSave progressionSave = SaveSystem.LoadProgressionSave();
+        for (int i = 0; i < chaptersButtons.Length; i++)
+        {
+            if(progressionSave != null)
+            {
+                chaptersButtons[i].interactable = progressionSave.maxStoryStepReached > zones[i].zoneMaxStoryStep;
+            }
+            else
+            {
+                chaptersButtons[i].interactable = false;
+            }
+        }
+    }
+
+    public void StartGameAtSpecificChapter(string chapterName)
+    {
+        SaveSystem.DeleteGameSaveFile();
+        for (int i = 0; i < zones.Count; i++)
+        {
+            if (zones[i].zoneName == chapterName)
+            {
+                GameManager.currentStoryStep = 0;
+                StartCoroutine(StartTransition(i));
+                break;
+            }
+        }
+    }
+
 
     [System.Serializable]
     public class Zone

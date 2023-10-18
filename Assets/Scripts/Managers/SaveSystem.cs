@@ -146,7 +146,7 @@ public static class SaveSystem
         }
     }
 
-    public static void DeleteSaveFile(string zoneName)
+    public static void DeleteGameSaveFile()
     {
         //string path = savePath + zoneDataFileNamePrefixe + zoneName + saveFileExtension;
         string path = Path.Combine(savePath, gameSaveFileName + saveFileExtension);
@@ -156,14 +156,5 @@ public static class SaveSystem
             Debug.Log("Game save deleted at : " + path);
             File.Delete(path);
         }
-
-        /*
-        path = Path.Combine(savePath, progressionSaveFileName + saveFileExtension);
-        if (File.Exists(path))
-        {
-            Debug.Log("deleted at : " + path);
-            File.Delete(path);
-        }
-        */
     }
 }

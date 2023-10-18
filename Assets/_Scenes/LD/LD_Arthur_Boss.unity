@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -59604,6 +59604,7 @@ GameObject:
   - component: {fileID: 1862037784}
   - component: {fileID: 1862037788}
   - component: {fileID: 1862037787}
+  - component: {fileID: 1862037790}
   - component: {fileID: 1862037783}
   - component: {fileID: 1862037789}
   m_Layer: 0
@@ -59713,6 +59714,7 @@ MonoBehaviour:
   - {fileID: 1862037784}
   - {fileID: 1862037788}
   - {fileID: 1862037787}
+  - {fileID: 1862037790}
   - {fileID: 1862037783}
   switchToTriggerEvent: {fileID: 1145353638}
   neededStoryStepToTrigger: 33
@@ -59873,6 +59875,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1862037790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862037781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053f92e38d6a9f74b97952c32ca6e3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384630}
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  storyStepToSave: 34
 --- !u!1001 &1867419135
 PrefabInstance:
   m_ObjectHideFlags: 0
