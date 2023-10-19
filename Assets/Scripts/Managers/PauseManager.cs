@@ -14,6 +14,7 @@ public class PauseManager : MonoBehaviour
     public GameObject buttons;
     public Text playTimeText;
     public Text deathCountText;
+    public Text storyStep;
 
     private GameObject lastObjectSelected;
 
@@ -57,6 +58,7 @@ public class PauseManager : MonoBehaviour
             + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
 
             deathCountText.text = GameManager.numberOfDeath.ToString();
+            storyStep.text = GameManager.currentStoryStep.ToString();
         }
     }
 

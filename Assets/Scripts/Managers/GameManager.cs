@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool enableZonesKeyShortcuts;
 
     [HideInInspector] public static string currentZoneName;
+    [HideInInspector] public static int currentChapter;
     [HideInInspector] public static int currentStoryStep;
     [HideInInspector] public static float timeElapsedPlaying;
     [HideInInspector] public static int numberOfDeath;
@@ -101,6 +102,16 @@ public class GameManager : MonoBehaviour
     {
         if(!onlyOnRespawn || (onlyOnRespawn && isRespawning))
         {
+            if (!isRespawning)
+            {
+                GameSave loadedSave = SaveSystem.LoadGameSave();
+                if (loadedSave != null)
+                {
+                    numberOfDeath = loadedSave.numberOfDeath;
+                    timeElapsedPlaying = loadedSave.timeElapsed;
+                }
+            }
+
             isRespawning = false;
             LoadZoneSave();
         }

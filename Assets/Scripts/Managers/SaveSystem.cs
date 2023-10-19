@@ -51,8 +51,6 @@ public static class SaveSystem
         if (savePath != "" && savePath != null)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            //string path = savePath + zoneDataFileNamePrefixe + zoneName + zoneSaveFileExtension;
-            //string path = Path.Combine(savePath, gameSaveFileName + zoneName + gameSaveFileExtension);
             string path = Path.Combine(savePath, gameSaveFileName + saveFileExtension);
 
             FileStream stream = new FileStream(path, FileMode.Create);
@@ -71,7 +69,6 @@ public static class SaveSystem
         if (savePath != "" && savePath != null)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            //string path = savePath + progressionDataSaveFileName + saveFileExtension;
             string path = Path.Combine(savePath, progressionSaveFileName + saveFileExtension);
 
             ProgressionSave progressionSave = LoadProgressionSave();
@@ -79,17 +76,40 @@ public static class SaveSystem
             FileStream stream = new FileStream(path, FileMode.Create);
             if(progressionSave != null)
             {
-                progressionSave.UpdateProgression(GameManager.currentStoryStep, false, 0f);
+                progressionSave.UpdateProgression(GameManager.currentChapter, false, 0f);
             }
             else
             {
-                progressionSave = new ProgressionSave(GameManager.currentStoryStep);
+                progressionSave = new ProgressionSave(GameManager.currentChapter);
             }
 
             formatter.Serialize(stream, progressionSave);
             stream.Close();
+        }
+        else
+        {
+            Debug.LogError("The savePath has not been set");
+        }
+    }
 
-            //Debug.Log("Player saved in " + path);
+    public static void SaveNewFinishedGame(float clearTime)
+    {
+        if (savePath != "" && savePath != null)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            string path = Path.Combine(savePath, progressionSaveFileName + saveFileExtension);
+
+            ProgressionSave progressionSave = LoadProgressionSave();
+
+            FileStream stream = new FileStream(path, FileMode.Create);
+            if (progressionSave == null)
+            {
+                progressionSave = new ProgressionSave(GameManager.currentChapter);
+            }
+            progressionSave.UpdateProgression(GameManager.currentChapter, true, clearTime);
+
+            formatter.Serialize(stream, progressionSave);
+            stream.Close();
         }
         else
         {

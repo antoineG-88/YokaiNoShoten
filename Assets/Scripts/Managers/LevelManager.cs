@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public string decoScenePath;
     [Header("Save Management")]
     public string zoneName;
+    public int chapterNumber;
     public bool loadSaveOnlyOnRespawn;
     public int specificCheckpointStart;
     public bool doNotSaveEnnemiesDeath;
@@ -32,7 +33,6 @@ public class LevelManager : MonoBehaviour
         allZoneEnemies = new List<Enemy>();
         GetAllZoneSwitchesAndEnemies();
         zoneLoadCountDown = 2;
-        //GameManager.currentStoryStep = 0;
     }
 
     void Start()
@@ -45,6 +45,7 @@ public class LevelManager : MonoBehaviour
         {
             GameManager.currentZoneName = zoneName;
         }
+        GameManager.currentChapter = chapterNumber;
         StartCoroutine(StartBlackScreenFade());
         GameData.audioManager.DisableNoGravityMixerEffects();
 

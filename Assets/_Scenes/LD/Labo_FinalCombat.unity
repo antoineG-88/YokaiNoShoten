@@ -1144,6 +1144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
 --- !u!1001 &337975699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1405,6 +1406,11 @@ PrefabInstance:
         type: 3}
       propertyPath: doNotSaveEnnemiesDeath
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
+        type: 3}
+      propertyPath: chapterNumber
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6212043412841279488, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
@@ -40687,6 +40693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   eventParts:
   - {fileID: 1337331803}
   - {fileID: 1337331798}
@@ -41172,6 +41179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   eventParts:
   - {fileID: 1409338642}
   - {fileID: 1409338640}
@@ -42420,6 +42428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   switchToTriggerWaves: {fileID: 1409338639}
   waves:
   - waveEnemies:
@@ -42499,13 +42508,14 @@ MonoBehaviour:
     objectToDisable: []
     switchesToEnable: []
     switchesToDisable: []
-  pauseTimeBetweenWaves: 2
+  pauseTimeBetweenWaves: 1
   backDoorToClose: {fileID: 824690465}
   checkPointToRespawn: {fileID: 1479053766}
   nextWaveSound:
     clip: {fileID: 8300000, guid: 0e1e4e00924a1fb44bdcf0bcd226df31, type: 3}
     volumeScale: 1
   posToRespawn: {fileID: 1228086334}
+  musicSource: {fileID: 0}
   skipToWave: 0
 --- !u!1001 &1640035512
 PrefabInstance:

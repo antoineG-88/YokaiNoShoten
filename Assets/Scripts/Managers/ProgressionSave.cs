@@ -5,24 +5,31 @@ using UnityEngine;
 [System.Serializable]
 public class ProgressionSave
 {
-    public int maxStoryStepReached;
+    public int chapterReached;
     public bool hasFinishedTheGame;
     public float fastestClearTime;
 
-    public ProgressionSave(int storyStep)
+    public ProgressionSave(int chapter)
     {
-        maxStoryStepReached = storyStep;
+        chapterReached = chapter;
         fastestClearTime = 0f;
         hasFinishedTheGame = false;
     }
 
-    public void UpdateProgression(int storyStep, bool finishedGame, float clearTime)
+    public void UpdateProgression(int chapter, bool finishedGame, float clearTime)
     {
-        maxStoryStepReached = Mathf.Max(storyStep, maxStoryStepReached);
+        chapterReached = Mathf.Max(chapter, chapterReached);
         if(finishedGame)
         {
             hasFinishedTheGame = true;
-            fastestClearTime = Mathf.Min(clearTime, fastestClearTime);
+            if(fastestClearTime != 0f)
+            {
+                fastestClearTime = Mathf.Min(clearTime, fastestClearTime);
+            }
+            else
+            {
+                fastestClearTime = clearTime;
+            }
         }
     }
 }

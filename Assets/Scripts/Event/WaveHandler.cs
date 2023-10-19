@@ -115,7 +115,7 @@ public class WaveHandler : Switch
                         allEnnemiesKilled = true;
                         for (int i = 0; i < waves[currentWaveIndex].waveEnemies.Count; i++)
                         {
-                            if (waves[currentWaveIndex].waveEnemies[i] != null && !waves[currentWaveIndex].waveEnemies[i].isDying)
+                            if (waves[currentWaveIndex].waveEnemies[i] != null /*&& !waves[currentWaveIndex].waveEnemies[i].isDying*/)
                             {
                                 allEnnemiesKilled = false;
                             }
@@ -123,7 +123,7 @@ public class WaveHandler : Switch
 
                         if (allEnnemiesKilled)
                         {
-                            if(currentWaveIndex + 1< waves.Count && saveFlag)
+                            if(currentWaveIndex + 1 < waves.Count && saveFlag)
                             {
                                 saveFlag = false;
                                 if(waves[currentWaveIndex + 1].maxStoryStepToSkipWave > 0)

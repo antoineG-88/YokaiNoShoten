@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     [Space]
     public GameObject chaptersMenu;
     public Button[] chaptersButtons;
+    public Text bestClearTime;
     [Header("Transition Options")]
     public float transitionFadeTime;
     public Animator seikiMenu;
@@ -36,12 +37,8 @@ public class MenuManager : MonoBehaviour
             GameManager.currentStoryStep = loadedSave.currentStoryStep;
             GameManager.numberOfDeath = loadedSave.numberOfDeath;
             GameManager.timeElapsedPlaying = loadedSave.timeElapsed;
-        }
 
-        continueInfo.text = loadedSave.lastZoneData.zoneName + "\n"
-            + (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
-            + GameManager.GetMinutesFromSecondElapsed(loadedSave.timeElapsed) + "min - "
-            + GameManager.GetSecondsFromSecondElapsed(loadedSave.timeElapsed) + "seconds";
+        }
 
         UpdateContinueButton();
     }
@@ -74,14 +71,21 @@ public class MenuManager : MonoBehaviour
 
     private void UpdateContinueButton()
     {
-        if (SaveSystem.LoadGameSave() == null || SaveSystem.LoadGameSave().currentStoryStep >= zones[zones.Count - 1].zoneMaxStoryStep)
+        GameSave loadedSave = SaveSystem.LoadGameSave();
+        if (loadedSave == null || SaveSystem.LoadGameSave().currentStoryStep >= zones[zones.Count - 1].zoneMaxStoryStep)
         {
             continueButton.SetActive(false);
+            continueInfo.text = "";
             SelectButtonWithController(startNewGameButton);
         }
         else
         {
             SelectButtonWithController(continueButton);
+
+            continueInfo.text = loadedSave.lastZoneData.zoneName + "\n"
+                + (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
+                + GameManager.GetMinutesFromSecondElapsed(loadedSave.timeElapsed) + "min - "
+                + GameManager.GetSecondsFromSecondElapsed(loadedSave.timeElapsed) + "seconds";
         }
     }
 
@@ -150,15 +154,27 @@ public class MenuManager : MonoBehaviour
     public void UpdateChaptersAvailable()
     {
         ProgressionSave progressionSave = SaveSystem.LoadProgressionSave();
-        for (int i = 0; i < chaptersButtons.Length; i++)
+        if (progressionSave != null && progressionSave.hasFinishedTheGame)
         {
-            if(progressionSave != null)
+            float playTime = progressionSave.fastestClearTime;
+            bestClearTime.text = "Fastest clear time : " + (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
+            + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
+            + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+        }
+        else
+        {
+            bestClearTime.text = "";
+            chaptersButtons[0].interactable = true;
+            for (int i = 1; i < chaptersButtons.Length; i++)
             {
-                chaptersButtons[i].interactable = progressionSave.maxStoryStepReached > zones[i].zoneMaxStoryStep;
-            }
-            else
-            {
-                chaptersButtons[i].interactable = false;
+                if (progressionSave != null)
+                {
+                    chaptersButtons[i].interactable = progressionSave.chapterReached > i;
+                }
+                else
+                {
+                    chaptersButtons[i].interactable = false;
+                }
             }
         }
     }
