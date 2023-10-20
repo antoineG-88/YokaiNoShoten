@@ -46,6 +46,12 @@ public class LevelManager : MonoBehaviour
             GameManager.currentZoneName = zoneName;
         }
         GameManager.currentChapter = chapterNumber;
+
+        if(chapterNumber == 1)
+        {
+            GameManager.isValidForClearTime = true;
+        }
+
         StartCoroutine(StartBlackScreenFade());
         GameData.audioManager.DisableNoGravityMixerEffects();
 

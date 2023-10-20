@@ -16,6 +16,8 @@ public class MenuManager : MonoBehaviour
     public GameObject optionMenu;
     public GameObject creditsMenu;
     public Text continueInfo;
+    public GameObject warnWindow;
+    public GameObject warnWindowContinue;
     [Space]
     public GameObject chaptersMenu;
     public Button[] chaptersButtons;
@@ -26,6 +28,7 @@ public class MenuManager : MonoBehaviour
     public float timeBeforeFade;
 
     private GameObject lastSelectedObject;
+    private bool isGameStarting;
 
     private void Start()
     {
@@ -58,12 +61,13 @@ public class MenuManager : MonoBehaviour
             lastSelectedObject = eventSystem.currentSelectedGameObject;
         }
 
-        if(Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
+        if((Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape)) && !isGameStarting)
         {
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);
             creditsMenu.SetActive(false);
             chaptersMenu.SetActive(false);
+            warnWindow.SetActive(false);
 
             UpdateContinueButton();
         }
@@ -92,8 +96,14 @@ public class MenuManager : MonoBehaviour
     public void StartNewGame()
     {
         Time.timeScale = 1f;
-        SaveSystem.DeleteGameSaveFile();
-        StartCoroutine(StartTransition(0));
+        if(SaveSystem.LoadGameSave() != null)
+        {
+            WarnPlayerForDeleteSave(0);
+        }
+        else
+        {
+            StartCoroutine(StartTransition(0));
+        }
     }
 
     public void ContinueGame()
@@ -120,6 +130,13 @@ public class MenuManager : MonoBehaviour
 
     private IEnumerator StartTransition(int zoneIndexToLoad)
     {
+        isGameStarting = true;
+        mainMenu.SetActive(false);
+        optionMenu.SetActive(false);
+        creditsMenu.SetActive(false);
+        chaptersMenu.SetActive(false);
+        warnWindow.SetActive(false);
+
         seikiMenu.SetTrigger("Jump");
         yield return new WaitForSeconds(timeBeforeFade);
         float timer = 0;
@@ -181,18 +198,48 @@ public class MenuManager : MonoBehaviour
 
     public void StartGameAtSpecificChapter(string chapterName)
     {
-        SaveSystem.DeleteGameSaveFile();
         for (int i = 0; i < zones.Count; i++)
         {
             if (zones[i].zoneName == chapterName)
             {
                 GameManager.currentStoryStep = 0;
-                StartCoroutine(StartTransition(i));
+                if(SaveSystem.LoadGameSave() != null)
+                {
+                    WarnPlayerForDeleteSave(i);
+                }
+                else
+                {
+                    StartCoroutine(StartTransition(i));
+                }
+
                 break;
             }
         }
     }
 
+    private int sceneToLoadWaitingForWarn;
+    private GameObject selectedButtonWhenWarn;
+    public void WarnPlayerForDeleteSave(int sceneIndex)
+    {
+        warnWindow.SetActive(true);
+        selectedButtonWhenWarn = eventSystem.currentSelectedGameObject;
+        SelectButtonWithController(warnWindowContinue);
+        sceneToLoadWaitingForWarn = sceneIndex;
+    }
+
+    public void ValidateDeletion()
+    {
+        SaveSystem.DeleteGameSaveFile();
+        StartCoroutine(StartTransition(sceneToLoadWaitingForWarn));
+        warnWindow.SetActive(false);
+    }
+
+    public void CancelDeletion()
+    {
+        sceneToLoadWaitingForWarn = 0;
+        warnWindow.SetActive(false);
+        eventSystem.SetSelectedGameObject(selectedButtonWhenWarn);
+    }
 
     [System.Serializable]
     public class Zone

@@ -7,6 +7,7 @@ public class GameSave
 {
     public ZoneSave lastZoneData;
     public int currentStoryStep;
+    public bool isValidRun;
     public float timeElapsed;
     public int numberOfDeath;
 
@@ -16,5 +17,6 @@ public class GameSave
         currentStoryStep = GameManager.currentStoryStep;
         timeElapsed = GameManager.timeElapsedPlaying;
         numberOfDeath = GameManager.numberOfDeath;
+        isValidRun = GameManager.isValidForClearTime;
     }
 }

@@ -176,5 +176,7 @@ public static class SaveSystem
             Debug.Log("Game save deleted at : " + path);
             File.Delete(path);
         }
+
+        GameManager.isValidForClearTime = false;
     }
 }

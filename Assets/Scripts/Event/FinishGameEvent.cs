@@ -34,8 +34,16 @@ public class FinishGameEvent : EventPart
     {
         GameManager.currentStoryStep = storyStepToSave;
         SaveSystem.SaveGameAndProgression(GameManager.currentZoneName);
-        SaveSystem.SaveNewFinishedGame(GameManager.timeElapsedPlaying);
-        ShowGameStats();
+
+        if(GameManager.isValidForClearTime)
+        {
+            SaveSystem.SaveNewFinishedGame(GameManager.timeElapsedPlaying);
+            ShowGameStats();
+        }
+        else
+        {
+            ContinueEnd();
+        }
     }
 
     public void ShowGameStats()

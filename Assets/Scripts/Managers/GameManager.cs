@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static int currentStoryStep;
     [HideInInspector] public static float timeElapsedPlaying;
     [HideInInspector] public static int numberOfDeath;
+    [HideInInspector] public static bool isValidForClearTime;
 
     [HideInInspector] public static bool gameIsPaused;
     [HideInInspector] public static bool levelIsLoading;
@@ -175,6 +176,7 @@ public class GameManager : MonoBehaviour
             }
 
             currentStoryStep = gameSave.currentStoryStep;
+            isValidForClearTime = gameSave.isValidRun;
         }
         else
         {

@@ -52,10 +52,17 @@ public class PauseManager : MonoBehaviour
 
         if(isPaused)
         {
-            float playTime = GameManager.timeElapsedPlaying;
-            playTimeText.text = (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
-            + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
-            + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+            if(GameManager.isValidForClearTime)
+            {
+                float playTime = GameManager.timeElapsedPlaying;
+                playTimeText.text = (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
+                + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
+                + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+            }
+            else
+            {
+                playTimeText.text = "Not valid run";
+            }
 
             deathCountText.text = GameManager.numberOfDeath.ToString();
             storyStep.text = GameManager.currentStoryStep.ToString();
