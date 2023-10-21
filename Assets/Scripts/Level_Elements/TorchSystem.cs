@@ -96,8 +96,14 @@ public class TorchSystem : Switch
             }
             else
             {
+                if(timeElapsedSinceGrab > Time.fixedDeltaTime)
+                {
+                    GrabTorch();
+                    //UnlitAllLights();
+                    torch.transform.position = transform.position;
+                }
+
                 timeElapsedSinceGrab = 0;
-                UnlitAllLights();
             }
         }
     }

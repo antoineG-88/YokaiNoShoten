@@ -106,7 +106,7 @@ public class DialogManager : MonoBehaviour
                 if(seikiReacting)
                 {
                     nextImage.gameObject.SetActive(true);
-                    if (GameData.playerManager.isUsingController ? Input.GetButtonDown("AButton") : (Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0)))
+                    if (GameManager.isUsingController ? Input.GetButtonDown("AButton") : (Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0)))
                     {
                         currentDialogSentenceIndex++;
                         isWaitingNext = false;
@@ -122,7 +122,7 @@ public class DialogManager : MonoBehaviour
                 {
                     dialogText.text = currentDialog.sentences[currentDialogSentenceIndex].sentence.Replace("_", string.Empty);
                     //petite flêche qui vloup vloup
-                    if ((GameData.playerManager.isUsingController ? Input.GetButtonDown("AButton") : Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0)) || !manualSeikiReaction)
+                    if ((GameManager.isUsingController ? Input.GetButtonDown("AButton") : Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0)) || !manualSeikiReaction)
                     {
                         isWaitingNext = false;
                         seikiReacting = true;
@@ -148,7 +148,7 @@ public class DialogManager : MonoBehaviour
                     timeElapsedOnSentence += Time.deltaTime;
                     nameText.text = currentDialog.sentences[currentDialogSentenceIndex].characterName;
                     characterFace.sprite = GetCharacterFaceFromName(currentDialog.sentences[currentDialogSentenceIndex].characterName);
-                    if ((GameData.playerManager.isUsingController ? Input.GetButtonDown("AButton") : (Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0))) && timeElapsedOnSentence > minTimeToPass)
+                    if ((GameManager.isUsingController ? Input.GetButtonDown("AButton") : (Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0))) && timeElapsedOnSentence > minTimeToPass)
                     {
                         isWaitingNext = true;
                         currentCharIndex = 0;

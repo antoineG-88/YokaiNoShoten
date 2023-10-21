@@ -35,12 +35,12 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public bool isBeingKnocked;
     [HideInInspector] public bool isDying;
     [HideInInspector] public bool isInEvent;
-    [HideInInspector] public bool isUsingController;
+    //[HideInInspector] public bool isUsingController;
 
     private float invulnerableTimeRemaining;
     private int basePlayerLayer;
 
-    private Vector2 lastMousePos;
+    //private Vector2 lastMousePos;
 
     void Start()
     {
@@ -80,7 +80,7 @@ public class PlayerManager : MonoBehaviour
 
         RefreshHealthPointDisplay();
 
-        CheckInputType();
+        //CheckInputType();
     }
 
     private void FixedUpdate()
@@ -93,6 +93,7 @@ public class PlayerManager : MonoBehaviour
         GameData.playerSource.pitch = Time.timeScale;
     }
 
+    /*
     private void CheckInputType()
     {
         if(isUsingController)
@@ -115,6 +116,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+    */
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {

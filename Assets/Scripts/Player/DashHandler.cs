@@ -64,7 +64,7 @@ public class DashHandler : MonoBehaviour
             defaultDashDirection = GameData.grappleHandler.aimDirection;
         }
 
-        if(GameData.playerManager.isUsingController)
+        if(GameManager.isUsingController)
         {
             dashDirection = aimWithRightJoystick ? new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV")) : new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
         }
@@ -140,7 +140,7 @@ public class DashHandler : MonoBehaviour
 
     private void DashTriggerUpdate()
     {
-        if (GameData.playerManager.isUsingController)
+        if (GameManager.isUsingController)
         {
             if (!dashTriggerPressed && (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1))
             {

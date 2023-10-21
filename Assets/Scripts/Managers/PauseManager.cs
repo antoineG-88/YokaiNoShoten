@@ -8,6 +8,7 @@ public class PauseManager : MonoBehaviour
 {
     [HideInInspector] public bool isPaused;
     private EventSystem eventSystem;
+    public GameObject pauseBackground;
     public GameObject pauseButton;
     public GameObject mainVolumeSlider;
     public GameObject optionMenu;
@@ -15,6 +16,7 @@ public class PauseManager : MonoBehaviour
     public Text playTimeText;
     public Text deathCountText;
     public Text storyStep;
+    public Text currentChapterText;
 
     private GameObject lastObjectSelected;
 
@@ -52,7 +54,12 @@ public class PauseManager : MonoBehaviour
 
         if(isPaused)
         {
-            if(GameManager.isValidForClearTime)
+            if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pause();
+            }
+
+            if (GameManager.isValidForClearTime)
             {
                 float playTime = GameManager.timeElapsedPlaying;
                 playTimeText.text = (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
@@ -66,6 +73,7 @@ public class PauseManager : MonoBehaviour
 
             deathCountText.text = GameManager.numberOfDeath.ToString();
             storyStep.text = GameManager.currentStoryStep.ToString();
+            currentChapterText.text = GameManager.currentZoneName;
         }
     }
 
@@ -79,7 +87,9 @@ public class PauseManager : MonoBehaviour
 
     public void Pause()
     {
+        pauseBackground.SetActive(true);
         buttons.SetActive(true);
+        optionMenu.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
         eventSystem.firstSelectedGameObject = pauseButton;
         eventSystem.SetSelectedGameObject(pauseButton);
@@ -93,6 +103,7 @@ public class PauseManager : MonoBehaviour
     {
         optionMenu.SetActive(false);
         buttons.SetActive(false);
+        pauseBackground.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;
         GameData.playerManager.inControl = true;

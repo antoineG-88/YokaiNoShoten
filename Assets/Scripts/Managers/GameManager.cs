@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +24,11 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static bool gameIsPaused;
     [HideInInspector] public static bool levelIsLoading;
     [HideInInspector] public static bool isInMainMenu;
+    [HideInInspector] public static bool isUsingController;
 
+
+    private Vector2 lastMousePos;
+    [HideInInspector] public static EventSystem eventSystem;
     public static bool isRespawning;
     private static bool zoneLoaded;
     public static GameManager I;
@@ -46,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        eventSystem = EventSystem.current;
     }
 
     private void Update()
@@ -97,6 +102,8 @@ public class GameManager : MonoBehaviour
         {
             timeElapsedPlaying += Time.deltaTime;
         }
+
+        CheckInputType();
     }
 
     public static void LoadLevel(bool onlyOnRespawn, int specificStart)
@@ -247,5 +254,28 @@ public class GameManager : MonoBehaviour
     public static float GetSubSecondFromSecondElapsed(float secondsToConvert)
     {
         return secondsToConvert - Mathf.FloorToInt(secondsToConvert);
+    }
+
+    private void CheckInputType()
+    {
+        if (isUsingController)
+        {
+            if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+            {
+                isUsingController = false;
+                Cursor.visible = true;
+                eventSystem.SetSelectedGameObject(null);
+            }
+        }
+        else
+        {
+            lastMousePos = Input.mousePosition;
+            if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetButtonDown("AButton") || Input.GetButtonDown("AButton")
+                || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            {
+                isUsingController = true;
+                Cursor.visible = false;
+            }
+        }
     }
 }

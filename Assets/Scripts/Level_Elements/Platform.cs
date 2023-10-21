@@ -25,7 +25,7 @@ public class Platform : MonoBehaviour
 
     private void Update()
     {
-        if ((GameData.playerManager.isUsingController ? Input.GetAxisRaw("LeftStickV") > 0.5f : Input.GetAxisRaw("Vertical") < -0.5f ) || GameData.grappleHandler.isTracting)
+        if ((GameManager.isUsingController ? Input.GetAxisRaw("LeftStickV") > 0.5f : Input.GetAxisRaw("Vertical") < -0.5f ) || GameData.grappleHandler.isTracting)
         {
             timeRemaining = reactivationDelay;
         }

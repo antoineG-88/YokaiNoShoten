@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class LevelManager : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class LevelManager : MonoBehaviour
         allZoneEnemies = new List<Enemy>();
         GetAllZoneSwitchesAndEnemies();
         zoneLoadCountDown = 2;
+
+
+        GameManager.eventSystem = EventSystem.current;
     }
 
     void Start()

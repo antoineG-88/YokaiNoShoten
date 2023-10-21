@@ -17,7 +17,8 @@ public class MenuManager : MonoBehaviour
     public GameObject creditsMenu;
     public Text continueInfo;
     public GameObject warnWindow;
-    public GameObject warnWindowContinue;
+    public GameObject defaultSelectedWarnButton;
+    public GameObject otherWarnButton;
     [Space]
     public GameObject chaptersMenu;
     public Button[] chaptersButtons;
@@ -48,12 +49,15 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        
-        if(eventSystem.currentSelectedGameObject == null)
+
+        if (eventSystem.currentSelectedGameObject == null)
         {
-            if(Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            if (GameManager.isUsingController)
             {
-                SelectButtonWithController(lastSelectedObject);
+                if (Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+                {
+                    SelectButtonWithController(lastSelectedObject);
+                }
             }
         }
         else
@@ -87,9 +91,10 @@ public class MenuManager : MonoBehaviour
             SelectButtonWithController(continueButton);
 
             continueInfo.text = loadedSave.lastZoneData.zoneName + "\n"
-                + (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
+                + (loadedSave.isValidRun ? (
+                (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
                 + GameManager.GetMinutesFromSecondElapsed(loadedSave.timeElapsed) + "min - "
-                + GameManager.GetSecondsFromSecondElapsed(loadedSave.timeElapsed) + "seconds";
+                + GameManager.GetSecondsFromSecondElapsed(loadedSave.timeElapsed) + "seconds") : "");
         }
     }
 
@@ -174,13 +179,13 @@ public class MenuManager : MonoBehaviour
         if (progressionSave != null && progressionSave.hasFinishedTheGame)
         {
             float playTime = progressionSave.fastestClearTime;
-            bestClearTime.text = "Fastest clear time : " + (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
+            bestClearTime.text = "Fastest clear time : \n" + (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
             + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
             + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
         }
         else
         {
-            bestClearTime.text = "";
+            bestClearTime.text = "Fastest clear time : \n Game not yet completed";
             chaptersButtons[0].interactable = true;
             for (int i = 1; i < chaptersButtons.Length; i++)
             {
@@ -218,17 +223,20 @@ public class MenuManager : MonoBehaviour
     }
 
     private int sceneToLoadWaitingForWarn;
+    private bool isBeingWarned;
     private GameObject selectedButtonWhenWarn;
     public void WarnPlayerForDeleteSave(int sceneIndex)
     {
         warnWindow.SetActive(true);
         selectedButtonWhenWarn = eventSystem.currentSelectedGameObject;
-        SelectButtonWithController(warnWindowContinue);
         sceneToLoadWaitingForWarn = sceneIndex;
+        SelectButtonWithController(defaultSelectedWarnButton);
+        isBeingWarned = true;
     }
 
     public void ValidateDeletion()
     {
+        isBeingWarned = false;
         SaveSystem.DeleteGameSaveFile();
         StartCoroutine(StartTransition(sceneToLoadWaitingForWarn));
         warnWindow.SetActive(false);
@@ -236,6 +244,7 @@ public class MenuManager : MonoBehaviour
 
     public void CancelDeletion()
     {
+        isBeingWarned = false;
         sceneToLoadWaitingForWarn = 0;
         warnWindow.SetActive(false);
         eventSystem.SetSelectedGameObject(selectedButtonWhenWarn);

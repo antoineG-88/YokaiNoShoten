@@ -21,6 +21,7 @@ public class AudioManager : MonoBehaviour
             PlayerPrefs.SetFloat("musicVolume", 0.8f);
             PlayerPrefs.SetFloat("effectVolume", 0.8f);
         }
+
         LoadVolumes();
     }
 

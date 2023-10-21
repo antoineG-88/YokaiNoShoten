@@ -126,7 +126,7 @@ public class GrappleHandler : MonoBehaviour
         if (canShoot && GameData.playerManager.inControl)
         {
             Vector2 aimStickMag = aimWithLeftJoystick ? new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV")) : new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV"));
-            if (!isAiming && (aimStickMag.magnitude > 0.1f || !GameData.playerManager.isUsingController) && !isTracting)
+            if (!isAiming && (aimStickMag.magnitude > 0.1f || !GameManager.isUsingController) && !isTracting)
             {
                 isAiming = true;
                 aimArrow.SetActive(true);
@@ -142,7 +142,7 @@ public class GrappleHandler : MonoBehaviour
 
             if (isAiming || keepAim)
             {
-                if(GameData.playerManager.isUsingController)
+                if(GameManager.isUsingController)
                 {
                     if (isAiming)
                     {
@@ -490,7 +490,7 @@ public class GrappleHandler : MonoBehaviour
 
     private void TractTriggerUpdate()
     {
-        if(GameData.playerManager.isUsingController)
+        if(GameManager.isUsingController)
         {
             if (!tractTriggerPressed && (tractWithLeftTrigger ? Input.GetAxisRaw("LeftTrigger") == 1 : Input.GetAxisRaw("RightTrigger") == 1))
             {
