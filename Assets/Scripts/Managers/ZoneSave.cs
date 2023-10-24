@@ -12,7 +12,10 @@ public class ZoneSave
 
     public ZoneSave()
     {
-        lastCheckPointIndex = LevelManager.lastCheckPoint.checkPointNumber;
+        if(LevelManager.lastCheckPoint != null)
+        {
+            lastCheckPointIndex = LevelManager.lastCheckPoint.checkPointNumber;
+        }
 
         zoneName = GameManager.currentZoneName;
 

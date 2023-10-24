@@ -46,7 +46,7 @@ public static class SaveSystem
         }
     }
 
-    public static void SaveGameAndProgression(string zoneName)
+    public static void SaveGameAndProgression(int chapter)
     {
         if (savePath != "" && savePath != null)
         {
@@ -55,7 +55,7 @@ public static class SaveSystem
 
             FileStream stream = new FileStream(path, FileMode.Create);
 
-            GameSave gameSave = new GameSave();
+            GameSave gameSave = new GameSave(chapter);
             formatter.Serialize(stream, gameSave);
             stream.Close();
 
@@ -91,6 +91,36 @@ public static class SaveSystem
             Debug.LogError("The savePath has not been set");
         }
     }
+
+    public static void SaveChapterClearTime()
+    {
+        if (savePath != "" && savePath != null)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            string path = Path.Combine(savePath, progressionSaveFileName + saveFileExtension);
+
+            ProgressionSave progressionSave = LoadProgressionSave();
+
+            FileStream stream = new FileStream(path, FileMode.Create);
+            if (progressionSave != null)
+            {
+                progressionSave.UpdateChapterClearTime(GameManager.currentChapter, GameManager.chapterTimeElapsedPlaying);
+            }
+            else
+            {
+                progressionSave = new ProgressionSave(GameManager.currentChapter);
+            }
+
+            formatter.Serialize(stream, progressionSave);
+            stream.Close();
+        }
+        else
+        {
+            Debug.LogError("The savePath has not been set");
+        }
+    }
+
+
 
     public static void SaveNewFinishedGame(float clearTime)
     {
@@ -137,7 +167,7 @@ public static class SaveSystem
         }
         else
         {
-            Debug.LogWarning("Save file not found in " + path);
+            //Debug.LogWarning("Save file not found in " + path);
             return null;
         }
     }
@@ -161,7 +191,7 @@ public static class SaveSystem
         }
         else
         {
-            Debug.LogWarning("Save file not found in " + path);
+            //Debug.LogWarning("Save file not found in " + path);
             return null;
         }
     }
@@ -173,7 +203,7 @@ public static class SaveSystem
         
         if(File.Exists(path))
         {
-            Debug.Log("Game save deleted at : " + path);
+            //Debug.Log("Game save deleted at : " + path);
             File.Delete(path);
         }
 

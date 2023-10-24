@@ -834,7 +834,7 @@ PrefabInstance:
     - target: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4eb0bcac80467b74c8e3754eb36a5047, type: 3}
+      objectReference: {fileID: 8300000, guid: 000e6fac6f63cf840a96f3781b640b5a, type: 3}
     - target: {fileID: 3267245876046976401, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: m_Name
@@ -913,7 +913,7 @@ PrefabInstance:
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: zoneName
-      value: QG
+      value: The Hideout
       objectReference: {fileID: 0}
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
@@ -25706,6 +25706,7 @@ MonoBehaviour:
   eventStarted: 0
   eventEnded: 0
   nextZoneBuildIndex: 3
+  nextZoneChapterNumber: 4
   seikiWalkingSpeed: 3
   seikiWalkingRight: 1
   timeToTriggerLoad: 1
@@ -27670,6 +27671,7 @@ MonoBehaviour:
   eventStarted: 0
   eventEnded: 0
   nextZoneBuildIndex: 6
+  nextZoneChapterNumber: 4
   seikiWalkingSpeed: 0
   seikiWalkingRight: 0
   timeToTriggerLoad: 0

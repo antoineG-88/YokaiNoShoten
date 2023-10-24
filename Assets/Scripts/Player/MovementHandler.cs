@@ -129,7 +129,7 @@ public class MovementHandler : MonoBehaviour
         {
             if(GameData.playerManager.isDying)
             {
-
+                rb.velocity -= rb.velocity * 2.5f * Time.fixedDeltaTime;
             }
             else
             {

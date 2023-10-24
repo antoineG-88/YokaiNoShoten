@@ -22,6 +22,8 @@ public class MenuManager : MonoBehaviour
     [Space]
     public GameObject chaptersMenu;
     public Button[] chaptersButtons;
+    public Text[] chaptersName;
+    public Text[] chaptersClearTime;
     public Text bestClearTime;
     [Header("Transition Options")]
     public float transitionFadeTime;
@@ -43,7 +45,7 @@ public class MenuManager : MonoBehaviour
             GameManager.timeElapsedPlaying = loadedSave.timeElapsed;
 
         }
-
+        GameManager.eventSystem = EventSystem.current;
         UpdateContinueButton();
     }
 
@@ -90,7 +92,7 @@ public class MenuManager : MonoBehaviour
         {
             SelectButtonWithController(continueButton);
 
-            continueInfo.text = loadedSave.lastZoneData.zoneName + "\n"
+            continueInfo.text = zones[loadedSave._chapterToLoad - 1].zoneName + "\n"
                 + (loadedSave.isValidRun ? (
                 (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
                 + GameManager.GetMinutesFromSecondElapsed(loadedSave.timeElapsed) + "min - "
@@ -117,6 +119,11 @@ public class MenuManager : MonoBehaviour
         GameSave loadedSave = SaveSystem.LoadGameSave();
         if (loadedSave != null)
             GameManager.currentStoryStep = loadedSave.currentStoryStep;
+
+
+        StartCoroutine(StartTransition(loadedSave._chapterToLoad - 1));
+
+        /*
         for (int i = 0; i < zones.Count; i++)
         {
             if(zones[i].zoneName == loadedSave.lastZoneData.zoneName)
@@ -124,13 +131,7 @@ public class MenuManager : MonoBehaviour
                 StartCoroutine(StartTransition(i));
                 break;
             }
-            /*
-            if(GameManager.currentStoryStep <= zones[i].zoneMaxStoryStep)
-            {
-                StartCoroutine(StartTransition(i));
-                break;
-            }*/
-        }
+        }*/
     }
 
     private IEnumerator StartTransition(int zoneIndexToLoad)
@@ -192,11 +193,34 @@ public class MenuManager : MonoBehaviour
                 if (progressionSave != null)
                 {
                     chaptersButtons[i].interactable = progressionSave.chapterReached > i;
+                    chaptersName[i].CrossFadeAlpha(progressionSave.chapterReached > i ? 1 : 0, 0, false);
                 }
                 else
                 {
                     chaptersButtons[i].interactable = false;
+                    chaptersName[i].CrossFadeAlpha(0, 0, false);
                 }
+            }
+        }
+
+        for (int i = 0; i < chaptersClearTime.Length; i++)
+        {
+            if (progressionSave != null)
+            {
+                if (progressionSave.chaptersClearTime[i] != 0)
+                {
+                    chaptersClearTime[i].text = (GameManager.GetHourFromSecondElapsed(progressionSave.chaptersClearTime[i]) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(progressionSave.chaptersClearTime[i]) + "hours - "))
+                    + GameManager.GetMinutesFromSecondElapsed(progressionSave.chaptersClearTime[i]) + "min - "
+                    + (GameManager.GetSecondsFromSecondElapsed(progressionSave.chaptersClearTime[i]) + GameManager.GetSubSecondFromSecondElapsed(progressionSave.chaptersClearTime[i])).ToString("0.00") + " seconds";
+                }
+                else
+                {
+                    chaptersClearTime[i].text = "";
+                }
+            }
+            else
+            {
+                chaptersClearTime[i].text = "";
             }
         }
     }

@@ -1385,7 +1385,7 @@ PrefabInstance:
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: zoneName
-      value: CombatLabo
+      value: The Door
       objectReference: {fileID: 0}
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
@@ -1502,6 +1502,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729ced57dbc47f14a8437dd55652f23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &367160408 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 367160406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &379930506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44311,6 +44317,7 @@ MonoBehaviour:
   eventStarted: 0
   eventEnded: 0
   nextZoneBuildIndex: 7
+  nextZoneChapterNumber: 6
   seikiWalkingSpeed: 3
   seikiWalkingRight: 0
   timeToTriggerLoad: 0.2
@@ -44838,6 +44845,7 @@ GameObject:
   - component: {fileID: 1409338639}
   - component: {fileID: 1409338642}
   - component: {fileID: 1409338640}
+  - component: {fileID: 1409338645}
   - component: {fileID: 1409338641}
   - component: {fileID: 1409338643}
   m_Layer: 15
@@ -44865,6 +44873,7 @@ MonoBehaviour:
   eventParts:
   - {fileID: 1409338642}
   - {fileID: 1409338640}
+  - {fileID: 1409338645}
   switchToTriggerEvent: {fileID: 0}
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 20
@@ -44983,6 +44992,26 @@ Transform:
   m_Father: {fileID: 886217954}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1409338645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409338638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1409338641}
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 367160408}
+  fadeOutPreviousMusic: 1
+  fadeOutTime: 0.8
+  newMusicToPlay: {fileID: 8300000, guid: 02bd1fcc40f5c5e46abc142d9df68805, type: 3}
 --- !u!1001 &1435234767
 PrefabInstance:
   m_ObjectHideFlags: 0

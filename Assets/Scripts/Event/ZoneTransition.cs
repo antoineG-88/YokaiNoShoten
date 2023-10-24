@@ -5,6 +5,7 @@ using UnityEngine;
 public class ZoneTransition : EventPart
 {
     public int nextZoneBuildIndex;
+    public int nextZoneChapterNumber;
     public float seikiWalkingSpeed;
     public bool seikiWalkingRight;
     public float timeToTriggerLoad;
@@ -24,7 +25,7 @@ public class ZoneTransition : EventPart
             }
             else if(loadFlag)
             {
-                StartCoroutine(GameData.levelManager.LoadNewZone(nextZoneBuildIndex));
+                StartCoroutine(GameData.levelManager.LoadNewZone(nextZoneBuildIndex, nextZoneChapterNumber));
                 loadFlag = false;
             }
         }

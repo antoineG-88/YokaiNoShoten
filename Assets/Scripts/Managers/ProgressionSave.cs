@@ -8,12 +8,14 @@ public class ProgressionSave
     public int chapterReached;
     public bool hasFinishedTheGame;
     public float fastestClearTime;
+    public float[] chaptersClearTime;
 
     public ProgressionSave(int chapter)
     {
         chapterReached = chapter;
         fastestClearTime = 0f;
         hasFinishedTheGame = false;
+        chaptersClearTime = new float[7] {0,0,0,0,0,0,0};
     }
 
     public void UpdateProgression(int chapter, bool finishedGame, float clearTime)
@@ -30,6 +32,18 @@ public class ProgressionSave
             {
                 fastestClearTime = clearTime;
             }
+        }
+    }
+
+    public void UpdateChapterClearTime(int chapter, float clearTime)
+    {
+        if (chaptersClearTime[chapter - 1] != 0f)
+        {
+            chaptersClearTime[chapter - 1] = Mathf.Min(clearTime, chaptersClearTime[chapter - 1]);
+        }
+        else
+        {
+            chaptersClearTime[chapter - 1] = clearTime;
         }
     }
 }

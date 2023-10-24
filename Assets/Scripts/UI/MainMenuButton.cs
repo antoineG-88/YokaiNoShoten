@@ -24,6 +24,6 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        GameManager.eventSystem.SetSelectedGameObject(gameObject);
+        eventSystem.SetSelectedGameObject(gameObject);
     }
 }

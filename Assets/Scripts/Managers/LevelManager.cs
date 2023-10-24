@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
@@ -9,6 +10,7 @@ public class LevelManager : MonoBehaviour
     [Header("Zone Transition")]
     public Color transitionScreenColor;
     public float transitionTime;
+    public Text chapterNameDisplay;
     [Header("Deco")]
     public int decoSceneIndex;
     public string decoScenePath;
@@ -59,6 +61,8 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(StartBlackScreenFade());
         GameData.audioManager.DisableNoGravityMixerEffects();
 
+        StartCoroutine(DisplayZoneName());
+
         GameManager.isInMainMenu = false;
     }
 
@@ -100,8 +104,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public IEnumerator LoadNewZone(int zoneBuildIndex)
+    public IEnumerator LoadNewZone(int zoneBuildIndex, int nextChapterNumber)
     {
+        SaveSystem.SaveGameAndProgression(nextChapterNumber);
+        SaveSystem.SaveChapterClearTime();
         float timer = 0;
         while (timer < transitionTime)
         {
@@ -159,6 +165,21 @@ public class LevelManager : MonoBehaviour
         {
             SearchSwitchesAndEnemiesIn(parent.GetChild(i));
         }
+    }
+
+    private IEnumerator DisplayZoneName()
+    {
+        chapterNameDisplay = GameObject.Find("ZoneNameDisplay").GetComponent<Text>();
+
+        chapterNameDisplay.CrossFadeAlpha(0f, 0f, false);
+        chapterNameDisplay.text = zoneName;
+        yield return new WaitForSeconds(0.7f);
+
+        chapterNameDisplay.CrossFadeAlpha(1f, 0.5f, false);
+
+        yield return new WaitForSeconds(4.0f);
+
+        chapterNameDisplay.CrossFadeAlpha(0f, 0.5f, false);
     }
 }
 

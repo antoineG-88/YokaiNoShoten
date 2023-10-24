@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -50783,7 +50783,7 @@ PrefabInstance:
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
       propertyPath: zoneName
-      value: Boss
+      value: The Core
       objectReference: {fileID: 0}
     - target: {fileID: 5735401736421732534, guid: 5f29cc1d763ece94f9a875215743de6c,
         type: 3}
@@ -58475,7 +58475,7 @@ MonoBehaviour:
   audioSource: {fileID: 739692725}
   fadeOutPreviousMusic: 0
   fadeOutTime: 0
-  newMusicToPlay: {fileID: 8300000, guid: c2ca2c36bc606914ea36b3e40cec76cc, type: 3}
+  newMusicToPlay: {fileID: 8300000, guid: 02bd1fcc40f5c5e46abc142d9df68805, type: 3}
 --- !u!1 &1702278674
 GameObject:
   m_ObjectHideFlags: 0

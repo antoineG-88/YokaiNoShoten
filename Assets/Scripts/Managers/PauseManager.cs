@@ -14,6 +14,7 @@ public class PauseManager : MonoBehaviour
     public GameObject optionMenu;
     public GameObject buttons;
     public Text playTimeText;
+    public Text chapterTimeText;
     public Text deathCountText;
     public Text storyStep;
     public Text currentChapterText;
@@ -68,8 +69,14 @@ public class PauseManager : MonoBehaviour
             }
             else
             {
+
                 playTimeText.text = "Not valid run";
             }
+
+            float chapterPlayTime = GameManager.chapterTimeElapsedPlaying;
+            chapterTimeText.text = (GameManager.GetHourFromSecondElapsed(chapterPlayTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(chapterPlayTime) + "hours - "))
+            + GameManager.GetMinutesFromSecondElapsed(chapterPlayTime) + "min - "
+            + (GameManager.GetSecondsFromSecondElapsed(chapterPlayTime) + GameManager.GetSubSecondFromSecondElapsed(chapterPlayTime)).ToString("0.00") + " seconds";
 
             deathCountText.text = GameManager.numberOfDeath.ToString();
             storyStep.text = GameManager.currentStoryStep.ToString();

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static int currentChapter;
     [HideInInspector] public static int currentStoryStep;
     [HideInInspector] public static float timeElapsedPlaying;
+    [HideInInspector] public static float chapterTimeElapsedPlaying;
     [HideInInspector] public static int numberOfDeath;
     [HideInInspector] public static bool isValidForClearTime;
 
@@ -100,7 +101,8 @@ public class GameManager : MonoBehaviour
 
         if(!gameIsPaused && !levelIsLoading && !isInMainMenu)
         {
-            timeElapsedPlaying += Time.deltaTime;
+            timeElapsedPlaying += Time.unscaledDeltaTime;
+            chapterTimeElapsedPlaying += Time.unscaledDeltaTime;
         }
 
         CheckInputType();
@@ -117,6 +119,7 @@ public class GameManager : MonoBehaviour
                 {
                     numberOfDeath = loadedSave.numberOfDeath;
                     timeElapsedPlaying = loadedSave.timeElapsed;
+                    chapterTimeElapsedPlaying = loadedSave.chapterTimeElapsed;
                 }
             }
 
@@ -141,7 +144,7 @@ public class GameManager : MonoBehaviour
     public static void SaveProgression(CheckPoint checkPoint)
     {
         LevelManager.lastCheckPoint = checkPoint;
-        SaveSystem.SaveGameAndProgression(currentZoneName);
+        SaveSystem.SaveGameAndProgression(currentChapter);
     }
 
     public static void LoadZoneSave()
@@ -181,6 +184,10 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                chapterTimeElapsedPlaying = 0;
+            }
 
             currentStoryStep = gameSave.currentStoryStep;
             isValidForClearTime = gameSave.isValidRun;
@@ -190,6 +197,7 @@ public class GameManager : MonoBehaviour
             currentStoryStep = 0;
             timeElapsedPlaying = 0;
             numberOfDeath = 0;
+            chapterTimeElapsedPlaying = 0;
         }
     }
 
@@ -276,6 +284,18 @@ public class GameManager : MonoBehaviour
                 isUsingController = true;
                 Cursor.visible = false;
             }
+        }
+    }
+
+    public static void ToggleFullScreen(bool isFullscreen)
+    {
+        if(isFullscreen)
+        {
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        }
+        else
+        {
+            Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
         }
     }
 }

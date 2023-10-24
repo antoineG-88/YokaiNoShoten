@@ -28,6 +28,7 @@ public class PlayerVisuals : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         transformFacingRight = true;
+        facingRight = true;
 
         //System particle dash
         //dashParticle = new SerializedObject(GetComponent<ParticleSystem>());
