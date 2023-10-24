@@ -128,11 +128,13 @@ public class PlayerManager : MonoBehaviour
             if (currentHealthPoint <= 0)
             {
                 StartCoroutine(Die());
+                RumblesManager.StartDeathRumble();
             }
             else
             {
-
+                RumblesManager.StartTakeDamageRumble();
             }
+            GameData.damageEffectManager.StartDamageEffect();
             GameData.grappleHandler.BreakRope("Took Damage");
             GameData.playerVisuals.animator.SetTrigger("Hurt");
             StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));

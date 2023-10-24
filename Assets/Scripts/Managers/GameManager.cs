@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static bool levelIsLoading;
     [HideInInspector] public static bool isInMainMenu;
     [HideInInspector] public static bool isUsingController;
+    [HideInInspector] public static bool isInFullScreen;
 
 
     private Vector2 lastMousePos;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     public static bool isRespawning;
     private static bool zoneLoaded;
     public static GameManager I;
+    public static RumblesManager rumblesManager;
 
     private void Awake()
     {
@@ -43,10 +45,20 @@ public class GameManager : MonoBehaviour
         else
         {
             I = this;
+            rumblesManager = GetComponent<RumblesManager>();
+            RumblesManager.I = rumblesManager;
             DontDestroyOnLoad(gameObject);
         }
 
         SetSavePath();
+        if (PlayerPrefs.HasKey("fullscreen"))
+        {
+            ToggleFullScreen(PlayerPrefs.GetInt("fullscreen") == 1 ? true : false);
+        }
+        else
+        {
+            ToggleFullScreen(true);
+        }
     }
 
     private void Start()
@@ -289,13 +301,17 @@ public class GameManager : MonoBehaviour
 
     public static void ToggleFullScreen(bool isFullscreen)
     {
+        isInFullScreen = isFullscreen;
         if(isFullscreen)
         {
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+            Screen.SetResolution(1920, 1080, true);
         }
         else
         {
-            Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+            Screen.SetResolution(1280, 720, false);
         }
+        PlayerPrefs.SetInt("fullscreen", isInFullScreen ? 1 : 0);
     }
 }

@@ -429,7 +429,16 @@ public class GrappleHandler : MonoBehaviour
     {
         isHooked = true;
         //GameData.dashHandler.isReaiming = false;
-        GameData.pierceHandler.StopPhasingTime();
+
+        if(GameData.pierceHandler.StopPhasingTime())
+        {
+
+        }
+        else
+        {
+            RumblesManager.StartGrappleRumble();
+        }
+
         attachedObject = objectToAttach;
         tractionDirection = (attachedObject.transform.position - transform.position);
         tractionDirection.Normalize();

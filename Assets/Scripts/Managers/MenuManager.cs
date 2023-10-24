@@ -247,7 +247,7 @@ public class MenuManager : MonoBehaviour
     }
 
     private int sceneToLoadWaitingForWarn;
-    private bool isBeingWarned;
+    //private bool isBeingWarned;
     private GameObject selectedButtonWhenWarn;
     public void WarnPlayerForDeleteSave(int sceneIndex)
     {
@@ -255,12 +255,12 @@ public class MenuManager : MonoBehaviour
         selectedButtonWhenWarn = eventSystem.currentSelectedGameObject;
         sceneToLoadWaitingForWarn = sceneIndex;
         SelectButtonWithController(defaultSelectedWarnButton);
-        isBeingWarned = true;
+        //isBeingWarned = true;
     }
 
     public void ValidateDeletion()
     {
-        isBeingWarned = false;
+        //isBeingWarned = false;
         SaveSystem.DeleteGameSaveFile();
         StartCoroutine(StartTransition(sceneToLoadWaitingForWarn));
         warnWindow.SetActive(false);
@@ -268,7 +268,7 @@ public class MenuManager : MonoBehaviour
 
     public void CancelDeletion()
     {
-        isBeingWarned = false;
+        //isBeingWarned = false;
         sceneToLoadWaitingForWarn = 0;
         warnWindow.SetActive(false);
         eventSystem.SetSelectedGameObject(selectedButtonWhenWarn);

@@ -70,20 +70,22 @@ public class SlowMoManager : MonoBehaviour
         vignetteBaseIntensity = vignette.intensity.value;
     }
 
+    private bool effectEndFlag;
     private void Update()
     {
 
         if(slowMoEffectActive)
         {
             slowMoEffectCurrentState = Mathf.Lerp(slowMoEffectCurrentState, 1, slowMoEffectLerpRatio * (Time.realtimeSinceStartup - lastRealTime));
-
+            effectEndFlag = true;
         }
         else
         {
             slowMoEffectCurrentState = Mathf.Lerp(slowMoEffectCurrentState, 0, slowMoEffectLerpRatio * (Time.realtimeSinceStartup - lastRealTime));
-            if (slowMoEffectCurrentState < 0.01f)
+            if (slowMoEffectCurrentState < 0.01f && effectEndFlag)
             {
                 volume.sharedProfile = baseProfile;
+                effectEndFlag = false;
             }
         }
 

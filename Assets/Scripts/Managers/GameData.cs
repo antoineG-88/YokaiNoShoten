@@ -15,6 +15,7 @@ public class GameData : MonoBehaviour
     public static GrappleHandler grappleHandler;
     public static DashHandler dashHandler;
     public static SlowMoManager slowMoManager;
+    public static DamageEffectManager damageEffectManager;
     public static GameObject player;
     public static PlayerVisuals playerVisuals;
     public static PlayerManager playerManager;
@@ -46,6 +47,7 @@ public class GameData : MonoBehaviour
         slowMoManager = levelManager.GetComponent<SlowMoManager>();
         playerSource = player.GetComponent<AudioSource>();
         audioManager = levelManager.GetComponent<AudioManager>();
+        damageEffectManager = player.GetComponent<DamageEffectManager>();
     }
 
     private void Start()

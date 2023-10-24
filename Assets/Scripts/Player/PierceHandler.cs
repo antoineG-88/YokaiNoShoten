@@ -480,18 +480,23 @@ public class PierceHandler : MonoBehaviour
         if(!isPhasing)
         {
             GameData.slowMoManager.StartSmoothSlowMo(1, slowMoDelay);
+            RumblesManager.StartPhasingRumble();
         }
         isPhasing = true;
     }
 
-    public void StopPhasingTime()
+    public bool StopPhasingTime()
     {
+        bool stopedPhasing = false;
         if(isPhasing)
         {
             GameData.slowMoManager.StopSmoothSlowMo(0);
+            RumblesManager.EndPhasingRumble();
+            stopedPhasing = true;
         }
         currentComboPierceStep = 0;
         isPhasing = false;
+        return stopedPhasing;
     }
 
     public void StopPierce()

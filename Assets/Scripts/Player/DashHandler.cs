@@ -91,13 +91,21 @@ public class DashHandler : MonoBehaviour
         isDashing = true;
         canDash = false;
         //isReaiming = false;
-        GameData.pierceHandler.StopPhasingTime();
+        if (GameData.pierceHandler.StopPhasingTime())
+        {
+
+        }
+        else
+        {
+            RumblesManager.StartDashRumble();
+        }
         //GameData.movementHandler.isAffectedbyGravity = false;
         GameData.playerVisuals.animator.SetTrigger("DashAttack");
         GameData.playerVisuals.dashParticle.Play();
         StartCoroutine(GameData.playerVisuals.SetDashRotation(dashDirection));
         if(dashSound != null)
             GameData.playerSource.PlayOneShot(dashSound.clip, dashSound.volumeScale);
+
 
         Vector2 dashStartPos = transform.position;
         Vector2 dashEndPos = (Vector2)transform.position + startDashDirection * dashDistance;
