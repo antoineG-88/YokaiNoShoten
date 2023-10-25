@@ -16,7 +16,7 @@ public class CameraEvent : EventPart
         {
             if(timeElasped < (currentFocusStep == 0 ? focusTime : postFocusTime))
             {
-                timeElasped += Time.deltaTime;
+                timeElasped += Time.unscaledDeltaTime;
             }
             else
             {

@@ -14,6 +14,7 @@ public class PierceHandler : MonoBehaviour
     public float pierceKnockbackForce;
     public LayerMask piercableMask;
     public GameObject pierceShadowFx;
+    public GameObject[] pierceShadowFxs;
     public GameObject pierceMarkFx;
     public float timeBeforeFirstPierce;
     public float damageDelay;
@@ -293,8 +294,17 @@ public class PierceHandler : MonoBehaviour
             }
         }
         pierceTimeElapsed = 0;
+        Vector2 lastTrailPos = Vector2.zero;
         while (pierceTimeElapsed < pierceMoveTime && GameData.playerManager.inControl && isPiercing && !isPierceCancelled)
         {
+            if(Vector2.Distance(transform.position, lastTrailPos) >= 0.15f)
+            {
+                GameObject pierceShadowClone = Instantiate(pierceShadowFxs[Mathf.FloorToInt((pierceTimeElapsed * pierceShadowFxs.Length) / pierceMoveTime)], transform.position, Quaternion.identity);
+                pierceShadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
+                pierceShadowClone.transform.localScale = new Vector3(1, piercableDirection.x > 0 ? 1 : -1, 1);
+                lastTrailPos = pierceShadowClone.transform.position;
+            }
+
             pierceTimeElapsed += Time.fixedDeltaTime;
             if (pierceTimeElapsed > damageDelay && damageDelay > 0 && !hasPierced)
             {
@@ -323,10 +333,6 @@ public class PierceHandler : MonoBehaviour
                     
                 }
             }
-            
-            GameObject pierceShadowClone = Instantiate(pierceShadowFx, transform.position, Quaternion.identity);
-            pierceShadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, piercableDirection));
-            pierceShadowClone.transform.localScale = new Vector3(1, piercableDirection.x > 0 ? 1 : -1, 1);
 
             currentPiercePos = Vector2.LerpUnclamped(startPiercePos, pierceEndPos, pierceMovementCurve.Evaluate(pierceTimeElapsed / pierceMoveTime));
             currentPierceSpeed = (currentPiercePos - previousPiercePos).magnitude;

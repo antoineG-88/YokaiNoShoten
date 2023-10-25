@@ -732,6 +732,11 @@ MonoBehaviour:
     m_Bits: 534528
   pierceShadowFx: {fileID: 1368177033577197783, guid: d21d83d996c6a81499510a66d86088ca,
     type: 3}
+  pierceShadowFxs:
+  - {fileID: 1368177033577197783, guid: 23ec1f3909b1d064c852b1defdf91285, type: 3}
+  - {fileID: 1368177033577197783, guid: 50d0a72daaea25647bdfe1f60fdcfbb6, type: 3}
+  - {fileID: 1368177033577197783, guid: deb62222e59b8d54ca50e42a38176b5b, type: 3}
+  - {fileID: 1368177033577197783, guid: c9ad1820c9b82e748b59d136967bbd38, type: 3}
   pierceMarkFx: {fileID: 4198612265735637209, guid: 589f34dfa09249e4dbb4d377ef372ab7,
     type: 3}
   timeBeforeFirstPierce: 0
@@ -787,6 +792,10 @@ MonoBehaviour:
   dashEndVelocityForceAdded: 0
   shadowFx: {fileID: 8647430776645223448, guid: 694ec26c4e7684248a8b0cd5cc8572aa,
     type: 3}
+  shadowFxs:
+  - {fileID: 8647430776645223448, guid: abf4c361e0605a5459ba3ed28655164b, type: 3}
+  - {fileID: 8647430776645223448, guid: a1f5c4c6926809c489595fea04df93d5, type: 3}
+  - {fileID: 8647430776645223448, guid: 4fb0aea61bf941140a74156117eb4731, type: 3}
   dashWithRightTrigger: 0
   aimWithRightJoystick: 0
   dashSound:

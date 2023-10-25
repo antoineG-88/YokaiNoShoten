@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class DashHandler : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class DashHandler : MonoBehaviour
     public AnimationCurve dashCurveSetDashRotation;
     public float dashEndVelocityForceAdded;
     public GameObject shadowFx;
+    public GameObject[] shadowFxs;
     public bool dashWithRightTrigger;
     public bool aimWithRightJoystick;
     public Sound dashSound;
@@ -24,7 +26,8 @@ public class DashHandler : MonoBehaviour
     private ContactFilter2D attackReactionFilter;
     private Vector2 defaultDashDirection;
     public AnimationCurve dashCurve;
-    
+
+    private Light2D shadowLight;
 
     void Start()
     {
@@ -118,8 +121,8 @@ public class DashHandler : MonoBehaviour
         float dashTimeElapsed = 0;
         while(dashTimeElapsed < dashTime && GameData.playerManager.inControl && isDashing)
         {
+            GameObject shadowClone = Instantiate(shadowFxs[Mathf.FloorToInt((dashTimeElapsed * shadowFxs.Length) / dashTime)], transform.position, Quaternion.identity);
             dashTimeElapsed += Time.fixedDeltaTime;
-            GameObject shadowClone = Instantiate(shadowFx, transform.position, Quaternion.identity);
             shadowClone.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, startDashDirection));
             shadowClone.transform.localScale = new Vector3(1, dashDirection.x > 0 ? 1 : -1, 1);
             dashPos = Vector2.LerpUnclamped(dashStartPos, dashEndPos, dashCurve.Evaluate(dashTimeElapsed / dashTime));
