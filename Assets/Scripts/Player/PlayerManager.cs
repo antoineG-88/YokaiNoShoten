@@ -1,16 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class PlayerManager : MonoBehaviour
 {
     [Header("Health settings")]
     public int maxHealthPoint;
+    public int startHealthPoint = 5;
     //public List<GameObject> healthPointsDisplay;
     public List<Sprite> healthPointSprites;
     public SpriteRenderer healthPointsDisplay;
+    public List<SpriteRenderer> independentHealthPoints;
+    public float hpEffectScale;
+    public float hpEffectOffset;
+    public float hpEffectTime;
+    public AnimationCurve hpLoseEffectAnim;
+    public Gradient hpLoseEffectColor;
+    public AnimationCurve hpRegenEffectAnim;
+    public Gradient hpRegenEffectColor;
+    public Animator oneHpAnimator;
     public float stunTime;
     public float damageInvulnerableTime;
     public ParticleSystem healParticle;
@@ -27,6 +35,9 @@ public class PlayerManager : MonoBehaviour
     public Sound deathSound;
 
     private int currentHealthPoint;
+    private int previousHealthPointDisplayed;
+    private float hpDisplayBaseScale;
+    private float hpDisplayBasePosY;
 
     [HideInInspector] public bool inControl;
     [HideInInspector] public bool invulnerable;
@@ -44,12 +55,16 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        currentHealthPoint = maxHealthPoint;
+        currentHealthPoint = startHealthPoint;
+        previousHealthPointDisplayed = currentHealthPoint;
+        healthPointsDisplay.sprite = healthPointSprites[currentHealthPoint - 1];
         inControl = true;
         invulnerable = false;
         basePlayerLayer = gameObject.layer;
         invulnerableTimeRemaining = 0;
         playerMaterial.SetFloat("_deadOrAlive", 1);
+        hpDisplayBaseScale = independentHealthPoints[0].transform.localScale.x;
+        hpDisplayBasePosY = independentHealthPoints[0].transform.localPosition.y;
     }
 
     void Update()
@@ -79,8 +94,6 @@ public class PlayerManager : MonoBehaviour
         }
 
         RefreshHealthPointDisplay();
-
-        //CheckInputType();
     }
 
     private void FixedUpdate()
@@ -92,31 +105,6 @@ public class PlayerManager : MonoBehaviour
 
         GameData.playerSource.pitch = Time.timeScale;
     }
-
-    /*
-    private void CheckInputType()
-    {
-        if(isUsingController)
-        {
-            if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
-            {
-                isUsingController = false;
-                Cursor.visible = true;
-                EventSystem.current.SetSelectedGameObject(null);
-            }
-        }
-        else
-        {
-            lastMousePos = Input.mousePosition;
-            if(Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetButtonDown("AButton") || Input.GetButtonDown("AButton")
-                || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
-            {
-                isUsingController = true;
-                Cursor.visible = false;
-            }
-        }
-    }
-    */
 
     public void TakeDamage(int damage, Vector2 knockBackDirectedForce)
     {
@@ -159,24 +147,68 @@ public class PlayerManager : MonoBehaviour
 
     private void RefreshHealthPointDisplay()
     {
-        if(currentHealthPoint > 0)
+        if(previousHealthPointDisplayed != currentHealthPoint)
+        {
+            if (previousHealthPointDisplayed > currentHealthPoint && currentHealthPoint > 0)
+            {
+                healthPointsDisplay.sprite = healthPointSprites[currentHealthPoint - 1];
+            }
+
+            for (int i = 0; i < independentHealthPoints.Count; i++)
+            {
+                if(i > (previousHealthPointDisplayed - 1) && i < currentHealthPoint)
+                {
+                    StartCoroutine(RegenHP(i));
+                }
+
+                if (i < previousHealthPointDisplayed && i >= currentHealthPoint)
+                {
+                    StartCoroutine(LoseHP(i));
+                }
+            }
+        }
+
+        oneHpAnimator.SetBool("IsOneHP", currentHealthPoint == 1);
+        previousHealthPointDisplayed = currentHealthPoint;
+    }
+
+    private IEnumerator RegenHP(int hpIndex)
+    {
+        independentHealthPoints[hpIndex].gameObject.SetActive(true);
+        independentHealthPoints[hpIndex].transform.localScale = Vector3.one * hpDisplayBaseScale * hpEffectScale;
+        float timer = 0;
+        while(timer < hpEffectTime)
+        {
+            independentHealthPoints[hpIndex].transform.localScale = Vector3.one * Mathf.Lerp(hpEffectScale, hpDisplayBaseScale, hpRegenEffectAnim.Evaluate(timer / hpEffectTime));
+            independentHealthPoints[hpIndex].transform.localPosition = Vector3.up * Mathf.Lerp(hpEffectOffset, hpDisplayBasePosY, hpRegenEffectAnim.Evaluate(timer / hpEffectTime));
+            independentHealthPoints[hpIndex].color = hpRegenEffectColor.Evaluate(timer / hpEffectTime);
+
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        independentHealthPoints[hpIndex].gameObject.SetActive(false);
+
+        if (currentHealthPoint > 0)
         {
             healthPointsDisplay.sprite = healthPointSprites[currentHealthPoint - 1];
         }
+    }
 
-
-        /*
-        for (int i = 0; i < healthPointsDisplay.Count; i++)
+    private IEnumerator LoseHP(int hpIndex)
+    {
+        independentHealthPoints[hpIndex].gameObject.SetActive(true);
+        independentHealthPoints[hpIndex].transform.localScale = Vector3.one * hpDisplayBaseScale;
+        float timer = 0;
+        while (timer < hpEffectTime)
         {
-            if(currentHealthPoint > i)
-            {
-                healthPointsDisplay[i].SetActive(true);
-            }
-            else
-            {
-                healthPointsDisplay[i].SetActive(false);
-            }
-        }*/
+            independentHealthPoints[hpIndex].transform.localScale = Vector3.one * Mathf.Lerp(hpDisplayBaseScale, hpEffectScale, hpLoseEffectAnim.Evaluate(timer / hpEffectTime));
+            independentHealthPoints[hpIndex].transform.localPosition = Vector3.up * Mathf.Lerp(hpDisplayBasePosY, hpEffectOffset, hpRegenEffectAnim.Evaluate(timer / hpEffectTime));
+            independentHealthPoints[hpIndex].color = hpLoseEffectColor.Evaluate(timer / hpEffectTime);
+
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        independentHealthPoints[hpIndex].gameObject.SetActive(false);
     }
 
     public IEnumerator Die()
