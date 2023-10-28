@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class DialogManager : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class DialogManager : MonoBehaviour
     public float baseSpeakPauseTime;
     public float minTimeToPass;
     public bool manualSeikiReaction;
+    public Sound nextSound;
     [Header("References")]
     public Text dialogText;
     public Image seikiFaceImage;
@@ -18,6 +18,9 @@ public class DialogManager : MonoBehaviour
     public Text nameText;
     public Image characterFace;
     public Image nextImage;
+    public Animator dialogBoxAnimator;
+    public Animator seikiFaceAnimator;
+    public Animator characterFaceAnimator;
     [Space]
     public Sprite neutralFace;
     public Sprite happyFace;
@@ -28,6 +31,7 @@ public class DialogManager : MonoBehaviour
     public Sprite shockedFace;
     public Sprite cryFace;
     public List<CharacterFace> characterFaces;
+    public Sprite transparentFace;
 
     public Dialog testDialog;
 
@@ -69,15 +73,20 @@ public class DialogManager : MonoBehaviour
                 currentDialog = newDialog;
                 currentDialogSentenceIndex = 0;
                 timeElapsedOnSentence = 0;
-                isInDialogue = true;
+                characterFace.sprite = transparentFace;
+
                 sentenceProgression = string.Empty;
                 charProgression = 0;
                 speakPauseTimeRemaining = 0;
                 dialogPanel.SetActive(true);
+                dialogBoxAnimator.SetBool("IsActive", true);
+                seikiFaceAnimator.SetBool("IsActive", true);
+                characterFaceAnimator.SetBool("IsActive", true);
                 seikiFaceImage.sprite = neutralFace;
                 nameText.text = string.Empty;
                 endDialCallback = endDial;
                 nextImage.gameObject.SetActive(false);
+                StartCoroutine(StartDialogDelay());
             }
         }
         else
@@ -86,10 +95,26 @@ public class DialogManager : MonoBehaviour
         }
     }
 
+
+    private IEnumerator StartDialogDelay()
+    {
+        yield return new WaitForSeconds(0.4f);
+        isInDialogue = true;
+    }
+
     public void CloseDialogue()
     {
         currentDialog = null;
         isInDialogue = false;
+        dialogBoxAnimator.SetBool("IsActive", false);
+        seikiFaceAnimator.SetBool("IsActive", false);
+        characterFaceAnimator.SetBool("IsActive", false);
+        StartCoroutine(CloseDialogDelay());
+    }
+
+    private IEnumerator CloseDialogDelay()
+    {
+        yield return new WaitForSeconds(0.4f);
         dialogText.text = string.Empty;
         dialogPanel.SetActive(false);
         endDialCallback();
@@ -108,6 +133,7 @@ public class DialogManager : MonoBehaviour
                     nextImage.gameObject.SetActive(true);
                     if (GameManager.isUsingController ? Input.GetButtonDown("AButton") : (Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0)))
                     {
+                        GameData.playerSource.PlayOneShot(nextSound.clip, nextSound.volumeScale);
                         currentDialogSentenceIndex++;
                         isWaitingNext = false;
                         sentenceProgression = string.Empty;
@@ -134,6 +160,18 @@ public class DialogManager : MonoBehaviour
                 nextImage.gameObject.SetActive(false);
                 if (seikiReacting)
                 {
+                    if (seikiFaceImage.sprite != GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction))
+                    {
+                        if(GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction) == shockedFace)
+                        {
+                            seikiFaceAnimator.SetTrigger("Shocked");
+                        }
+                        else
+                        {
+                            seikiFaceAnimator.SetTrigger("Fade");
+                        }
+                    }
+
                     seikiFaceImage.sprite = GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction);
 
                     timeElapsedOnSentence += Time.deltaTime;
@@ -147,7 +185,12 @@ public class DialogManager : MonoBehaviour
                 {
                     timeElapsedOnSentence += Time.deltaTime;
                     nameText.text = currentDialog.sentences[currentDialogSentenceIndex].characterName;
+                    if(characterFace.sprite != GetCharacterFaceFromName(currentDialog.sentences[currentDialogSentenceIndex].characterName))
+                    {
+                        characterFaceAnimator.SetTrigger("ChangeCharacter");
+                    }
                     characterFace.sprite = GetCharacterFaceFromName(currentDialog.sentences[currentDialogSentenceIndex].characterName);
+
                     if ((GameManager.isUsingController ? Input.GetButtonDown("AButton") : (Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(0))) && timeElapsedOnSentence > minTimeToPass)
                     {
                         isWaitingNext = true;

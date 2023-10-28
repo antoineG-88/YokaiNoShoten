@@ -37,29 +37,29 @@ public class AudioManager : MonoBehaviour
 
     public void SetMainVolume()
     {
-        mainMixer.SetFloat("Volume", Mathf.Log10(masterVolumeSlider.value) * 20);
+        mainMixer.SetFloat("Volume", Mathf.Log(masterVolumeSlider.value, 6) * 30);
         PlayerPrefs.SetFloat("masterVolume", masterVolumeSlider.value);
     }
     public void SetMusicVolume()
     {
-        mainMixer.SetFloat("MusicVolume", Mathf.Log10(musicVolumeSlider.value) * 20);
+        mainMixer.SetFloat("MusicVolume", Mathf.Log(musicVolumeSlider.value, 6) * 30);
         PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
     }
     public void SetEffectVolume()
     {
-        mainMixer.SetFloat("EffectVolume", Mathf.Log10(effectVolumeSlider.value) * 20);
+        mainMixer.SetFloat("EffectVolume", Mathf.Log(effectVolumeSlider.value, 6) * 30);
         PlayerPrefs.SetFloat("effectVolume", effectVolumeSlider.value);
     }
 
     private void LoadVolumes()
     {
-        mainMixer.SetFloat("Volume", Mathf.Log10(PlayerPrefs.GetFloat("masterVolume")) * 20);
+        mainMixer.SetFloat("Volume", Mathf.Log(PlayerPrefs.GetFloat("masterVolume"), 6) * 30);
         masterVolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
 
-        mainMixer.SetFloat("MusicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
+        mainMixer.SetFloat("MusicVolume", Mathf.Log(PlayerPrefs.GetFloat("musicVolume"), 6) * 30);
         musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
 
-        mainMixer.SetFloat("EffectVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectVolume")) * 20);
+        mainMixer.SetFloat("EffectVolume", Mathf.Log(PlayerPrefs.GetFloat("effectVolume"), 6) * 30);
         effectVolumeSlider.value = PlayerPrefs.GetFloat("effectVolume");
     }
 }

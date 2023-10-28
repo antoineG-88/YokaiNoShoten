@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MainMenuButton : MonoBehaviour, IPointerEnterHandler
+public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, ISelectHandler
 {
     public RectTransform rectToMove;
     public Vector2 selectedPos;
+    public UISoundManager uISoundManager;
+    public AudioClip selectSound;
 
     private Vector2 basePos;
 
@@ -25,5 +27,10 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
         eventSystem.SetSelectedGameObject(gameObject);
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        uISoundManager.PlayUISound(selectSound);
     }
 }

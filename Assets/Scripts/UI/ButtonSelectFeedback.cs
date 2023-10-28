@@ -2,13 +2,15 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonSelectFeedback : MonoBehaviour, IPointerEnterHandler
+public class ButtonSelectFeedback : MonoBehaviour, IPointerEnterHandler, ISelectHandler
 {
     public RectTransform rectToMove;
     public RectTransform rectToMove2;
     public Vector2 selectedPos;
     public float lerpSpeed;
     public bool isScaleModification;
+    public UISoundManager uISoundManager;
+    public AudioClip selectSound;
 
     private Vector2 basePos;
     private Vector2 baseScale;
@@ -37,5 +39,10 @@ public class ButtonSelectFeedback : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
         eventSystem.SetSelectedGameObject(gameObject);
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        uISoundManager.PlayUISound(selectSound);
     }
 }

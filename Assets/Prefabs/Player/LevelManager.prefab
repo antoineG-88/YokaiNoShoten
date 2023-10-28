@@ -85,9 +85,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
   transitionTime: 1
+  chapterNameDisplay: {fileID: 0}
   decoSceneIndex: 10
   decoScenePath: Assets/_Scenes/DecoScenes/Deco_Labo.unity
   zoneName: Labo
+  chapterNumber: 0
   loadSaveOnlyOnRespawn: 0
   specificCheckpointStart: -1
   doNotSaveEnnemiesDeath: 0
@@ -109,6 +111,9 @@ MonoBehaviour:
   baseSpeakPauseTime: 0.2
   minTimeToPass: 0.1
   manualSeikiReaction: 0
+  nextSound:
+    clip: {fileID: 8300000, guid: b00baf5bffa3eb2428b49e4af21bb5bc, type: 3}
+    volumeScale: 0.5
   dialogText: {fileID: 0}
   seikiFaceImage: {fileID: 0}
   dialogBox: {fileID: 0}
@@ -116,6 +121,9 @@ MonoBehaviour:
   nameText: {fileID: 0}
   characterFace: {fileID: 0}
   nextImage: {fileID: 0}
+  dialogBoxAnimator: {fileID: 0}
+  seikiFaceAnimator: {fileID: 0}
+  characterFaceAnimator: {fileID: 0}
   neutralFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
   happyFace: {fileID: 21300000, guid: 570647f5a84aff443ac7eea586e6cf5b, type: 3}
   sadFace: {fileID: 21300000, guid: d317d0974496b1843825f59d4de3005d, type: 3}
@@ -138,9 +146,10 @@ MonoBehaviour:
   - characterName: Young Yokai
     face: {fileID: 21300000, guid: 3a40942629a4e94448be2e6b6fa899e8, type: 3}
   - characterName: Sentinel
-    face: {fileID: 21300000, guid: 30d87d1fc65e7b34a981f034c0b385c9, type: 3}
+    face: {fileID: 21300000, guid: 8b1ebaad03b823d4695d16c66f8083af, type: 3}
   - characterName: Unknown voice
     face: {fileID: 21300000, guid: 3a40942629a4e94448be2e6b6fa899e8, type: 3}
+  transparentFace: {fileID: 21300000, guid: cefb802de17315f41b9db1774d5998be, type: 3}
   testDialog: {fileID: 11400000, guid: 5ffe86d2ae0248a488e55ebd18c39c3b, type: 2}
 --- !u!82 &1191131659
 AudioSource:

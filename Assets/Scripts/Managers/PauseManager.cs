@@ -18,6 +18,9 @@ public class PauseManager : MonoBehaviour
     public Text deathCountText;
     public Text storyStep;
     public Text currentChapterText;
+    public UISoundManager uISoundManager;
+    public AudioClip pauseSound;
+    public AudioClip resumeSound;
 
     private GameObject lastObjectSelected;
 
@@ -94,6 +97,7 @@ public class PauseManager : MonoBehaviour
 
     public void Pause()
     {
+        uISoundManager.PlayUISound(pauseSound);
         pauseBackground.SetActive(true);
         buttons.SetActive(true);
         optionMenu.SetActive(false);
@@ -108,6 +112,7 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
+        uISoundManager.PlayUISound(resumeSound);
         optionMenu.SetActive(false);
         buttons.SetActive(false);
         pauseBackground.SetActive(false);

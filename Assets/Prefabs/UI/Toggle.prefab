@@ -84,7 +84,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &5892993842021394794
 MonoBehaviour:
@@ -103,6 +114,8 @@ MonoBehaviour:
   selectedPos: {x: 1.4, y: 1.4}
   lerpSpeed: 18
   isScaleModification: 1
+  uISoundManager: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: a2b07b27cbd3a234080315d18dfeea54, type: 3}
 --- !u!1 &701611881239719003
 GameObject:
   m_ObjectHideFlags: 0
