@@ -8,6 +8,8 @@ public class EventTrigger : Switch
     public List<EventPart> eventParts;
     [Header("Optionnal, put a switch if the event is triggered by a switch")]
     public Switch switchToTriggerEvent;
+    public List<GameObject> objectsDisabledAfterEvent;
+    public List<GameObject> objectsEnabledAfterEvent;
 
 
     public int neededStoryStepToTrigger;
@@ -58,7 +60,6 @@ public class EventTrigger : Switch
                 StartEvent();
             }
         }
-
     }
 
     private void StartEvent()
@@ -95,7 +96,17 @@ public class EventTrigger : Switch
 
         GameData.grappleHandler.hideAimArrow--;
 
-        if(eventShouldResetWhenEnded)
+        foreach (GameObject eventObject in objectsDisabledAfterEvent)
+        {
+            eventObject.SetActive(false);
+        }
+
+        foreach (GameObject eventObject in objectsEnabledAfterEvent)
+        {
+            eventObject.SetActive(true);
+        }
+
+        if (eventShouldResetWhenEnded)
         {
             ResetEvent();
         }

@@ -177,6 +177,22 @@ public class GameManager : MonoBehaviour
                 {
                     LevelManager.allZoneSwitchs[i].isOn = zoneSave.switchStates[i];
                     LevelManager.allZoneSwitchs[i].saveState = zoneSave.switchStates[i];
+                    if(LevelManager.allZoneSwitchs[i].isOn)
+                    {
+                        EventTrigger switchEvent = LevelManager.allZoneSwitchs[i] as EventTrigger;
+                        if (switchEvent != null)
+                        {
+                            foreach(GameObject eventObject in switchEvent.objectsDisabledAfterEvent)
+                            {
+                                eventObject.SetActive(false);
+                            }
+
+                            foreach (GameObject eventObject in switchEvent.objectsEnabledAfterEvent)
+                            {
+                                eventObject.SetActive(true);
+                            }
+                        }
+                    }
                 }
 
                 for (int i = 0; i < LevelManager.allZoneEnemies.Count; i++)
