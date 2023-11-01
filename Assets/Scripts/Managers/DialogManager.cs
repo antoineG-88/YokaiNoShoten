@@ -21,6 +21,8 @@ public class DialogManager : MonoBehaviour
     public Animator dialogBoxAnimator;
     public Animator seikiFaceAnimator;
     public Animator characterFaceAnimator;
+    public Image seikiFaceTrans;
+    public Animator seikiFaceTransAnimator;
     [Space]
     public Sprite neutralFace;
     public Sprite happyFace;
@@ -160,19 +162,30 @@ public class DialogManager : MonoBehaviour
                 nextImage.gameObject.SetActive(false);
                 if (seikiReacting)
                 {
-                    if (seikiFaceImage.sprite != GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction))
+                    Sprite newSeikiFace = GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction);
+                    if (seikiFaceImage.sprite != newSeikiFace)
                     {
-                        if(GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction) == shockedFace)
+                        if(newSeikiFace == shockedFace)
                         {
                             seikiFaceAnimator.SetTrigger("Shocked");
                         }
+                        else if(newSeikiFace == angryFace)
+                        {
+                            seikiFaceAnimator.SetTrigger("Angry");
+                        }
+                        else if (newSeikiFace == okFace)
+                        {
+                            seikiFaceAnimator.SetTrigger("Ok");
+                        }
                         else
                         {
+                            seikiFaceTrans.sprite = seikiFaceImage.sprite;
+                            seikiFaceTransAnimator.SetTrigger("FadeOut");
                             seikiFaceAnimator.SetTrigger("Fade");
                         }
                     }
 
-                    seikiFaceImage.sprite = GetFaceFromReaction(currentDialog.sentences[currentDialogSentenceIndex].seikiReaction);
+                    seikiFaceImage.sprite = newSeikiFace;
 
                     timeElapsedOnSentence += Time.deltaTime;
                     if (timeElapsedOnSentence > minTimeToPass)
