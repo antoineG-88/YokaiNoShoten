@@ -122,6 +122,7 @@ public class Bumper : MonoBehaviour
             isSurging = true;
             GameData.grappleHandler.BreakRope("nope");
             GameData.dashHandler.isDashing = false;
+            GameData.dashHandler.canDash = true;
             source.PlayOneShot(bumperSurgeSound.clip, bumperSurgeSound.volumeScale);
             //GameData.movementHandler.Propel(Vector2.zero, true);
             surgeEffect.Play();

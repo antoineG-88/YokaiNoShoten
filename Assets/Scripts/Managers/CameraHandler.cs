@@ -53,7 +53,7 @@ public class CameraHandler : MonoBehaviour
         {
             mainCamera.orthographicSize = currentOrthographicSize;
         }
-        camBackground.transform.localScale = Vector3.one * currentOrthographicSize / baseOrthographicSize * mainCamera.pixelWidth / 1920f;
+        camBackground.transform.localScale = Vector3.one * mainCamera.orthographicSize / baseOrthographicSize * mainCamera.pixelWidth / 1920f;
     }
 
     private void UpdateCameraTarget()

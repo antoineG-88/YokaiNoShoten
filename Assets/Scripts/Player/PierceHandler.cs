@@ -23,9 +23,11 @@ public class PierceHandler : MonoBehaviour
     public Transform pierceEndPosPreview;
     public Transform pierceSelector;
     public bool triggerSlowMo;
-    public bool useLeftTriggerInput;
     public float cancelPierceKADistance;
     public bool doCancelPierce;
+    [Header("Keybindings options")]
+    public bool useDashInput;
+    public bool aimWithRightJoystick;
     [Header("Pierce Aim settings")]
     public bool useAutoAim;
     public float pierceAimAssistAngle;
@@ -74,6 +76,10 @@ public class PierceHandler : MonoBehaviour
 
         aimAssistSubAngle = pierceAimAssistAngle / (pierceAimAssistRaycastNumber - 1);
         aimAssistFirstAngle = -pierceAimAssistAngle / 2;
+
+        useAutoAim = ControlsManager.pierceAutoAimEnabled;
+        useDashInput = ControlsManager.pierceUseDashInput;
+        aimWithRightJoystick = ControlsManager.altDashAndPierceAimEnabled;
     }
 
     private void Update()
@@ -95,7 +101,7 @@ public class PierceHandler : MonoBehaviour
     {
         colliders.Clear();
         Physics2D.OverlapCircle(transform.position, pierceRange, piercableFilter, colliders);
-        if (!isPhasing && colliders.Count > 0 && canPierce)
+        if (/*!isPhasing && */colliders.Count > 0 && canPierce)
         {
             nearestObject = null;
             float minDist = 500;
@@ -135,7 +141,7 @@ public class PierceHandler : MonoBehaviour
     {
         if(GameManager.isUsingController)
         {
-            aimDirection = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+            aimDirection = aimWithRightJoystick ? new Vector2(Input.GetAxis("RightStickH"), -Input.GetAxis("RightStickV")) : new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
         }
         else
         {
@@ -216,7 +222,7 @@ public class PierceHandler : MonoBehaviour
             comboPierceTimingHelper.gameObject.SetActive(false);
         }
 
-        if ((useLeftTriggerInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) && canPierce)
+        if ((useDashInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) && canPierce)
         {
             if (selectedEnemy != null)
             {

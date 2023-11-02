@@ -98,6 +98,10 @@ public class GrappleHandler : MonoBehaviour
         tractTriggerDown = false;
         tractTriggerPressed = false;
         allPossibleRings = new List<GameObject>();
+
+
+        aimWithLeftJoystick = ControlsManager.aimAndMovementSwitched;
+        tractWithLeftTrigger = ControlsManager.grappleAndDashSwitched;
     }
 
     private void Update()

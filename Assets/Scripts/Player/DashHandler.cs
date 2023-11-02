@@ -39,6 +39,9 @@ public class DashHandler : MonoBehaviour
         attackReactionFilter.useTriggers = true;
         enemyFilter.useTriggers = true;
         defaultDashDirection = Vector2.up;
+
+        dashWithRightTrigger = ControlsManager.grappleAndDashSwitched;
+        aimWithRightJoystick = ControlsManager.altDashAndPierceAimEnabled;
     }
 
     void Update()
@@ -83,7 +86,7 @@ public class DashHandler : MonoBehaviour
 
         dashDirection.Normalize();
 
-        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useLeftTriggerInput) || !GameData.pierceHandler.useLeftTriggerInput) && GameData.playerManager.inControl)
+        if (dashTriggerDown && !isDashing && canDash && ((GameData.pierceHandler.selectedEnemy == null && GameData.pierceHandler.useDashInput) || !GameData.pierceHandler.useDashInput) && GameData.playerManager.inControl)
         {
             StartCoroutine(Dash(dashDirection));
         }

@@ -58,10 +58,11 @@ public class PauseManager : MonoBehaviour
 
         if(isPaused)
         {
+            /*
             if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
-            }
+            }*/
 
             if (GameManager.isValidForClearTime)
             {
@@ -133,6 +134,12 @@ public class PauseManager : MonoBehaviour
     {
         eventSystem.firstSelectedGameObject = mainVolumeSlider;
         eventSystem.SetSelectedGameObject(mainVolumeSlider);
+    }
+
+    public void SelectObjectWithController(GameObject objectToSelect)
+    {
+        eventSystem.firstSelectedGameObject = objectToSelect;
+        eventSystem.SetSelectedGameObject(objectToSelect);
     }
 
     public void ManualRespawn()

@@ -62,6 +62,8 @@ public class MovementHandler : MonoBehaviour
         groundFilter.useTriggers = true;
         canMove = true;
         isAffectedbyGravity = true;
+
+        moveWithRightJoystick = ControlsManager.aimAndMovementSwitched;
     }
 
     void Update()

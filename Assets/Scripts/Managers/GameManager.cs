@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     private static bool zoneLoaded;
     public static GameManager I;
     public static RumblesManager rumblesManager;
+    public static ControlsManager controlsManager;
 
     private void Awake()
     {
@@ -47,6 +48,8 @@ public class GameManager : MonoBehaviour
             I = this;
             rumblesManager = GetComponent<RumblesManager>();
             RumblesManager.I = rumblesManager;
+            controlsManager = GetComponent<ControlsManager>();
+            ControlsManager.I = controlsManager;
             DontDestroyOnLoad(gameObject);
         }
 
@@ -306,8 +309,8 @@ public class GameManager : MonoBehaviour
         else
         {
             lastMousePos = Input.mousePosition;
-            if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetButtonDown("AButton") || Input.GetButtonDown("AButton")
-                || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetAxisRaw("RightTrigger") == 1 || Input.GetAxisRaw("LeftTrigger") == 1
+                || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("RightStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("RightStickV")) > 0.5f)
             {
                 isUsingController = true;
                 Cursor.visible = false;
