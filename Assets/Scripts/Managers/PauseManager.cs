@@ -12,6 +12,7 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseButton;
     public GameObject mainVolumeSlider;
     public GameObject optionMenu;
+    public GameObject optionMainWindow;
     public GameObject buttons;
     public Text playTimeText;
     public Text chapterTimeText;
@@ -32,18 +33,6 @@ public class PauseManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!isPaused)
-            {
-                Pause();
-            }
-            else
-            {
-                Resume();
-            }
-        }
-
         if(eventSystem.currentSelectedGameObject != null)
         {
             lastObjectSelected = eventSystem.currentSelectedGameObject;
@@ -58,11 +47,16 @@ public class PauseManager : MonoBehaviour
 
         if(isPaused)
         {
-            /*
+            
             if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
             {
-                Pause();
-            }*/
+                if(buttons.activeSelf)
+                    Resume();
+
+
+                if (optionMenu.activeSelf && optionMainWindow.activeSelf)
+                    Pause();
+            }
 
             if (GameManager.isValidForClearTime)
             {
@@ -85,6 +79,18 @@ public class PauseManager : MonoBehaviour
             deathCountText.text = GameManager.numberOfDeath.ToString();
             storyStep.text = GameManager.currentStoryStep.ToString();
             currentChapterText.text = GameManager.currentZoneName;
+        }
+
+        if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isPaused)
+            {
+                Pause();
+            }
+            else
+            {
+                Resume();
+            }
         }
     }
 

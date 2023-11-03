@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour
     public GameObject scrollBar;
     public GameObject mainMenu;
     public GameObject optionMenu;
+    public GameObject optionMenuMainPanel;
     public GameObject creditsMenu;
     public Text continueInfo;
     public GameObject warnWindow;
@@ -67,7 +68,7 @@ public class MenuManager : MonoBehaviour
             lastSelectedObject = eventSystem.currentSelectedGameObject;
         }
 
-        if((Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape)) && !isGameStarting)
+        if((Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape)) && !isGameStarting && (creditsMenu.activeSelf || optionMenuMainPanel.activeSelf || chaptersMenu.activeSelf || warnWindow.activeSelf))
         {
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);

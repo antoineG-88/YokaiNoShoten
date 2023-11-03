@@ -11,9 +11,11 @@ public class DashHandler : MonoBehaviour
     public float dashEndVelocityForceAdded;
     public GameObject shadowFx;
     public GameObject[] shadowFxs;
+    public Sound dashSound;
+    [Header("Control settings")]
     public bool dashWithRightTrigger;
     public bool aimWithRightJoystick;
-    public Sound dashSound;
+    public bool keyboardAimWithMouse;
 
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
@@ -76,7 +78,15 @@ public class DashHandler : MonoBehaviour
         }
         else
         {
-            dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            if(keyboardAimWithMouse)
+            {
+                dashDirection = defaultDashDirection;
+            }
+            else
+            {
+                dashDirection = new Vector2(Input.GetKey(ControlsManager.rightKey) ? (Input.GetKey(ControlsManager.leftKey) ? 0 : 1) : (Input.GetKey(ControlsManager.leftKey) ? -1 : 0),
+                    Input.GetKey(ControlsManager.upKey) ? (Input.GetKey(ControlsManager.downKey) ? 0 : 1) : (Input.GetKey(ControlsManager.downKey) ? -1 : 0));
+            }
         }
 
         if (dashDirection.magnitude <= 0.1f)
@@ -177,8 +187,12 @@ public class DashHandler : MonoBehaviour
         }
         else
         {
+            dashTriggerDown = Input.GetKeyDown(ControlsManager.dashKey);
+            dashTriggerPressed= Input.GetKey(ControlsManager.dashKey);
+
+            /*
             dashTriggerDown = Input.GetButtonDown("Dash");
-            dashTriggerPressed = Input.GetButton("Dash");
+            dashTriggerPressed = Input.GetButton("Dash");*/
         }
     }
 }

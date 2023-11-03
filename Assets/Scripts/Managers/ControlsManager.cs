@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class ControlsManager : MonoBehaviour
 {
-    [Header("Gamepad controls")]
-    public bool aimMove;
+    public bool deletePlayerPrefsOnStart;
+    [Header("Keyboard default bindings")]
+    public KeyCode tractGrappleDefaultKey;
+    public KeyCode dashDefaultKey;
+    public KeyCode pierceDefaultKey;
+    public KeyCode upDefaultKey;
+    public KeyCode downDefaultKey;
+    public KeyCode rightDefaultKey;
+    public KeyCode leftDefaultKey;
 
     public static ControlsManager I;
     public static bool aimAndMovementSwitched;
@@ -14,7 +21,91 @@ public class ControlsManager : MonoBehaviour
     public static bool pierceUseDashInput;
     public static bool altDashAndPierceAimEnabled;
 
+    public static KeyCode grappleTractKey;
+    public static KeyCode dashKey;
+    public static KeyCode pierceKey;
+    public static KeyCode upKey;
+    public static KeyCode downKey;
+    public static KeyCode rightKey;
+    public static KeyCode leftKey;
+    public static bool keyboardAimDashWithMouse;
+
     private void Awake()
+    {
+        if(deletePlayerPrefsOnStart)
+            PlayerPrefs.DeleteAll();
+
+        SetupGamepadOptions();
+        SetupKeyboardMapping();
+    }
+
+    private void SetupKeyboardMapping()
+    {
+        if (PlayerPrefs.HasKey("grappleTractKey"))
+        {
+            grappleTractKey = (KeyCode)PlayerPrefs.GetInt("grappleTractKey");
+        }
+        else
+        {
+            SetTractGrappleKey(tractGrappleDefaultKey);
+        }
+
+        if (PlayerPrefs.HasKey("dashKey"))
+        {
+            dashKey = (KeyCode)PlayerPrefs.GetInt("dashKey");
+        }
+        else
+        {
+            SetDashKey(dashDefaultKey);
+        }
+
+        if (PlayerPrefs.HasKey("pierceKey"))
+        {
+            pierceKey = (KeyCode)PlayerPrefs.GetInt("pierceKey");
+        }
+        else
+        {
+            SetPierceKey(pierceDefaultKey);
+        }
+
+        if (PlayerPrefs.HasKey("upKey"))
+        {
+            upKey = (KeyCode)PlayerPrefs.GetInt("upKey");
+        }
+        else
+        {
+            SetUpKey(upDefaultKey);
+        }
+
+        if (PlayerPrefs.HasKey("downKey"))
+        {
+            downKey = (KeyCode)PlayerPrefs.GetInt("downKey");
+        }
+        else
+        {
+            SetDownKey(downDefaultKey);
+        }
+
+        if (PlayerPrefs.HasKey("rightKey"))
+        {
+            rightKey = (KeyCode)PlayerPrefs.GetInt("rightKey");
+        }
+        else
+        {
+            SetRightKey(rightDefaultKey);
+        }
+
+        if (PlayerPrefs.HasKey("leftKey"))
+        {
+            leftKey = (KeyCode)PlayerPrefs.GetInt("leftKey");
+        }
+        else
+        {
+            SetLeftKey(leftDefaultKey);
+        }
+    }
+
+    private void SetupGamepadOptions()
     {
         if (PlayerPrefs.HasKey("switchAimAndMovement"))
         {
@@ -59,6 +150,15 @@ public class ControlsManager : MonoBehaviour
         else
         {
             EnableDashAndPierceAltAim(false);
+        }
+
+        if (PlayerPrefs.HasKey("keyboardDashAimWithMouse"))
+        {
+            keyboardAimDashWithMouse = PlayerPrefs.GetInt("keyboardDashAimWithMouse") == 1 ? true : false;
+        }
+        else
+        {
+            SwitchKeyboardDashAim(false);
         }
     }
 
@@ -113,5 +213,57 @@ public class ControlsManager : MonoBehaviour
             GameData.dashHandler.aimWithRightJoystick = enable;
             GameData.pierceHandler.aimWithRightJoystick = enable;
         }
+    }
+
+    public static void SwitchKeyboardDashAim(bool enable)
+    {
+        keyboardAimDashWithMouse = enable;
+        PlayerPrefs.SetInt("keyboardDashAimWithMouse", enable ? 1 : 0);
+        if (GameData.dashHandler != null)
+        {
+            GameData.dashHandler.keyboardAimWithMouse = enable;
+        }
+    }
+
+    public static void SetTractGrappleKey(KeyCode key)
+    {
+        grappleTractKey = key;
+        PlayerPrefs.SetInt("grappleTractKey", (int)key);
+    }
+
+    public static void SetDashKey(KeyCode key)
+    {
+        dashKey = key;
+        PlayerPrefs.SetInt("dashKey", (int)key);
+    }
+
+    public static void SetPierceKey(KeyCode key)
+    {
+        pierceKey = key;
+        PlayerPrefs.SetInt("pierceKey", (int)key);
+    }
+
+    public static void SetUpKey(KeyCode key)
+    {
+        upKey = key;
+        PlayerPrefs.SetInt("upKey", (int)key);
+    }
+
+    public static void SetDownKey(KeyCode key)
+    {
+        downKey = key;
+        PlayerPrefs.SetInt("downKey", (int)key);
+    }
+
+    public static void SetRightKey(KeyCode key)
+    {
+        rightKey = key;
+        PlayerPrefs.SetInt("rightKey", (int)key);
+    }
+
+    public static void SetLeftKey(KeyCode key)
+    {
+        leftKey = key;
+        PlayerPrefs.SetInt("leftKey", (int)key);
     }
 }

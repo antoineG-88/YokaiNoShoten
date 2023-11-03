@@ -222,7 +222,7 @@ public class PierceHandler : MonoBehaviour
             comboPierceTimingHelper.gameObject.SetActive(false);
         }
 
-        if ((useDashInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) && canPierce)
+        if (canPierce && (GameManager.isUsingController ? (useDashInput ? GameData.dashHandler.dashTriggerDown : (Input.GetButtonDown("AButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("LeftBumper"))) : Input.GetKeyDown(ControlsManager.pierceKey)))
         {
             if (selectedEnemy != null)
             {

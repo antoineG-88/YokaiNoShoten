@@ -2283,6 +2283,7 @@ MonoBehaviour:
   pauseButton: {fileID: 1259287948333934247}
   mainVolumeSlider: {fileID: 4977102264413823016}
   optionMenu: {fileID: 952040807226976368}
+  optionMainWindow: {fileID: 928066511323771612}
   buttons: {fileID: 766863061176787549}
   playTimeText: {fileID: 7459511539744029626}
   chapterTimeText: {fileID: 1033268240197336588}
@@ -3129,6 +3130,11 @@ PrefabInstance:
       propertyPath: uISoundManager
       value: 
       objectReference: {fileID: 7718921678733003390}
+    - target: {fileID: 147093640524141350, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 160738512792807135, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: uISoundManager
@@ -3214,6 +3220,11 @@ PrefabInstance:
       propertyPath: uISoundManager
       value: 
       objectReference: {fileID: 7718921678733003390}
+    - target: {fileID: 1425048042270520204, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 1462436978528090495, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -3249,6 +3260,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 8300000, guid: 8cd94243a3cb97c47b81b4f531a6155b, type: 3}
+    - target: {fileID: 1466793450740677621, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 1532410942455709756, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: uISoundManager
@@ -3359,6 +3375,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 8300000, guid: ae538c29055ad6940b27c19b52eaf8b7, type: 3}
+    - target: {fileID: 2436229978330820563, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 2523447796714271707, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -3409,6 +3430,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 8300000, guid: ae538c29055ad6940b27c19b52eaf8b7, type: 3}
+    - target: {fileID: 2559138884384648633, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 2683421502063578418, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3524,6 +3550,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 8300000, guid: 9a3c8b5f1ce50b146b49045a0d09cae5, type: 3}
+    - target: {fileID: 4680361839315284469, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 4740899708224568508, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: m_IsActive
@@ -3634,6 +3665,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 4827831176152419079}
+    - target: {fileID: 5918271543035312930, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 6097547842434717349, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -3789,6 +3825,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7113316433571692650, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 7718921678733003390}
     - target: {fileID: 7550719183483190270, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: uISoundManager

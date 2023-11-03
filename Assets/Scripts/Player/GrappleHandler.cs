@@ -526,8 +526,11 @@ public class GrappleHandler : MonoBehaviour
         }
         else
         {
+            tractTriggerDown = Input.GetKeyDown(ControlsManager.grappleTractKey);
+            tractTriggerPressed = Input.GetKey(ControlsManager.grappleTractKey);
+            /*
             tractTriggerPressed = Input.GetMouseButton(0);
-            tractTriggerDown = Input.GetMouseButtonDown(0);
+            tractTriggerDown = Input.GetMouseButtonDown(0);*/
         }
     }
 }

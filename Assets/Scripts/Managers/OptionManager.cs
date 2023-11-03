@@ -14,12 +14,15 @@ public class OptionManager : MonoBehaviour
     public Toggle pierceAutoAimToggle;
     public Toggle pierceUseDashInputToggle;
     public Toggle dashPierceAltAimToggle;
+    public Toggle keyboardDashAimWithMouse;
     [Header("ControlTexts")]
     public Text leftTriggerText;
     public Text rightTriggerText;
     public Text leftStickText;
     public Text rightStickText;
     public Text aButtonText;
+
+    public enum KeyboardBind {Up, Down, Right, Left, Grapple, Dash, Pierce };
 
     private Button currentBackButton;
 
@@ -32,7 +35,19 @@ public class OptionManager : MonoBehaviour
         pierceAutoAimToggle.isOn = ControlsManager.pierceAutoAimEnabled;
         pierceUseDashInputToggle.isOn = ControlsManager.pierceUseDashInput;
         dashPierceAltAimToggle.isOn = ControlsManager.altDashAndPierceAimEnabled;
+        keyboardDashAimWithMouse.isOn = ControlsManager.keyboardAimDashWithMouse;
         UpdateControlTexts();
+    }
+
+    private void Update()
+    {
+        if(Input.GetButtonDown("BButton"))
+        {
+            if(currentBackButton != null)
+            {
+                currentBackButton.onClick.Invoke();
+            }
+        }
     }
 
     private IEnumerator UpdateToggles()
@@ -48,6 +63,40 @@ public class OptionManager : MonoBehaviour
         leftStickText.text = (ControlsManager.aimAndMovementSwitched ? "Aim grapple" : "Move") + (ControlsManager.altDashAndPierceAimEnabled ? "" : " / Aim dash and pierce");
         rightStickText.text = (ControlsManager.aimAndMovementSwitched ? "Move" : "Aim grapple") + (ControlsManager.altDashAndPierceAimEnabled ? " / Aim dash and pierce" : "");
         aButtonText.text = "Validate" + (ControlsManager.pierceUseDashInput ? "" : " / Pierce");
+    }
+
+    public void ChangeKeyBind(KeyboardBind keyboardBind, KeyCode key)
+    {
+        switch(keyboardBind)
+        {
+            case KeyboardBind.Up:
+                ControlsManager.SetUpKey(key);
+                break;
+
+            case KeyboardBind.Down:
+                ControlsManager.SetDownKey(key);
+                break;
+
+            case KeyboardBind.Right:
+                ControlsManager.SetRightKey(key);
+                break;
+
+            case KeyboardBind.Left:
+                ControlsManager.SetLeftKey(key);
+                break;
+
+            case KeyboardBind.Grapple:
+                ControlsManager.SetTractGrappleKey(key);
+                break;
+
+            case KeyboardBind.Dash:
+                ControlsManager.SetDashKey(key);
+                break;
+
+            case KeyboardBind.Pierce:
+                ControlsManager.SetPierceKey(key);
+                break;
+        }
     }
 
     public void ChangeScreenMode(bool value)
@@ -89,10 +138,18 @@ public class OptionManager : MonoBehaviour
         ControlsManager.EnableDashAndPierceAltAim(value);
         UpdateControlTexts();
     }
+    public void ToggleKeyboardDashAimWithMouse(bool value)
+    {
+        ControlsManager.SwitchKeyboardDashAim(value);
+    }
 
     public void SelectObjectWithController(GameObject objectToSelect)
     {
         GameManager.eventSystem.firstSelectedGameObject = objectToSelect;
         GameManager.eventSystem.SetSelectedGameObject(objectToSelect);
+    }
+    public void SetCurrentBackButotn(Button backButton)
+    {
+        currentBackButton = backButton;
     }
 }

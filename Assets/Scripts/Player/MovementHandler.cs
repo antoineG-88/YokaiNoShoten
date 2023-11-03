@@ -109,7 +109,7 @@ public class MovementHandler : MonoBehaviour
             }
             else
             {
-                horizontalTargetSpeed = canMove ? (Input.GetAxis("Horizontal") * (IsOnSlope() ? slopeMaxSpeed : walkingMaxSpeed)) : 0;
+                horizontalTargetSpeed = canMove ? ((Input.GetKey(ControlsManager.rightKey) ? (Input.GetKey(ControlsManager.leftKey) ? 0 : 1) : (Input.GetKey(ControlsManager.leftKey) ? -1 : 0)) * (IsOnSlope() ? slopeMaxSpeed : walkingMaxSpeed)) : 0;
             }
         }
         else
