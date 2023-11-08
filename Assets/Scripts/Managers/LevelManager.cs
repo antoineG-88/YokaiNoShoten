@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     [Header("Zone Transition")]
     public Color transitionScreenColor;
     public float transitionTime;
-    public Text chapterNameDisplay;
+    [HideInInspector] public Text chapterNameDisplay;
     [Header("Deco")]
     public int decoSceneIndex;
     public string decoScenePath;
@@ -28,6 +28,9 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public Scene decoScene;
     private int zoneLoadCountDown;
 
+    public static Image saveLogo;
+    public static LevelManager I;
+
     private void Awake()
     {
         LoadDecoScene();
@@ -36,7 +39,10 @@ public class LevelManager : MonoBehaviour
         allZoneEnemies = new List<Enemy>();
         GetAllZoneSwitchesAndEnemies();
         zoneLoadCountDown = 2;
+        I = this;
 
+        saveLogo = GameObject.Find("SaveLogo").GetComponent<Image>();
+        saveLogo.CrossFadeAlpha(0f, 0f, false);
 
         GameManager.eventSystem = EventSystem.current;
     }
@@ -180,6 +186,21 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
 
         chapterNameDisplay.CrossFadeAlpha(0f, 0.5f, false);
+    }
+
+    public static void StartSaveDisplayAnim()
+    {
+        I.StartCoroutine(I.PlaySaveGameLogo());
+    }
+
+    private IEnumerator PlaySaveGameLogo()
+    {
+
+        saveLogo.CrossFadeAlpha(1f, 0.3f, false);
+
+        yield return new WaitForSeconds(1.5f);
+
+        saveLogo.CrossFadeAlpha(0f, 0.3f, false);
     }
 }
 

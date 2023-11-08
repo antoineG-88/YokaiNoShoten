@@ -165,6 +165,8 @@ public class ControlInstruction : MonoBehaviour
                         }
                         else
                         {
+                            rightClick.SetActive(false);
+                            leftClick.SetActive(false);
                             mouseClickText.text = clickName;
                         }
                     }

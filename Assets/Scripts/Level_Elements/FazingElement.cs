@@ -7,6 +7,7 @@ public class FazingElement : MonoBehaviour
     [Header("Pair = disparition, Impair = apparition")]
     public float[] fazeTimings;
     public float timeWarning;
+    public float animSpeed = 1;
 
     private Collider2D ringCollider;
     private SpriteRenderer spriteRenderer;
@@ -22,6 +23,7 @@ public class FazingElement : MonoBehaviour
         stepIndex = -1;
         animator.enabled = true;
         timeRemainingForCurrentStep = 0;
+        animator.speed = animSpeed;
     }
 
     void Update()
@@ -58,7 +60,7 @@ public class FazingElement : MonoBehaviour
             timeRemainingForCurrentStep -= Time.deltaTime;
             if(timeRemainingForCurrentStep <= timeWarning && stepIndex % 2 != 0)
             {
-                animator.SetBool("Faze", true);
+                animator.SetBool("Warn", true);
             }
         }
     }
@@ -68,7 +70,7 @@ public class FazingElement : MonoBehaviour
         //spriteRenderer.enabled =false;
         ringCollider.enabled = false;
         animator.SetBool("Faze", true);
-        if(GameData.grappleHandler.attachedObject == gameObject)
+        if (GameData.grappleHandler.attachedObject == gameObject)
         {
             GameData.movementHandler.rb.velocity *= GameData.grappleHandler.velocityKeptReleasingHook / 100;
             GameData.grappleHandler.BreakRope("Fazing ring");
@@ -79,6 +81,7 @@ public class FazingElement : MonoBehaviour
     {
         //spriteRenderer.enabled = true;
         ringCollider.enabled = true;
+        animator.SetBool("Warn", false);
         animator.SetBool("Faze", false);
     }
 }

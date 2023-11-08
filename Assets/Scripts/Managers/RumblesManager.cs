@@ -54,7 +54,7 @@ public class RumblesManager : MonoBehaviour
     {
         if(I.currentRamble != null)
             I.StopCoroutine(I.currentRamble);
-        if (rumblesAreEnabled)
+        if (rumblesAreEnabled && GameManager.isUsingController)
             I.currentRamble = I.StartCoroutine(I.DashRumble());
     }
 
@@ -62,7 +62,7 @@ public class RumblesManager : MonoBehaviour
     {
         if (I.currentRamble != null)
             I.StopCoroutine(I.currentRamble);
-        if(rumblesAreEnabled)
+        if(rumblesAreEnabled && GameManager.isUsingController)
             I.currentRamble = I.StartCoroutine(I.TakeDamageRumble());
     }
 
@@ -70,7 +70,7 @@ public class RumblesManager : MonoBehaviour
     {
         if (I.currentRamble != null)
             I.StopCoroutine(I.currentRamble);
-        if (rumblesAreEnabled)
+        if (rumblesAreEnabled && GameManager.isUsingController)
             I.currentRamble = I.StartCoroutine(I.PierceStartRumble());
     }
 
@@ -78,7 +78,7 @@ public class RumblesManager : MonoBehaviour
     {
         if (I.currentRamble != null)
             I.StopCoroutine(I.currentRamble);
-        if (rumblesAreEnabled)
+        if (rumblesAreEnabled && GameManager.isUsingController)
             I.currentRamble = I.StartCoroutine(I.PierceEndRumble());
     }
 
@@ -86,7 +86,7 @@ public class RumblesManager : MonoBehaviour
     {
         if (I.currentRamble != null)
             I.StopCoroutine(I.currentRamble);
-        if (rumblesAreEnabled)
+        if (rumblesAreEnabled && GameManager.isUsingController)
             I.currentRamble = I.StartCoroutine(I.GrappleRumble());
     }
 
@@ -94,7 +94,7 @@ public class RumblesManager : MonoBehaviour
     {
         if (I.currentRamble != null)
             I.StopCoroutine(I.currentRamble);
-        if (rumblesAreEnabled)
+        if (rumblesAreEnabled && GameManager.isUsingController)
             I.currentRamble = I.StartCoroutine(I.DeathRumble());
     }
 

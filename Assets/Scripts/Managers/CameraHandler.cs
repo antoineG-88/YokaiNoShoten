@@ -66,7 +66,7 @@ public class CameraHandler : MonoBehaviour
             }
             else
             {
-                cameraTarget = (Vector2)GameData.player.transform.position + followCenterOffset + AimOffset(GameData.grappleHandler.aimDirection) + MomentumOffset() + ZoneOffset();
+                cameraTarget = (Vector2)GameData.player.transform.position + followCenterOffset + (GameData.playerManager.isInEvent ? Vector2.zero : AimOffset(GameData.grappleHandler.aimDirection)) + MomentumOffset() + ZoneOffset();
             }
             currentOrthographicSize = ZoneSize();
 

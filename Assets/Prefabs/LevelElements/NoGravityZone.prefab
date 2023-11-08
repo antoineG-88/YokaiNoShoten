@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 8607124443657085903}
   - component: {fileID: 8607124443657085904}
   - component: {fileID: 3855792717063887436}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: NoGravityZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,6 +277,7 @@ MonoBehaviour:
   aboveMaxMomentumSlowingForce: 80
   maxTractingSpeedInNGZone: 15
   edgeLine: {fileID: 8240487141156964924}
+  isCustomShape: 0
   corners:
   - {fileID: 7659791043129413293}
   - {fileID: 3365465949490811937}
@@ -286,6 +287,7 @@ MonoBehaviour:
     type: 3}
   exitEffectPrefab: {fileID: 47540936846963028, guid: 32a56519b46b8b34bb736831b7d14693,
     type: 3}
+  shaderTilingScale: 1
   ambientSource: {fileID: 3855792717063887436}
   enterSound:
     clip: {fileID: 8300000, guid: 16c0959b77eed7849961371b35ea209d, type: 3}

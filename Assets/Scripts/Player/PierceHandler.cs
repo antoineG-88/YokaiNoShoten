@@ -369,7 +369,7 @@ public class PierceHandler : MonoBehaviour
 
     private void UpdatePhasingTime()
     {
-        if(isPhasing)
+        if(isPhasing && !GameManager.gameIsPaused)
         {
             if(useCombo)
             {

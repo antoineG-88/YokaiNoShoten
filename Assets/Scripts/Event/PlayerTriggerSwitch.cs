@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerTriggerSwitch : Switch
 {
-    public SpriteRenderer prompt;
+    public GameObject prompt;
+    public GameObject gamepadPrompt;
+    public GameObject keyboardPrompt;
     public EventTrigger eventToReset;
 
     private bool playerCanInteract;
@@ -14,7 +16,7 @@ public class PlayerTriggerSwitch : Switch
     {
         base.Start();
         playerCanInteract = false;
-        prompt.enabled = false;
+        prompt.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -22,7 +24,9 @@ public class PlayerTriggerSwitch : Switch
         if (collider.CompareTag("Player"))
         {
             playerCanInteract = true;
-            prompt.enabled = true;
+            prompt.SetActive(true);
+            gamepadPrompt.SetActive(GameManager.isUsingController);
+            keyboardPrompt.SetActive(!GameManager.isUsingController);
         }
     }
     private void OnTriggerExit2D(Collider2D collider)
@@ -30,13 +34,13 @@ public class PlayerTriggerSwitch : Switch
         if (collider.CompareTag("Player"))
         {
             playerCanInteract = false;
-            prompt.enabled = false;
+            prompt.SetActive(false);
         }
     }
 
     public void Update()
     {
-        if(playerCanInteract && (Input.GetAxisRaw("LeftTrigger") == 1 || Input.GetButtonDown("Dash") || Input.GetMouseButtonDown(1)) && !eventToReset.isInEvent)
+        if(playerCanInteract && (Input.GetButton("AButton") || Input.GetKeyDown(KeyCode.E)) && !eventToReset.isInEvent)
         {
             StartCoroutine(TempSwithOn());
         }
@@ -45,7 +49,7 @@ public class PlayerTriggerSwitch : Switch
     private IEnumerator TempSwithOn()
     {
         isOn = true;
-        prompt.enabled = false;
+        prompt.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         isOn = false;
         eventToReset.ResetEventWhenEnded();

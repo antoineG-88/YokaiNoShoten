@@ -19,6 +19,7 @@ public class PauseManager : MonoBehaviour
     public Text deathCountText;
     public Text storyStep;
     public Text currentChapterText;
+    public Text saveInfoText;
     public UISoundManager uISoundManager;
     public AudioClip pauseSound;
     public AudioClip resumeSound;
@@ -47,7 +48,11 @@ public class PauseManager : MonoBehaviour
 
         if(isPaused)
         {
-            
+            if (Input.GetButtonDown("StartButton"))
+            {
+                Resume();
+            }
+
             if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
             {
                 if(buttons.activeSelf)
@@ -79,17 +84,14 @@ public class PauseManager : MonoBehaviour
             deathCountText.text = GameManager.numberOfDeath.ToString();
             storyStep.text = GameManager.currentStoryStep.ToString();
             currentChapterText.text = GameManager.currentZoneName;
-        }
 
-        if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
+
+        }
+        else
         {
-            if (!isPaused)
+            if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
-            }
-            else
-            {
-                Resume();
             }
         }
     }
@@ -115,6 +117,17 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         GameData.playerManager.inControl = false;
         GameManager.gameIsPaused = true;
+        if(!GameManager.isUsingController)
+            Cursor.visible = true;
+
+        if (SaveSystem.lastSaveTime != 0)
+        {
+            saveInfoText.text = "Game saved " + Mathf.Round(Time.realtimeSinceStartup - SaveSystem.lastSaveTime).ToString() + " seconds ago";
+        }
+        else
+        {
+            saveInfoText.text = "Game not saved yet";
+        }
     }
 
     public void Resume()
@@ -127,6 +140,7 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         GameData.playerManager.inControl = true;
         GameManager.gameIsPaused = false;
+        Cursor.visible = false;
     }
 
     public void ReturntoMenu()

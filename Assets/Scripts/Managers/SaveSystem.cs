@@ -11,6 +11,7 @@ public static class SaveSystem
     public static string defaultSaveDirectoryName;
     public static string defaultGameDirectoryName;
 
+    public static float lastSaveTime;
     private static string savePath;
 
     /// <summary>
@@ -58,6 +59,8 @@ public static class SaveSystem
             GameSave gameSave = new GameSave(chapter);
             formatter.Serialize(stream, gameSave);
             stream.Close();
+            lastSaveTime = Time.realtimeSinceStartup;
+            LevelManager.StartSaveDisplayAnim();
 
             //Debug.Log("Player saved in " + path);
         }
@@ -162,6 +165,7 @@ public static class SaveSystem
             stream.Close();
 
             //Debug.Log("PLayer loaded from " + path);
+            lastSaveTime = Time.realtimeSinceStartup;
 
             return gameSave;
         }

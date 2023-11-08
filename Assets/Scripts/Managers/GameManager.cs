@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static bool isInMainMenu;
     [HideInInspector] public static bool isUsingController;
     [HideInInspector] public static bool isInFullScreen;
+    [HideInInspector] public static int currentScreenResIndex;
 
 
     private Vector2 lastMousePos;
@@ -54,19 +55,20 @@ public class GameManager : MonoBehaviour
         }
 
         SetSavePath();
-        if (PlayerPrefs.HasKey("fullscreen"))
+        if (PlayerPrefs.HasKey("fullscreen") && PlayerPrefs.HasKey("screenRes"))
         {
-            ToggleFullScreen(PlayerPrefs.GetInt("fullscreen") == 1 ? true : false);
+            ChangeScreenResolutionAndMode(PlayerPrefs.GetInt("screenRes"), PlayerPrefs.GetInt("fullscreen") == 1 ? true : false);
         }
         else
         {
-            ToggleFullScreen(true);
+            ChangeScreenResolutionAndMode(1, true);
         }
     }
 
     private void Start()
     {
         eventSystem = EventSystem.current;
+        Cursor.visible = true;
     }
 
     private void Update()
@@ -145,6 +147,7 @@ public class GameManager : MonoBehaviour
         {
             SetSpecificStart(specificStart);
         }
+        Cursor.visible = false;
     }
 
     public static void Respawn(bool increaseDeathCount)
@@ -302,7 +305,8 @@ public class GameManager : MonoBehaviour
             if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
             {
                 isUsingController = false;
-                Cursor.visible = true;
+                if(isInMainMenu || gameIsPaused)
+                    Cursor.visible = true;
                 eventSystem.SetSelectedGameObject(null);
             }
         }
@@ -318,19 +322,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void ToggleFullScreen(bool isFullscreen)
+    public static void ChangeScreenResolutionAndMode(int resolutionIndex, bool isFullScreen)
     {
-        isInFullScreen = isFullscreen;
-        if(isFullscreen)
+        isInFullScreen = isFullScreen;
+        currentScreenResIndex = resolutionIndex;
+        switch(currentScreenResIndex)
         {
-            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
-            Screen.SetResolution(1920, 1080, true);
+            case 0:
+                Screen.SetResolution(2560, 1440, isInFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+                break;
+            case 1:
+                Screen.SetResolution(1920, 1080, isInFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+                break;
+            case 2:
+                Screen.SetResolution(1600, 900, isInFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+                break;
+            case 3:
+                Screen.SetResolution(1280, 720, isInFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+                break;
         }
-        else
-        {
-            Screen.fullScreenMode = FullScreenMode.Windowed;
-            Screen.SetResolution(1280, 720, false);
-        }
+        PlayerPrefs.SetInt("screenRes", currentScreenResIndex);
         PlayerPrefs.SetInt("fullscreen", isInFullScreen ? 1 : 0);
     }
 }

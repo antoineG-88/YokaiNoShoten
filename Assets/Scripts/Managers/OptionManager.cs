@@ -15,6 +15,10 @@ public class OptionManager : MonoBehaviour
     public Toggle pierceUseDashInputToggle;
     public Toggle dashPierceAltAimToggle;
     public Toggle keyboardDashAimWithMouse;
+    public Toggle resolution1440Toggle;
+    public Toggle resolution1080Toggle;
+    public Toggle resolution900Toggle;
+    public Toggle resolution720Toggle;
     [Header("ControlTexts")]
     public Text leftTriggerText;
     public Text rightTriggerText;
@@ -36,6 +40,10 @@ public class OptionManager : MonoBehaviour
         pierceUseDashInputToggle.isOn = ControlsManager.pierceUseDashInput;
         dashPierceAltAimToggle.isOn = ControlsManager.altDashAndPierceAimEnabled;
         keyboardDashAimWithMouse.isOn = ControlsManager.keyboardAimDashWithMouse;
+        resolution1440Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 0);
+        resolution1080Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 1);
+        resolution900Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 2);
+        resolution720Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 3);
         UpdateControlTexts();
     }
 
@@ -101,7 +109,52 @@ public class OptionManager : MonoBehaviour
 
     public void ChangeScreenMode(bool value)
     {
-        GameManager.ToggleFullScreen(value);
+        GameManager.ChangeScreenResolutionAndMode(GameManager.currentScreenResIndex, value);
+    }
+
+    public void SetGameResolutionTo1440(bool value)
+    {
+        if(value)
+        {
+            GameManager.ChangeScreenResolutionAndMode(0, GameManager.isInFullScreen);
+            resolution1440Toggle.isOn = true;
+            resolution1080Toggle.isOn = false;
+            resolution900Toggle.isOn = false;
+            resolution720Toggle.isOn = false;
+        }
+    }
+    public void SetGameResolutionTo1080(bool value)
+    {
+        if (value)
+        {
+            GameManager.ChangeScreenResolutionAndMode(1, GameManager.isInFullScreen);
+            resolution1440Toggle.isOn = false;
+            resolution1080Toggle.isOn = true;
+            resolution900Toggle.isOn = false;
+            resolution720Toggle.isOn = false;
+        }
+    }
+    public void SetGameResolutionTo900(bool value)
+    {
+        if (value)
+        {
+            GameManager.ChangeScreenResolutionAndMode(2, GameManager.isInFullScreen);
+            resolution1440Toggle.isOn = false;
+            resolution1080Toggle.isOn = false;
+            resolution900Toggle.isOn = true;
+            resolution720Toggle.isOn = false;
+        }
+    }
+    public void SetGameResolutionTo720(bool value)
+    {
+        if (value)
+        {
+            GameManager.ChangeScreenResolutionAndMode(3, GameManager.isInFullScreen);
+            resolution1440Toggle.isOn = false;
+            resolution1080Toggle.isOn = false;
+            resolution900Toggle.isOn = false;
+            resolution720Toggle.isOn = true;
+        }
     }
 
     public void ToggleRumbles(bool value)
@@ -142,6 +195,7 @@ public class OptionManager : MonoBehaviour
     {
         ControlsManager.SwitchKeyboardDashAim(value);
     }
+
 
     public void SelectObjectWithController(GameObject objectToSelect)
     {

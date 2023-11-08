@@ -137,6 +137,38 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void SetHP(int hp)
+    {
+        if(hp > currentHealthPoint)
+        {
+            Heal(hp - currentHealthPoint);
+        }
+        else if(hp < currentHealthPoint)
+        {
+            RemoveHp(currentHealthPoint - hp);
+        }
+    }
+
+    public void RemoveHp(int damage)
+    {
+        if (!isInGodMode && !isDying)
+        {
+            currentHealthPoint -= damage;
+            if (currentHealthPoint <= 0)
+            {
+                StartCoroutine(Die());
+                RumblesManager.StartDeathRumble();
+            }
+            else
+            {
+                RumblesManager.StartTakeDamageRumble();
+            }
+            GameData.damageEffectManager.StartDamageEffect();
+            if (hurtSound != null)
+                GameData.playerSource.PlayOneShot(hurtSound.clip, hurtSound.volumeScale);
+        }
+    }
+
     public void Heal(int healAmount)
     {
         currentHealthPoint += healAmount;

@@ -166,7 +166,7 @@ public class DashHandler : MonoBehaviour
     {
         if (GameManager.isUsingController)
         {
-            if (!dashTriggerPressed && (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1))
+            if (!dashTriggerPressed && (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") >= 0.2f : Input.GetAxisRaw("LeftTrigger") >= 0.2f))
             {
                 dashTriggerDown = true;
             }
@@ -175,7 +175,7 @@ public class DashHandler : MonoBehaviour
                 dashTriggerDown = false;
             }
 
-            if (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") == 1 : Input.GetAxisRaw("LeftTrigger") == 1)
+            if (dashWithRightTrigger ? Input.GetAxisRaw("RightTrigger") >= 0.2f : Input.GetAxisRaw("LeftTrigger") >= 0.2f)
             {
                 dashTriggerPressed = true;
             }

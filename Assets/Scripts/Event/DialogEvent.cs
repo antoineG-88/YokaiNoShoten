@@ -31,7 +31,6 @@ public class DialogEvent : EventPart
                 {
                     isReachingDialoguePos = false;
                     GameData.dialogManager.StartDialogue(dialogToPlay, callback);
-                    GameData.playerVisuals.facingRight = seikiOrientationIsRight;
                 }
 
                 if (GameData.movementHandler.transform.position.x > seikiPositionDuringDialog.x)
@@ -46,6 +45,7 @@ public class DialogEvent : EventPart
             else
             {
                 GameData.movementHandler.noControlTargetSpeed = 0;
+                GameData.playerVisuals.facingRight = seikiOrientationIsRight;
             }
         }
     }
@@ -65,6 +65,6 @@ public class DialogEvent : EventPart
     private void OnDrawGizmosSelected()
     {
         seikiPositionDuringDialog = seikiPosPreview.transform.position;
-        seikiOrientationIsRight = seikiPosPreview.transform.localScale.x == 1;
+        //seikiOrientationIsRight = seikiPosPreview.transform.localScale.x == 1;
     }
 }
