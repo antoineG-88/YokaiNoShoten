@@ -41,6 +41,15 @@ public class ControlsManager : MonoBehaviour
 
     private void SetupKeyboardMapping()
     {
+        if (PlayerPrefs.HasKey("keyboardDashAimWithMouse"))
+        {
+            keyboardAimDashWithMouse = PlayerPrefs.GetInt("keyboardDashAimWithMouse") == 1 ? true : false;
+        }
+        else
+        {
+            SwitchKeyboardDashAim(false);
+        }
+
         if (PlayerPrefs.HasKey("grappleTractKey"))
         {
             grappleTractKey = (KeyCode)PlayerPrefs.GetInt("grappleTractKey");
@@ -151,15 +160,25 @@ public class ControlsManager : MonoBehaviour
         {
             EnableDashAndPierceAltAim(false);
         }
+    }
 
-        if (PlayerPrefs.HasKey("keyboardDashAimWithMouse"))
-        {
-            keyboardAimDashWithMouse = PlayerPrefs.GetInt("keyboardDashAimWithMouse") == 1 ? true : false;
-        }
-        else
-        {
-            SwitchKeyboardDashAim(false);
-        }
+    public void SetOptionsToDefault()
+    {
+
+        SwitchGamepadAimAndMovement(false);
+        EnabledPierceAutoAim(false);
+        SwitchGamepadGrappleAndDash(false);
+        EnablePierceWithDashInput(true);
+        EnableDashAndPierceAltAim(false);
+
+        SwitchKeyboardDashAim(false);
+        SetTractGrappleKey(tractGrappleDefaultKey);
+        SetDashKey(dashDefaultKey);
+        SetPierceKey(pierceDefaultKey);
+        SetUpKey(upDefaultKey);
+        SetDownKey(downDefaultKey);
+        SetRightKey(rightDefaultKey);
+        SetLeftKey(leftDefaultKey);
     }
 
     public static void SwitchGamepadAimAndMovement(bool enable)

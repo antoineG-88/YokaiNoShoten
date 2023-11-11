@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -45973,7 +45973,7 @@ PrefabInstance:
     - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: movementZoneRadius
-      value: 24.28
+      value: 27.93
       objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
@@ -46678,6 +46678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 7.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 22.68
       objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
@@ -50086,6 +50091,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 24.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 16.72
       objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
@@ -55229,12 +55239,12 @@ PrefabInstance:
     - target: {fileID: 4350499831356082418, guid: afd54e4c8b953dd42ba5aa3ca6354761,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46.649
+      value: 46.654
       objectReference: {fileID: 0}
     - target: {fileID: 4350499831356082418, guid: afd54e4c8b953dd42ba5aa3ca6354761,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.57
+      value: 3.823
       objectReference: {fileID: 0}
     - target: {fileID: 4350499831356082418, guid: afd54e4c8b953dd42ba5aa3ca6354761,
         type: 3}
@@ -57076,6 +57086,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -3.01
       objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 12.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -57261,6 +57276,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 13.38
       objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
@@ -60535,12 +60555,12 @@ PrefabInstance:
     - target: {fileID: 4350499831356082418, guid: afd54e4c8b953dd42ba5aa3ca6354761,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.647
+      value: 13.652
       objectReference: {fileID: 0}
     - target: {fileID: 4350499831356082418, guid: afd54e4c8b953dd42ba5aa3ca6354761,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.57
+      value: 3.82
       objectReference: {fileID: 0}
     - target: {fileID: 4350499831356082418, guid: afd54e4c8b953dd42ba5aa3ca6354761,
         type: 3}
@@ -61107,12 +61127,17 @@ PrefabInstance:
     - target: {fileID: 8193358007314346128, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.61
+      value: -13.42
       objectReference: {fileID: 0}
     - target: {fileID: 8193358007314346128, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 13.2
       objectReference: {fileID: 0}
     - target: {fileID: 8193358008734632396, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
@@ -61770,7 +61795,17 @@ PrefabInstance:
     - target: {fileID: 8193358007314346128, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -31.13
+      value: -30.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346128, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193358007314346154, guid: c31b049bdedf5a944a4f9c11f590079e,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 25.72
       objectReference: {fileID: 0}
     - target: {fileID: 8936422184179989824, guid: c31b049bdedf5a944a4f9c11f590079e,
         type: 3}

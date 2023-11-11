@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
 
 
     private Vector2 lastMousePos;
+    private float lastChangeControlTypeTime;
     [HideInInspector] public static EventSystem eventSystem;
     public static bool isRespawning;
     private static bool zoneLoaded;
@@ -108,6 +110,11 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
                 StartCoroutine(LoadWithProgress(11));
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                StartCoroutine(LoadWithProgress(15));
             }
         }
 
@@ -300,24 +307,31 @@ public class GameManager : MonoBehaviour
 
     private void CheckInputType()
     {
-        if (isUsingController)
+        if(Time.realtimeSinceStartup > lastChangeControlTypeTime + 0.5f)
         {
-            if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+            if (isUsingController)
             {
-                isUsingController = false;
-                if(isInMainMenu || gameIsPaused)
-                    Cursor.visible = true;
-                eventSystem.SetSelectedGameObject(null);
+                if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+                {
+                    isUsingController = false;
+                    if (isInMainMenu || gameIsPaused)
+                        Cursor.visible = true;
+                    eventSystem.SetSelectedGameObject(null);
+                    Mouse.current.WarpCursorPosition(new Vector2(Screen.width / 2, Screen.height / 2));
+                    lastChangeControlTypeTime = Time.realtimeSinceStartup;
+                }
             }
-        }
-        else
-        {
-            lastMousePos = Input.mousePosition;
-            if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetAxisRaw("RightTrigger") == 1 || Input.GetAxisRaw("LeftTrigger") == 1
-                || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("RightStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("RightStickV")) > 0.5f)
+            else
             {
-                isUsingController = true;
-                Cursor.visible = false;
+                if (Input.GetButtonDown("AButton") || Input.GetButtonDown("BButton") || Input.GetButtonDown("XButton") || Input.GetButtonDown("YButton") || Input.GetAxisRaw("RightTrigger") == 1 || Input.GetAxisRaw("LeftTrigger") == 1
+                    || Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("RightStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("RightStickV")) > 0.5f)
+                {
+                    isUsingController = true;
+                    Cursor.visible = false;
+                    Mouse.current.WarpCursorPosition(new Vector2(20,20));
+                    lastChangeControlTypeTime = Time.realtimeSinceStartup;
+                }
+                lastMousePos = new Vector2(20, 20);
             }
         }
     }

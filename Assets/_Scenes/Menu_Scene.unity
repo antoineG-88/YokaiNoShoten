@@ -2332,17 +2332,17 @@ PrefabInstance:
     - target: {fileID: 8350083774611847823, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.6784314
+      value: 0.34901962
       objectReference: {fileID: 0}
     - target: {fileID: 8350083774611847823, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.015686275
+      value: 0.34901962
       objectReference: {fileID: 0}
     - target: {fileID: 8350083774611847823, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.27058825
+      value: 0.34901962
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440420, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
@@ -2517,47 +2517,47 @@ PrefabInstance:
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.r
-      value: 0.6792453
+      value: 0.34901962
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.g
-      value: 0.016019935
+      value: 0.34901962
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.b
-      value: 0.26909274
+      value: 0.34901962
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_HighlightedColor.r
-      value: 1
+      value: 0.6784314
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_HighlightedColor.g
-      value: 0.18396229
+      value: 0.015686275
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
-      value: 0.4953451
+      value: 0.27058825
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_SelectedColor.r
-      value: 1
+      value: 0.6784314
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_SelectedColor.g
-      value: 0.18431373
+      value: 0.015686275
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
-      value: 0.49411768
+      value: 0.27058825
       objectReference: {fileID: 0}
     - target: {fileID: 8591390584408440426, guid: b6484497e28b22e43b4585cfc24ebf32,
         type: 3}
@@ -7102,6 +7102,21 @@ PrefabInstance:
       propertyPath: uISoundManager
       value: 
       objectReference: {fileID: 607793427}
+    - target: {fileID: 2245865428201364734, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 607793427}
+    - target: {fileID: 2245865428201364734, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayUISound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245865428201364734, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8300000, guid: ae538c29055ad6940b27c19b52eaf8b7, type: 3}
     - target: {fileID: 2292133510762423979, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: uISoundManager
@@ -7122,6 +7137,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 8300000, guid: ae538c29055ad6940b27c19b52eaf8b7, type: 3}
+    - target: {fileID: 2434457492324615788, guid: 79ddf00ae9ca565418536564e105d147,
+        type: 3}
+      propertyPath: uISoundManager
+      value: 
+      objectReference: {fileID: 607793427}
     - target: {fileID: 2436229978330820563, guid: 79ddf00ae9ca565418536564e105d147,
         type: 3}
       propertyPath: uISoundManager

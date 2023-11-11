@@ -16,7 +16,36 @@ public class KeyBind : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointer
 
     private void Start()
     {
-        switch(actionBind)
+        DisplaySavedKey();
+    }
+
+    private void Update()
+    {
+        if(isSelected)
+        {
+            if(Input.anyKeyDown)
+            {
+                keycodePressed = KeyCode.None;
+                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+                {
+                    if (Input.GetKeyDown(kcode))
+                        keycodePressed = kcode;
+                }
+
+                if(keycodePressed != KeyCode.None)
+                {
+                    keyText.text = GetBetterKeyName(keycodePressed);
+                    optionManager.ChangeKeyBind(actionBind, keycodePressed);
+                    currentKeycode = keycodePressed;
+                    GameManager.eventSystem.SetSelectedGameObject(null);
+                }
+            }
+        }
+    }
+
+    public void DisplaySavedKey()
+    {
+        switch (actionBind)
         {
             case OptionManager.KeyboardBind.Up:
                 keyText.text = GetBetterKeyName(ControlsManager.upKey);
@@ -46,30 +75,6 @@ public class KeyBind : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointer
                 keyText.text = GetBetterKeyName(ControlsManager.pierceKey);
                 currentKeycode = ControlsManager.pierceKey;
                 break;
-        }
-    }
-
-    private void Update()
-    {
-        if(isSelected)
-        {
-            if(Input.anyKeyDown)
-            {
-                keycodePressed = KeyCode.None;
-                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
-                {
-                    if (Input.GetKeyDown(kcode))
-                        keycodePressed = kcode;
-                }
-
-                if(keycodePressed != KeyCode.None)
-                {
-                    keyText.text = GetBetterKeyName(keycodePressed);
-                    optionManager.ChangeKeyBind(actionBind, keycodePressed);
-                    currentKeycode = keycodePressed;
-                    GameManager.eventSystem.SetSelectedGameObject(null);
-                }
-            }
         }
     }
 

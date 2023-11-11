@@ -19,6 +19,8 @@ public class OptionManager : MonoBehaviour
     public Toggle resolution1080Toggle;
     public Toggle resolution900Toggle;
     public Toggle resolution720Toggle;
+    [Header("Keybinds")]
+    public List<KeyBind> allKeyBinds;
     [Header("ControlTexts")]
     public Text leftTriggerText;
     public Text rightTriggerText;
@@ -32,18 +34,7 @@ public class OptionManager : MonoBehaviour
 
     private void Start()
     {
-        rumbleToggle.isOn = RumblesManager.rumblesAreEnabled;
-        fullscreenToggle.isOn = GameManager.isInFullScreen;
-        aimMovementSwitchToggle.isOn = ControlsManager.aimAndMovementSwitched;
-        grappleDashSwitchToggle.isOn = ControlsManager.grappleAndDashSwitched;
-        pierceAutoAimToggle.isOn = ControlsManager.pierceAutoAimEnabled;
-        pierceUseDashInputToggle.isOn = ControlsManager.pierceUseDashInput;
-        dashPierceAltAimToggle.isOn = ControlsManager.altDashAndPierceAimEnabled;
-        keyboardDashAimWithMouse.isOn = ControlsManager.keyboardAimDashWithMouse;
-        resolution1440Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 0);
-        resolution1080Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 1);
-        resolution900Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 2);
-        resolution720Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 3);
+        UpdateTogglesDisplay();
         UpdateControlTexts();
     }
 
@@ -56,6 +47,22 @@ public class OptionManager : MonoBehaviour
                 currentBackButton.onClick.Invoke();
             }
         }
+    }
+
+    public void UpdateTogglesDisplay()
+    {
+        rumbleToggle.SetIsOnWithoutNotify(RumblesManager.rumblesAreEnabled);
+        fullscreenToggle.SetIsOnWithoutNotify(GameManager.isInFullScreen);
+        aimMovementSwitchToggle.SetIsOnWithoutNotify(ControlsManager.aimAndMovementSwitched);
+        grappleDashSwitchToggle.SetIsOnWithoutNotify(ControlsManager.grappleAndDashSwitched);
+        pierceAutoAimToggle.SetIsOnWithoutNotify(ControlsManager.pierceAutoAimEnabled);
+        pierceUseDashInputToggle.SetIsOnWithoutNotify(ControlsManager.pierceUseDashInput);
+        dashPierceAltAimToggle.SetIsOnWithoutNotify(ControlsManager.altDashAndPierceAimEnabled);
+        keyboardDashAimWithMouse.SetIsOnWithoutNotify(ControlsManager.keyboardAimDashWithMouse);
+        resolution1440Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 0);
+        resolution1080Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 1);
+        resolution900Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 2);
+        resolution720Toggle.SetIsOnWithoutNotify(GameManager.currentScreenResIndex == 3);
     }
 
     private IEnumerator UpdateToggles()
@@ -205,5 +212,17 @@ public class OptionManager : MonoBehaviour
     public void SetCurrentBackButotn(Button backButton)
     {
         currentBackButton = backButton;
+    }
+
+    public void ControlResetToDefault()
+    {
+        ControlsManager.I.SetOptionsToDefault();
+        RumblesManager.EnableRumbles(true);
+        foreach (KeyBind keyBind in allKeyBinds)
+        {
+            keyBind.DisplaySavedKey();
+        }
+        UpdateControlTexts();
+        UpdateTogglesDisplay();
     }
 }
