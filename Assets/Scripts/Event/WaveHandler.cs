@@ -22,8 +22,10 @@ public class WaveHandler : Switch
     private float pauseTimeElapsed;
 
     private bool allEnnemiesKilled;
+    private bool allSwitchesActivated;
     private bool lateStartFlag;
     private bool saveFlag;
+    private bool switchEndEnemyFlag;
 
     private void Awake()
     {
@@ -121,9 +123,27 @@ public class WaveHandler : Switch
                             }
                         }
 
-                        if (allEnnemiesKilled)
+                        if(allEnnemiesKilled && switchEndEnemyFlag)
                         {
-                            if(currentWaveIndex + 1 < waves.Count && saveFlag)
+                            for (int i = 0; i < waves[currentWaveIndex].switchesToEnableWhenEnemiesKilled.Count; i++)
+                            {
+                                waves[currentWaveIndex].switchesToEnableWhenEnemiesKilled[i].isOn = true;
+                            }
+                            switchEndEnemyFlag = false;
+                        }
+
+                        allSwitchesActivated = true;
+                        for (int i = 0; i < waves[currentWaveIndex].waveSwitches.Count; i++)
+                        {
+                            if (!waves[currentWaveIndex].waveSwitches[i].IsON())
+                            {
+                                allSwitchesActivated = false;
+                            }
+                        }
+
+                        if (allEnnemiesKilled && allSwitchesActivated)
+                        {
+                            if (currentWaveIndex + 1 < waves.Count && saveFlag)
                             {
                                 saveFlag = false;
                                 if(waves[currentWaveIndex + 1].maxStoryStepToSkipWave > 0)
@@ -136,6 +156,7 @@ public class WaveHandler : Switch
                             if (currentWaveIndex + 1 == waves.Count)
                             {
                                 currentWaveIndex++;
+                                switchEndEnemyFlag = true;
                                 waveSpawned = false;
                             }
                             else
@@ -147,6 +168,7 @@ public class WaveHandler : Switch
                                 else
                                 {
                                     currentWaveIndex++;
+                                    switchEndEnemyFlag = true;
                                     waveSpawned = false;
                                 }
                             }
@@ -184,6 +206,7 @@ public class WaveHandler : Switch
             currentWaveIndex = 0;
         }
         wavesAreUnfolding = true;
+        switchEndEnemyFlag = true;
         waveSpawned = false;
         if (backDoorToClose != null)
             backDoorToClose.Close();
@@ -198,6 +221,8 @@ public class WaveHandler : Switch
     public class Wave
     {
         public List<Enemy> waveEnemies;
+        public List<Switch> waveSwitches;
+        public List<LinkSwitch> switchesToEnableWhenEnemiesKilled;
         public int hpRestored;
         public int maxStoryStepToSkipWave;
         public List<GameObject> objectToEnable;

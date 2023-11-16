@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class DashWall : MonoBehaviour
 {
+    public Sound passThroughSound;
     [SerializeField] private float disableTime = 0;
 
-    Collider2D wallCollider;
+    public Collider2D wallCollider;
     private Animator animator;
     private bool isBeingDashed;
+    private AudioSource source;
 
     void Start()
     {
-        wallCollider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
+        source = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -32,6 +34,7 @@ public class DashWall : MonoBehaviour
                 {
                     isBeingDashed = true;
                     animator.SetTrigger("Dashed");
+                    source.PlayOneShot(passThroughSound.clip, passThroughSound.volumeScale);
                 }
                 StopAllCoroutines();
                 StartCoroutine(DisableCollisionTemporary(collider));

@@ -240,6 +240,8 @@ public class GameManager : MonoBehaviour
             numberOfDeath = 0;
             chapterTimeElapsedPlaying = 0;
         }
+
+        GameData.playerCollider.enabled = true;
     }
 
     public static void SetSpecificStart(int checkpointIndex)
@@ -307,11 +309,11 @@ public class GameManager : MonoBehaviour
 
     private void CheckInputType()
     {
-        if(Time.realtimeSinceStartup > lastChangeControlTypeTime + 0.5f)
+        if(Time.realtimeSinceStartup > lastChangeControlTypeTime + 0.2f)
         {
             if (isUsingController)
             {
-                if (Vector2.Distance(Input.mousePosition, lastMousePos) > 50f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+                if (Vector2.Distance(Input.mousePosition, lastMousePos) > 100f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
                 {
                     isUsingController = false;
                     if (isInMainMenu || gameIsPaused)
@@ -328,11 +330,14 @@ public class GameManager : MonoBehaviour
                 {
                     isUsingController = true;
                     Cursor.visible = false;
-                    Mouse.current.WarpCursorPosition(new Vector2(20,20));
+                    Mouse.current.WarpCursorPosition(new Vector2(20, 20));
                     lastChangeControlTypeTime = Time.realtimeSinceStartup;
                 }
-                lastMousePos = new Vector2(20, 20);
             }
+        }
+        else
+        {
+            lastMousePos = Input.mousePosition;
         }
     }
 

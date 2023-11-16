@@ -124,8 +124,7 @@ public class PlayerManager : MonoBehaviour
             }
             GameData.damageEffectManager.StartDamageEffect();
             GameData.grappleHandler.BreakRope("Took Damage");
-            GameData.playerVisuals.animator.SetTrigger("Hurt");
-            StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce));
+            StartCoroutine(GameData.movementHandler.KnockAway(knockBackDirectedForce, true));
             GameData.dashHandler.canDash = true;
             GameData.pierceHandler.StopPierce();
             if(hurtSound != null)
@@ -133,7 +132,6 @@ public class PlayerManager : MonoBehaviour
             if (hurtImpactSound != null)
                 GameData.playerSource.PlayOneShot(hurtImpactSound.clip, hurtImpactSound.volumeScale);
             StartCoroutine(NoControl(stunTime));
-            StartCoroutine(KnockawayTime(stunTime));
         }
     }
 
@@ -284,6 +282,7 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator KnockawayTime(float time)
     {
+        GameData.playerVisuals.animator.SetTrigger("Hurt");
         isBeingKnocked = true;
         yield return new WaitForSeconds(time);
         if(!isDying)

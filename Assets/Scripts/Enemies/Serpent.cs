@@ -311,6 +311,7 @@ public class Serpent : Enemy
     protected override void OnDie()
     {
         base.OnDie();
+        headSpikesCollider.enabled = false;
         for (int i = 0; i < bodiesAnimator.Count; i++)
         {
             bodiesAnimator[i].SetBool("Dead", true);

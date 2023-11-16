@@ -66,11 +66,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowMoInitialRatio: 0.15
   smoothTime: 0.05
+  baseFixedDeltaTime: 0.02
   baseProfile: {fileID: 11400000, guid: ae46b93cf3f17b544a31849e9bd2c44f, type: 2}
   slowMoStartProfile: {fileID: 11400000, guid: 0e3622192699b3446a9a58df5ee792a3, type: 2}
   volume: {fileID: 0}
   slowMoEffectLerpRatio: 10
   inSlowMo: 0
+  isTimeFrozen: 0
 --- !u!114 &5735401736421732534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8079606d2e2724fb6ef505fb6e7db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionScreenColor: {r: 0, g: 0, b: 0, a: 1}
+  transitionScreenColor: {r: 0.10980392, g: 0.09019608, b: 0.12156863, a: 1}
   transitionTime: 1
   chapterNameDisplay: {fileID: 0}
   decoSceneIndex: 10
@@ -124,6 +126,8 @@ MonoBehaviour:
   dialogBoxAnimator: {fileID: 0}
   seikiFaceAnimator: {fileID: 0}
   characterFaceAnimator: {fileID: 0}
+  seikiFaceTrans: {fileID: 0}
+  seikiFaceTransAnimator: {fileID: 0}
   neutralFace: {fileID: 21300000, guid: 8ecaa793eef4e604c97130470ffa5303, type: 3}
   happyFace: {fileID: 21300000, guid: 570647f5a84aff443ac7eea586e6cf5b, type: 3}
   sadFace: {fileID: 21300000, guid: d317d0974496b1843825f59d4de3005d, type: 3}
@@ -265,6 +269,7 @@ MonoBehaviour:
   noGravityEffectSnapshot: {fileID: 24500006, guid: 9c6544e17c2017044b68bf43d09eda2d,
     type: 2}
   mainMixer: {fileID: 0}
+  mainVolumeBaseDecibel: 10
   masterVolumeSlider: {fileID: 0}
   musicVolumeSlider: {fileID: 0}
   effectVolumeSlider: {fileID: 0}

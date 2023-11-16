@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class EventPart : MonoBehaviour
 {
     public CameraConstraintZone cameraConstraintDuringEventPart;
+    public bool freezeTime;
 
     [HideInInspector] public EventTrigger eventTrigger;
     [HideInInspector] public bool eventStarted;
@@ -20,11 +21,19 @@ public abstract class EventPart : MonoBehaviour
     public virtual void StartEventPart()
     {
         eventStarted = true;
+        if(freezeTime)
+        {
+            GameData.slowMoManager.FreezeTime();
+        }
     }
 
     public virtual void EndEventPart()
     {
         eventEnded = true;
+        if (freezeTime)
+        {
+            GameData.slowMoManager.UnFreezeTime();
+        }
     }
 
 }

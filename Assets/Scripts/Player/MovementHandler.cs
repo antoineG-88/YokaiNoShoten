@@ -48,6 +48,7 @@ public class MovementHandler : MonoBehaviour
     [HideInInspector] public bool isKnockedAway;
     [HideInInspector] public int isInSlidingZone;
     [HideInInspector] public float noControlTargetSpeed;
+    [HideInInspector] public bool isFrozen;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Rigidbody2D groundRb;
@@ -71,6 +72,13 @@ public class MovementHandler : MonoBehaviour
         GetInputs();
         UpdateSounds();
         UpdateNoGravityEffect();
+
+        if (GameData.playerManager.isInGodMode)
+        {
+            Vector2 inputAxis = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
+            inputAxis = Vector2.ClampMagnitude(inputAxis, 1);
+            transform.position = (Vector2)transform.position + inputAxis * Time.deltaTime * godModeSpeed;
+        }
     }
 
     private void FixedUpdate()
@@ -122,9 +130,10 @@ public class MovementHandler : MonoBehaviour
     {
         if(GameData.playerManager.isInGodMode)
         {
-            Vector2 inputAxis = new Vector2(Input.GetAxis("LeftStickH"), -Input.GetAxis("LeftStickV"));
-            inputAxis = Vector2.ClampMagnitude(inputAxis, 1);
-            transform.position = (Vector2)transform.position + inputAxis * Time.fixedDeltaTime * godModeSpeed;
+            rb.velocity = Vector2.zero;
+        }
+        else if(isFrozen)
+        {
             rb.velocity = Vector2.zero;
         }
         else
@@ -217,7 +226,7 @@ public class MovementHandler : MonoBehaviour
 
                 if (!isGrounded)
                 {
-                    if (rb.velocity.y < -maxFallingSpeed && GameData.playerManager.inControl && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.playerManager.isBeingKnocked && !GameData.grappleHandler.isTracting)
+                    if (rb.velocity.y < -maxFallingSpeed && !GameData.dashHandler.isDashing && !GameData.pierceHandler.isPiercing && !GameData.playerManager.isBeingKnocked && !GameData.grappleHandler.isTracting)
                     {
                         rb.velocity = rb.velocity * Mathf.Abs(maxFallingSpeed / -rb.velocity.y);
                     }
@@ -293,8 +302,13 @@ public class MovementHandler : MonoBehaviour
         }
     }
 
-    public IEnumerator KnockAway(Vector2 directedForce)
+    public IEnumerator KnockAway(Vector2 directedForce, bool doStun)
     {
+        if(doStun)
+        {
+            StartCoroutine(GameData.playerManager.KnockawayTime(GameData.playerManager.stunTime));
+        }
+
         isKnockedAway = true;
 
         Vector2 knockStartPos = transform.position;
@@ -349,5 +363,15 @@ public class MovementHandler : MonoBehaviour
                 noGravityEffect.Play();
             }
         }
+    }
+
+    public void FreezePlayerMovement()
+    {
+        isFrozen = true;
+    }
+
+    public void UnFreezePlayerMovement()
+    {
+        isFrozen = false;
     }
 }

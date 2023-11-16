@@ -25,6 +25,7 @@ public class PierceHandler : MonoBehaviour
     public bool triggerSlowMo;
     public float cancelPierceKADistance;
     public bool doCancelPierce;
+    public float maxSpeedLeavingPierce;
     [Header("Keybindings options")]
     public bool useDashInput;
     public bool aimWithRightJoystick;
@@ -51,6 +52,7 @@ public class PierceHandler : MonoBehaviour
     [HideInInspector] public bool isPhasing;
     private Rigidbody2D rb;
     private float startPhasingTime;
+    private float phaseTimeElapsed;
     [HideInInspector] public bool canPierce;
     private bool isAimingComboPierce;
     private bool isAimingPierce;
@@ -356,10 +358,15 @@ public class PierceHandler : MonoBehaviour
             canPierce = true;
         currentPierce = null;
 
+        if(rb.velocity.magnitude > maxSpeedLeavingPierce)
+        {
+            rb.velocity = rb.velocity.normalized * maxSpeedLeavingPierce;
+        }
+
         if(isPierceCancelled)
         {
             StopPhasingTime();
-            StartCoroutine(GameData.movementHandler.KnockAway(-piercableDirection * cancelPierceKADistance));
+            StartCoroutine(GameData.movementHandler.KnockAway(-piercableDirection * cancelPierceKADistance, false));
         }
         else
         {
@@ -371,7 +378,7 @@ public class PierceHandler : MonoBehaviour
     {
         if(isPhasing && !GameManager.gameIsPaused)
         {
-            if(useCombo)
+            if (useCombo)
             {
                 if (!isPiercing && currentComboPierceStep == 0)
                 {
@@ -478,10 +485,20 @@ public class PierceHandler : MonoBehaviour
                     comboPierceTimingHelper.gameObject.SetActive(false);
                 }
             }
-
+            /*
             if(startPhasingTime < Time.realtimeSinceStartup - maxPhasingTime)
             {
                 StopPhasingTime();
+            }*/
+
+            if (phaseTimeElapsed > maxPhasingTime)
+            {
+                StopPhasingTime();
+            }
+
+            if(!GameData.slowMoManager.isTimeFrozen)
+            {
+                phaseTimeElapsed += Time.unscaledDeltaTime;
             }
         }
     }
@@ -489,6 +506,7 @@ public class PierceHandler : MonoBehaviour
     public void StartPhasingTime()
     {
         startPhasingTime = Time.realtimeSinceStartup;
+        phaseTimeElapsed = 0;
         if(!isPhasing)
         {
             GameData.slowMoManager.StartSmoothSlowMo(1, slowMoDelay);

@@ -5,7 +5,6 @@ using UnityEngine;
 public class DialogEvent : EventPart
 {
     public Dialog dialogToPlay;
-    //public CameraConstraintZone cameraConstraintDuringDialog;
     public Vector2 seikiPositionDuringDialog;
     public bool seikiOrientationIsRight;
     public float seikiWalkingSpeed;

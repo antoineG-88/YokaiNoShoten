@@ -85,7 +85,7 @@ public class PlayerVisuals : MonoBehaviour
         if (wasPiercing)
         {
             pierceTimeElapsed += Time.deltaTime;
-            if (pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting)
+            if (pierceTimeElapsed > pierceAnimClip.length || GameData.dashHandler.isDashing || GameData.grappleHandler.isTracting || GameData.playerManager.isBeingKnocked)
             {
                 wasPiercing = false;
             }

@@ -89,6 +89,10 @@ public class ElementPath : MonoBehaviour
         UpdateDirection();
     }
 
+    void Update()
+    {
+    }
+
     private void UpdateDirection()
     {
         if(connectedSwitch != null)

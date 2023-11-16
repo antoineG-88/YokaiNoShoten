@@ -6,13 +6,17 @@ public class IllustrationEvent : EventPart
 {
     public Sprite[] illustrations;
     public float[] illustrationTimes;
-    public float eventFadeTime = 0.5f;
+    public string[] illuDescriptions;
+    public float eventFadeInTime = 0.5f;
+    public float eventFadeOutTime = 0.5f;
     public float illustrationTransitionFadeTime = 0.5f;
     public Image illustrationImage;
     public Image backgroundImage;
+    public Text descriptionText;
     [Space]
     public AudioSource cinematicSource;
     public Sound[] cinematicSoundEffects;
+    public bool startNextEventPartWhenStartUnfade;
 
     private int currentIllustrationStep;
     private bool isInCinematic;
@@ -35,7 +39,8 @@ public class IllustrationEvent : EventPart
     public override void EndEventPart()
     {
         base.EndEventPart();
-        illustrationImage.gameObject.SetActive(false);
+        //illustrationImage.gameObject.SetActive(false);
+        //backgroundImage.gameObject.SetActive(false);
         isInCinematic = false;
     }
     public IEnumerator FadeEventIn()
@@ -43,9 +48,9 @@ public class IllustrationEvent : EventPart
         float timer = 0;
         backgroundImage.gameObject.SetActive(true);
         backgroundImage.CrossFadeAlpha(0, 0, true);
-        backgroundImage.CrossFadeAlpha(1, eventFadeTime, true);
+        backgroundImage.CrossFadeAlpha(1, eventFadeInTime, true);
 
-        while (timer < eventFadeTime)
+        while (timer < eventFadeInTime)
         {
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
@@ -61,7 +66,15 @@ public class IllustrationEvent : EventPart
         illustrationImage.sprite = illustrations[currentIllustrationStep];
         illustrationImage.CrossFadeAlpha(1, illustrationTransitionFadeTime, true);
 
-        if(cinematicSoundEffects[currentIllustrationStep].clip != null)
+        if(illuDescriptions.Length > 0)
+        {
+            descriptionText.gameObject.SetActive(true);
+            descriptionText.CrossFadeAlpha(0, 0, true);
+            descriptionText.text = illuDescriptions[currentIllustrationStep];
+            descriptionText.CrossFadeAlpha(1, illustrationTransitionFadeTime, true);
+        }
+
+        if (cinematicSoundEffects.Length > 0 && cinematicSoundEffects[currentIllustrationStep].clip != null)
             cinematicSource.PlayOneShot(cinematicSoundEffects[currentIllustrationStep].clip, cinematicSoundEffects[currentIllustrationStep].volumeScale);
 
         yield return new WaitForSeconds(illustrationTimes[currentIllustrationStep]);
@@ -69,9 +82,12 @@ public class IllustrationEvent : EventPart
 
         StartCoroutine(FadeOutIllustration());
     }
+
     public IEnumerator FadeOutIllustration()
     {
         illustrationImage.CrossFadeAlpha(0, illustrationTransitionFadeTime, true);
+        if (illuDescriptions.Length > 0)
+            descriptionText.CrossFadeAlpha(0, illustrationTransitionFadeTime, true);
 
         yield return new WaitForSeconds(illustrationTransitionFadeTime);
 
@@ -79,6 +95,8 @@ public class IllustrationEvent : EventPart
         if (currentIllustrationStep < illustrations.Length)
         {
             illustrationImage.sprite = illustrations[currentIllustrationStep];
+            if (illuDescriptions.Length > 0)
+                descriptionText.text = illuDescriptions[currentIllustrationStep];
 
             yield return new WaitForSeconds(0.3f);
 
@@ -87,6 +105,24 @@ public class IllustrationEvent : EventPart
         else
         {
             EndEventPart();
+            StartCoroutine(FadeEventOut());
         }
+    }
+
+    public IEnumerator FadeEventOut()
+    {
+        float timer = 0;
+        backgroundImage.gameObject.SetActive(true);
+        backgroundImage.CrossFadeAlpha(1, 0, true);
+        backgroundImage.CrossFadeAlpha(0, eventFadeOutTime, true);
+
+        while (timer < eventFadeOutTime)
+        {
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        illustrationImage.gameObject.SetActive(false);
+        descriptionText.gameObject.SetActive(false);
+        backgroundImage.gameObject.SetActive(false);
     }
 }

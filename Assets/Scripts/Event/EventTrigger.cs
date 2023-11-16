@@ -12,6 +12,7 @@ public class EventTrigger : Switch
     public List<GameObject> objectsEnabledAfterEvent;
 
 
+    public bool removeSeikiControls = true;
     public int neededStoryStepToTrigger;
     public int maxStoryStepToTrigger;
     public int storyStepProgressionAtTheEnd;
@@ -33,7 +34,9 @@ public class EventTrigger : Switch
     {
         if (isInEvent)
         {
-            GameData.playerManager.inControl = false;
+            if(removeSeikiControls)
+                GameData.playerManager.inControl = false;
+
             if (currentEventPartIndex < eventParts.Count)
             {
                 if (!eventParts[currentEventPartIndex].eventStarted)
@@ -74,7 +77,8 @@ public class EventTrigger : Switch
             isInEvent = true;
             eventTriggered = true;
             currentEventPartIndex = 0;
-            GameData.playerManager.inControl = false;
+            if (removeSeikiControls)
+                GameData.playerManager.inControl = false;
             GameData.playerManager.isInEvent = true;
             GameData.grappleHandler.hideAimArrow++;
             previousCamera = null;
@@ -87,7 +91,8 @@ public class EventTrigger : Switch
         {
             GameData.cameraHandler.constraintZones.Remove(previousCamera);
         }
-        GameData.playerManager.inControl = true;
+        if (removeSeikiControls)
+            GameData.playerManager.inControl = true;
         GameData.playerManager.isInEvent = false;
         isInEvent = false;
         isOn = true;
@@ -111,6 +116,7 @@ public class EventTrigger : Switch
             ResetEvent();
         }
     }
+
     public void ResetEventWhenEnded()
     {
         if (isInEvent)

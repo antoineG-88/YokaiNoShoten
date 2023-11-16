@@ -5,7 +5,8 @@ using UnityEngine;
 public class ScreenFade : EventPart
 {
     //public Color screenColor; 
-    public float fadeTime;
+    public float fadeInTime = 0.5f;
+    public float fadeOutTime = 0.5f;
     public float minSceenTime;
     [Header("Optionnal")]
     public AudioClip soundToPlayDuringBlackScreen;
@@ -73,9 +74,9 @@ public class ScreenFade : EventPart
             {
                 if (!isUnfading)
                 {
-                    if (fadeTimeElapsed < fadeTime)
+                    if (fadeTimeElapsed < fadeInTime)
                     {
-                        BlackScreenManager.SetAlpha(fadeTimeElapsed / fadeTime);
+                        BlackScreenManager.SetAlpha(fadeTimeElapsed / fadeInTime);
                         fadeTimeElapsed += Time.deltaTime;
                     }
                     else
@@ -87,9 +88,9 @@ public class ScreenFade : EventPart
                 }
                 else
                 {
-                    if (fadeTimeElapsed < fadeTime)
+                    if (fadeTimeElapsed < fadeOutTime)
                     {
-                        BlackScreenManager.SetAlpha(1 - (fadeTimeElapsed / fadeTime));
+                        BlackScreenManager.SetAlpha(1 - (fadeTimeElapsed / fadeOutTime));
                         fadeTimeElapsed += Time.deltaTime;
                     }
                     else
@@ -105,11 +106,27 @@ public class ScreenFade : EventPart
     public override void StartEventPart()
     {
         base.StartEventPart();
-        fadeTimeElapsed = 0;
-        blackScreenStartFlag = true;
-        isUnfading = false;
 
         BlackScreenManager.SetAlpha(0);
+        if(fadeInTime == 0 && fadeOutTime == 0 && minSceenTime == 0)
+        {
+            for (int i = 0; i < objectToDisable.Count; i++)
+            {
+                objectToDisable[i].SetActive(false);
+            }
+
+            for (int i = 0; i < objectToEnable.Count; i++)
+            {
+                objectToEnable[i].SetActive(true);
+            }
+            EndEventPart();
+        }
+        else
+        {
+            fadeTimeElapsed = 0;
+            blackScreenStartFlag = true;
+            isUnfading = false;
+        }
     }
     public override void EndEventPart()
     {

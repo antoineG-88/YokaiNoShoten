@@ -23,6 +23,7 @@ public class CameraHandler : MonoBehaviour
     [HideInInspector] public bool followPlayer;
     private float currentOrthographicSize;
     private float currentLerpSpeed;
+    private float currentCamDelta;
     [HideInInspector] public List<CameraConstraintZone> constraintZones;
 
     void Start()
@@ -35,19 +36,24 @@ public class CameraHandler : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateCameraTarget();
+    }
 
+    void LateUpdate()
+    {
+        UpdateCameraTarget();
         MoveCamera(cameraFinalPos);
     }
 
     private void MoveCamera(Vector2 targetCameraPos)
     {
-        Vector2 lerpPos = Vector2.Lerp(mainCamera.transform.position, targetCameraPos, currentLerpSpeed * Time.fixedDeltaTime * 50);
+        currentCamDelta = (GameData.slowMoManager.inSlowMo && !GameData.playerManager.isInEvent) ? Time.deltaTime : (GameManager.gameIsPaused ? 0 : Time.unscaledDeltaTime);
+
+        Vector2 lerpPos = Vector2.Lerp(mainCamera.transform.position, targetCameraPos, currentLerpSpeed * currentCamDelta * 50);
         mainCamera.transform.position = new Vector3(lerpPos.x, lerpPos.y, -10.0f);
 
         if (Mathf.Abs(mainCamera.orthographicSize - currentOrthographicSize) > 0.01f)
         {
-            mainCamera.orthographicSize -= (mainCamera.orthographicSize - currentOrthographicSize) * sizeLerpSpeed * Time.fixedDeltaTime;
+            mainCamera.orthographicSize -= (mainCamera.orthographicSize - currentOrthographicSize) * sizeLerpSpeed * currentCamDelta;
         }
         else
         {
@@ -99,6 +105,13 @@ public class CameraHandler : MonoBehaviour
 
         if (constraintZones.Count > 0)
         {
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                for (int i = 0; i < constraintZones.Count; i++)
+                {
+                    Debug.Log(constraintZones[i].gameObject);
+                }
+            }
             currentZone = constraintZones[constraintZones.Count - 1];
             float absoluteUpLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.y + currentZone.upLimit : currentZone.upLimit) + edgeMargin;
             float absoluteDownLimit = (currentZone.limitRelativeToZonePos ? currentZone.transform.position.y + currentZone.downLimit : currentZone.downLimit) - edgeMargin;

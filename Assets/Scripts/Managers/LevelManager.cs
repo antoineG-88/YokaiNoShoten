@@ -131,7 +131,9 @@ public class LevelManager : MonoBehaviour
     private IEnumerator StartBlackScreenFade()
     {
         float timer = 0;
+        BlackScreenManager.SetAlpha(1);
         BlackScreenManager.blackScreen.color = transitionScreenColor;
+        yield return new WaitForSeconds(0.2f);
         while (timer < transitionTime)
         {
             BlackScreenManager.SetAlpha(1 - (timer / transitionTime));
@@ -173,7 +175,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DisplayZoneName()
+    public IEnumerator DisplayZoneName()
     {
         chapterNameDisplay = GameObject.Find("ZoneNameDisplay").GetComponent<Text>();
 

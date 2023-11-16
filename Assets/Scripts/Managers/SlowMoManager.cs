@@ -7,6 +7,7 @@ public class SlowMoManager : MonoBehaviour
 {
     [Range(0.00001f, 1f)] public float slowMoInitialRatio;
     public float smoothTime;
+    public float baseFixedDeltaTime = 0.02f;
     [Header("Slow Mo Effect settings")]
     public VolumeProfile baseProfile;
     public VolumeProfile slowMoStartProfile;
@@ -14,6 +15,7 @@ public class SlowMoManager : MonoBehaviour
     public float slowMoEffectLerpRatio;
 
     [HideInInspector] public bool inSlowMo;
+    [HideInInspector] public bool isTimeFrozen;
     private Coroutine currentStopCoroutine;
     private Coroutine currentStartCoroutine;
     private float slowMoEffectCurrentState;
@@ -26,7 +28,7 @@ public class SlowMoManager : MonoBehaviour
     private float vignetteBaseIntensity;
     private VolumeProfile slowMoProfile;
     private float lastRealTime;
-
+    private float slowMoRatioWhenTimeFroze;
 
     void Start()
     {
@@ -111,7 +113,7 @@ public class SlowMoManager : MonoBehaviour
     public void StartSlowMo(float ratioMultiplier)
     {
         Time.timeScale = slowMoInitialRatio * ratioMultiplier;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
         inSlowMo = true;
         StartSlowMoEffect();
     }
@@ -119,7 +121,7 @@ public class SlowMoManager : MonoBehaviour
     public void StopSlowMo()
     {
         Time.timeScale = 1;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
         inSlowMo = false;
         StopSlowMoEffect();
     }
@@ -150,16 +152,19 @@ public class SlowMoManager : MonoBehaviour
         float timer = 0;
         while(timer < smoothTime)
         {
-            Time.timeScale = Mathf.Lerp(1, slowMoInitialRatio * ratioMultiplier, timer / smoothTime);
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            inSlowMo = true;
+            if (!isTimeFrozen)
+            {
+                Time.timeScale = Mathf.Lerp(1, slowMoInitialRatio * ratioMultiplier, timer / smoothTime);
+                Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
+                inSlowMo = true;
 
-            timer += Time.deltaTime * (1 / Time.timeScale);
+                timer += Time.deltaTime * (1 / Time.timeScale);
+            }
             yield return new WaitForEndOfFrame();
         }
 
         Time.timeScale = slowMoInitialRatio * ratioMultiplier;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
         inSlowMo = true;
     }
 
@@ -178,16 +183,44 @@ public class SlowMoManager : MonoBehaviour
         float startSlowMoRatio = Time.timeScale;
         while (timer < smoothTime)
         {
-            Time.timeScale = Mathf.Lerp(startSlowMoRatio, 1, timer / smoothTime);
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            inSlowMo = true;
+            if(!isTimeFrozen)
+            {
+                Time.timeScale = Mathf.Lerp(startSlowMoRatio, 1, timer / smoothTime);
+                Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
+                inSlowMo = true;
 
-            timer += Time.deltaTime * (1 / Time.timeScale);
+                timer += Time.deltaTime * (1 / Time.timeScale);
+            }
             yield return new WaitForEndOfFrame();
         }
 
         Time.timeScale = 1;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
         inSlowMo = false;
+    }
+
+
+
+    public void FreezeTime()
+    {
+        slowMoRatioWhenTimeFroze = Time.timeScale;
+        Time.timeScale = 0.001f;
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
+        isTimeFrozen = true;
+    }
+
+    public void UnFreezeTime()
+    {
+        if(inSlowMo)
+        {
+            Time.timeScale = slowMoRatioWhenTimeFroze;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
+
+        isTimeFrozen = false;
     }
 }

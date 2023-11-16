@@ -782,7 +782,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.8
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1161,7 +1161,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 0
+    radiusThickness: 0.09
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -1244,7 +1244,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.8
       mode: 0
       spread: 0
       speed:
@@ -1302,7 +1302,7 @@ ParticleSystem:
           m_RotationOrder: 4
     arc:
       value: 360
-      mode: 1
+      mode: 0
       spread: 0
       speed:
         serializedVersion: 2
@@ -1363,7 +1363,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5475,7 +5475,7 @@ Transform:
   m_GameObject: {fileID: 3691685983286938441}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9445994, y: 0.9445994, z: 0.9445994}
   m_Children: []
   m_Father: {fileID: 814712744}
   m_RootOrder: 0
@@ -5520,7 +5520,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b6186ce8c7f15cf4e8e60fc44adf0f74, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7372549}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

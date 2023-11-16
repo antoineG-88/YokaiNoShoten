@@ -46,18 +46,18 @@ public class ElementRotator : MonoBehaviour
         {
             isActive = connectedSwitch.IsON();
         }
+        UpdateRotation();
     }
 
     private void FixedUpdate()
     {
-        UpdateRotation();
     }
 
     private void UpdateRotation()
     {
         if(isActive)
         {
-            currentProgression += progressionSpeed * Time.fixedDeltaTime * (isGoingBack ? -1 : 1);
+            currentProgression += progressionSpeed * Time.deltaTime * (isGoingBack ? -1 : 1);
 
             if(isBackAndForth)
             {

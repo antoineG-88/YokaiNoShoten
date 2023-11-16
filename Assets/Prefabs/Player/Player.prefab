@@ -741,6 +741,7 @@ MonoBehaviour:
   isKnockedAway: 0
   isInSlidingZone: 0
   noControlTargetSpeed: 0
+  isFrozen: 0
   rb: {fileID: 0}
   groundRb: {fileID: 0}
 --- !u!114 &3737249135459656029
@@ -879,6 +880,7 @@ MonoBehaviour:
   triggerSlowMo: 1
   cancelPierceKADistance: 3
   doCancelPierce: 1
+  maxSpeedLeavingPierce: 7
   useDashInput: 1
   aimWithRightJoystick: 0
   useAutoAim: 0
@@ -929,7 +931,7 @@ MonoBehaviour:
   - {fileID: 8647430776645223448, guid: a1f5c4c6926809c489595fea04df93d5, type: 3}
   - {fileID: 8647430776645223448, guid: 4fb0aea61bf941140a74156117eb4731, type: 3}
   dashSound:
-    clip: {fileID: 8300000, guid: 8619258f474f81a49a8ae0eba11af1a2, type: 3}
+    clip: {fileID: 8300000, guid: a4ce41bc630f5d84891ae7da4b86bf2f, type: 3}
     volumeScale: 1
   dashWithRightTrigger: 0
   aimWithRightJoystick: 0
@@ -1204,13 +1206,13 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3737249135459656038}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.042821586}
+  m_Offset: {x: 0, y: 0.043835938}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1221,7 +1223,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3332386, y: 0.89860654}
+  m_Size: {x: 0.3332386, y: 0.89657784}
   m_EdgeRadius: 0
 --- !u!50 &3737249135459656039
 Rigidbody2D:
@@ -1240,7 +1242,7 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 2c82dab4d4fb1e741bc532cdd22e2ba0, type: 2}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4

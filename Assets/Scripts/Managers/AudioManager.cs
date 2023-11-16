@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     public AudioMixerSnapshot defaultSnapshot;
     public AudioMixerSnapshot noGravityEffectSnapshot;
     public AudioMixer mainMixer;
+    public float mainVolumeBaseDecibel;
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider effectVolumeSlider;
@@ -37,7 +38,7 @@ public class AudioManager : MonoBehaviour
 
     public void SetMainVolume()
     {
-        mainMixer.SetFloat("Volume", Mathf.Log(masterVolumeSlider.value, 6) * 30);
+        mainMixer.SetFloat("Volume", (Mathf.Log(masterVolumeSlider.value, 6) * 30) + mainVolumeBaseDecibel);
         PlayerPrefs.SetFloat("masterVolume", masterVolumeSlider.value);
     }
     public void SetMusicVolume()
@@ -53,7 +54,7 @@ public class AudioManager : MonoBehaviour
 
     private void LoadVolumes()
     {
-        mainMixer.SetFloat("Volume", Mathf.Log(PlayerPrefs.GetFloat("masterVolume"), 6) * 30);
+        mainMixer.SetFloat("Volume", (Mathf.Log(PlayerPrefs.GetFloat("masterVolume"), 6) * 30) + mainVolumeBaseDecibel);
         masterVolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
 
         mainMixer.SetFloat("MusicVolume", Mathf.Log(PlayerPrefs.GetFloat("musicVolume"), 6) * 30);

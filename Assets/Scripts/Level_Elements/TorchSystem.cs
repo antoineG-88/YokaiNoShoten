@@ -67,16 +67,17 @@ public class TorchSystem : Switch
         {
             DropTorch();
         }
+
+        UpdateTorch();
+
+        if (!isOn)
+        {
+            UpdateGrab();
+        }
     }
 
     private void FixedUpdate()
     {
-        UpdateTorch();
-
-        if(!isOn)
-        {
-            UpdateGrab();
-        }
 
         source.pitch = Time.timeScale;
         torchIdleSource.pitch = Time.timeScale;
@@ -96,7 +97,7 @@ public class TorchSystem : Switch
             }
             else
             {
-                if(timeElapsedSinceGrab > Time.fixedDeltaTime)
+                if(timeElapsedSinceGrab > Time.deltaTime)
                 {
                     GrabTorch();
                     //UnlitAllLights();
@@ -119,7 +120,7 @@ public class TorchSystem : Switch
                 UnlitAllLights();
             }
 
-            timeElapsedSinceGrab += Time.fixedDeltaTime;
+            timeElapsedSinceGrab += Time.deltaTime;
 
             if(timeBeforeNextWarn <= 0)
             {
@@ -127,7 +128,7 @@ public class TorchSystem : Switch
                 torchIdleSource.PlayOneShot(torchWarningSound.clip, torchWarningSound.volumeScale);
             }
 
-            timeBeforeNextWarn -= Time.fixedDeltaTime;
+            timeBeforeNextWarn -= Time.deltaTime;
 
             torchTargetPos = (Vector2)GameData.player.transform.position + torchPosPlayerOffset;
 
@@ -162,7 +163,7 @@ public class TorchSystem : Switch
             torchTrail.sharedMaterial = torchTrailMaterial;
         }
 
-        torch.transform.position = Vector2.Lerp(torch.transform.position, torchTargetPos, torchLerpRatio * Time.fixedDeltaTime);
+        torch.transform.position = Vector2.Lerp(torch.transform.position, torchTargetPos, torchLerpRatio * Time.deltaTime);
 
     }
 

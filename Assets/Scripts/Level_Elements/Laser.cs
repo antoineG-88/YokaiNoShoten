@@ -110,6 +110,10 @@ public class Laser : MonoBehaviour
             beamLine.SetPosition(1, hit ? hit.point : (Vector2)transform.position + currentDirection * beamLength);
         }
     }
+    
+    void LateUpdate()
+    {
+    }
 
     private void FixedUpdate()
     {
