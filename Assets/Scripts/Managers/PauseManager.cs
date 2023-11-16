@@ -77,7 +77,7 @@ public class PauseManager : MonoBehaviour
             }
 
             float chapterPlayTime = GameManager.chapterTimeElapsedPlaying;
-            chapterTimeText.text = (GameManager.GetHourFromSecondElapsed(chapterPlayTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(chapterPlayTime) + "hours - "))
+            chapterTimeText.text = "Chapter time elapsed : " + (GameManager.GetHourFromSecondElapsed(chapterPlayTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(chapterPlayTime) + "hours - "))
             + GameManager.GetMinutesFromSecondElapsed(chapterPlayTime) + "min - "
             + (GameManager.GetSecondsFromSecondElapsed(chapterPlayTime) + GameManager.GetSubSecondFromSecondElapsed(chapterPlayTime)).ToString("0.00") + " seconds";
 
