@@ -26,7 +26,7 @@ public class DialogEvent : EventPart
         {
             if (isReachingDialoguePos)
             {
-                if (Mathf.Abs(GameData.movementHandler.transform.position.x - seikiPositionDuringDialog.x) < 20* seikiWalkingSpeed*Time.deltaTime)
+                if (Mathf.Abs(GameData.movementHandler.transform.position.x - seikiPositionDuringDialog.x) < 5 * seikiWalkingSpeed * Time.fixedDeltaTime)
                 {
                     isReachingDialoguePos = false;
                     GameData.dialogManager.StartDialogue(dialogToPlay, callback);

@@ -218,7 +218,7 @@ public abstract class Enemy : Piercable
 
         wallCollider = Physics2D.OverlapBox(transform.position, Vector2.one * 0.02f, 0, LayerMask.GetMask("Wall"));
 
-        if(wallCollider != null)
+        if(wallCollider != null && !isDying)
         {
             StartCoroutine(Die());
         }
@@ -433,6 +433,7 @@ public abstract class Enemy : Piercable
     public IEnumerator Activate()
     {
         prefabObject.SetActive(true);
+        yield return new WaitForEndOfFrame();
         OnActivate();
         inControl = false;
         float timer = 0;

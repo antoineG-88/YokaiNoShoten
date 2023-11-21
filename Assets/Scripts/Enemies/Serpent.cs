@@ -32,6 +32,7 @@ public class Serpent : Enemy
     public float headHeightCorrection;
     public int trailSubdivision;
     public ParticleSystem noGravityEffect;
+    public float[] maxDistanceBetweenBodyParts;
     [Header("Serpent specific sounds")]
     public Sound tailBrokeSound;
     public Sound tailReformSound;
@@ -46,7 +47,6 @@ public class Serpent : Enemy
     private bool wallAhead;
     private List<Vector2> movementTrailPos;
     private List<int> currentBodyTrailPosIndex;
-    private float[] maxDistanceBetweenBodyParts;
 
     private ContactFilter2D playerFilter;
     private bool isSpikesActive;
@@ -71,28 +71,33 @@ public class Serpent : Enemy
         headingToFirstPoint = true;
         bodiesSprite = new List<SpriteRenderer>();
         bodiesAnimator = new List<Animator>();
+
         currentBodyTrailPosIndex = new List<int>();
+        movementTrailPos = new List<Vector2>();
         for (int i = 0; i < bodiesRb.Count; i++)
         {
             bodiesSprite.Add(bodiesRb[i].GetComponentInChildren<SpriteRenderer>());
             bodiesAnimator.Add(bodiesRb[i].GetComponentInChildren<Animator>());
             currentBodyTrailPosIndex.Add(0);
         }
-        movementTrailPos = new List<Vector2>();
         movementTrailPos.Add(transform.position);
 
-        maxDistanceBetweenBodyParts = new float[bodiesRb.Count];
-        for (int i = 0; i < bodiesRb.Count; i++)
+        if(maxDistanceBetweenBodyParts.Length == 0)
         {
-            if (i != 0)
+            maxDistanceBetweenBodyParts = new float[bodiesRb.Count];
+            for (int i = 0; i < bodiesRb.Count; i++)
             {
-                maxDistanceBetweenBodyParts[i] = Vector2.Distance(bodiesRb[i - 1].transform.position, bodiesRb[i].transform.position);
-            }
-            else
-            {
-                maxDistanceBetweenBodyParts[i] = Vector2.Distance(transform.position, bodiesRb[i].transform.position);
+                if (i != 0)
+                {
+                    maxDistanceBetweenBodyParts[i] = Vector2.Distance(bodiesRb[i - 1].transform.position, bodiesRb[i].transform.position);
+                }
+                else
+                {
+                    maxDistanceBetweenBodyParts[i] = Vector2.Distance(transform.position, bodiesRb[i].transform.position);
+                }
             }
         }
+
         previousHeadPos = transform.position;
     }
 

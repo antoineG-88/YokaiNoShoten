@@ -88,6 +88,8 @@ public class DialogManager : MonoBehaviour
                 nameText.text = string.Empty;
                 endDialCallback = endDial;
                 nextImage.gameObject.SetActive(false);
+                if (!GameManager.isUsingController)
+                    Cursor.visible = true;
                 StartCoroutine(StartDialogDelay());
             }
         }
@@ -111,6 +113,7 @@ public class DialogManager : MonoBehaviour
         dialogBoxAnimator.SetBool("IsActive", false);
         seikiFaceAnimator.SetBool("IsActive", false);
         characterFaceAnimator.SetBool("IsActive", false);
+            Cursor.visible = false;
         StartCoroutine(CloseDialogDelay());
     }
 

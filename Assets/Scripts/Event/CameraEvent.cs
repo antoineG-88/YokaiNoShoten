@@ -27,7 +27,7 @@ public class CameraEvent : EventPart
                 {
                     timeElasped = 0;
                     currentFocusStep = 1;
-                    eventTrigger.RemoveCurrentCamera();
+                    //eventTrigger.RemoveCurrentCamera();
                     EndEventPart();
                 }
             }

@@ -9,34 +9,75 @@ public class Sentinel : Enemy
     public SpriteRenderer sprite;
     public LinkSwitch waveReceiver;
     public LinkSwitch shieldSwitch;
+    [Header("Sentinel protection")]
+    public GameObject protectionLinkPrefab;
+    [HideInInspector] public List<Enemy> protectingEnemies;
+    [HideInInspector] public List<SentinelProtectionLink> protectingLinks;
+    public List<SentinelProtection> protections;
+    public float vulnerabilityTimeWindow;
+    public AnimationCurve shieldApparitionCurve;
+    public float shieldApparitionTime = 0.3f;
     [Header("Movement settings")]
     public float maxSpeed;
     public float accelerationForce;
     public float deccelerationForce;
     public float safeDistanceToPlayer;
+    public float movementSlowingRatio;
+    public float playerPropelForceMultiplier;
     public Transform restPos1; 
 
     private bool destinationReached;
     private bool isFacingRight;
     private bool isShielded;
+    private bool isDefending;
+    private float timeElapsedWithoutShield;
+    private int currentProtectionLevel;
+    private bool lateStartFlag;
+    private float shieldBaseLocalScale;
 
     new void Start()
     {
         base.Start();
+        shieldBaseLocalScale = shield.transform.localScale.x;
         shield.SetActive(false);
         ActivateShield();
         waveReceiver.isOn = false;
         shieldSwitch.isOn = false;
+        isDefending = false;
+        currentProtectionLevel = 0;
+        lateStartFlag = true;
+        isFacingRight = true;
     }
 
     new void Update()
     {
         base.Update();
-        UpdateVisuals();
-        if(isShielded && waveReceiver.IsON())
+
+        if (lateStartFlag)
         {
-            DisableShield();
+            lateStartFlag = false;
+            LateStart();
+        }
+
+        UpdateVisuals();
+        if(!isDefending && waveReceiver.IsON())
+        {
+            currentProtectionLevel++;
+            isDefending = true;
+            ActivateShield();
+            StartProtection(protections[Mathf.Min(currentProtectionLevel - 1, protections.Count - 1)].protectingEnemies);
             waveReceiver.isOn = false;
+        }
+    }
+
+    private void LateStart()
+    {
+        for (int i = 0; i < protections.Count; i++)
+        {
+            for (int y = 0; y < protections[i].protectingEnemies.Count; y++)
+            {
+                protections[i].protectingEnemies[y].Deactivate();
+            }
         }
     }
 
@@ -47,7 +88,7 @@ public class Sentinel : Enemy
 
     public override void UpdateMovement()
     {
-        if (!isShielded)
+        if(isShielded)
         {
             isFacingRight = pathDirection.x < 0;
             if (path != null && !pathEndReached && !destinationReached && inControl && !isDying)
@@ -70,19 +111,87 @@ public class Sentinel : Enemy
                 }
             }
         }
-        rb.velocity *= 0.85f;
+        rb.velocity *= movementSlowingRatio;
     }
 
     protected override void UpdateBehavior()
     {
         base.UpdateBehavior();
-        /*
-        targetPathfindingPosition = (Vector2)transform.position - playerDirection.normalized * 3;
 
-        destinationReached = distToPlayer >= safeDistanceToPlayer;
-        */
-        targetPathfindingPosition = restPos1.position;
-        destinationReached = Vector2.Distance(transform.position, restPos1.position) < 1;
+        if(isDefending)
+        {
+            targetPathfindingPosition = (Vector2)transform.position - playerDirection.normalized * 5;
+
+            destinationReached = distToPlayer >= safeDistanceToPlayer;
+        }
+        else
+        {
+            targetPathfindingPosition = restPos1.position;
+            destinationReached = Vector2.Distance(transform.position, restPos1.position) < 0.2f;
+        }
+
+        UpdateProtection();
+    }
+
+    private void UpdateProtection()
+    {
+        if(isDefending)
+        {
+            if(isShielded)
+            {
+                bool shouldRemoveProtection = true;
+
+                for (int i = 0; i < protectingEnemies.Count; i++)
+                {
+                    if (protectingEnemies[i] != null)
+                    {
+                        if(protectingEnemies[i].isDying)
+                        {
+                            protectingLinks[i].Disabling();
+                        }
+                        else
+                        {
+                            shouldRemoveProtection = false;
+                        }
+                    }
+                }
+
+                if(shouldRemoveProtection)
+                {
+                    DisableShield();
+                }
+                timeElapsedWithoutShield = 0;
+            }
+            else
+            {
+                timeElapsedWithoutShield += Time.deltaTime;
+                if(timeElapsedWithoutShield > vulnerabilityTimeWindow)
+                {
+                    ActivateShield();
+                    StartProtection(protections[Mathf.Min(currentProtectionLevel - 1, protections.Count - 1)].protectingEnemies);
+                }
+            }
+        }
+    }
+
+    private void StartProtection(List<Enemy> enemies)
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            GameObject newEnemyObject = Instantiate(enemies[i].prefabObject, enemies[i].transform.position, Quaternion.identity);
+            Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
+            if(newEnemy == null)
+            {
+                newEnemy = newEnemyObject.transform.GetChild(0).GetComponent<Enemy>();
+            }
+            StartCoroutine(newEnemy.Activate());
+            protectingEnemies.Add(newEnemy);
+            SentinelProtectionLink protectionLink = Instantiate(protectionLinkPrefab, newEnemy.transform).GetComponent<SentinelProtectionLink>();
+            protectionLink.enemy = newEnemy;
+            protectionLink.connectedSentinel = this;
+            protectionLink.isActive = true;
+            protectingLinks.Add(protectionLink);
+        }
     }
 
     private void UpdateVisuals()
@@ -90,10 +199,12 @@ public class Sentinel : Enemy
         if (isFacingRight && !sprite.flipX)
         {
             sprite.flipX = true;
+            sprite.transform.localPosition = new Vector2(0.2f, 0.04f);
         }
         if (!isFacingRight && sprite.flipX)
         {
             sprite.flipX = false;
+            sprite.transform.localPosition = new Vector2(-0.2f, 0.04f);
         }
     }
 
@@ -104,9 +215,39 @@ public class Sentinel : Enemy
 
     private void ActivateShield()
     {
+        if(!isShielded)
+        {
+            StartCoroutine(ShieldActivationEffect());
+        }
         isShielded = true;
         animator.SetBool("IsShielded", true);
         shield.SetActive(true);
+    }
+
+    private IEnumerator ShieldActivationEffect()
+    {
+        float timer = 0;
+        while(timer < shieldApparitionTime)
+        {
+            shield.transform.localScale = Vector3.one * Mathf.Lerp(0, shieldBaseLocalScale, shieldApparitionCurve.Evaluate(timer / shieldApparitionTime));
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+        shield.transform.localScale = Vector3.one * shieldBaseLocalScale;
+    }
+
+    private IEnumerator ShieldDeactivationEffect()
+    {
+        float timer = 0;
+        while (timer < shieldApparitionTime)
+        {
+            shield.transform.localScale = Vector3.one * Mathf.Lerp(shieldBaseLocalScale, 0, shieldApparitionCurve.Evaluate(timer / shieldApparitionTime));
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+        shield.transform.localScale = Vector3.zero;
+
+        shield.SetActive(false);
     }
 
     private IEnumerator DelayedShieldActivation()
@@ -119,7 +260,9 @@ public class Sentinel : Enemy
     {
         isShielded = false;
         animator.SetBool("IsShielded", false);
-        shield.SetActive(false);
+        protectingEnemies.Clear();
+        protectingLinks.Clear();
+        StartCoroutine(ShieldDeactivationEffect());
     }
 
     public override bool PierceEffect(int damage, Vector2 directedForce, ref bool triggerSlowMo)
@@ -137,7 +280,8 @@ public class Sentinel : Enemy
                 source.PlayOneShot(shieldHitSound.clip, shieldHitSound.volumeScale);
             }
 
-            Propel(directedForce * 3);
+            Propel(directedForce * playerPropelForceMultiplier);
+            StartCoroutine(NoControl(0.5f));
         }
         return isShielded;
     }
@@ -145,6 +289,7 @@ public class Sentinel : Enemy
     public override void DamageEffect()
     {
         animator.SetTrigger("Hurt");
+        isDefending = false;
         StartCoroutine(DelayedShieldActivation());
         StartCoroutine(StartTempShieldSwitchActivation());
     }
@@ -155,5 +300,11 @@ public class Sentinel : Enemy
         shieldSwitch.isOn = true;
         yield return new WaitForSeconds(5.0f);
         shieldSwitch.isOn = false;
+    }
+
+    [System.Serializable]
+    public class SentinelProtection
+    {
+        public List<Enemy> protectingEnemies;
     }
 }
