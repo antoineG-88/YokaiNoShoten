@@ -9,11 +9,12 @@ public class ScreenFade : EventPart
     public float fadeOutTime = 0.5f;
     public float minSceenTime;
     [Header("Optionnal")]
-    public AudioClip soundToPlayDuringBlackScreen;
+    public Sound soundToPlayDuringBlackScreen;
     public List<GameObject> objectToDisable;
     public List<GameObject> objectToEnable;
     public Vector2 seikiNewPos;
     public CameraConstraintZone cameraChangeDuringScreen;
+    public AudioSource source;
 
     private float fadeTimeElapsed;
     private float screenTimeElasped;
@@ -53,9 +54,9 @@ public class ScreenFade : EventPart
                         eventTrigger.SetNewCameraConstraint();
                     }
 
-                    if (soundToPlayDuringBlackScreen != null)
+                    if (soundToPlayDuringBlackScreen.clip != null)
                     {
-                        //jouer le gros sooonnnnn
+                        source.PlayOneShot(soundToPlayDuringBlackScreen.clip, soundToPlayDuringBlackScreen.volumeScale);
                     }
                 }
 
