@@ -25,6 +25,8 @@ public class MusicEvent : EventPart
         {
             StartNewMusic();
         }
+
+        EndEventPart();
     }
 
     private void StartNewMusic()
@@ -38,8 +40,6 @@ public class MusicEvent : EventPart
         {
             audioSource.Stop();
         }
-
-        EndEventPart();
     }
 
     public IEnumerator FadeOutMusic()

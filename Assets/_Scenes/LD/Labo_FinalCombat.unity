@@ -44314,10 +44314,14 @@ GameObject:
   - component: {fileID: 1337331801}
   - component: {fileID: 1337331800}
   - component: {fileID: 1337331798}
+  - component: {fileID: 1337331806}
+  - component: {fileID: 1337331805}
   - component: {fileID: 1337331803}
   - component: {fileID: 1337331799}
   - component: {fileID: 1337331797}
   - component: {fileID: 1337331802}
+  - component: {fileID: 1337331804}
+  - component: {fileID: 1337331807}
   m_Layer: 0
   m_Name: EndDialogue
   m_TagString: Untagged
@@ -44338,6 +44342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1337331802}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -44359,18 +44364,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 0}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  fadeTime: 0.5
+  fadeInTime: 0.5
+  fadeOutTime: 0.5
   minSceenTime: 0
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable:
   - {fileID: 2118516856}
   objectToEnable:
   - {fileID: 1969320197}
   seikiNewPos: {x: 6, y: 0}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
 --- !u!114 &1337331799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44384,6 +44394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1337331802}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -44409,13 +44420,17 @@ MonoBehaviour:
   isOn: 0
   saveState: 0
   eventParts:
-  - {fileID: 1337331803}
   - {fileID: 1337331798}
+  - {fileID: 1337331806}
+  - {fileID: 1337331805}
+  - {fileID: 1337331803}
   - {fileID: 1337331799}
+  - {fileID: 1337331807}
   - {fileID: 1337331797}
   switchToTriggerEvent: {fileID: 1626901074}
   objectsDisabledAfterEvent: []
   objectsEnabledAfterEvent: []
+  removeSeikiControls: 1
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 24
   storyStepProgressionAtTheEnd: 25
@@ -44472,6 +44487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1337331802}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -44480,6 +44496,167 @@ MonoBehaviour:
   postDelay: 2
   disappear: 0
   animatorToAppear: {fileID: 1625862730}
+--- !u!82 &1337331804
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337331796}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 3403852494993157677, guid: 9c6544e17c2017044b68bf43d09eda2d,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.506
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 10
+  MaxDistance: 50
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1337331805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337331796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3dc9db0359d194b94b8dc18d06cfbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1337331802}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  soundEffectToPlay:
+    clip: {fileID: 8300000, guid: 3a6c2252df5b0e043b57206129c57b48, type: 3}
+    volumeScale: 1
+  delayTime: 0.5
+  waitSoundToContinueEvent: 0
+  scaleWithTimeScale: 0
+  source: {fileID: 1337331804}
+--- !u!114 &1337331806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337331796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10b615297fca13498e5189202a3590e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1337331802}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  waitTime: 1
+  unscaledTime: 0
+--- !u!114 &1337331807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337331796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1337331802}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 367160408}
+  fadeOutPreviousMusic: 1
+  fadeOutTime: 1
+  newMusicToPlay: {fileID: 0}
 --- !u!1001 &1346906422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44904,6 +45081,7 @@ MonoBehaviour:
   switchToTriggerEvent: {fileID: 0}
   objectsDisabledAfterEvent: []
   objectsEnabledAfterEvent: []
+  removeSeikiControls: 1
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 20
   storyStepProgressionAtTheEnd: 0
@@ -44922,18 +45100,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1409338641}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  fadeTime: 1
+  fadeInTime: 0.5
+  fadeOutTime: 0.5
   minSceenTime: 0.2
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 0
   objectToDisable:
   - {fileID: 1604461780}
   objectToEnable:
   - {fileID: 2118516856}
   seikiNewPos: {x: 0, y: 0}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
 --- !u!114 &1409338641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44969,6 +45152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1409338641}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -45034,6 +45218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1409338641}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -46185,6 +46370,8 @@ MonoBehaviour:
     - {fileID: 1167808167}
     - {fileID: 1942740639}
     - {fileID: 1207528223}
+    waveSwitches: []
+    switchesToEnableWhenEnemiesKilled: []
     hpRestored: 5
     maxStoryStepToSkipWave: 0
     objectToEnable: []
@@ -46197,6 +46384,8 @@ MonoBehaviour:
     - {fileID: 1148556700}
     - {fileID: 1483960380}
     - {fileID: 2031251461}
+    waveSwitches: []
+    switchesToEnableWhenEnemiesKilled: []
     hpRestored: 5
     maxStoryStepToSkipWave: 0
     objectToEnable: []
@@ -46210,6 +46399,8 @@ MonoBehaviour:
     - {fileID: 54394267}
     - {fileID: 452446280}
     - {fileID: 1361900884}
+    waveSwitches: []
+    switchesToEnableWhenEnemiesKilled: []
     hpRestored: 5
     maxStoryStepToSkipWave: 0
     objectToEnable: []
@@ -46221,6 +46412,8 @@ MonoBehaviour:
     - {fileID: 1229081090}
     - {fileID: 1600197150}
     - {fileID: 967977872}
+    waveSwitches: []
+    switchesToEnableWhenEnemiesKilled: []
     hpRestored: 5
     maxStoryStepToSkipWave: 23
     objectToEnable:
@@ -46242,6 +46435,8 @@ MonoBehaviour:
     - {fileID: 1910966601}
     - {fileID: 342897198}
     - {fileID: 2020887933}
+    waveSwitches: []
+    switchesToEnableWhenEnemiesKilled: []
     hpRestored: 5
     maxStoryStepToSkipWave: 0
     objectToEnable: []
@@ -46256,7 +46451,7 @@ MonoBehaviour:
     volumeScale: 1
   posToRespawn: {fileID: 1228086334}
   musicSource: {fileID: 0}
-  skipToWave: 0
+  skipToWave: 4
 --- !u!1001 &1640035512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48979,6 +49174,7 @@ GameObject:
   - component: {fileID: 2118516857}
   - component: {fileID: 2118516859}
   - component: {fileID: 2118516858}
+  - component: {fileID: 2118516860}
   m_Layer: 0
   m_Name: Tekuno_Hacking
   m_TagString: Untagged
@@ -49070,6 +49266,103 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!82 &2118516860
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118516856}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 3403852494993157677, guid: 9c6544e17c2017044b68bf43d09eda2d,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 54eac22e38d761e429a98f24beda7c84, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.373
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 10
+  MaxDistance: 16
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &2142210190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3194303884743550000, guid: 0e9d83fa8c7f33549bfac179c2fef548,

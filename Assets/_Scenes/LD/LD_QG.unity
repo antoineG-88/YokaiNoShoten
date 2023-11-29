@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -15010,6 +15010,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729ced57dbc47f14a8437dd55652f23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &367160408 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1191131659, guid: 5f29cc1d763ece94f9a875215743de6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 367160406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &374678858
 GameObject:
   m_ObjectHideFlags: 0
@@ -43377,6 +43383,7 @@ GameObject:
   - component: {fileID: 1553300622}
   - component: {fileID: 1553300621}
   - component: {fileID: 1553300620}
+  - component: {fileID: 1553300625}
   m_Layer: 15
   m_Name: ZoneTransition
   m_TagString: Untagged
@@ -43445,6 +43452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1553300620}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -43469,10 +43477,12 @@ MonoBehaviour:
   isOn: 0
   saveState: 0
   eventParts:
+  - {fileID: 1553300625}
   - {fileID: 1553300622}
   switchToTriggerEvent: {fileID: 0}
   objectsDisabledAfterEvent: []
   objectsEnabledAfterEvent: []
+  removeSeikiControls: 1
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 9
   storyStepProgressionAtTheEnd: 10
@@ -43492,6 +43502,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1553300625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553300619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1553300620}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 367160408}
+  fadeOutPreviousMusic: 1
+  fadeOutTime: 1
+  newMusicToPlay: {fileID: 0}
 --- !u!1 &1557238839
 GameObject:
   m_ObjectHideFlags: 0
@@ -45166,6 +45197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1973077045}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -45203,6 +45235,7 @@ MonoBehaviour:
   - {fileID: 1499755125}
   - {fileID: 510631804}
   - {fileID: 120390162}
+  removeSeikiControls: 1
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 7
   storyStepProgressionAtTheEnd: 8
@@ -45221,12 +45254,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1973077045}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  fadeTime: 0.5
+  fadeInTime: 0.5
+  fadeOutTime: 0.5
   minSceenTime: 1
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable:
   - {fileID: 1166488948}
   - {fileID: 1440016726}
@@ -45236,6 +45273,7 @@ MonoBehaviour:
   - {fileID: 1499755125}
   seikiNewPos: {x: 0, y: 0}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
 --- !u!114 &1973077045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45919,6 +45957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 2063184882}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -45949,6 +45988,7 @@ MonoBehaviour:
   switchToTriggerEvent: {fileID: 2063184884}
   objectsDisabledAfterEvent: []
   objectsEnabledAfterEvent: []
+  removeSeikiControls: 1
   neededStoryStepToTrigger: 8
   maxStoryStepToTrigger: 8
   storyStepProgressionAtTheEnd: 9
@@ -46015,6 +46055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 2063184882}
+  freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0

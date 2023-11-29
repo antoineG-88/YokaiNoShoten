@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -50815,6 +50815,7 @@ GameObject:
   - component: {fileID: 812196229}
   - component: {fileID: 812196228}
   - component: {fileID: 812196230}
+  - component: {fileID: 812196231}
   m_Layer: 0
   m_Name: EndEvent
   m_TagString: Untagged
@@ -50854,6 +50855,7 @@ MonoBehaviour:
   isOn: 0
   saveState: 0
   eventParts:
+  - {fileID: 812196231}
   - {fileID: 812196229}
   - {fileID: 812196228}
   - {fileID: 812196230}
@@ -50909,16 +50911,20 @@ MonoBehaviour:
   fadeInTime: 0.5
   fadeOutTime: 0.5
   minSceenTime: 0
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable:
   - {fileID: 6086712980896288546}
   - {fileID: 650933420}
   - {fileID: 764410257}
   - {fileID: 1613112523}
+  - {fileID: 557243933}
   objectToEnable:
   - {fileID: 2037144761}
   seikiNewPos: {x: -3, y: 7.85}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
 --- !u!114 &812196230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50939,12 +50945,36 @@ MonoBehaviour:
   fadeInTime: 0.5
   fadeOutTime: 0.5
   minSceenTime: 0
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable: []
   objectToEnable:
   - {fileID: 1819000198}
   seikiNewPos: {x: -3, y: 7.85}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
+--- !u!114 &812196231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812196225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384636}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 739692725}
+  fadeOutPreviousMusic: 1
+  fadeOutTime: 1
+  newMusicToPlay: {fileID: 0}
 --- !u!1 &817313874
 GameObject:
   m_ObjectHideFlags: 0
@@ -59521,7 +59551,9 @@ MonoBehaviour:
   fadeInTime: 0.5
   fadeOutTime: 0.5
   minSceenTime: 0.5
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable:
   - {fileID: 650933420}
   objectToEnable:
@@ -59529,6 +59561,7 @@ MonoBehaviour:
   - {fileID: 557243933}
   seikiNewPos: {x: 0, y: 0}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
 --- !u!114 &1683384632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59594,12 +59627,15 @@ MonoBehaviour:
   fadeInTime: 0.5
   fadeOutTime: 0.5
   minSceenTime: 1
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable: []
   objectToEnable:
   - {fileID: 650933420}
   seikiNewPos: {x: 0, y: 0}
   cameraChangeDuringScreen: {fileID: 1683384630}
+  source: {fileID: 0}
 --- !u!114 &1683384635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62034,12 +62070,15 @@ MonoBehaviour:
   fadeInTime: 0.5
   fadeOutTime: 0.5
   minSceenTime: 0
-  soundToPlayDuringBlackScreen: {fileID: 0}
+  soundToPlayDuringBlackScreen:
+    clip: {fileID: 0}
+    volumeScale: 1
   objectToDisable:
   - {fileID: 1819000198}
   objectToEnable: []
   seikiNewPos: {x: -3, y: 7.85}
   cameraChangeDuringScreen: {fileID: 0}
+  source: {fileID: 0}
 --- !u!114 &1862037786
 MonoBehaviour:
   m_ObjectHideFlags: 0
