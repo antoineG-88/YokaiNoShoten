@@ -50,6 +50,11 @@ public class RumblesManager : MonoBehaviour
         gamepad = Gamepad.current;
     }
 
+    public static void UpdateCurrentGamepad()
+    {
+        I.gamepad = Gamepad.current;
+    }
+
     public static void StartDashRumble()
     {
         if(I.currentRamble != null)

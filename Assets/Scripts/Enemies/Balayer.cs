@@ -53,6 +53,7 @@ public class Balayer : Enemy
     private float beamState; // 0 = warning, 1 = laser
     private float beamActiveState; // 0 = off, 1 = on
     private Material beamMat;
+    private Coroutine beamCoroutine;
 
     new void Start()
     {
@@ -121,7 +122,7 @@ public class Balayer : Enemy
         base.UpdateBehavior();
         playerInSight = IsPlayerInSightFrom(transform.position);
         shootDestinationReached = distToPlayer >= safeDistance && distToPlayer < safeDistance + safeDistanceWidth && Vector2.Distance(targetPathfindingPosition, initialPos) <= movementZoneRadius && playerInSight;
-        if (provoked)
+        if (provoked && !isDying)
         {
             potentialTargetPos = FindNearestSightSpot(seekingBeamSpotAngleInterval, safeDistance, false);
             if (potentialTargetPos != (Vector2)transform.position && Vector2.Distance(potentialTargetPos, initialPos) <= movementZoneRadius) // check if the result of the sight spot is valid
@@ -148,7 +149,7 @@ public class Balayer : Enemy
                     if (elapsedAimTime > aimTime)
                     {
                         isAiming = false;
-                        StartCoroutine(ShootBeam());
+                        beamCoroutine = StartCoroutine(ShootBeam());
                     }
                     else
                     {
@@ -370,5 +371,14 @@ public class Balayer : Enemy
     public override void DamageEffect()
     {
         beamLine.enabled = false;
+    }
+
+    protected override void OnDie()
+    {
+        base.OnDie();
+        if (beamCoroutine != null)
+        {
+            StopCoroutine(beamCoroutine);
+        }
     }
 }

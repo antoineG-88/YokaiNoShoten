@@ -332,6 +332,7 @@ public class GameManager : MonoBehaviour
                     Cursor.visible = false;
                     Mouse.current.WarpCursorPosition(new Vector2(20, 20));
                     lastChangeControlTypeTime = Time.realtimeSinceStartup;
+                    RumblesManager.UpdateCurrentGamepad();
                 }
             }
         }
