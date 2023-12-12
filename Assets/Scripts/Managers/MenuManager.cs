@@ -30,6 +30,7 @@ public class MenuManager : MonoBehaviour
     public float transitionFadeTime;
     public Animator seikiMenu;
     public float timeBeforeFade;
+    public AudioSource musicSource;
 
     private GameObject lastSelectedObject;
     private bool isGameStarting;
@@ -150,11 +151,13 @@ public class MenuManager : MonoBehaviour
         while (timer < transitionFadeTime)
         {
             BlackScreenManager.SetAlpha(timer / transitionFadeTime);
+            musicSource.volume = 0.2f * (1 - (timer / transitionFadeTime));
 
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
         }
         BlackScreenManager.SetAlpha(1);
+        musicSource.volume = 0;
 
         StartCoroutine(GameManager.LoadWithProgress(zones[zoneIndexToLoad].zoneBuildIndex));
     }

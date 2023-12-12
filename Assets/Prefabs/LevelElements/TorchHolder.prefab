@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inverseOutput: 0
   isOn: 0
+  saveState: 0
   allLights:
   - {fileID: 5034296065684491181}
   torchMaxTime: 8
@@ -646,12 +647,6 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1950704550845370414, guid: 8530a58b5e9f09146a4f3b8c99502a7c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: b75f786f52b97664786707d7d6987db5,
-        type: 3}
     - target: {fileID: 4496032013761422291, guid: 8530a58b5e9f09146a4f3b8c99502a7c,
         type: 3}
       propertyPath: m_Volume

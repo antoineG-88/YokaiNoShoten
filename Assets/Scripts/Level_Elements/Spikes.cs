@@ -10,6 +10,7 @@ public class Spikes : MonoBehaviour
     public Vector2 knockback;
 
     private Vector2 knockbackDirection;
+    private bool disableByPierce;
 
     private void Start()
     {
@@ -20,8 +21,23 @@ public class Spikes : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            GameData.dashHandler.isDashing = false;
-            GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? knockbackDirection * knockback.magnitude : knockback);
+            if(GameData.pierceHandler.isPiercing)
+            {
+                disableByPierce = true;
+            }
+
+            if(!disableByPierce)
+            {
+                GameData.dashHandler.isDashing = false;
+                GameData.playerManager.TakeDamage(damage, autoKnockbackDirection ? knockbackDirection * knockback.magnitude : knockback);
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Player"))
+        {
+            disableByPierce = false;
         }
     }
 

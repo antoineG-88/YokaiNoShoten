@@ -24,6 +24,7 @@ public class Serpent : Enemy
     public float spikesReactivationTime;
     public Collider2D headSpikesCollider;
     public SerpentTail tail;
+    public float spikeAttackCooldown;
     [Header("Display settings")]
     public List<Rigidbody2D> bodiesRb;
     public SpriteRenderer headSprite;
@@ -50,6 +51,7 @@ public class Serpent : Enemy
 
     private ContactFilter2D playerFilter;
     private bool isSpikesActive;
+    private float spikeRemainingCD;
     private float inactiveSpikeTimeElapsed;
     private Vector2 detectionZoneCenterOffset;
     private bool headingToFirstPoint;
@@ -234,21 +236,30 @@ public class Serpent : Enemy
         }
     }
 
+    private List<Collider2D> potentialPlayerColliders = new List<Collider2D>();
     private void UpdateSpikes()
     {
         if(isSpikesActive)
         {
             spikeDisplay.SetActive(true);
-            List<Collider2D> colliders = new List<Collider2D>();
-            Physics2D.OverlapCollider(headSpikesCollider, playerFilter, colliders);
-            if (colliders.Count > 0)
-            {
-                GameData.pierceHandler.isPiercing = false;
-                GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
-                source.PlayOneShot(headAttackSound.clip, headAttackSound.volumeScale);
-                currentSpeed = 0;
-            }
             isProtected = true;
+            if (spikeRemainingCD <= 0)
+            {
+                potentialPlayerColliders.Clear();
+                Physics2D.OverlapCollider(headSpikesCollider, playerFilter, potentialPlayerColliders);
+                if (potentialPlayerColliders.Count > 0)
+                {
+                    GameData.pierceHandler.isPiercing = false;
+                    GameData.playerManager.TakeDamage(spikesDamage, playerDirection * spikesKnockbackForce);
+                    source.PlayOneShot(headAttackSound.clip, headAttackSound.volumeScale);
+                    currentSpeed = 0;
+                    spikeRemainingCD = spikeAttackCooldown;
+                }
+            }
+            else
+            {
+                spikeRemainingCD -= Time.fixedDeltaTime;
+            }
         }
         else
         {
@@ -269,6 +280,7 @@ public class Serpent : Enemy
             {
                 isProtected = false;
             }
+            spikeRemainingCD = 0;
         }
     }
 

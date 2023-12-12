@@ -13,6 +13,7 @@ public class IllustrationEvent : EventPart
     public Image illustrationImage;
     public Image backgroundImage;
     public Text descriptionText;
+    public Color noIlluColor;
     [Space]
     public AudioSource cinematicSource;
     public Sound[] cinematicSoundEffects;
@@ -45,16 +46,11 @@ public class IllustrationEvent : EventPart
     }
     public IEnumerator FadeEventIn()
     {
-        float timer = 0;
         backgroundImage.gameObject.SetActive(true);
         backgroundImage.CrossFadeAlpha(0, 0, true);
         backgroundImage.CrossFadeAlpha(1, eventFadeInTime, true);
 
-        while (timer < eventFadeInTime)
-        {
-            timer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
+        yield return new WaitForSecondsRealtime(eventFadeInTime);
 
         StartCoroutine(ShowNextIllustration());
     }
@@ -63,7 +59,16 @@ public class IllustrationEvent : EventPart
     {
         illustrationImage.gameObject.SetActive(true);
         illustrationImage.CrossFadeAlpha(0, 0, true);
-        illustrationImage.sprite = illustrations[currentIllustrationStep];
+        if(illustrations[currentIllustrationStep] != null)
+        {
+            illustrationImage.sprite = illustrations[currentIllustrationStep];
+            illustrationImage.color = Color.white;
+        }
+        else
+        {
+            illustrationImage.sprite = null;
+            illustrationImage.color = noIlluColor;
+        }
         illustrationImage.CrossFadeAlpha(1, illustrationTransitionFadeTime, true);
 
         if(illuDescriptions.Length > 0)
@@ -77,7 +82,7 @@ public class IllustrationEvent : EventPart
         if (cinematicSoundEffects.Length > 0 && cinematicSoundEffects[currentIllustrationStep].clip != null)
             cinematicSource.PlayOneShot(cinematicSoundEffects[currentIllustrationStep].clip, cinematicSoundEffects[currentIllustrationStep].volumeScale);
 
-        yield return new WaitForSeconds(illustrationTimes[currentIllustrationStep]);
+        yield return new WaitForSecondsRealtime(illustrationTimes[currentIllustrationStep]);
 
 
         StartCoroutine(FadeOutIllustration());
@@ -89,7 +94,7 @@ public class IllustrationEvent : EventPart
         if (illuDescriptions.Length > 0)
             descriptionText.CrossFadeAlpha(0, illustrationTransitionFadeTime, true);
 
-        yield return new WaitForSeconds(illustrationTransitionFadeTime);
+        yield return new WaitForSecondsRealtime(illustrationTransitionFadeTime);
 
         currentIllustrationStep++;
         if (currentIllustrationStep < illustrations.Length)
@@ -98,7 +103,7 @@ public class IllustrationEvent : EventPart
             if (illuDescriptions.Length > 0)
                 descriptionText.text = illuDescriptions[currentIllustrationStep];
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSecondsRealtime(0.3f);
 
             StartCoroutine(ShowNextIllustration());
         }
@@ -111,16 +116,12 @@ public class IllustrationEvent : EventPart
 
     public IEnumerator FadeEventOut()
     {
-        float timer = 0;
         backgroundImage.gameObject.SetActive(true);
         backgroundImage.CrossFadeAlpha(1, 0, true);
         backgroundImage.CrossFadeAlpha(0, eventFadeOutTime, true);
 
-        while (timer < eventFadeOutTime)
-        {
-            timer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
+        yield return new WaitForSecondsRealtime(eventFadeOutTime);
+
         illustrationImage.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);

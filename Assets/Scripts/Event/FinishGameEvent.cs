@@ -14,6 +14,7 @@ public class FinishGameEvent : EventPart
     {
         base.StartEventPart();
         SaveFinishedGameStats();
+        BlackScreenManager.SetAlpha(1);
     }
 
     public void Update()

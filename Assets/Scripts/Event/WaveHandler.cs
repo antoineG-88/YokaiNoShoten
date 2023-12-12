@@ -109,7 +109,7 @@ public class WaveHandler : Switch
                         }
 
                         GameData.playerManager.Heal(waves[currentWaveIndex].hpRestored);
-
+                        GameData.playerManager.MakeTemporarilyInvulnerable(1.5f);
                         pauseTimeElapsed = 0;
                     }
                     else

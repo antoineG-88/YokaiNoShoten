@@ -9,6 +9,7 @@ public class ZoneTransition : EventPart
     public float seikiWalkingSpeed;
     public bool seikiWalkingRight;
     public float timeToTriggerLoad;
+    public bool loadWithoutSaving;
 
     private float timeElapsed;
     private bool loadFlag;
@@ -25,7 +26,14 @@ public class ZoneTransition : EventPart
             }
             else if(loadFlag)
             {
-                StartCoroutine(GameData.levelManager.LoadNewZone(nextZoneBuildIndex, nextZoneChapterNumber));
+                if(loadWithoutSaving)
+                {
+                    StartCoroutine(GameManager.LoadWithProgress(nextZoneBuildIndex));
+                }
+                else
+                {
+                    StartCoroutine(GameData.levelManager.LoadNewZone(nextZoneBuildIndex, nextZoneChapterNumber));
+                }
                 loadFlag = false;
             }
         }

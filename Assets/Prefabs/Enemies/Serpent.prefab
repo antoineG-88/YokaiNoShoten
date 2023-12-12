@@ -6402,6 +6402,7 @@ MonoBehaviour:
   spikesReactivationTime: 3
   headSpikesCollider: {fileID: 7573234603249832197}
   tail: {fileID: 1980815398}
+  spikeAttackCooldown: 1
   bodiesRb:
   - {fileID: 5202223809410743027}
   - {fileID: 5202223808570074867}
@@ -6418,6 +6419,7 @@ MonoBehaviour:
   headHeightCorrection: 0.086
   trailSubdivision: 3
   noGravityEffect: {fileID: 8156758239653599052}
+  maxDistanceBetweenBodyParts: []
   tailBrokeSound:
     clip: {fileID: 8300000, guid: 4a9c30f68fab6ad48ac008ca3d44779d, type: 3}
     volumeScale: 1

@@ -61,7 +61,7 @@ public class PlayerManager : MonoBehaviour
         inControl = true;
         invulnerable = false;
         basePlayerLayer = gameObject.layer;
-        invulnerableTimeRemaining = 0;
+        invulnerableTimeRemaining = 3;
         playerMaterial.SetFloat("_deadOrAlive", 1);
         hpDisplayBaseScale = independentHealthPoints[0].transform.localScale.x;
         hpDisplayBasePosY = independentHealthPoints[0].transform.localPosition.y;
@@ -173,6 +173,11 @@ public class PlayerManager : MonoBehaviour
         currentHealthPoint = Mathf.Clamp(currentHealthPoint, 0, maxHealthPoint);
         healParticle.Play();
         GameData.playerSource.PlayOneShot(healSound.clip, healSound.volumeScale);
+    }
+
+    public void MakeTemporarilyInvulnerable(float invulTime)
+    {
+        invulnerableTimeRemaining = Mathf.Max(invulnerableTimeRemaining, invulTime);
     }
 
     private void RefreshHealthPointDisplay()

@@ -310,6 +310,7 @@ MonoBehaviour:
   protectionLinkPrefab: {fileID: 6086712980926557395, guid: 35fae90272d7c244595a62e647835c28,
     type: 3}
   protectingEnemies: []
+  protectingLinks: []
   protections:
   - protectingEnemies:
     - {fileID: 6613192661310227927}
@@ -346,6 +347,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  shieldApparitionTime: 0.3
   maxSpeed: 8
   accelerationForce: 60
   deccelerationForce: 20
@@ -639,6 +641,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8885438770060219822}
     m_Modifications:
+    - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 6.57
+      objectReference: {fileID: 0}
     - target: {fileID: 763350508382447391, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}
       propertyPath: m_Name
@@ -726,6 +733,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8885438770060219822}
     m_Modifications:
+    - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 6.57
+      objectReference: {fileID: 0}
     - target: {fileID: 763350508382447391, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}
       propertyPath: m_Name
@@ -955,6 +967,11 @@ PrefabInstance:
       propertyPath: maxDistanceBetweenBodyParts.Array.data[8]
       value: 0.867
       objectReference: {fileID: 0}
+    - target: {fileID: 5202223809458673487, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 7.39
+      objectReference: {fileID: 0}
     - target: {fileID: 5202223809458673488, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}
       propertyPath: m_Name
@@ -1042,6 +1059,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8885438770060219822}
     m_Modifications:
+    - target: {fileID: 763350508382447388, guid: 6de4625fdd506904e9bd7521620f5272,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 6.57
+      objectReference: {fileID: 0}
     - target: {fileID: 763350508382447391, guid: 6de4625fdd506904e9bd7521620f5272,
         type: 3}
       propertyPath: m_Name
@@ -1270,6 +1292,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxDistanceBetweenBodyParts.Array.data[8]
       value: 0.867
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202223809458673487, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
+        type: 3}
+      propertyPath: movementZoneRadius
+      value: 7.39
       objectReference: {fileID: 0}
     - target: {fileID: 5202223809458673488, guid: 4c1a0141aea5ef74cbc0f8e0f803996b,
         type: 3}

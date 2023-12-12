@@ -210,7 +210,8 @@ public class RumblesManager : MonoBehaviour
 
     public static void StopAllRumbles()
     {
-        I.gamepad.SetMotorSpeeds(0f, 0f);
+        if(I.gamepad != null)
+            I.gamepad.SetMotorSpeeds(0f, 0f);
     }
 
     void OnApplicationQuit()

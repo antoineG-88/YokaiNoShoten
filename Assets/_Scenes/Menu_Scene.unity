@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2864,6 +2864,7 @@ MonoBehaviour:
   transitionFadeTime: 1
   seikiMenu: {fileID: 85683137}
   timeBeforeFade: 2
+  musicSource: {fileID: 607793425}
 --- !u!4 &607793423
 Transform:
   m_ObjectHideFlags: 0
@@ -3753,7 +3754,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.15
-  m_Text: Tremor
+  m_Text: TremoR
 --- !u!222 &694471437
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7292,7 +7293,7 @@ PrefabInstance:
     - target: {fileID: 3675808997307165911, guid: 50a0687ab3b6dc94ba989ff0749cf90f,
         type: 3}
       propertyPath: m_Text
-      value: Lead level Designer
+      value: Level Designer
       objectReference: {fileID: 0}
     - target: {fileID: 4729819578489249306, guid: 50a0687ab3b6dc94ba989ff0749cf90f,
         type: 3}

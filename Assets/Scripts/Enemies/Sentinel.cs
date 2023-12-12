@@ -178,7 +178,7 @@ public class Sentinel : Enemy
     {
         for (int i = 0; i < enemies.Count; i++)
         {
-            GameObject newEnemyObject = Instantiate(enemies[i].prefabObject, enemies[i].transform.position, Quaternion.identity);
+            GameObject newEnemyObject = Instantiate(enemies[i].prefabObject, enemies[i].transform.position, Quaternion.identity, transform);
             Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
             if(newEnemy == null)
             {

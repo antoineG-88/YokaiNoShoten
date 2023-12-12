@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1567,6 +1567,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1375885793}
     m_Modifications:
+    - target: {fileID: 892087931100949626, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5878177529482355361, guid: 698a0aa5a35be174eb1c03d526046f78,
         type: 3}
       propertyPath: m_SortingLayer
@@ -1661,6 +1666,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312134803417083530, guid: 698a0aa5a35be174eb1c03d526046f78,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 698a0aa5a35be174eb1c03d526046f78, type: 3}
@@ -46625,6 +46635,134 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1416092604}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &446319404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446319406}
+  - component: {fileID: 446319405}
+  m_Layer: 0
+  m_Name: CoreAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &446319405
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446319404}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 3403852494993157677, guid: 9c6544e17c2017044b68bf43d09eda2d,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: e5ad5c21e19921f40b3c072644340ba6, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.4
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 15
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &446319406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446319404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &451990649 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8496469346854858424, guid: 4d7beee854118134cbb7ca5800c535af,
@@ -50814,8 +50952,9 @@ GameObject:
   - component: {fileID: 812196227}
   - component: {fileID: 812196229}
   - component: {fileID: 812196228}
-  - component: {fileID: 812196230}
   - component: {fileID: 812196231}
+  - component: {fileID: 812196230}
+  - component: {fileID: 812196232}
   m_Layer: 0
   m_Name: EndEvent
   m_TagString: Untagged
@@ -50856,12 +50995,13 @@ MonoBehaviour:
   saveState: 0
   eventParts:
   - {fileID: 812196231}
+  - {fileID: 812196230}
   - {fileID: 812196229}
   - {fileID: 812196228}
-  - {fileID: 812196230}
   switchToTriggerEvent: {fileID: 1093969420}
   objectsDisabledAfterEvent: []
-  objectsEnabledAfterEvent: []
+  objectsEnabledAfterEvent:
+  - {fileID: 1819000198}
   removeSeikiControls: 1
   neededStoryStepToTrigger: 0
   maxStoryStepToTrigger: 32
@@ -50910,7 +51050,7 @@ MonoBehaviour:
   eventEnded: 0
   fadeInTime: 0.5
   fadeOutTime: 0.5
-  minSceenTime: 0
+  minSceenTime: 0.3
   soundToPlayDuringBlackScreen:
     clip: {fileID: 0}
     volumeScale: 1
@@ -50934,26 +51074,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 812196225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d84a30ccf9a5cc41a00c4a004d62352, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraConstraintDuringEventPart: {fileID: 1683384630}
+  cameraConstraintDuringEventPart: {fileID: 1683384636}
   freezeTime: 0
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  fadeInTime: 0.5
-  fadeOutTime: 0.5
-  minSceenTime: 0
-  soundToPlayDuringBlackScreen:
-    clip: {fileID: 0}
-    volumeScale: 1
-  objectToDisable: []
-  objectToEnable:
-  - {fileID: 1819000198}
-  seikiNewPos: {x: -3, y: 7.85}
-  cameraChangeDuringScreen: {fileID: 0}
-  source: {fileID: 0}
+  audioSource: {fileID: 446319405}
+  fadeOutPreviousMusic: 0
+  fadeOutTime: 0.8
+  newMusicToPlay: {fileID: 8300000, guid: e5ad5c21e19921f40b3c072644340ba6, type: 3}
 --- !u!114 &812196231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50975,6 +51107,32 @@ MonoBehaviour:
   fadeOutPreviousMusic: 1
   fadeOutTime: 1
   newMusicToPlay: {fileID: 0}
+--- !u!61 &812196232
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812196225}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.012565255, y: 7.2082276}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.6142673, y: 1.204072}
+  m_EdgeRadius: 0
 --- !u!1 &817313874
 GameObject:
   m_ObjectHideFlags: 0
@@ -56527,7 +56685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462399939}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.3, z: -560.8115}
+  m_LocalPosition: {x: 0, y: 13.24, z: -560.8115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -59423,6 +59581,7 @@ GameObject:
   - component: {fileID: 1683384633}
   - component: {fileID: 1683384632}
   - component: {fileID: 1683384635}
+  - component: {fileID: 1683384640}
   - component: {fileID: 1683384631}
   - component: {fileID: 1683384630}
   - component: {fileID: 1683384629}
@@ -59456,6 +59615,7 @@ MonoBehaviour:
   - {fileID: 1683384633}
   - {fileID: 1683384632}
   - {fileID: 1683384635}
+  - {fileID: 1683384640}
   switchToTriggerEvent: {fileID: 0}
   objectsDisabledAfterEvent:
   - {fileID: 650933420}
@@ -59737,6 +59897,27 @@ MonoBehaviour:
   seikiPositionToReach: {x: -0.57, y: 7.99}
   seikiOrientationIsRight: 1
   seikiWalkingSpeed: 2
+--- !u!114 &1683384640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683384626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384630}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 446319405}
+  fadeOutPreviousMusic: 1
+  fadeOutTime: 0.8
+  newMusicToPlay: {fileID: 0}
 --- !u!1 &1702278674
 GameObject:
   m_ObjectHideFlags: 0
@@ -61978,6 +62159,7 @@ GameObject:
   - component: {fileID: 1862037782}
   - component: {fileID: 1862037786}
   - component: {fileID: 1862037785}
+  - component: {fileID: 1862037791}
   - component: {fileID: 1862037784}
   - component: {fileID: 1862037788}
   - component: {fileID: 1862037787}
@@ -62026,7 +62208,8 @@ MonoBehaviour:
   nextZoneChapterNumber: 0
   seikiWalkingSpeed: 0
   seikiWalkingRight: 0
-  timeToTriggerLoad: 1
+  timeToTriggerLoad: 0
+  loadWithoutSaving: 1
 --- !u!114 &1862037784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62096,6 +62279,7 @@ MonoBehaviour:
   saveState: 0
   eventParts:
   - {fileID: 1862037785}
+  - {fileID: 1862037791}
   - {fileID: 1862037784}
   - {fileID: 1862037788}
   - {fileID: 1862037787}
@@ -62123,21 +62307,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1683384630}
-  freezeTime: 0
+  freezeTime: 1
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
   illustrations:
-  - {fileID: 21300000, guid: a85a1acc90279d844b2df6676d4787b5, type: 3}
-  - {fileID: 21300000, guid: 67b3dc7ebc999f7428a76eef012fe51e, type: 3}
-  - {fileID: 21300000, guid: 8d7547b1208a15b4d8d47b0536a03b2d, type: 3}
+  - {fileID: 21300000, guid: 5f12d9a6611aae7458d94313bc885521, type: 3}
+  - {fileID: 0}
+  - {fileID: 21300000, guid: cdcef3100dc006a4b93025a0ed315643, type: 3}
+  - {fileID: 21300000, guid: d0b52a35f87e67e438dfc986476e7b08, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   illustrationTimes:
-  - 1
-  - 3
-  - 2
+  - 5
+  - 3.5
+  - 7
+  - 6
+  - 4
+  - 4
   illuDescriptions:
   - 
+  - I am fading away...
   - 
+  - 
+  - ...but there is hope
   - 
   eventFadeInTime: 0.5
   eventFadeOutTime: 0.5
@@ -62145,15 +62338,22 @@ MonoBehaviour:
   illustrationImage: {fileID: 1482128037}
   backgroundImage: {fileID: 1482128038}
   descriptionText: {fileID: 1482128036}
+  noIlluColor: {r: 0.10980392, g: 0.09019608, b: 0.12156863, a: 1}
   cinematicSource: {fileID: 1862037789}
   cinematicSoundEffects:
+  - clip: {fileID: 8300000, guid: 767f1ffc51039154d981aa0ed44dff32, type: 3}
+    volumeScale: 1
+  - clip: {fileID: 0}
+    volumeScale: 1
+  - clip: {fileID: 8300000, guid: 217b55247bb1ba14ab0617f83a2e2bf4, type: 3}
+    volumeScale: 1
+  - clip: {fileID: 8300000, guid: c7e9d9a080772904aac7fddf669a0245, type: 3}
+    volumeScale: 1
   - clip: {fileID: 0}
     volumeScale: 0
   - clip: {fileID: 0}
     volumeScale: 0
-  - clip: {fileID: 0}
-    volumeScale: 0
-  startNextEventPartWhenStartUnfade: 0
+  startNextEventPartWhenStartUnfade: 1
 --- !u!114 &1862037788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62171,8 +62371,8 @@ MonoBehaviour:
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
-  audioSource: {fileID: 739692725}
-  fadeOutPreviousMusic: 1
+  audioSource: {fileID: 446319405}
+  fadeOutPreviousMusic: 0
   fadeOutTime: 0.8
   newMusicToPlay: {fileID: 0}
 --- !u!82 &1862037789
@@ -62285,7 +62485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraConstraintDuringEventPart: {fileID: 1683384630}
-  freezeTime: 0
+  freezeTime: 1
   eventTrigger: {fileID: 0}
   eventStarted: 0
   eventEnded: 0
@@ -62294,6 +62494,27 @@ MonoBehaviour:
   clearTime: {fileID: 817313876}
   deathCount: {fileID: 1618897740}
   continueButton: {fileID: 1287838329}
+--- !u!114 &1862037791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862037781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba110fd51188f4428d219c283718b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384636}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  audioSource: {fileID: 446319405}
+  fadeOutPreviousMusic: 1
+  fadeOutTime: 0.2
+  newMusicToPlay: {fileID: 8300000, guid: 7683d2aa67871e54bb962ef4804d1b73, type: 3}
 --- !u!1001 &1867419135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62732,7 +62953,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920570867}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.02, y: 0.98, z: 0}
+  m_LocalPosition: {x: -1.72, y: 8.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093969421}
