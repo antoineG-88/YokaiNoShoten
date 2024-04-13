@@ -17,6 +17,9 @@ public class Sentinel : Enemy
     public float vulnerabilityTimeWindow;
     public AnimationCurve shieldApparitionCurve;
     public float shieldApparitionTime = 0.3f;
+    public Sound defenseSpawnSound;
+    public Sound defenseLossSound;
+    public Sound damageSound;
     [Header("Movement settings")]
     public float maxSpeed;
     public float accelerationForce;
@@ -66,6 +69,11 @@ public class Sentinel : Enemy
             isDefending = true;
             ActivateShield();
             StartProtection(protections[Mathf.Min(currentProtectionLevel - 1, protections.Count - 1)].protectingEnemies);
+
+
+            if (defenseSpawnSound.clip != null)
+                source.PlayOneShot(defenseSpawnSound.clip, defenseSpawnSound.volumeScale);
+
             waveReceiver.isOn = false;
         }
     }
@@ -248,6 +256,10 @@ public class Sentinel : Enemy
         shield.transform.localScale = Vector3.zero;
 
         shield.SetActive(false);
+
+
+        if (defenseLossSound.clip != null)
+            source.PlayOneShot(defenseLossSound.clip, defenseLossSound.volumeScale);
     }
 
     private IEnumerator DelayedShieldActivation()
@@ -271,6 +283,9 @@ public class Sentinel : Enemy
         {
             triggerSlowMo = true;
             TakeDamage(damage, 0.5f);
+
+            if (damageSound.clip != null)
+                source.PlayOneShot(damageSound.clip, damageSound.volumeScale);
         }
         else
         {

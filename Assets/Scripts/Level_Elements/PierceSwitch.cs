@@ -21,6 +21,7 @@ public class PierceSwitch : Switch
 
     private void Update()
     {
-        animator.SetBool("LeverOn", isOn);
+        if(animator != null)
+            animator.SetBool("LeverOn", isOn);
     }
 }
