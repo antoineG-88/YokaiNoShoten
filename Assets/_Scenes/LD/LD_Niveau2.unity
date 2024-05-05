@@ -11489,7 +11489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297410634}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.06, y: 0, z: 0}
+  m_LocalPosition: {x: 2.38, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1433774202}
@@ -439989,7 +439989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56642bf106554e748ae9cbcb50c0076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBaseOffset: {x: 19.5, y: 136.6}
+  cameraBaseOffset: {x: 19.5, y: 136}
   useAsCameraFocusPoint: 1
   cameraSize: 5
   limitRelativeToZonePos: 0
@@ -440281,9 +440281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56642bf106554e748ae9cbcb50c0076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBaseOffset: {x: 23.1, y: 185.21}
+  cameraBaseOffset: {x: 25.7, y: 183.5}
   useAsCameraFocusPoint: 1
-  cameraSize: 7
+  cameraSize: 6
   limitRelativeToZonePos: 0
   upLimit: 0
   downLimit: 0
@@ -463651,7 +463651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56642bf106554e748ae9cbcb50c0076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBaseOffset: {x: 132.93, y: 144}
+  cameraBaseOffset: {x: 132.93, y: 143}
   useAsCameraFocusPoint: 1
   cameraSize: 10
   limitRelativeToZonePos: 0
@@ -463659,7 +463659,7 @@ MonoBehaviour:
   downLimit: 0
   leftLimit: 0
   rightLimit: 0
-  cameraPreviewColor: {r: 0, g: 0, b: 0, a: 0.65882355}
+  cameraPreviewColor: {r: 0.7924528, g: 0.18316127, b: 0.18316127, a: 0.65882355}
   isTriggeredExternaly: 1
 --- !u!114 &1252532021
 MonoBehaviour:
@@ -463817,9 +463817,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56642bf106554e748ae9cbcb50c0076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBaseOffset: {x: 132.64, y: 146.1}
+  cameraBaseOffset: {x: 132.64, y: 145.5}
   useAsCameraFocusPoint: 1
-  cameraSize: 8
+  cameraSize: 8.5
   limitRelativeToZonePos: 0
   upLimit: 0
   downLimit: 0
@@ -471082,7 +471082,7 @@ MonoBehaviour:
   eventStarted: 0
   eventEnded: 0
   dialogToPlay: {fileID: 11400000, guid: 3ca5ae6c86db2a2489d8a92645ed9cc8, type: 2}
-  seikiPositionDuringDialog: {x: 136.68, y: 68.06}
+  seikiPositionDuringDialog: {x: 133, y: 68.06}
   seikiOrientationIsRight: 1
   seikiWalkingSpeed: 4
   seikiPosPreview: {fileID: 297410634}
@@ -471129,9 +471129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56642bf106554e748ae9cbcb50c0076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBaseOffset: {x: 135.9, y: 70.63}
+  cameraBaseOffset: {x: 135.9, y: 70}
   useAsCameraFocusPoint: 1
-  cameraSize: 8
+  cameraSize: 8.5
   limitRelativeToZonePos: 0
   upLimit: 0
   downLimit: 0

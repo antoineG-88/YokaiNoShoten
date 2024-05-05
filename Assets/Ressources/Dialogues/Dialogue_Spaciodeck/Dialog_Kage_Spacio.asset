@@ -14,36 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tsvDialogPath: Assets/Ressources/Dialogues/Dialogue_Spaciodeck/Dialogue_EN_Spaciodeck_Kage_1.tsv
   sentences:
-  - sentence: Don't be afraid Seiki.__ It's me._ Kage.
+  - sentence: I expected no less from you, Seiki.
     characterName: Unknown Spirit
     seikiReaction: 6
     speakingSpeed: 0.5
-  - sentence: "I'm glad to see you alive...__ Especially after seing you fall on
-      the battleground. Dor\u012Bm\u0101 protected your energy from being absorbed."
+  - sentence: I go by the name Kage, and I have been trapped in this tower for quite
+      a while now.
     characterName: Kage
     seikiReaction: 1
     speakingSpeed: 1
-  - sentence: Looks like the great Zenchi tree was able to resurect you...__ But
-      I'm scared you were the last one,__ the tree is completely corrupted by the
-      Selvos now.
+  - sentence: "You wouldn't be alive if it were not for your master Dor\u012Bm\u0101.
+      He protected your energy from being absorbed, and the great Zenchi tree was
+      able to resurect you."
     characterName: Kage
     seikiReaction: 0
     speakingSpeed: 1
-  - sentence: '... I saw Dorima getting captured, I guess you are here for him. '
+  - sentence: But I'm scared you were the only one.__ The tree is completely corrupted
+      by the Selvos now.
+    characterName: Kage
+    seikiReaction: 2
+    speakingSpeed: 1
+  - sentence: 'Your master got captured with many others, you must rescue them. '
+    characterName: Kage
+    seikiReaction: 3
+    speakingSpeed: 1
+  - sentence: 'I will guide you through this tower and try to help you on your ascent
+      here. '
     characterName: Kage
     seikiReaction: 4
-    speakingSpeed: 1
-  - sentence: My spirit has been trapped in this tower for while. I know every inch
-      of it.
-    characterName: Kage
-    seikiReaction: 4
-    speakingSpeed: 1
-  - sentence: 'I''ll try to help you on your ascent here. '
-    characterName: Kage
-    seikiReaction: 0
     speakingSpeed: 1
   - sentence: For now, try to reach the other survivors. _They are hidden higher
       in the tower.
     characterName: Kage
-    seikiReaction: 4
+    seikiReaction: 0
     speakingSpeed: 1
