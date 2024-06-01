@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -50749,7 +50749,7 @@ MonoBehaviour:
   - {fileID: 812196230}
   - {fileID: 812196229}
   - {fileID: 812196228}
-  switchToTriggerEvent: {fileID: 1093969420}
+  switchToTriggerEvent: {fileID: 1683384627}
   objectsDisabledAfterEvent:
   - {fileID: 7321706694805512837}
   objectsEnabledAfterEvent:
@@ -52986,7 +52986,7 @@ MonoBehaviour:
   inverseOutput: 0
   isOn: 0
   saveState: 0
-  switchToTriggerWaves: {fileID: 1683384627}
+  switchToTriggerWaves: {fileID: 0}
   waves:
   - waveEnemies:
     - {fileID: 1239335885}
@@ -56777,6 +56777,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3444105816555870599, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756362528965655226, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4495233473657097004, guid: 06f07e53a9763bc4dbce6cb61276b09e,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -57137,6 +57147,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1482128039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6674386290780053751, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1482128027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1482128040 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8871273636546675764, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1482128027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1483967151
 GameObject:
   m_ObjectHideFlags: 0
@@ -62113,6 +62135,7 @@ GameObject:
   - component: {fileID: 1862037790}
   - component: {fileID: 1862037783}
   - component: {fileID: 1862037789}
+  - component: {fileID: 1862037792}
   m_Layer: 0
   m_Name: Finish Event
   m_TagString: Untagged
@@ -62233,6 +62256,7 @@ MonoBehaviour:
   - {fileID: 1862037784}
   - {fileID: 1862037788}
   - {fileID: 1862037787}
+  - {fileID: 1862037792}
   - {fileID: 1862037790}
   - {fileID: 1862037783}
   switchToTriggerEvent: {fileID: 1145353638}
@@ -62288,6 +62312,8 @@ MonoBehaviour:
   illustrationImage: {fileID: 1482128037}
   backgroundImage: {fileID: 1482128038}
   descriptionText: {fileID: 1482128036}
+  keyboardSkipInstruction: {fileID: 1482128039}
+  controllerSkipInstruction: {fileID: 1482128040}
   noIlluColor: {r: 0.10980392, g: 0.09019608, b: 0.12156863, a: 1}
   cinematicSource: {fileID: 1862037789}
   cinematicSoundEffects:
@@ -62465,6 +62491,24 @@ MonoBehaviour:
   fadeOutPreviousMusic: 1
   fadeOutTime: 0.2
   newMusicToPlay: {fileID: 8300000, guid: 7683d2aa67871e54bb962ef4804d1b73, type: 3}
+--- !u!114 &1862037792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862037781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d8a24e4ea2f5d4fa3e66abc5a732dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1683384636}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  achievementToTrigger: 1
 --- !u!1001 &1867419135
 PrefabInstance:
   m_ObjectHideFlags: 0

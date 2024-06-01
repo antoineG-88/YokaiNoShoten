@@ -28,6 +28,7 @@ public class GameData : MonoBehaviour
     public static int noPiercableLayer;
     public static AudioSource playerSource;
     public static AudioManager audioManager;
+    public static ControllerAchievementDetector controllerAchievementDetector;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class GameData : MonoBehaviour
         playerSource = player.GetComponent<AudioSource>();
         audioManager = levelManager.GetComponent<AudioManager>();
         damageEffectManager = player.GetComponent<DamageEffectManager>();
+        controllerAchievementDetector = player.GetComponent<ControllerAchievementDetector>();
     }
 
     private void Start()

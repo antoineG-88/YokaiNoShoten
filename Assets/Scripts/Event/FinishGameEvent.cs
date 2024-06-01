@@ -59,6 +59,16 @@ public class FinishGameEvent : EventPart
             + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
         deathCount.text = finishSave.numberOfDeath.ToString();
 
+        if(playTime <= 2400f)
+        {
+            SteamIntegration.UnlockAchievement(Achievement.ACH_NO_REST);
+        }
+
+        if (finishSave.numberOfDeath == 0)
+        {
+            SteamIntegration.UnlockAchievement(Achievement.ACH_ZERO_DEATH);
+        }
+
         EventSystem.current.SetSelectedGameObject(continueButton);
     }
 

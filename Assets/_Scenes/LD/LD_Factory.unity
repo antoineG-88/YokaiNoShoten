@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -236,6 +236,8 @@ MonoBehaviour:
   illustrationImage: {fileID: 836306770}
   backgroundImage: {fileID: 1323950752}
   descriptionText: {fileID: 105377553}
+  keyboardSkipInstruction: {fileID: 1024373754}
+  controllerSkipInstruction: {fileID: 1024373755}
   noIlluColor: {r: 0.10980392, g: 0.09019608, b: 0.12156863, a: 1}
   cinematicSource: {fileID: 6634153}
   cinematicSoundEffects:
@@ -13368,6 +13370,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3444105816555870599, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -121.80005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444105816555870599, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -55.69995
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756362528965655226, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -55.69995
+      objectReference: {fileID: 0}
     - target: {fileID: 4495233473657097004, guid: 06f07e53a9763bc4dbce6cb61276b09e,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -13689,6 +13706,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1024373754 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6674386290780053751, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024373746}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1024373755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8871273636546675764, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024373746}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1034280562
 GameObject:
   m_ObjectHideFlags: 0
@@ -23502,6 +23531,7 @@ GameObject:
   - component: {fileID: 1625889946}
   - component: {fileID: 1625889943}
   - component: {fileID: 1625889945}
+  - component: {fileID: 1625889947}
   m_Layer: 0
   m_Name: PetitYokaiDialogue2
   m_TagString: Untagged
@@ -23565,6 +23595,7 @@ MonoBehaviour:
   - {fileID: 1625889940}
   - {fileID: 1625889946}
   - {fileID: 1625889943}
+  - {fileID: 1625889947}
   switchToTriggerEvent: {fileID: 0}
   objectsDisabledAfterEvent:
   - {fileID: 1713846142}
@@ -23763,6 +23794,24 @@ MonoBehaviour:
   fadeOutPreviousMusic: 0
   fadeOutTime: 0.8
   newMusicToPlay: {fileID: 8300000, guid: 94f7ac74cda96a84d8aba37b1fbf69b1, type: 3}
+--- !u!114 &1625889947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625889938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d8a24e4ea2f5d4fa3e66abc5a732dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 1625889944}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  achievementToTrigger: 0
 --- !u!1001 &1628346132
 PrefabInstance:
   m_ObjectHideFlags: 0

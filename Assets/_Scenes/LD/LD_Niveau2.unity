@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -439745,6 +439745,7 @@ GameObject:
   - component: {fileID: 630250616}
   - component: {fileID: 630250613}
   - component: {fileID: 630250614}
+  - component: {fileID: 630250622}
   m_Layer: 15
   m_Name: Dialogue_Sauvetage Dorima
   m_TagString: Untagged
@@ -440028,6 +440029,8 @@ MonoBehaviour:
   illustrationImage: {fileID: 1732929288}
   backgroundImage: {fileID: 1732929287}
   descriptionText: {fileID: 1732929286}
+  keyboardSkipInstruction: {fileID: 1732929290}
+  controllerSkipInstruction: {fileID: 1732929289}
   noIlluColor: {r: 0.10980392, g: 0.09019608, b: 0.12156863, a: 1}
   cinematicSource: {fileID: 630250614}
   cinematicSoundEffects:
@@ -440055,6 +440058,7 @@ MonoBehaviour:
   - {fileID: 630250621}
   - {fileID: 630250616}
   - {fileID: 630250613}
+  - {fileID: 630250622}
   switchToTriggerEvent: {fileID: 0}
   objectsDisabledAfterEvent:
   - {fileID: 535258403}
@@ -440102,6 +440106,24 @@ MonoBehaviour:
   seikiNewPos: {x: 0, y: 0}
   cameraChangeDuringScreen: {fileID: 0}
   source: {fileID: 630250614}
+--- !u!114 &630250622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630250611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d8a24e4ea2f5d4fa3e66abc5a732dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraConstraintDuringEventPart: {fileID: 630250618}
+  freezeTime: 0
+  eventTrigger: {fileID: 0}
+  eventStarted: 0
+  eventEnded: 0
+  achievementToTrigger: 4
 --- !u!1 &632078750
 GameObject:
   m_ObjectHideFlags: 0
@@ -482473,6 +482495,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1732929289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8871273636546675764, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1732929276}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1732929290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6674386290780053751, guid: 06f07e53a9763bc4dbce6cb61276b09e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1732929276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1733092269
 PrefabInstance:
   m_ObjectHideFlags: 0

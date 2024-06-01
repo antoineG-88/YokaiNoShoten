@@ -13,6 +13,8 @@ public class IllustrationEvent : EventPart
     public Image illustrationImage;
     public Image backgroundImage;
     public Text descriptionText;
+    public GameObject keyboardSkipInstruction;
+    public GameObject controllerSkipInstruction;
     public Color noIlluColor;
     [Space]
     public AudioSource cinematicSource;
@@ -21,12 +23,28 @@ public class IllustrationEvent : EventPart
 
     private int currentIllustrationStep;
     private bool isInCinematic;
+    private bool readyToSkip;
 
     private void Update()
     {
         if (isInCinematic)
         {
-
+            if (readyToSkip)
+            {
+                if (Input.GetButtonDown("AButton") || Input.GetKeyDown(KeyCode.Space))
+                {
+                    EndEventPart();
+                    StopAllCoroutines();
+                    keyboardSkipInstruction.SetActive(false);
+                    controllerSkipInstruction.SetActive(false);
+                    StartCoroutine(FadeEventOut());
+                }
+            }
+            else if (Input.anyKeyDown)
+            {
+                StartCoroutine(ShowSkip());
+                readyToSkip = true;
+            }
         }
     }
 
@@ -110,6 +128,8 @@ public class IllustrationEvent : EventPart
         else
         {
             EndEventPart();
+            keyboardSkipInstruction.SetActive(false);
+            controllerSkipInstruction.SetActive(false);
             StartCoroutine(FadeEventOut());
         }
     }
@@ -125,5 +145,23 @@ public class IllustrationEvent : EventPart
         illustrationImage.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
+    }
+
+    private IEnumerator ShowSkip()
+    {
+        if(GameManager.isUsingController)
+        {
+            controllerSkipInstruction.SetActive(true);
+        }
+        else
+        {
+            keyboardSkipInstruction.SetActive(true);
+        }
+
+        yield return new WaitForSecondsRealtime(3f);
+
+        keyboardSkipInstruction.SetActive(false);
+        controllerSkipInstruction.SetActive(false);
+        readyToSkip = false;
     }
 }

@@ -121,6 +121,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             SaveSystem.DeleteGameSaveFile();
+            SteamIntegration.ResetAllAchievements();
         }
 
         if(!gameIsPaused && !levelIsLoading && !isInMainMenu)

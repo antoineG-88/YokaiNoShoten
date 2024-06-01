@@ -312,6 +312,7 @@ public class Wasp : Enemy
         if (!isProtected)
         {
             triggerSlowMo = true;
+            GameData.controllerAchievementDetector.IncrementEnemyPierce();
             TakeDamage(damage, 0.5f);
         }
         else

@@ -43,6 +43,8 @@ public class CheckPoint : MonoBehaviour
                 {
                     saveFlag = false;
                     SaveAsCurrentCheckPoint();
+
+                    GameData.controllerAchievementDetector.IncrementNewCheckpointReached(checkPointNumber);
                 }
             }
         }
@@ -60,6 +62,7 @@ public class CheckPoint : MonoBehaviour
     {
         if(activationSound.clip != null && !isActivated)
             source.PlayOneShot(activationSound.clip, activationSound.volumeScale);
+
         LevelManager.ActivateSingleCheckPoint(this);
         GameManager.SaveProgression(this);
     }
