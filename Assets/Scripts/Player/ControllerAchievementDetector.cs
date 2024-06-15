@@ -11,7 +11,7 @@ public class ControllerAchievementDetector : MonoBehaviour
 
     void Start()
     {
-        if(SteamIntegration.IsAchievementUnlocked(Achievement.ACH_AIRBORNE))
+        if (SteamIntegration.IsAchievementUnlocked(Achievement.ACH_AIRBORNE))
         {
             hasAchievedAirborne = true;
         }

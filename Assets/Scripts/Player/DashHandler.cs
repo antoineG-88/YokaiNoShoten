@@ -41,6 +41,7 @@ public class DashHandler : MonoBehaviour
         attackReactionFilter.useTriggers = true;
         enemyFilter.useTriggers = true;
         defaultDashDirection = Vector2.up;
+        canDash = true;
 
         dashWithRightTrigger = ControlsManager.grappleAndDashSwitched;
         aimWithRightJoystick = ControlsManager.altDashAndPierceAimEnabled;
