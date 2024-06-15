@@ -94,11 +94,7 @@ public class MenuManager : MonoBehaviour
         {
             SelectButtonWithController(continueButton);
 
-            continueInfo.text = zones[loadedSave._chapterToLoad - 1].zoneName + "\n"
-                + (loadedSave.isValidRun ? (
-                (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(loadedSave.timeElapsed) + "hours - "))
-                + GameManager.GetMinutesFromSecondElapsed(loadedSave.timeElapsed) + "min - "
-                + GameManager.GetSecondsFromSecondElapsed(loadedSave.timeElapsed) + "seconds") : "");
+            continueInfo.text = zones[loadedSave._chapterToLoad - 1].zoneName + "\n" + (loadedSave.isValidRun ? GameManager.GetSpeedrunDisplayOfPlaytime(loadedSave.timeElapsed) : "");
         }
     }
 
@@ -184,13 +180,11 @@ public class MenuManager : MonoBehaviour
         if (progressionSave != null && progressionSave.hasFinishedTheGame)
         {
             float playTime = progressionSave.fastestClearTime;
-            bestClearTime.text = "Fastest clear time : \n" + (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
-            + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
-            + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+            bestClearTime.text = "Fastest clear time : \n" + GameManager.GetSpeedrunDisplayOfPlaytime(playTime);
         }
         else
         {
-            bestClearTime.text = "Fastest clear time : \n Game not yet completed";
+            bestClearTime.text = "Fastest clear time : \n Game not yet finished";
             chaptersButtons[0].interactable = true;
             for (int i = 1; i < chaptersButtons.Length; i++)
             {
@@ -213,9 +207,7 @@ public class MenuManager : MonoBehaviour
             {
                 if (progressionSave.chaptersClearTime[i] != 0)
                 {
-                    chaptersClearTime[i].text = (GameManager.GetHourFromSecondElapsed(progressionSave.chaptersClearTime[i]) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(progressionSave.chaptersClearTime[i]) + "hours - "))
-                    + GameManager.GetMinutesFromSecondElapsed(progressionSave.chaptersClearTime[i]) + "min - "
-                    + (GameManager.GetSecondsFromSecondElapsed(progressionSave.chaptersClearTime[i]) + GameManager.GetSubSecondFromSecondElapsed(progressionSave.chaptersClearTime[i])).ToString("0.00") + " seconds";
+                    chaptersClearTime[i].text = GameManager.GetSpeedrunDisplayOfPlaytime(progressionSave.chaptersClearTime[i]);
                 }
                 else
                 {

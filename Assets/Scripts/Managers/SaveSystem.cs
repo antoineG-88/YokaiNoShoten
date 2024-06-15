@@ -202,7 +202,6 @@ public static class SaveSystem
 
     public static void DeleteGameSaveFile()
     {
-        //string path = savePath + zoneDataFileNamePrefixe + zoneName + saveFileExtension;
         string path = Path.Combine(savePath, gameSaveFileName + saveFileExtension);
         
         if(File.Exists(path))
@@ -212,5 +211,16 @@ public static class SaveSystem
         }
 
         GameManager.isValidForClearTime = false;
+    }
+
+    public static void DeleteProgressionSaveFile()
+    {
+        string path = Path.Combine(savePath, progressionSaveFileName + saveFileExtension);
+
+        if (File.Exists(path))
+        {
+            Debug.Log("Progression save deleted at : " + path);
+            File.Delete(path);
+        }
     }
 }

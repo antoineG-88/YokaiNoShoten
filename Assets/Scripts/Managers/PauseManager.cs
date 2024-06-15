@@ -66,20 +66,15 @@ public class PauseManager : MonoBehaviour
             if (GameManager.isValidForClearTime)
             {
                 float playTime = GameManager.timeElapsedPlaying;
-                playTimeText.text = (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
-                + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
-                + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+                playTimeText.text = "Global time : " + GameManager.GetSpeedrunDisplayOfPlaytime(playTime);
             }
             else
             {
-
-                playTimeText.text = "Not valid run";
+                playTimeText.text = "Global time : available by starting from new game";
             }
 
             float chapterPlayTime = GameManager.chapterTimeElapsedPlaying;
-            chapterTimeText.text = "Chapter time elapsed : " + (GameManager.GetHourFromSecondElapsed(chapterPlayTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(chapterPlayTime) + "hours - "))
-            + GameManager.GetMinutesFromSecondElapsed(chapterPlayTime) + "min - "
-            + (GameManager.GetSecondsFromSecondElapsed(chapterPlayTime) + GameManager.GetSubSecondFromSecondElapsed(chapterPlayTime)).ToString("0.00") + " seconds";
+            chapterTimeText.text = "Chapter time : " + GameManager.GetSpeedrunDisplayOfPlaytime(chapterPlayTime);
 
             deathCountText.text = GameManager.numberOfDeath.ToString();
             storyStep.text = GameManager.currentStoryStep.ToString();

@@ -12,8 +12,11 @@ public class GameManager : MonoBehaviour
     public string saveFileExtension;
     public string defaultSaveDirectoryName;
     public string defaultGameDirectoryName;
-    [Header("________")]
+    [Header("Cheat shortcuts")]
     public bool enableZonesKeyShortcuts;
+    public bool enableDeleteSaveShortcuts;
+    public bool enableRemoveAchievementsShortcut;
+    public bool enableDeleteAllSaveFilesShortcut;
 
     [HideInInspector] public static string currentZoneName;
     [HideInInspector] public static int currentChapter;
@@ -118,13 +121,32 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Delete))
+        if(enableDeleteSaveShortcuts)
         {
-            SaveSystem.DeleteGameSaveFile();
-            SteamIntegration.ResetAllAchievements();
+            if (Input.GetKeyDown(KeyCode.Delete))
+            {
+                SaveSystem.DeleteGameSaveFile();
+            }
         }
 
-        if(!gameIsPaused && !levelIsLoading && !isInMainMenu)
+        if(enableRemoveAchievementsShortcut)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Delete) && Input.GetKeyDown(KeyCode.A))
+            {
+                SteamIntegration.ResetAllAchievements();
+            }
+        }
+
+        if (enableDeleteAllSaveFilesShortcut)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Delete) && Input.GetKeyDown(KeyCode.S))
+            {
+                SaveSystem.DeleteGameSaveFile();
+                SaveSystem.DeleteProgressionSaveFile();
+            }
+        }
+
+        if (!gameIsPaused && !levelIsLoading && !isInMainMenu)
         {
             timeElapsedPlaying += Time.unscaledDeltaTime;
             chapterTimeElapsedPlaying += Time.unscaledDeltaTime;
@@ -306,6 +328,14 @@ public class GameManager : MonoBehaviour
     public static float GetSubSecondFromSecondElapsed(float secondsToConvert)
     {
         return secondsToConvert - Mathf.FloorToInt(secondsToConvert);
+    }
+
+    public static string GetSpeedrunDisplayOfPlaytime(float secondsToConvert)
+    {
+        return (GetHourFromSecondElapsed(secondsToConvert) == 0 ? "" : (GetHourFromSecondElapsed(secondsToConvert) + ":"))
+            + string.Format("{0:00}", GetMinutesFromSecondElapsed(secondsToConvert)) + ":"
+            + string.Format("{0:00}", GetSecondsFromSecondElapsed(secondsToConvert)) + "." + GetSubSecondFromSecondElapsed(secondsToConvert).ToString("0.00").Remove(0, 2);
+
     }
 
     private void CheckInputType()

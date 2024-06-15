@@ -51,7 +51,10 @@ MonoBehaviour:
   saveFileExtension: .ys
   defaultSaveDirectoryName: Saves
   defaultGameDirectoryName: YokaiRescue
-  enableZonesKeyShortcuts: 1
+  enableZonesKeyShortcuts: 0
+  enableDeleteSaveShortcuts: 0
+  enableRemoveAchievementsShortcut: 1
+  enableDeleteAllSaveFilesShortcut: 1
 --- !u!114 &3275821570811240266
 MonoBehaviour:
   m_ObjectHideFlags: 0

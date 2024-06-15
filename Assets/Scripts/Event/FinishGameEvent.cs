@@ -54,9 +54,7 @@ public class FinishGameEvent : EventPart
         GameSave finishSave = SaveSystem.LoadGameSave();
         float playTime = finishSave.timeElapsed;
         endgameScreen.SetActive(true);
-        clearTime.text = (GameManager.GetHourFromSecondElapsed(playTime) == 0 ? "" : (GameManager.GetHourFromSecondElapsed(playTime) + "hours - "))
-            + GameManager.GetMinutesFromSecondElapsed(playTime) + "min - "
-            + (GameManager.GetSecondsFromSecondElapsed(playTime) + GameManager.GetSubSecondFromSecondElapsed(playTime)).ToString("0.00") + " seconds";
+        clearTime.text = GameManager.GetSpeedrunDisplayOfPlaytime(playTime);
         deathCount.text = finishSave.numberOfDeath.ToString();
 
         if(playTime <= 2400f)
