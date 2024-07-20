@@ -1,30 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Steamworks;
 
 public class SteamIntegration : MonoBehaviour
 {
     public static bool isInitialized;
 
+
+
     void Awake()
     {
         try
         {
             SteamClient.Init(2898970);
-            isInitialized = true;
-            //Debug.Log("Succesfuly connected to steam with account : " + SteamClient.Name);
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e);
-            isInitialized = false;
+        }
+
+        isInitialized = SteamClient.IsValid;
+        if (isInitialized)
+        {
+            //Debug.Log("Succesfuly connected to steam with account : " + SteamClient.Name);
+        }
+        else
+        {
+            Debug.LogWarning("Can't connect to steam");
         }
     }
 
     void Update()
     {
         SteamClient.RunCallbacks();
+        SteamFriends.OnGameOverlayActivated += OnActivateOverlay;
     }
 
 
@@ -73,5 +84,14 @@ public class SteamIntegration : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private void OnActivateOverlay(bool isActivated)
+    {
+        if(PauseManager.I != null)
+            PauseManager.I.OnOverlayOpen(isActivated);
+
+        if (MenuManager.I != null)
+            MenuManager.I.OnOverlayOpen(isActivated);
     }
 }

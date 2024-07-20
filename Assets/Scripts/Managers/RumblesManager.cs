@@ -28,7 +28,7 @@ public class RumblesManager : MonoBehaviour
     public AnimationCurve pierceEndHighRumbleIntensityByTime;
     [Space]
     public Gamepad gamepad;
-    [HideInInspector] public Coroutine currentRamble;
+    [HideInInspector] public Coroutine currentRumble;
     private float timer;
     private float intensity;
     private float intensity2;
@@ -57,50 +57,50 @@ public class RumblesManager : MonoBehaviour
 
     public static void StartDashRumble()
     {
-        if(I.currentRamble != null)
-            I.StopCoroutine(I.currentRamble);
+        if(I.currentRumble != null)
+            I.StopCoroutine(I.currentRumble);
         if (rumblesAreEnabled && GameManager.isUsingController)
-            I.currentRamble = I.StartCoroutine(I.DashRumble());
+            I.currentRumble = I.StartCoroutine(I.DashRumble());
     }
 
     public static void StartTakeDamageRumble()
     {
-        if (I.currentRamble != null)
-            I.StopCoroutine(I.currentRamble);
+        if (I.currentRumble != null)
+            I.StopCoroutine(I.currentRumble);
         if(rumblesAreEnabled && GameManager.isUsingController)
-            I.currentRamble = I.StartCoroutine(I.TakeDamageRumble());
+            I.currentRumble = I.StartCoroutine(I.TakeDamageRumble());
     }
 
     public static void StartPhasingRumble()
     {
-        if (I.currentRamble != null)
-            I.StopCoroutine(I.currentRamble);
+        if (I.currentRumble != null)
+            I.StopCoroutine(I.currentRumble);
         if (rumblesAreEnabled && GameManager.isUsingController)
-            I.currentRamble = I.StartCoroutine(I.PierceStartRumble());
+            I.currentRumble = I.StartCoroutine(I.PierceStartRumble());
     }
 
     public static void EndPhasingRumble()
     {
-        if (I.currentRamble != null)
-            I.StopCoroutine(I.currentRamble);
+        if (I.currentRumble != null)
+            I.StopCoroutine(I.currentRumble);
         if (rumblesAreEnabled && GameManager.isUsingController)
-            I.currentRamble = I.StartCoroutine(I.PierceEndRumble());
+            I.currentRumble = I.StartCoroutine(I.PierceEndRumble());
     }
 
     public static void StartGrappleRumble()
     {
-        if (I.currentRamble != null)
-            I.StopCoroutine(I.currentRamble);
+        if (I.currentRumble != null)
+            I.StopCoroutine(I.currentRumble);
         if (rumblesAreEnabled && GameManager.isUsingController)
-            I.currentRamble = I.StartCoroutine(I.GrappleRumble());
+            I.currentRumble = I.StartCoroutine(I.GrappleRumble());
     }
 
     public static void StartDeathRumble()
     {
-        if (I.currentRamble != null)
-            I.StopCoroutine(I.currentRamble);
+        if (I.currentRumble != null)
+            I.StopCoroutine(I.currentRumble);
         if (rumblesAreEnabled && GameManager.isUsingController)
-            I.currentRamble = I.StartCoroutine(I.DeathRumble());
+            I.currentRumble = I.StartCoroutine(I.DeathRumble());
     }
 
     private IEnumerator DashRumble()

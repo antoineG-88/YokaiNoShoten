@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -34,6 +33,14 @@ public class MenuManager : MonoBehaviour
 
     private GameObject lastSelectedObject;
     private bool isGameStarting;
+    private bool isOverlayActive;
+
+    public static MenuManager I;
+
+    private void Awake()
+    {
+        I = this;
+    }
 
     private void Start()
     {
@@ -53,31 +60,33 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-
-        if (eventSystem.currentSelectedGameObject == null)
+        if(!isOverlayActive)
         {
-            if (GameManager.isUsingController)
+            if (eventSystem.currentSelectedGameObject == null)
             {
-                if (Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+                if (GameManager.isUsingController)
                 {
-                    SelectButtonWithController(lastSelectedObject);
+                    if (Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+                    {
+                        SelectButtonWithController(lastSelectedObject);
+                    }
                 }
             }
-        }
-        else
-        {
-            lastSelectedObject = eventSystem.currentSelectedGameObject;
-        }
+            else
+            {
+                lastSelectedObject = eventSystem.currentSelectedGameObject;
+            }
 
-        if((Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape)) && !isGameStarting && (creditsMenu.activeSelf || optionMenuMainPanel.activeSelf || chaptersMenu.activeSelf || warnWindow.activeSelf))
-        {
-            mainMenu.SetActive(true);
-            optionMenu.SetActive(false);
-            creditsMenu.SetActive(false);
-            chaptersMenu.SetActive(false);
-            warnWindow.SetActive(false);
+            if ((Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape)) && !isGameStarting && (creditsMenu.activeSelf || optionMenuMainPanel.activeSelf || chaptersMenu.activeSelf || warnWindow.activeSelf))
+            {
+                mainMenu.SetActive(true);
+                optionMenu.SetActive(false);
+                creditsMenu.SetActive(false);
+                chaptersMenu.SetActive(false);
+                warnWindow.SetActive(false);
 
-            UpdateContinueButton();
+                UpdateContinueButton();
+            }
         }
     }
 
@@ -268,6 +277,20 @@ public class MenuManager : MonoBehaviour
         sceneToLoadWaitingForWarn = 0;
         warnWindow.SetActive(false);
         eventSystem.SetSelectedGameObject(selectedButtonWhenWarn);
+    }
+
+    public void OnOverlayOpen(bool enable)
+    {
+        if(enable)
+        {
+            isOverlayActive = true;
+            eventSystem.SetSelectedGameObject(null);
+        }
+        else
+        {
+            isOverlayActive = false;
+            eventSystem.SetSelectedGameObject(lastSelectedObject);
+        }
     }
 
     [System.Serializable]

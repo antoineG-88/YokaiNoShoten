@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
@@ -23,8 +24,19 @@ public class PauseManager : MonoBehaviour
     public UISoundManager uISoundManager;
     public AudioClip pauseSound;
     public AudioClip resumeSound;
+    public List<Button> mainButtons;
 
     private GameObject lastObjectSelected;
+
+    public static PauseManager I;
+
+    private bool isOverlayActive;
+
+    private void Awake()
+    {
+        I = this;
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
 
     void Start()
     {
@@ -34,59 +46,62 @@ public class PauseManager : MonoBehaviour
     }
     void Update()
     {
-        if(eventSystem.currentSelectedGameObject != null)
+        if (!isOverlayActive)
         {
-            lastObjectSelected = eventSystem.currentSelectedGameObject;
-        }
-        else
-        {
-            if (Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+            if (eventSystem.currentSelectedGameObject != null)
             {
-                EventSystem.current.SetSelectedGameObject(lastObjectSelected);
-            }
-        }
-
-        if(isPaused)
-        {
-            if (Input.GetButtonDown("StartButton"))
-            {
-                Resume();
-            }
-
-            if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
-            {
-                if(buttons.activeSelf)
-                    Resume();
-
-
-                if (optionMenu.activeSelf && optionMainWindow.activeSelf)
-                    Pause();
-            }
-
-            if (GameManager.isValidForClearTime)
-            {
-                float playTime = GameManager.timeElapsedPlaying;
-                playTimeText.text = "Global time : " + GameManager.GetSpeedrunDisplayOfPlaytime(playTime);
+                lastObjectSelected = eventSystem.currentSelectedGameObject;
             }
             else
             {
-                playTimeText.text = "Global time : available by starting from new game";
+                if (Mathf.Abs(Input.GetAxisRaw("LeftStickH")) > 0.5f || Mathf.Abs(Input.GetAxisRaw("LeftStickV")) > 0.5f)
+                {
+                    EventSystem.current.SetSelectedGameObject(lastObjectSelected);
+                }
             }
 
-            float chapterPlayTime = GameManager.chapterTimeElapsedPlaying;
-            chapterTimeText.text = "Chapter time : " + GameManager.GetSpeedrunDisplayOfPlaytime(chapterPlayTime);
-
-            deathCountText.text = GameManager.numberOfDeath.ToString();
-            storyStep.text = GameManager.currentStoryStep.ToString();
-            currentChapterText.text = GameManager.currentZoneName;
-
-
-        }
-        else
-        {
-            if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
+            if (isPaused)
             {
-                Pause();
+                if (Input.GetButtonDown("StartButton"))
+                {
+                    Resume();
+                }
+
+                if (Input.GetButtonDown("BButton") || Input.GetKeyDown(KeyCode.Escape))
+                {
+                    if (buttons.activeSelf)
+                        Resume();
+
+
+                    if (optionMenu.activeSelf && optionMainWindow.activeSelf)
+                        Pause();
+                }
+
+                if (GameManager.isValidForClearTime)
+                {
+                    float playTime = GameManager.timeElapsedPlaying;
+                    playTimeText.text = "Global time : " + GameManager.GetSpeedrunDisplayOfPlaytime(playTime);
+                }
+                else
+                {
+                    playTimeText.text = "Global time : available by starting from new game";
+                }
+
+                float chapterPlayTime = GameManager.chapterTimeElapsedPlaying;
+                chapterTimeText.text = "Chapter time : " + GameManager.GetSpeedrunDisplayOfPlaytime(chapterPlayTime);
+
+                deathCountText.text = GameManager.numberOfDeath.ToString();
+                storyStep.text = GameManager.currentStoryStep.ToString();
+                currentChapterText.text = GameManager.currentZoneName;
+
+
+            }
+            else
+            {
+                if (Input.GetButtonDown("StartButton") || Input.GetKeyDown(KeyCode.Escape))
+                {
+                    Pause();
+                }
             }
         }
     }
@@ -161,5 +176,39 @@ public class PauseManager : MonoBehaviour
     {
         Resume();
         GameManager.Respawn(false);
+    }
+
+    public void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (change == InputDeviceChange.Disconnected || change == InputDeviceChange.Removed)
+            Pause();
+    }
+
+    void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    public void OnOverlayOpen(bool enable)
+    {
+        if(enable)
+        {
+            Pause();
+            isOverlayActive = true;
+            eventSystem.SetSelectedGameObject(null);
+            foreach(Button button in mainButtons)
+            {
+                button.enabled = false;
+            }
+        }
+        else
+        {
+            isOverlayActive = false;
+            eventSystem.SetSelectedGameObject(pauseButton);
+            foreach (Button button in mainButtons)
+            {
+                button.enabled = true;
+            }
+        }
     }
 }
